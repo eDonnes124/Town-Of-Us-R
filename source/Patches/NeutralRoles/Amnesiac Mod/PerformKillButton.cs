@@ -69,6 +69,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Investigator:
                 case RoleEnum.TimeLord:
                 case RoleEnum.Medic:
+                case RoleEnum.Medium:
                 case RoleEnum.Seer:
                 case RoleEnum.Spy:
                 case RoleEnum.Snitch:

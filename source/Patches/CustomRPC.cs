@@ -11,6 +11,7 @@ namespace TownOfUs
         SetInvestigator,
         SetTimeLord,
         SetMedic,
+        SetMedium,
         SetSeer,
         SetMorphling,
         SetCamouflager,

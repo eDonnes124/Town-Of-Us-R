@@ -42,6 +42,7 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.Investigator) {playerRole += "<color=#"+Patches.Colors.Investigator.ToHtmlStringRGBA()+">Investigator</color> > ";}
                     else if (role.Value == RoleEnum.Mayor) {playerRole += "<color=#"+Patches.Colors.Mayor.ToHtmlStringRGBA()+">Mayor</color> > ";}
                     else if (role.Value == RoleEnum.Medic) {playerRole += "<color=#"+Patches.Colors.Medic.ToHtmlStringRGBA()+">Medic</color> > ";}
+                    else if (role.Value == RoleEnum.Medium) {playerRole += "<color=#"+Patches.Colors.Medium.ToHtmlStringRGBA()+">Medium</color> > ";}
                     else if (role.Value == RoleEnum.Sheriff) {playerRole += "<color=#"+Patches.Colors.Sheriff.ToHtmlStringRGBA()+">Sheriff</color> > ";}
                     else if (role.Value == RoleEnum.Swapper) {playerRole += "<color=#"+Patches.Colors.Swapper.ToHtmlStringRGBA()+">Swapper</color> > ";}
                     else if (role.Value == RoleEnum.TimeLord) {playerRole += "<color=#"+Patches.Colors.TimeLord.ToHtmlStringRGBA()+">Time Lord</color> > ";}

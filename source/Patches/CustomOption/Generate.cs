@@ -7,6 +7,7 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption CrewInvestigativeRoles;
         public static CustomNumberOption HaunterOn;
         public static CustomNumberOption InvestigatorOn;
+        public static CustomNumberOption MediumOn;
         public static CustomNumberOption SeerOn;
         public static CustomNumberOption SnitchOn;
         public static CustomNumberOption SpyOn;
@@ -272,6 +273,8 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             InvestigatorOn = new CustomNumberOption(true, num++, "<color=#00B3B3FF>Investigator</color>", 0f, 0f, 100f,
                 10f, PercentFormat);
+            MediumOn = new CustomNumberOption(true, num++, "<color=#ABABFFFF>Medium</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
             SeerOn = new CustomNumberOption(true, num++, "<color=#FFCC80FF>Seer</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             SnitchOn = new CustomNumberOption(true, num++, "<color=#D4AF37FF>Snitch</color>", 0f, 0f, 100f, 10f,

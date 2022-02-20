@@ -19,6 +19,7 @@ namespace TownOfUs
         public static int InvestigatorOn => (int)Generate.InvestigatorOn.Get();
         public static int TimeLordOn => (int)Generate.TimeLordOn.Get();
         public static int MedicOn => (int)Generate.MedicOn.Get();
+        public static int MediumOn => (int) Generate.MediumOn.Get();
         public static int SeerOn => (int)Generate.SeerOn.Get();
         public static int GlitchOn => (int)Generate.GlitchOn.Get();
         public static int MorphlingOn => (int)Generate.MorphlingOn.Get();
