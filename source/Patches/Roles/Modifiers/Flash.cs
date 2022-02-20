@@ -5,7 +5,7 @@ namespace TownOfUs.Roles.Modifiers
 {
     public class Flash : Modifier, IVisualAlteration
     {
-        public static float SpeedFactor = 1.25f;
+        public static float SpeedFactor = 1f;
 
         public Flash(PlayerControl player) : base(player)
         {
