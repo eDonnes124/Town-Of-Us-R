@@ -166,6 +166,7 @@ namespace TownOfUs
         public static float PoisonCd => Generate.PoisonCooldown.Get();
         public static float PoisonDuration => Generate.PoisonDuration.Get();
         public static bool PoisonerVent => Generate.PoisonerVent.Get();
+        public static bool RevealPhantom => Generate.RevealPhantom.Get();
         public static int LatestSpawn => (int)Generate.LatestSpawn.Get();
         public static float TransportCooldown => Generate.TransportCooldown.Get();
         public static int TransportMaxUses => (int) Generate.TransportMaxUses.Get();

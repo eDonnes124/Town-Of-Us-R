@@ -6,6 +6,7 @@ using System.Linq;
 using Reactor.Extensions;
 using TMPro;
 using TownOfUs.ImpostorRoles.CamouflageMod;
+using TownOfUs.NeutralRoles.PhantomMod;
 using TownOfUs.Roles.Modifiers;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -201,7 +202,9 @@ namespace TownOfUs.Roles
             if (Player == null) return "";
 
             String PlayerName = Player.GetDefaultOutfit()._playerName;
-
+            if (CustomGameOptions.RevealPhantom && Player == SetPhantom.WillBePhantom) {
+                PlayerName += "<color=#662962FF> P</color>";
+            }
             var modifier = Modifier.GetModifier(Player);
             if (modifier != null && modifier.GetColoredSymbol() != null)
             {

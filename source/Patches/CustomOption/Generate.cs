@@ -169,6 +169,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Phantom;
         public static CustomNumberOption PhantomTasksRemaining;
+        public static CustomToggleOption RevealPhantom;
 
         public static CustomHeaderOption Snitch;
         public static CustomToggleOption SnitchOnLaunch;
@@ -567,6 +568,7 @@ namespace TownOfUs.CustomOption
                 new CustomHeaderOption(num++, "<color=#662962FF>Phantom</color>");
             PhantomTasksRemaining =
                  new CustomNumberOption(num++, "Tasks Remaining When Phantom Can Be Clicked", 5, 1, 10, 1);
+            RevealPhantom = new CustomToggleOption(num++, "Phantom Knows Who They Are On Game Start", true);
 
             Arsonist = new CustomHeaderOption(num++, "<color=#FF4D00FF>Arsonist</color>");
             DouseCooldown =
