@@ -10,6 +10,7 @@ namespace TownOfUs
         Investigator,
         TimeLord,
         Medic,
+        Medium,
         Seer,
         Executioner,
         Spy,

@@ -440,6 +440,10 @@ namespace TownOfUs
                         readByte = reader.ReadByte();
                         new Medic(Utils.PlayerById(readByte));
                         break;
+                    case CustomRPC.SetMedium:
+                        readByte = reader.ReadByte();
+                        new Medium(Utils.PlayerById(readByte));
+                        break;
                     case CustomRPC.SetMorphling:
                         readByte = reader.ReadByte();
                         new Morphling(Utils.PlayerById(readByte));
@@ -1019,6 +1023,9 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.MedicOn))
                     CrewmateRoles.Add((typeof(Medic), CustomRPC.SetMedic, CustomGameOptions.MedicOn));
+
+                if (Check(CustomGameOptions.MediumOn))
+                    CrewmateRoles.Add((typeof(Medium), CustomRPC.SetMedium, CustomGameOptions.MediumOn));
 
                 if (Check(CustomGameOptions.SeerOn))
                     CrewmateRoles.Add((typeof(Seer), CustomRPC.SetSeer, CustomGameOptions.SeerOn));

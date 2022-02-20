@@ -56,6 +56,8 @@ namespace TownOfUs
         public static Sprite PoisonSprite;
         public static Sprite PoisonedSprite;
         public static Sprite TransportSprite;
+        public static Sprite LighterSprite;
+        public static Sprite DarkerSprite;
 
         public static Sprite SettingsButtonSprite;
         public static Sprite ToUBanner;
@@ -110,6 +112,8 @@ namespace TownOfUs
             PoisonSprite = CreateSprite("TownOfUs.Resources.Poison.png");
             PoisonedSprite = CreateSprite("TownOfUs.Resources.Poisoned.png");
             TransportSprite = CreateSprite("TownOfUs.Resources.Transport.png");
+            LighterSprite = CreateSprite("TownOfUs.Resources.Lighter.png");
+            DarkerSprite = CreateSprite("TownOfUs.Resources.Darker.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");
             ToUBanner = CreateSprite("TownOfUs.Resources.TownOfUsBanner.png");
