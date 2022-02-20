@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using HarmonyLib;
+using Assassin = TownOfUs.Modifiers.AssassinMod;
 
 namespace TownOfUs.Roles
 {
@@ -51,7 +52,11 @@ namespace TownOfUs.Roles
         }
         public void PoisonKill()
         {
-            Utils.RpcMurderPlayer(Player, PoisonedPlayer);
+            if (MeetingHud.Instance) {
+                Assassin.AssassinKill.MurderPlayer(PoisonedPlayer, false);
+            } else {
+                Utils.RpcMurderPlayer(Player, PoisonedPlayer);
+            }
             PoisonedPlayer = null;
             Enabled = false;
             LastPoisoned = DateTime.UtcNow;
