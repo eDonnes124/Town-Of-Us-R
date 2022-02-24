@@ -18,6 +18,7 @@
     		<PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.549" />
     		<PackageReference Include="AmongUs.GameLibs.$(GamePlatform)" Version="$(GameVersion)" PrivateAssets="all" />
     		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.0.2" PrivateAssets="all" />
+			<PackageReference Include="System.Text.Json" Version="5.0.2" PrivateAssets="all" />
 	</ItemGroup>
 
 	<Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
