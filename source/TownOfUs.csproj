@@ -3,21 +3,26 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<Version>2.6.1</Version>
 		<DebugType>embedded</DebugType>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<GameProvider>Static</GameProvider>
-		<GameVersion>v2022.2.8s</GameVersion>
+		<!-- Defaults to Steam version -->
+		<GamePlatform Condition="'$(GamePlatform)' == ''">Steam</GamePlatform>
+    		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2021.12.15</GameVersion>
+    		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2021.12.15</GameVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Reactor" Version="1.0.0-rc.1" />
-		<PackageReference Include="Reactor.MSBuild" Version="0.1.5" />
+		<PackageReference Include="Reactor" Version="1.1.0" />
+    		<PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.549" />
+    		<PackageReference Include="AmongUs.GameLibs.$(GamePlatform)" Version="$(GameVersion)" PrivateAssets="all" />
+    		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.0.2" PrivateAssets="all" />
 	</ItemGroup>
 
-	<Target Name="Copy" AfterTargets="Build">
-		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(GameVersion)/BepInEx/plugins/" />
-	</Target>
+	<Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
+        	<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(AmongUs)/BepInEx/plugins/" UseSymboliclinksIfPossible="true" />
+    	</Target>
 
 	<ItemGroup>
 		<EmbeddedResource Include="Resources\*" />
