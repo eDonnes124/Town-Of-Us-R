@@ -53,17 +53,5 @@ namespace TownOfUs.Roles
                 Object.Destroy(arrow.Value.gameObject);
             TrackerArrows.Remove(arrow.Key);
         }
-
-        public void DestroyAllArrows()
-        {
-            foreach (var arrow in TrackerArrows)
-            {
-                if (arrow.Value != null)
-                    Object.Destroy(arrow.Value);
-                if (arrow.Value.gameObject != null)
-                    Object.Destroy(arrow.Value.gameObject);
-            }
-            TrackerArrows.Clear();
-        }
     }
 }

@@ -500,11 +500,18 @@ namespace TownOfUs.Roles
                 foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Snitch))
                 {
                     ((Snitch)role).ImpArrows.DestroyAll();
-                    ((Snitch)role).SnitchArrows.DestroyAll();
+                    ((Snitch)role).SnitchArrows.Values.DestroyAll();
+                    ((Snitch)role).SnitchArrows.Clear();
                 }
                 foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Tracker))
                 {
-                    ((Tracker)role).DestroyAllArrows();
+                    ((Tracker)role).TrackerArrows.Values.DestroyAll();
+                    ((Tracker)role).TrackerArrows.Clear();
+                }
+                foreach (var role in AllRoles.Where(x => x.RoleType == RoleEnum.Amnesiac))
+                {
+                    ((Amnesiac)role).BodyArrows.Values.DestroyAll();
+                    ((Amnesiac)role).BodyArrows.Clear();
                 }
 
                 RoleDictionary.Clear();

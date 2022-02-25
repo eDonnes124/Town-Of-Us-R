@@ -15,10 +15,10 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
 
         public static void UpdateTrackButton(PlayerControl __instance)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Tracker)) return;
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Tracker)) return;
             var data = PlayerControl.LocalPlayer.Data;
             var isDead = data.IsDead;
             var trackButton = DestroyableSingleton<HudManager>.Instance.KillButton;

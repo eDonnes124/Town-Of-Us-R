@@ -20,10 +20,11 @@ namespace TownOfUs
         public static void Postfix(MeetingHud __instance)
         {
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.RemoveAllBodies, SendOption.Reliable, -1);
+                (byte)CustomRPC.RemoveAllBodies, SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             var buggedBodies = Object.FindObjectsOfType<DeadBody>();
-            foreach (var body in buggedBodies) {
+            foreach (var body in buggedBodies)
+            {
                 body.gameObject.Destroy();
             }
         }

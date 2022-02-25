@@ -250,6 +250,10 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption LatestSpawn;
         public static CustomToggleOption GlitchStopsTraitor;
 
+        public static CustomHeaderOption Amnesiac;
+        public static CustomToggleOption RememberArrows;
+        public static CustomNumberOption RememberArrowDelay;
+
         public static CustomHeaderOption Lovers;
         public static CustomToggleOption BothLoversDie;
         public static CustomNumberOption LovingImpPercent;
@@ -549,6 +553,12 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, "Maximum Number Of Transports", 5, 1, 15, 1);
             TransporterVitals =
                 new CustomToggleOption(num++, "Transporter Can Use Vitals", false);
+
+            Amnesiac = new CustomHeaderOption(num++, "<color=#80B2FFFF>Amnesiac</color>");
+            RememberArrows =
+                new CustomToggleOption(num++, "Amnesiac Gets Arrows Pointing To Dead Bodies", false);
+            RememberArrowDelay =
+                new CustomNumberOption(num++, "Time After Death Arrow Appears", 5f, 0f, 15f, 1f, CooldownFormat);
 
             Executioner =
                 new CustomHeaderOption(num++, "<color=#8C4005FF>Executioner</color>");

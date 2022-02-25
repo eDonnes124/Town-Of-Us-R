@@ -18,8 +18,9 @@ namespace TownOfUs.RainbowMod
                 999994 => "Hot Pink",
                 999995 => "Turquoise",
                 999996 => "Lilac",
-                999997 => "Rainbow",
+                999997 => "Olive",
                 999998 => "Azure",
+                999999 => "Rainbow",
                 _ => null
             };
             if (newResult != null)

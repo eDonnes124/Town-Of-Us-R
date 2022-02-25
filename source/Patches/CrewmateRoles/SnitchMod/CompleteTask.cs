@@ -65,8 +65,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                             renderer.sprite = Sprite;
                             arrow.image = renderer;
                             gameObj.layer = 5;
-                            role.SnitchArrows.Add(arrow);
-                            role.SnitchTargets.Add(imp);
+                            role.SnitchArrows.Add(imp.PlayerId, arrow);
                         }
                     }
                     else if (PlayerControl.LocalPlayer.Data.IsImpostor() || ((PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)) && CustomGameOptions.SnitchSeesNeutrals))

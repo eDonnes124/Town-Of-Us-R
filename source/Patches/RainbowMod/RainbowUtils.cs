@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using UnityEngine;
 
 public class RainbowUtils
@@ -40,7 +39,7 @@ public class RainbowUtils
     {
         try
         {
-            return (int)Palette.ColorNames[id] == 999997;
+            return (int)Palette.ColorNames[id] == 999999;
         } catch
         {
             return false;

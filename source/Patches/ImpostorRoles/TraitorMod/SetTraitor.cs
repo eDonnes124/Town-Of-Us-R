@@ -20,6 +20,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
     public class SetTraitor
     {
         public static PlayerControl WillBeTraitor;
+        public static Sprite Sprite => TownOfUs.Arrow;
 
         public static void ExileControllerPostfix(ExileController __instance)
         {
@@ -43,8 +44,8 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                 {
                     var snitchRole = Role.GetRole<Snitch>(PlayerControl.LocalPlayer);
                     snitchRole.ImpArrows.DestroyAll();
-                    snitchRole.SnitchArrows.DestroyAll();
-                    snitchRole.SnitchTargets.Clear();
+                    snitchRole.SnitchArrows.Values.DestroyAll();
+                    snitchRole.SnitchArrows.Clear();
                     CompleteTask.Postfix(PlayerControl.LocalPlayer);
                 }
 
@@ -59,7 +60,8 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Tracker))
                 {
                     var trackerRole = Role.GetRole<Tracker>(PlayerControl.LocalPlayer);
-                    trackerRole.DestroyAllArrows();
+                    trackerRole.TrackerArrows.Values.DestroyAll();
+                    trackerRole.TrackerArrows.Clear();
                     Object.Destroy(trackerRole.UsesText);
                 }
 
@@ -113,6 +115,33 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(true);
                 Coroutines.Start(Utils.FlashCoroutine(Color.red));
+            }
+
+            foreach (var snitch in Role.GetRoles(RoleEnum.Snitch))
+            {
+                var snitchRole = (Snitch)snitch;
+                if (snitchRole.TasksDone && PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
+                {
+                    var gameObj = new GameObject();
+                    var arrow = gameObj.AddComponent<ArrowBehaviour>();
+                    gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                    var renderer = gameObj.AddComponent<SpriteRenderer>();
+                    renderer.sprite = Sprite;
+                    arrow.image = renderer;
+                    gameObj.layer = 5;
+                    snitchRole.SnitchArrows.Add(player.PlayerId, arrow);
+                }
+                else if (snitchRole.Revealed && PlayerControl.LocalPlayer.Is(RoleEnum.Traitor))
+                {
+                    var gameObj = new GameObject();
+                    var arrow = gameObj.AddComponent<ArrowBehaviour>();
+                    gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                    var renderer = gameObj.AddComponent<SpriteRenderer>();
+                    renderer.sprite = Sprite;
+                    arrow.image = renderer;
+                    gameObj.layer = 5;
+                    snitchRole.ImpArrows.Add(arrow);
+                }
             }
 
             Lights.SetLights();

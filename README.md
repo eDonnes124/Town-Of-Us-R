@@ -65,15 +65,17 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
-| 2021.12.15s & 2021.12.15e & 2022.2.8s | v2.6.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.1/ToU.v2.6.1.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s| v2.6.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.2/ToU.v2.6.2.zip) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.6.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.2/ToU.v2.6.2-2021.6.30.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s| v2.6.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.1/ToU.v2.6.1.zip) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.6.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.1/ToU.v2.6.1.Old.zip) |
-| 2021.12.15s & 2021.12.15e & 2022.2.8s | v2.6.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.0/ToU.v2.6.0.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s | v2.6.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.0/ToU.v2.6.0.zip) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.6.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.0/ToU.v2.6.0.Old.zip) |
-| 2021.12.15s & 2021.12.15e & 2022.2.8s | v2.5.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.5.1/ToU.v2.5.1.zip) |
-| 2021.12.15s & 2021.12.15e & 2022.2.8s | v2.5.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.5.0/ToU.v2.5.0.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s | v2.5.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.5.1/ToU.v2.5.1.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s | v2.5.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.5.0/ToU.v2.5.0.zip) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.5.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.5.0/ToU.v2.5.0.Old.zip) |
-| 2021.12.15s & 2021.12.15e | v2.4.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.4.2/ToU.v2.4.2.zip) |
-| 2021.12.15s & 2021.12.15e | v2.4.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.4.1/ToU.v2.4.1.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s | v2.4.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.4.2/ToU.v2.4.2.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s | v2.4.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.4.1/ToU.v2.4.1.zip) |
 | 2021.11.9.5s & 2021.11.9.5e | v2.4.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.4.0/ToU.v2.4.0.zip) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.3.4 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.3.4/ToU.v2.3.4.zip) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.3.3 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.3.3/ToU.v2.3.3.zip) |
@@ -102,12 +104,20 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 <details>
   <summary> Changelog </summary>
   <details>
+  <summary> v2.6.2 </summary>
+  <ul> <li>Fixed End Game Tracker Bug</li> </ul>
+  <ul> <li>Fixed Snitch Arrows</li> </ul>
+  <ul> <li>Added Olive Colour</li> </ul>
+  <ul> <li>Dead bodies are now removed after meetings</li> </ul>
+  <ul> <li>Added an option for Amnesiac Arrows</li> </ul>
+  <ul> <li>Fixes the issue where if a player is transported as they jump in a vent they are freezed in place</li> </ul>
+  </details>
+  <details>
   <summary> v2.6.1 </summary>
   <ul> <li>Fixed Poisoner killing Bait after another report resulting in a duplicated meeting</li> </ul>
   <ul> <li>Fixed the issue where the Snitch spawning as Crewmate would see their name gold</li> </ul>
   <ul> <li>Fixed Amnesiac remembering Transporter becoming an Impostor</li> </ul>
   <ul> <li>Fixed Tracker Arrows</li> </ul>
-  <ul> <li>Dead bodies are now removed after meetings (only for host)</li> </ul>
   </details>
   <details>
   <summary> v2.6.0 </summary>
@@ -669,8 +679,9 @@ A report can contain the name of the killer or the color type (Darker/Lighter)
 - Hot Pink - Lighter
 - Turquoise - Lighter
 - Lilac - Lighter
-- Rainbow - Lighter
+- Olive - Darker
 - Azure - Lighter
+- Rainbow - Lighter
 
 ### Game Options
 | Name | Description | Type | Default |
@@ -768,6 +779,8 @@ Once they remember their role, they go on to try win with their new win conditio
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Amnesiac | The percentage probability of the Amnesiac appearing | Percentage | 0% |
+| Amnesiac Gets Arrows | Whether the Amnesiac has arrows pointing to dead bodies | Toggle | False |
+| Arrow Appear Delay | The delay of the arrows appearing after the person died | Time | 5s |
 
 -----------------------
 ## Jester

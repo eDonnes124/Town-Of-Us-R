@@ -18,7 +18,8 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
                 tracker.UsesLeft = CustomGameOptions.MaxTracks;
                 if (CustomGameOptions.ResetOnNewRound)
                 {
-                    tracker.DestroyAllArrows();
+                    tracker.TrackerArrows.Values.DestroyAll();
+                    tracker.TrackerArrows.Clear();
                 }
             }
         }

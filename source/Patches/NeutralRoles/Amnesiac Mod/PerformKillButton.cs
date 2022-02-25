@@ -16,6 +16,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
     public class PerformKillButton
 
     {
+        public static Sprite Sprite => TownOfUs.Arrow;
         public static bool Prefix(KillButton __instance)
         {
             if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
@@ -59,6 +60,13 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             var rememberNeut = true;
 
             Role newRole;
+
+            if (PlayerControl.LocalPlayer == amnesiac)
+            {
+                var amnesiacRole = Role.GetRole<Amnesiac>(amnesiac);
+                amnesiacRole.BodyArrows.Values.DestroyAll();
+                amnesiacRole.BodyArrows.Clear();
+            }
 
             switch (role)
             {
@@ -179,8 +187,8 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             {
                 var snitchRole = Role.GetRole<Snitch>(amnesiac);
                 snitchRole.ImpArrows.DestroyAll();
-                snitchRole.SnitchArrows.DestroyAll();
-                snitchRole.SnitchTargets.Clear();
+                snitchRole.SnitchArrows.Values.DestroyAll();
+                snitchRole.SnitchArrows.Clear();
                 CompleteTask.Postfix(amnesiac);
                 if (other.AmOwner)
                     foreach (var player in PlayerControl.AllPlayerControls)
@@ -223,7 +231,8 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             else if (role == RoleEnum.Tracker)
             {
                 var trackerRole = Role.GetRole<Tracker>(amnesiac);
-                trackerRole.DestroyAllArrows();
+                trackerRole.TrackerArrows.Values.DestroyAll();
+                trackerRole.TrackerArrows.Clear();
                 trackerRole.UsesLeft = CustomGameOptions.MaxTracks;
                 trackerRole.LastTracked = DateTime.UtcNow;
             }
@@ -320,6 +329,36 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             else if (!(amnesiac.Is(RoleEnum.Altruist) || amnesiac.Is(RoleEnum.Amnesiac) || amnesiac.Is(Faction.Impostors)))
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
+            }
+
+            if (amnesiac.Is(Faction.Impostors))
+            {
+                foreach (var snitch in Role.GetRoles(RoleEnum.Snitch))
+                {
+                    var snitchRole = (Snitch)snitch;
+                    if (snitchRole.TasksDone && PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
+                    {
+                        var gameObj = new GameObject();
+                        var arrow = gameObj.AddComponent<ArrowBehaviour>();
+                        gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                        var renderer = gameObj.AddComponent<SpriteRenderer>();
+                        renderer.sprite = Sprite;
+                        arrow.image = renderer;
+                        gameObj.layer = 5;
+                        snitchRole.SnitchArrows.Add(amnesiac.PlayerId, arrow);
+                    }
+                    else if (snitchRole.Revealed && PlayerControl.LocalPlayer == amnesiac)
+                    {
+                        var gameObj = new GameObject();
+                        var arrow = gameObj.AddComponent<ArrowBehaviour>();
+                        gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
+                        var renderer = gameObj.AddComponent<SpriteRenderer>();
+                        renderer.sprite = Sprite;
+                        arrow.image = renderer;
+                        gameObj.layer = 5;
+                        snitchRole.ImpArrows.Add(arrow);
+                    }
+                }
             }
 
             if (other.Is(RoleEnum.Crewmate))

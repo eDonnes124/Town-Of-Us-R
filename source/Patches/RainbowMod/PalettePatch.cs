@@ -34,8 +34,9 @@ namespace TownOfUs.RainbowMod
                 (StringNames)999994,//"Hot Pink",
                 (StringNames)999995,//"Turquoise",
                 (StringNames)999996,//"Lilac",
-                (StringNames)999997,//"Rainbow",
+                (StringNames)999997,//"Olive",
                 (StringNames)999998,//"Azure",
+                (StringNames)999999,//"Rainbow",
             };
             Palette.PlayerColors = new[]
             {
@@ -65,8 +66,9 @@ namespace TownOfUs.RainbowMod
                 new Color32(236, 61, 255, byte.MaxValue),
                 new Color32(61, 255, 181, byte.MaxValue),
                 new Color32(186, 161, 255, byte.MaxValue),
-                new Color32(0, 0, 0, byte.MaxValue),
+                new Color32(97, 114, 24, byte.MaxValue),
                 new Color32(1, 166, 255, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
             };
             Palette.ShadowColors = new[]
             {
@@ -96,8 +98,9 @@ namespace TownOfUs.RainbowMod
                 new Color32(118, 31, 128, byte.MaxValue),
                 new Color32(31, 128, 91, byte.MaxValue),
                 new Color32(93, 81, 128, byte.MaxValue),
-                new Color32(0, 0, 0, byte.MaxValue),
+                new Color32(66, 91, 15, byte.MaxValue),
                 new Color32(17, 104, 151, byte.MaxValue),
+                new Color32(0, 0, 0, byte.MaxValue),
             };
         }
     }

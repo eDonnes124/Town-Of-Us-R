@@ -342,7 +342,7 @@
     },
     {
       "id": "hats0068",
-      "name": "firegod",
+      "name": "firegod hat",
       "artist": "PhasmoFireGod"
     },
     {
@@ -422,102 +422,102 @@
     },
     {
       "id": "hats0084",
-      "name": "A Knoife!",
+      "name": "A Knoife! hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0085",
-      "name": "Blush-stache",
+      "name": "Blush-stache hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0086",
-      "name": "BTW Hat",
+      "name": "BTW hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0087",
-      "name": "Flower Fedora",
+      "name": "Flower Fedora hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0088",
-      "name": "Gigawolf",
+      "name": "Gigawolf hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0089",
-      "name": "Good Aura",
+      "name": "Good Aura hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0090",
-      "name": "Guardian Angel",
+      "name": "Guardian Angel hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0091",
-      "name": "Horned Angel",
+      "name": "Horned Angel hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0092",
-      "name": "Kartodk Evil",
+      "name": "Kartodk Evil hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0093",
-      "name": "Kartodk Sus",
+      "name": "Kartodk Sus hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0094",
-      "name": "Lavish",
+      "name": "Lavish hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0095",
-      "name": "Lie-canthrope",
+      "name": "Lie-canthrope hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0096",
-      "name": "Overgrown",
+      "name": "Overgrown hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0097",
-      "name": "Press X",
+      "name": "Press X hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0098",
-      "name": "Rico's Navy",
+      "name": "Rico's Navy hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0099",
-      "name": "Sav Beanie",
+      "name": "Sav Beanie hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0100",
-      "name": "Sparkles!",
+      "name": "Sparkles! hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0101",
-      "name": "Specs n' Antlers",
+      "name": "Specs n' Antlers hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0102",
-      "name": "Stylish Witch",
+      "name": "Stylish Witch hat",
       "artist": "Sugawara"
     },
     {
       "id": "hats0103",
-      "name": "Tropic Beach Hat",
+      "name": "Tropic Beach hat",
       "artist": "Sugawara"
     },
     {
@@ -722,7 +722,7 @@
     },
     {
       "id": "hats0144",
-      "name": "Trans Wolf hat",
+      "name": "LayZFox hat",
       "artist": "LayZ"
     },
     {
@@ -732,12 +732,12 @@
     },
     {
       "id": "hats0146",
-      "name": "Bone hat",
+      "name": "X-Ray hat",
       "artist": "LayZ"
     },
     {
       "id": "hats0147",
-      "name": "Pride Wolf hat",
+      "name": "Pap hat",
       "artist": "LayZ"
     },
     {
@@ -771,13 +771,38 @@
       "artist": "LayZ"
     },
     {
+      "id": "hats0154",
+      "name": "Bad Aura hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0155",
+      "name": "Dunce hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0156",
+      "name": "Gay-ny Day hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0157",
+      "name": "Marionette hat",
+      "artist": "Sugawara"
+    },
+    {
+      "id": "hats0158",
+      "name": "Random Ronnie hat",
+      "artist": "Sugawara"
+    },
+    {
       "id": "misc0000",
       "name": "ZeroXFusionz hat",
       "artist": "TheLastShaymin"
     },
     /*{
       "id": "misc0001",
-      "name": "Zemo_hat hat",
+      "name": "Zemo hat",
       "artist": ""
     },*/
     {
@@ -916,18 +941,13 @@
       "artist": ""
     },
     {
-      "id": "misc0029",
-      "name": "",
-      "artist": ""
-    },
-    {
       "id": "myhats0000",
       "name": "pot hat",
       "artist": "acron"
     },
     {
       "id": "myhats0001",
-      "name": "boxhat hat",
+      "name": "box hat",
       "artist": "acron"
     },
     {
@@ -1047,12 +1067,12 @@
     },
     {
       "id": "standard0008",
-      "name": "penguinface_front",
+      "name": "penguinface_front hat",
       "artist": ""
     },
     {
       "id": "standard0009",
-      "name": "pancakes",
+      "name": "pancakes hat",
       "artist": ""
     },
     {
@@ -1067,7 +1087,7 @@
     },
     {
       "id": "standard0012",
-      "name": "kris hat hat",
+      "name": "kris hat",
       "artist": "tori#1277"
     },
     /*{
@@ -1127,12 +1147,12 @@
     },*/
     {
       "id": "standard0024",
-      "name": "charizard",
+      "name": "charizard hat",
       "artist": "TheLastShaymin"
     },
     /*{
       "id": "standard0025",
-      "name": "buffyhelmet",
+      "name": "buffyhelmet hat",
       "artist": ""
     },
     {
@@ -1177,12 +1197,12 @@
     },*/
     {
       "id": "standard0034",
-      "name": "basetrade_3",
+      "name": "basetrade_3 hat",
       "artist": "Ressnie"
     },
     {
       "id": "standard0035",
-      "name": "basetrade_2",
+      "name": "basetrade_2 hat",
       "artist": "Ressnie"
     },
     {
@@ -1192,7 +1212,7 @@
     },
     /*{
       "id": "standard0037",
-      "name": "ash hat hat",
+      "name": "ash hat",
       "artist": ""
     },*/
     {

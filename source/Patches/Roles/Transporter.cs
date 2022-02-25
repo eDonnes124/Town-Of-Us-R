@@ -337,6 +337,7 @@ namespace TownOfUs.Roles
                 }
             }
         }
+
         public static void TransportPlayers(byte player1, byte player2)
         {
             var TP1 = Utils.PlayerById(player1);
@@ -377,6 +378,7 @@ namespace TownOfUs.Roles
             }
             else if (Player1Body != null && Player2Body == null)
             {
+                StopDragging(Player1Body.ParentId);
                 TP2.MyPhysics.ResetMoveState();
                 var TempPosition = Player1Body.TruePosition;
                 Player1Body.transform.position = TP2.GetTruePosition();
@@ -384,6 +386,7 @@ namespace TownOfUs.Roles
             }
             else if (Player1Body == null && Player2Body != null)
             {
+                StopDragging(Player2Body.ParentId);
                 TP1.MyPhysics.ResetMoveState();
                 var TempPosition = TP1.GetTruePosition();
                 TP1.NetTransform.SnapTo(new Vector2(Player2Body.TruePosition.x, Player2Body.TruePosition.y + 0.3636f));
@@ -391,7 +394,9 @@ namespace TownOfUs.Roles
             }
             else if (Player1Body != null && Player2Body != null)
             {
-                var TempPosition =  Player1Body.TruePosition;
+                StopDragging(Player1Body.ParentId);
+                StopDragging(Player2Body.ParentId);
+                var TempPosition = Player1Body.TruePosition;
                 Player1Body.transform.position = Player2Body.TruePosition;
                 Player2Body.transform.position = TempPosition;
             }
@@ -399,6 +404,17 @@ namespace TownOfUs.Roles
             if (PlayerControl.LocalPlayer.PlayerId == TP1.PlayerId ||
                 PlayerControl.LocalPlayer.PlayerId == TP2.PlayerId)
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Transporter));
+
+            TP1.moveable = true;
+            TP2.moveable = true;
+        }
+
+        public static void StopDragging(byte PlayerId)
+        {
+            var Undertaker = ((Undertaker)Role.AllRoles.First(x => x.RoleType == RoleEnum.Undertaker &&
+                ((Undertaker)x).CurrentlyDragging != null &&
+                ((Undertaker)x).CurrentlyDragging.ParentId == PlayerId));
+            if (Undertaker != null) Undertaker.CurrentlyDragging = null;
         }
     }
 }
