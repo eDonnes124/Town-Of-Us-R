@@ -67,8 +67,9 @@ namespace TownOfUs.CrewmateRoles.MediumMod
                         {22, "lighter"},// hot pink
                         {23, "lighter"},// turquoise
                         {24, "lighter"},// lilac
-                        {25, "lighter"},// rainbow
+                        {25, "darker"},// olive
                         {26, "lighter"},// azure
+                        {27, "lighter"},// rainbow
                     };
                     return $"Ghost: My killer was a {colors[br.Killer.CurrentOutfit.ColorId]} color!";
                 } else {
