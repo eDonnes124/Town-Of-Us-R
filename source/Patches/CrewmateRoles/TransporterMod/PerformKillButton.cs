@@ -4,9 +4,7 @@ using TownOfUs.Roles;
 namespace TownOfUs.CrewmateRoles.TransporterMod
 {
     [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
-    [HarmonyPriority(Priority.Last)]
     public class PerformKillButton
-
     {
         public static bool Prefix(KillButton __instance)
         {

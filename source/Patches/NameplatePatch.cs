@@ -14,6 +14,10 @@ namespace TownOfUs
                 if (CustomGameOptions.WhiteNameplates)
                 {
                     __instance.Background.sprite = DestroyableSingleton<HatManager>.Instance.GetNamePlateById("nameplate_NoPlate").Image;
+                }
+
+                if (CustomGameOptions.DisableLevels)
+                {
                     __instance.LevelNumberText.GetComponentInParent<SpriteRenderer>().enabled = false;
                     __instance.LevelNumberText.GetComponentInParent<SpriteRenderer>().gameObject.SetActive(false);
                 }
@@ -28,6 +32,10 @@ namespace TownOfUs
                 if (CustomGameOptions.WhiteNameplates)
                 {
                     __instance.Background.sprite = DestroyableSingleton<HatManager>.Instance.GetNamePlateById("nameplate_NoPlate").Image;
+                }
+                
+                if (CustomGameOptions.DisableLevels)
+                {
                     __instance.LevelNumberText.GetComponentInParent<SpriteRenderer>().enabled = false;
                     __instance.LevelNumberText.GetComponentInParent<SpriteRenderer>().gameObject.SetActive(false);
                 }

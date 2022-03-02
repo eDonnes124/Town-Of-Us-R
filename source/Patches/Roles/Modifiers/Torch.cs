@@ -8,7 +8,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Torch";
             TaskText = () => "You can see in the dark.";
-            Color = new Color(1f, 1f, 0.6f);
+            Color = Patches.Colors.Torch;
             ModifierType = ModifierEnum.Torch;
         }
     }

@@ -10,7 +10,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Sleuth";
             TaskText = () => "Know the roles of bodies you report";
-            Color = new Color(0.5f, 0.2f, 0.2f);
+            Color = Patches.Colors.Sleuth;
             ModifierType = ModifierEnum.Sleuth;
         }
     }

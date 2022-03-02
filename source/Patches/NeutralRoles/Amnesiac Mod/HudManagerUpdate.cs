@@ -90,10 +90,9 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             {
                 killButton.gameObject.SetActive(!MeetingHud.Instance);
                 // killButton.isActive = !MeetingHud.Instance;
+                KillButtonTarget.SetTarget(killButton, closestBody, role);
+                __instance.KillButton.SetCoolDown(0f, 1f);
             }
-
-            KillButtonTarget.SetTarget(killButton, closestBody, role);
-            __instance.KillButton.SetCoolDown(0f, 1f);
         }
     }
 }

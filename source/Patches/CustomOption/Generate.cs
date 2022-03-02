@@ -64,7 +64,7 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption GlobalModifiers;
         public static CustomNumberOption ButtonBarryOn;
         public static CustomNumberOption DrunkOn;
-        public static CustomNumberOption BigBoiOn;
+        public static CustomNumberOption GiantOn;
         public static CustomNumberOption FlashOn;
         public static CustomNumberOption LoversOn;
         public static CustomNumberOption SleuthOn;
@@ -75,6 +75,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption MeetingColourblind;
         public static CustomToggleOption ImpostorSeeRoles;
         public static CustomToggleOption DeadSeeRoles;
+        public static CustomToggleOption DisableLevels;
         public static CustomToggleOption WhiteNameplates;
         public static CustomNumberOption MaxNeutralRoles;
         public static CustomNumberOption VanillaGame;
@@ -370,9 +371,9 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             DrunkOn = new CustomNumberOption(true, num++, "<color=#758000FF>Drunk</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            FlashOn = new CustomNumberOption(true, num++, "<color=#D4AF37FF>Flash</color>", 0f, 0f, 100f, 10f,
+            FlashOn = new CustomNumberOption(true, num++, "<color=#FF8080FF>Flash</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            BigBoiOn = new CustomNumberOption(true, num++, "<color=#FF8080FF>Giant</color>", 0f, 0f, 100f, 10f,
+            GiantOn = new CustomNumberOption(true, num++, "<color=#FFB34DFF>Giant</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             LoversOn = new CustomNumberOption(true, num++, "<color=#FF66CCFF>Lovers</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -395,7 +396,8 @@ namespace TownOfUs.CustomOption
             InitialCooldowns =
                 new CustomNumberOption(num++, "Game Start Cooldowns", 10, 10, 30, 2.5f, CooldownFormat);
             ParallelMedScans = new CustomToggleOption(num++, "Parallel Medbay Scans", false);
-            WhiteNameplates = new CustomToggleOption(num++, "Classic Meeting Nameplates", false);
+            DisableLevels = new CustomToggleOption(num++, "Disable Level Icons", false);
+            WhiteNameplates = new CustomToggleOption(num++, "Disable Player Nameplates", false);
 
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, "Task Tracking Settings");

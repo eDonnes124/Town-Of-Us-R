@@ -34,7 +34,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
             hits = hits.ToArray().Where(c =>
                     (c.name.Contains("Vent") || !c.isTrigger) && c.gameObject.layer != 8 && c.gameObject.layer != 5)
                 .ToArray();
-            if (hits.Count == 0)
+            if (hits.Count == 0 && PlayerControl.LocalPlayer.moveable == true)
             {
                 role.MineButton.graphic.color = Palette.EnabledColor;
                 role.MineButton.graphic.material.SetFloat("_Desat", 0f);

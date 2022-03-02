@@ -249,6 +249,7 @@ namespace TownOfUs
                     SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
 
                 target.gameObject.layer = LayerMask.NameToLayer("Ghost");
+                target.Visible = false;
                 if (target.AmOwner)
                 {
                     try
@@ -342,7 +343,7 @@ namespace TownOfUs
 
                 if (target.Is(ModifierEnum.Bait))
                 {
-                    Coroutines.Start(BaitReport(killer, GameData.Instance.GetPlayerById(target.PlayerId)));
+                    BaitReport(killer, target);
                 }
 
                 if (killer.Is(RoleEnum.Underdog))
@@ -361,35 +362,19 @@ namespace TownOfUs
             }
         }
 
-        public static IEnumerator BaitReport(PlayerControl killer, GameData.PlayerInfo target)
+        public static void BaitReport(PlayerControl killer, PlayerControl target)
         {
-            if (!MeetingHud.Instance)
+            if (AmongUsClient.Instance.AmHost)
             {
-                yield return new WaitForSeconds(Time.deltaTime);
-
-                if (AmongUsClient.Instance.AmHost)
-                {
-                    while (!MeetingHud.Instance)
-                    {
-                        MeetingRoomManager.Instance.reporter = killer;
-                        MeetingRoomManager.Instance.target = target;
-                        AmongUsClient.Instance.DisconnectHandlers.AddUnique(MeetingRoomManager.Instance
-                            .Cast<IDisconnectHandler>());
-                        if (!ShipStatus.Instance.CheckTaskCompletion())
-                        {
-                            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(killer);
-                            killer.RpcStartMeeting(target);
-                        }
-                    }
-                }
-                else
-                {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.BaitReport, SendOption.Reliable, -1);
-                    writer.Write(killer.PlayerId);
-                    writer.Write(target.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                }
+                killer.ReportDeadBody(target.Data);
+            }
+            else
+            {
+                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                    (byte)CustomRPC.BaitReport, SendOption.Reliable, -1);
+                writer.Write(killer.PlayerId);
+                writer.Write(target.PlayerId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
 

@@ -70,7 +70,7 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
             }
             else
             {
-                renderer.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                renderer.color = Color.gray;
             }
             arrow.image = renderer;
             gameObj.layer = 5;

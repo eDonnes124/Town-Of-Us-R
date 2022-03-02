@@ -11,7 +11,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Flash";
             TaskText = () => "Superspeed!";
-            Color = new Color(1f, 0.5f, 0.5f, 1f);
+            Color = Patches.Colors.Flash;
             ModifierType = ModifierEnum.Flash;
         }
 

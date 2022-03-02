@@ -46,7 +46,7 @@ namespace TownOfUs
         public static int FlashOn => (int)Generate.FlashOn.Get();
         public static int TiebreakerOn => (int)Generate.TiebreakerOn.Get();
         public static int DrunkOn => (int)Generate.DrunkOn.Get();
-        public static int BigBoiOn => (int)Generate.BigBoiOn.Get();
+        public static int GiantOn => (int)Generate.GiantOn.Get();
         public static int ButtonBarryOn => (int)Generate.ButtonBarryOn.Get();
         public static int BaitOn => (int)Generate.BaitOn.Get();
         public static int SleuthOn => (int)Generate.SleuthOn.Get();
@@ -116,6 +116,7 @@ namespace TownOfUs
         public static bool SwooperVent => Generate.SwooperVent.Get();
         public static bool ImpostorSeeRoles => Generate.ImpostorSeeRoles.Get();
         public static bool DeadSeeRoles => Generate.DeadSeeRoles.Get();
+        public static bool DisableLevels => Generate.DisableLevels.Get();
         public static bool WhiteNameplates => Generate.WhiteNameplates.Get();
         public static bool SeeTasksDuringRound => Generate.SeeTasksDuringRound.Get();
         public static bool SeeTasksDuringMeeting => Generate.SeeTasksDuringMeeting.Get();

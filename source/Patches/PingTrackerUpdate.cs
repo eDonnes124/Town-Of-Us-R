@@ -16,10 +16,10 @@ namespace TownOfUs
             position.AdjustPosition();
 
             __instance.text.text =
-                "<color=#00FF00FF>TownOfUs v2.6.2</color>" + "\n" +
+                "<color=#00FF00FF>TownOfUs v2.6.4</color>" + "\n" +
                 $"Ping: {AmongUsClient.Instance.Ping}ms\n" +
                 (!MeetingHud.Instance
-                    ? "<color=#00FF00FF>Slushiegoose & Polus.gg</color>\n" + "<color=#00FF00FF>Donners ft. Guus & Term</color>"
+                    ? "<color=#00FF00FF>Slushiegoose & Polus.gg</color>\n" + "<color=#00FF00FF>Donners & Term ft. Guus</color>"
                     : "");
         }
     }

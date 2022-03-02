@@ -65,6 +65,10 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s| v2.6.4 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.4/ToU.v2.6.4.zip) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.6.4 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.4/ToU.v2.6.4-2021.6.30.zip) |
+| 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s| v2.6.3 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.3/ToU.v2.6.3.zip) |
+| 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.6.3 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.3/ToU.v2.6.3-2021.6.30.zip) |
 | 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s| v2.6.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.2/ToU.v2.6.2.zip) |
 | 2021.6.30s & 2021.6.30e & 2021.7.20e | v2.6.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.2/ToU.v2.6.2-2021.6.30.zip) |
 | 2021.12.15s & 2021.12.15e & 2022.2.8s & 2022.2.23s| v2.6.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v2.6.1/ToU.v2.6.1.zip) |
@@ -104,13 +108,34 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 <details>
   <summary> Changelog </summary>
   <details>
+  <summary> v2.6.4 </summary>
+  <ul> <li>Fixed Transporter bugging out after transporting a dead body</li> </ul>
+  <ul> <li>Reduced Tracker arrow lag</li> </ul>
+  <ul> <li>Fixed bug with Swapper where you wouldn't appear as dead after being assassinated with your swap targets already selected</li> </ul>
+  <ul> <li>Fixed Medic shield not protecting the target from impostors if the Shield Breaks option is off</li> </ul>
+  <ul> <li>Fixed Medic reports saying the wrong color if the body's killer was morphed</li> </ul>
+  <ul> <li>Fixed Investigator showing a morphed player's footprints as the color of the player they were morphed into</li> </ul>
+  <ul> <li>Ghosts no longer briefly appear after a player dies</li> </ul>
+  </details>
+  <details>
+  <summary> v2.6.3 </summary>
+  <ul> <li>Fixed the bug where games don't end (Sorry about that)</li> </ul>
+  <ul> <li>Fixed Bait not causing a self-report sometimes</li> </ul>
+  <ul> <li>Fixed Amnesiac turned Impostor not being able to kill</li> </ul>
+  <ul> <li>Fixed Traitor not being able to kill</li> </ul>
+  <ul> <li>Fixed Impostors not being able to kill a player revived by an Altruist</li> </ul>
+  <ul> <li>Fixed Flash and Giant not appearing to move at the correct speed for other players</li> </ul>
+  <ul> <li>Changed Giant and Flash colors</li> </ul>
+  <ul> <li>Split Classic Nameplates setting into Disable Level Icon and Disable Background Cosmetics</li> </ul>
+  </details>
+  <details>
   <summary> v2.6.2 </summary>
   <ul> <li>Fixed End Game Tracker Bug</li> </ul>
   <ul> <li>Fixed Snitch Arrows</li> </ul>
   <ul> <li>Added Olive Colour</li> </ul>
   <ul> <li>Dead bodies are now removed after meetings</li> </ul>
   <ul> <li>Added an option for Amnesiac Arrows</li> </ul>
-  <ul> <li>Fixes the issue where if a player is transported as they jump in a vent they are freezed in place</li> </ul>
+  <ul> <li>Fixed the issue where if a player is transported as they jump in a vent they are freezed in place</li> </ul>
   </details>
   <details>
   <summary> v2.6.1 </summary>
@@ -807,7 +832,7 @@ If that player gets voted out, they win the game.
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Executioner | The percentage probability of the Executioner appearing | Percentage | 0% |
-| Executioner becomes on Target Dead | Which role the Executioner becomes when their target dies | Crewmate / Jester / Shifter | Crewmate |
+| Executioner becomes on Target Dead | Which role the Executioner becomes when their target dies | Crewmate / Jester / Amnesiac | Crewmate |
 | Executioner Can Button | Whether the Executioner Can Press the Button | Toggle | True |
 
 -----------------------
@@ -1119,7 +1144,8 @@ If the Tiebreaker is the Mayor, it applies to the Mayor's __first__ vote.
 | Probability of a completely vanilla game | The percentage probability of a vanilla Among Us game happening | Percentage | 0% |
 | Game Start Cooldowns | The cooldown for all roles at the start of the game (excluding Impostor's Kill Cooldown) | Time | 10s |
 | Parallel Medbay Scans | Whether players have to wait for others to scan | Toggle | False |
-| Classic Nameplates | Whether all decorative nameplates are disabled | Toggle | False |
+| Disable Level Icons | Whether all level icons are removed in meetings | Toggle | False |
+| Disable Player Nameplates | Whether all decorative nameplates are disabled in meetings | Toggle | False |
 
 -----------------------
 # Task Tracking Settings
@@ -1178,7 +1204,7 @@ If you have any bugs or any need to contact me, join the [Discord Server](https:
 [Guus](https://github.com/OhMyGuus) - For support for the new Among Us versions (v2021.11.9.5 and v2021.12.15).\
 [ItsTheNumberH](https://github.com/itsTheNumberH/Town-Of-H) - For the code used for Bait, Poisoner and partially for Tracker.\
 [Ruiner](https://github.com/ruiner189/Town-Of-Us-Redux) - For lovers changed into a modifier and Task Tracking.\
-[Term](https://github.com/ImTerm/Town-Of-Us-R) - For porting v2.5.0 to the new Among Us version (v2021.12.15).
+[Term](https://www.twitch.tv/termboii) - For creating Transporter, Sleuth, and porting v2.5.0 to the new Among Us version (v2021.12.15).
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.\
 v1.0.3 uses [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) directly.\

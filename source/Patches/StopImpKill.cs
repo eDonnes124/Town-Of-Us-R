@@ -29,6 +29,7 @@ namespace TownOfUs
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                         if (CustomGameOptions.ShieldBreaks) PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
+                        else PlayerControl.LocalPlayer.SetKillTimer(0.01f);
 
                         StopKill.BreakShield(medic, target.PlayerId,
                             CustomGameOptions.ShieldBreaks);
@@ -44,9 +45,9 @@ namespace TownOfUs
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                         if (CustomGameOptions.ShieldBreaks) PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
+                        else PlayerControl.LocalPlayer.SetKillTimer(0.01f);
 
-                        StopKill.BreakShield(medic, PlayerControl.LocalPlayer.PlayerId,
-                            CustomGameOptions.ShieldBreaks);
+                        StopKill.BreakShield(medic, PlayerControl.LocalPlayer.PlayerId, CustomGameOptions.ShieldBreaks);
                         if (CustomGameOptions.KilledOnAlert)
                         {
                             Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, target);
@@ -74,8 +75,8 @@ namespace TownOfUs
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                     System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
-                    if (CustomGameOptions.ShieldBreaks)
-                        PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
+                    if (CustomGameOptions.ShieldBreaks) PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
+                    else PlayerControl.LocalPlayer.SetKillTimer(0.01f);
                     StopKill.BreakShield(target.GetMedic().Player.PlayerId, target.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
                 return false;

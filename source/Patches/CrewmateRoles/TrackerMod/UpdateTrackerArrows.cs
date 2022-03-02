@@ -13,6 +13,8 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
         public static Sprite Sprite => TownOfUs.Arrow;
         private static DateTime _time = DateTime.UnixEpoch;
         private static float Interval => CustomGameOptions.UpdateInterval;
+        public static bool CamoedLastTick = false;
+
         public static void Postfix(PlayerControl __instance)
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
@@ -39,22 +41,26 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
                 }
 
                 if (!CamouflageUnCamouflage.IsCamoed)
+                {
                     if (RainbowUtils.IsRainbow(player.GetDefaultOutfit().ColorId))
                     {
                         arrow.Value.image.color = RainbowUtils.Rainbow;
                     }
-                    else
+                    else if (CamoedLastTick)
                     {
                         arrow.Value.image.color = Palette.PlayerColors[player.GetDefaultOutfit().ColorId];
                     }
-                else
+                }
+                else if (!CamoedLastTick)
                 {
-                    arrow.Value.image.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                    arrow.Value.image.color = Color.gray;
                 }
 
                 if (_time <= DateTime.UtcNow.AddSeconds(-Interval))
                     arrow.Value.target = player.transform.position;
             }
+
+            CamoedLastTick = CamouflageUnCamouflage.IsCamoed;
             if (_time <= DateTime.UtcNow.AddSeconds(-Interval))
                 _time = DateTime.UtcNow;
         }

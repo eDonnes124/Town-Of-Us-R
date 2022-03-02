@@ -12,9 +12,7 @@ using TownOfUs.Extensions;
 namespace TownOfUs.NeutralRoles.AmnesiacMod
 {
     [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
-    [HarmonyPriority(Priority.Last)]
     public class PerformKillButton
-
     {
         public static Sprite Sprite => TownOfUs.Arrow;
         public static bool Prefix(KillButton __instance)
@@ -66,6 +64,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 var amnesiacRole = Role.GetRole<Amnesiac>(amnesiac);
                 amnesiacRole.BodyArrows.Values.DestroyAll();
                 amnesiacRole.BodyArrows.Clear();
+                amnesiacRole.CurrentTarget.bodyRenderer.material.SetFloat("_Outline", 0f);
             }
 
             switch (role)
@@ -163,6 +162,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                     {
                         var poisonerRole = Role.GetRole<Poisoner>(amnesiac);
                         poisonerRole.LastPoisoned = DateTime.UtcNow;
+                        DestroyableSingleton<HudManager>.Instance.KillButton.enabled = false;
                         DestroyableSingleton<HudManager>.Instance.KillButton.graphic.enabled = false;
                     }
                     else if (PlayerControl.LocalPlayer == other)

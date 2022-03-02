@@ -806,8 +806,8 @@ namespace TownOfUs
                     case CustomRPC.SetAltruist:
                         new Altruist(Utils.PlayerById(reader.ReadByte()));
                         break;
-                    case CustomRPC.SetBigBoi:
-                        new BigBoiModifier(Utils.PlayerById(reader.ReadByte()));
+                    case CustomRPC.SetGiant:
+                        new Giant(Utils.PlayerById(reader.ReadByte()));
                         break;
                     case CustomRPC.AltruistRevive:
                         readByte1 = reader.ReadByte();
@@ -840,39 +840,17 @@ namespace TownOfUs
                         break;
                     case CustomRPC.BarryButton:
                         var buttonBarry = Utils.PlayerById(reader.ReadByte());
-                        if (AmongUsClient.Instance.AmHost)
-                        {
-                            MeetingRoomManager.Instance.reporter = buttonBarry;
-                            MeetingRoomManager.Instance.target = null;
-                            AmongUsClient.Instance.DisconnectHandlers.AddUnique(MeetingRoomManager.Instance
-                                .Cast<IDisconnectHandler>());
-                            if (ShipStatus.Instance.CheckTaskCompletion()) return;
-
-                            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(buttonBarry);
-                            buttonBarry.RpcStartMeeting(null);
-                        }
-
+                        buttonBarry.ReportDeadBody(null);
                         break;
                     case CustomRPC.BaitReport:
                         var baitKiller = Utils.PlayerById(reader.ReadByte());
-                        var bait = GameData.Instance.GetPlayerById(reader.ReadByte());
-                        if (!MeetingHud.Instance)
-                        {
-                            if (AmongUsClient.Instance.AmHost)
-                            {
-                                while (!MeetingHud.Instance)
-                                {
-                                    MeetingRoomManager.Instance.reporter = baitKiller;
-                                    MeetingRoomManager.Instance.target = bait;
-                                    AmongUsClient.Instance.DisconnectHandlers.AddUnique(MeetingRoomManager.Instance
-                                        .Cast<IDisconnectHandler>());
-                                    if (ShipStatus.Instance.CheckTaskCompletion()) return;
-
-                                    DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(baitKiller);
-                                    baitKiller.RpcStartMeeting(bait);
-                                }
-                            }
-                        }
+                        var bait = Utils.PlayerById(reader.ReadByte());
+                        baitKiller.ReportDeadBody(bait.Data);
+                        break;
+                    case CustomRPC.CheckMurder:
+                        var murderKiller = Utils.PlayerById(reader.ReadByte());
+                        var murderTarget = Utils.PlayerById(reader.ReadByte());
+                        murderKiller.CheckMurder(murderTarget);
                         break;
                     case CustomRPC.SetUndertaker:
                         new Undertaker(Utils.PlayerById(reader.ReadByte()));
@@ -1133,8 +1111,8 @@ namespace TownOfUs
                 if (Check(CustomGameOptions.DrunkOn))
                     GlobalModifiers.Add((typeof(Drunk), CustomRPC.SetDrunk, CustomGameOptions.DrunkOn));
 
-                if (Check(CustomGameOptions.BigBoiOn))
-                    GlobalModifiers.Add((typeof(BigBoiModifier), CustomRPC.SetBigBoi, CustomGameOptions.BigBoiOn));
+                if (Check(CustomGameOptions.GiantOn))
+                    GlobalModifiers.Add((typeof(Giant), CustomRPC.SetGiant, CustomGameOptions.GiantOn));
 
                 if (Check(CustomGameOptions.ButtonBarryOn))
                     ButtonModifiers.Add((typeof(ButtonBarry), CustomRPC.SetButtonBarry, CustomGameOptions.ButtonBarryOn));

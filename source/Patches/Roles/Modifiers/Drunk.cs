@@ -8,7 +8,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Drunk";
             TaskText = () => "Inverrrrrted contrrrrols";
-            Color = new Color(0.46f, 0.5f, 0f, 1f);
+            Color = Patches.Colors.Drunk;
             ModifierType = ModifierEnum.Drunk;
         }
     }

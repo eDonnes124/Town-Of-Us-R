@@ -95,6 +95,8 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
             RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
             player.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
 
+            System.Console.WriteLine("PROOF I AM IMP VANILLA ROLE: "+player.Data.Role.IsImpostor);
+
             foreach (var player2 in PlayerControl.AllPlayerControls)
             {
                 if (player2.Data.IsImpostor() && PlayerControl.LocalPlayer.Data.IsImpostor())
@@ -114,7 +116,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
             if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(true);
-                Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                Coroutines.Start(Utils.FlashCoroutine(Color.red, 3f));
             }
 
             foreach (var snitch in Role.GetRoles(RoleEnum.Snitch))

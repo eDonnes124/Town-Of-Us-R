@@ -411,10 +411,10 @@ namespace TownOfUs.Roles
 
         public static void StopDragging(byte PlayerId)
         {
-            var Undertaker = ((Undertaker)Role.AllRoles.First(x => x.RoleType == RoleEnum.Undertaker &&
-                ((Undertaker)x).CurrentlyDragging != null &&
-                ((Undertaker)x).CurrentlyDragging.ParentId == PlayerId));
-            if (Undertaker != null) Undertaker.CurrentlyDragging = null;
+            var Undertaker = (Undertaker) Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Undertaker);
+            if (Undertaker != null && Undertaker.CurrentlyDragging != null &&
+                Undertaker.CurrentlyDragging.ParentId == PlayerId)
+                Undertaker.CurrentlyDragging = null;
         }
     }
 }

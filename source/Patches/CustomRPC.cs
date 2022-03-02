@@ -39,7 +39,7 @@ namespace TownOfUs
         SetFlash,
         SetTiebreaker,
         SetDrunk,
-        SetBigBoi,
+        SetGiant,
         SetButtonBarry,
         SetBait,
         SetSleuth,
@@ -117,6 +117,7 @@ namespace TownOfUs
         FixAnimation,
         
         AddMayorVoteBank,
-        RemoveAllBodies
+        RemoveAllBodies,
+        CheckMurder
     }
 }

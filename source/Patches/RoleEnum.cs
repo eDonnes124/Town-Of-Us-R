@@ -52,7 +52,7 @@ namespace TownOfUs
         Flash,
         Tiebreaker,
         Drunk,
-        BigBoi,
+        Giant,
         ButtonBarry,
         Bait,
         Sleuth
