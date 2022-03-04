@@ -140,7 +140,6 @@ namespace TownOfUs
             }));
 
             _harmony.PatchAll();
-            DirtyPatches.Initialize(_harmony);
         }
 
         public static Sprite CreateSprite(string name)
