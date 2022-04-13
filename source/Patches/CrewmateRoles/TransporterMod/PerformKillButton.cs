@@ -15,7 +15,7 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
             if (!__instance.enabled) return false;
             if (role.TransportTimer() != 0f) return false;
 
-            if (role.TransportList1 == null && role.TransportList2 == null && role.ButtonUsable)
+            if (role.TransportList == null && role.ButtonUsable)
             {
                 role.PressedButton = true;
                 role.MenuClick = true;

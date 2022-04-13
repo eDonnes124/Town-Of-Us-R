@@ -8,7 +8,7 @@ namespace TownOfUs.Roles
 {
     public class Vigilante : Role
     {
-        public Dictionary<byte, (GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, TMP_Text)>();
+        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)>();
 
         private Dictionary<string, Color> ColorMapping = new Dictionary<string, Color>();
 

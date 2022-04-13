@@ -38,6 +38,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                     if (CustomGameOptions.ShieldBreaks) role.LastPoisoned = DateTime.UtcNow;
+                    role.PoisonButton.SetCoolDown(0.01f, 1f);
 
                     StopKill.BreakShield(medic, role.ClosestPlayer.PlayerId,
                         CustomGameOptions.ShieldBreaks);
@@ -53,6 +54,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                     if (CustomGameOptions.ShieldBreaks) role.LastPoisoned = DateTime.UtcNow;
+                    role.PoisonButton.SetCoolDown(0.01f, 1f);
 
                     StopKill.BreakShield(medic, role.Player.PlayerId,
                         CustomGameOptions.ShieldBreaks);
@@ -64,7 +66,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
 
                         role.TimeRemaining = CustomGameOptions.PoisonDuration;
                         role.PoisonButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.PoisonDuration);
-                        role.Player.SetKillTimer(0);
+                        // role.Player.SetKillTimer(0);
                     }
                 }
                 else
@@ -75,13 +77,13 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                         role.PoisonedPlayer = target;
                         role.PoisonButton.SetTarget(null);
                         DestroyableSingleton<HudManager>.Instance.KillButton.SetTarget(null);
+                        role.PoisonButton.SetCoolDown(0.01f, 1f);
 
                         role.TimeRemaining = CustomGameOptions.PoisonDuration;
                         role.PoisonButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.PoisonDuration);
-                        role.Player.SetKillTimer(0);
+                        // role.Player.SetKillTimer(0);
                     }
                 }
-
                 return false;
             }
             else if (role.ClosestPlayer.IsShielded())
@@ -94,6 +96,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
 
                 if (CustomGameOptions.ShieldBreaks) role.LastPoisoned = DateTime.UtcNow;
+                role.PoisonButton.SetCoolDown(0.01f, 1f);
 
                 StopKill.BreakShield(medic, role.ClosestPlayer.PlayerId,
                     CustomGameOptions.ShieldBreaks);
@@ -105,7 +108,7 @@ namespace TownOfUs.ImpostorRoles.PoisonerMod
             DestroyableSingleton<HudManager>.Instance.KillButton.SetTarget(null);
             role.TimeRemaining = CustomGameOptions.PoisonDuration;
             role.PoisonButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.PoisonDuration);
-            role.Player.SetKillTimer(0);
+            // role.Player.SetKillTimer(0);
             return false;
         }
     }

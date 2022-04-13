@@ -162,7 +162,6 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                     {
                         var poisonerRole = Role.GetRole<Poisoner>(amnesiac);
                         poisonerRole.LastPoisoned = DateTime.UtcNow;
-                        DestroyableSingleton<HudManager>.Instance.KillButton.enabled = false;
                         DestroyableSingleton<HudManager>.Instance.KillButton.graphic.enabled = false;
                     }
                     else if (PlayerControl.LocalPlayer == other)
@@ -252,8 +251,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 tpRole.PressedButton = false;
                 tpRole.MenuClick = false;
                 tpRole.LastMouse = false;
-                tpRole.TransportList1 = null;
-                tpRole.TransportList2 = null;
+                tpRole.TransportList = null;
                 tpRole.TransportPlayer1 = null;
                 tpRole.TransportPlayer2 = null;
                 tpRole.LastTransported = DateTime.UtcNow;

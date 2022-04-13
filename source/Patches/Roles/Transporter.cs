@@ -6,6 +6,7 @@ using Reactor;
 using System.Linq;
 using TMPro;
 using Reactor.Extensions;
+using System.Collections.Generic;
 
 namespace TownOfUs.Roles
 {
@@ -16,8 +17,7 @@ namespace TownOfUs.Roles
         public bool PressedButton;
         public bool MenuClick;
         public bool LastMouse;
-        public ChatController TransportList1 { get; set; }
-        public ChatController TransportList2 { get; set; }
+        public ChatController TransportList { get; set; }
         public PlayerControl TransportPlayer1 { get; set; }
         public PlayerControl TransportPlayer2 { get; set; }
 
@@ -25,6 +25,8 @@ namespace TownOfUs.Roles
         public TextMeshPro UsesText;
 
         public bool ButtonUsable => UsesLeft != 0;
+
+        public Dictionary<byte, DateTime> UntransportablePlayers = new Dictionary<byte, DateTime>();
         
         public Transporter(PlayerControl player) : base(player)
         {
@@ -38,8 +40,7 @@ namespace TownOfUs.Roles
             PressedButton = false;
             MenuClick = false;
             LastMouse = false;
-            TransportList1 = null;
-            TransportList2 = null;
+            TransportList = null;
             TransportPlayer1 = null;
             TransportPlayer2 = null;
             UsesLeft = CustomGameOptions.TransportMaxUses;
@@ -62,36 +63,40 @@ namespace TownOfUs.Roles
 
         public void FixedUpdate(HudManager __instance)
         {
-            if (PressedButton && TransportPlayer1 == null && TransportPlayer2 == null && TransportList1 == null)
+            if (PressedButton && TransportList == null)
             {
-                TransportList1 = Object.Instantiate(__instance.Chat);
+                TransportPlayer1 = null;
+                TransportPlayer2 = null;
 
-                TransportList1.transform.SetParent(Camera.main.transform);
-                TransportList1.SetVisible(true);
-                TransportList1.Toggle();
+                __instance.Chat.SetVisible(false);
+                TransportList = Object.Instantiate(__instance.Chat);
 
-                TransportList1.TextBubble.enabled = false;
-                TransportList1.TextBubble.gameObject.SetActive(false);
+                TransportList.transform.SetParent(Camera.main.transform);
+                TransportList.SetVisible(true);
+                TransportList.Toggle();
 
-                TransportList1.TextArea.enabled = false;
-                TransportList1.TextArea.gameObject.SetActive(false);
+                TransportList.TextBubble.enabled = false;
+                TransportList.TextBubble.gameObject.SetActive(false);
 
-                TransportList1.BanButton.enabled = false;
-                TransportList1.BanButton.gameObject.SetActive(false);
+                TransportList.TextArea.enabled = false;
+                TransportList.TextArea.gameObject.SetActive(false);
 
-                TransportList1.CharCount.enabled = false;
-                TransportList1.CharCount.gameObject.SetActive(false);
+                TransportList.BanButton.enabled = false;
+                TransportList.BanButton.gameObject.SetActive(false);
 
-                TransportList1.OpenKeyboardButton.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                TransportList1.OpenKeyboardButton.Destroy();
+                TransportList.CharCount.enabled = false;
+                TransportList.CharCount.gameObject.SetActive(false);
 
-                TransportList1.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>()
+                TransportList.OpenKeyboardButton.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                TransportList.OpenKeyboardButton.Destroy();
+
+                TransportList.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>()
                     .enabled = false;
-                TransportList1.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                TransportList.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
-                TransportList1.BackgroundImage.enabled = false;
+                TransportList.BackgroundImage.enabled = false;
 
-                foreach (var rend in TransportList1.Content
+                foreach (var rend in TransportList.Content
                     .GetComponentsInChildren<SpriteRenderer>())
                     if (rend.name == "SendButton" || rend.name == "QuickChatButton")
                     {
@@ -99,13 +104,13 @@ namespace TownOfUs.Roles
                         rend.gameObject.SetActive(false);
                     }
 
-                foreach (var bubble in TransportList1.chatBubPool.activeChildren)
+                foreach (var bubble in TransportList.chatBubPool.activeChildren)
                 {
                     bubble.enabled = false;
                     bubble.gameObject.SetActive(false);
                 }
 
-                TransportList1.chatBubPool.activeChildren.Clear();
+                TransportList.chatBubPool.activeChildren.Clear();
 
                 foreach (var TempPlayer in PlayerControl.AllPlayerControls)
                 {
@@ -122,12 +127,12 @@ namespace TownOfUs.Roles
                                 ((!player.Data.Disconnected && !player.Data.IsDead) ||
                                 Object.FindObjectsOfType<DeadBody>().Any(x => x.ParentId == player.PlayerId)))
                             {
-                                TransportList1.AddChat(TempPlayer, "Click here");
-                                TransportList1.chatBubPool.activeChildren[TransportList1.chatBubPool.activeChildren._size - 1].Cast<ChatBubble>().SetName(player.Data.PlayerName, false, false,
+                                TransportList.AddChat(TempPlayer, "Click here");
+                                TransportList.chatBubPool.activeChildren[TransportList.chatBubPool.activeChildren._size - 1].Cast<ChatBubble>().SetName(player.Data.PlayerName, false, false,
                                     PlayerControl.LocalPlayer.PlayerId == player.PlayerId ? Color : Color.white);
                                 var IsDeadTemp = player.Data.IsDead;
                                 player.Data.IsDead = false;
-                                TransportList1.chatBubPool.activeChildren[TransportList1.chatBubPool.activeChildren._size - 1].Cast<ChatBubble>().SetCosmetics(player.Data);
+                                TransportList.chatBubPool.activeChildren[TransportList.chatBubPool.activeChildren._size - 1].Cast<ChatBubble>().SetCosmetics(player.Data);
                                 player.Data.IsDead = IsDeadTemp;
                             }
                         }
@@ -135,201 +140,95 @@ namespace TownOfUs.Roles
                     }
                 }
             }
-            if (TransportList1 != null)
+            if (TransportList != null)
             {
                 if (Minigame.Instance)
                     Minigame.Instance.Close();
 
-                if (!TransportList1.IsOpen || MeetingHud.Instance || Input.GetKeyInt(KeyCode.Escape) || PlayerControl.LocalPlayer.Data.IsDead)
+                if (!TransportList.IsOpen || MeetingHud.Instance || Input.GetKeyInt(KeyCode.Escape) || PlayerControl.LocalPlayer.Data.IsDead)
                 {
-                    TransportList1.Toggle();
-                    TransportList1.SetVisible(false);
-                    TransportList1 = null;
+                    TransportList.Toggle();
+                    TransportList.SetVisible(false);
+                    TransportList = null;
                     PressedButton = false;
-                }
-                else
-                {
-                    foreach (var bubble in TransportList1.chatBubPool.activeChildren)
-                        if (TransportTimer() == 0f && TransportList1 != null)
-                        {
-                            // System.Console.WriteLine("Reached Here - 1");
-                            Vector2 ScreenMin =
-                                Camera.main.WorldToScreenPoint(bubble.Cast<ChatBubble>().Background.bounds.min);
-                            Vector2 ScreenMax =
-                                Camera.main.WorldToScreenPoint(bubble.Cast<ChatBubble>().Background.bounds.max);
-                            if (Input.mousePosition.x > ScreenMin.x && Input.mousePosition.x < ScreenMax.x)
-                                if (Input.mousePosition.y > ScreenMin.y && Input.mousePosition.y < ScreenMax.y)
-                                {
-                                    // System.Console.WriteLine("Reached Here - 2");
-                                    // System.Console.WriteLine(Input.GetMouseButtonDown(0)+"");
-                                    // System.Console.WriteLine(LastMouse+"");
-                                    if (!Input.GetMouseButtonDown(0) && LastMouse)
-                                    {
-                                        // System.Console.WriteLine("Reached Here - 3");
-                                        LastMouse = false;
-                                        TransportList1.Toggle();
-                                        TransportList1.SetVisible(false);
-                                        TransportList1 = null;
-                                        PressedButton = false;
-
-                                        // System.Console.WriteLine(bubble.Cast<ChatBubble>().NameText.text);
-                                        foreach (var player in PlayerControl.AllPlayerControls)
-                                            if (player.Data.PlayerName == bubble.Cast<ChatBubble>().NameText.text)
-                                            {
-                                                TransportPlayer1 = player;
-                                                // System.Console.WriteLine(player.Data.PlayerName+"");
-                                            }
-                                    }
-                                }
-                        }
-                    if (!Input.GetMouseButtonDown(0) && LastMouse)
-                    {
-                        if (MenuClick)
-                            MenuClick = false;
-                        else {
-                            TransportList1.Toggle();
-                            TransportList1.SetVisible(false);
-                            TransportList1 = null;
-                            PressedButton = false;
-                        }
-                    }
-                    LastMouse = Input.GetMouseButtonDown(0);
-                }
-            }
-            if (TransportPlayer1 != null && TransportPlayer2 == null && TransportList2 == null)
-            {
-                TransportList2 = Object.Instantiate(__instance.Chat);
-
-                TransportList2.transform.SetParent(Camera.main.transform);
-                TransportList2.SetVisible(true);
-                TransportList2.Toggle();
-
-                TransportList2.TextBubble.enabled = false;
-                TransportList2.TextBubble.gameObject.SetActive(false);
-
-                TransportList2.TextArea.enabled = false;
-                TransportList2.TextArea.gameObject.SetActive(false);
-
-                TransportList2.BanButton.enabled = false;
-                TransportList2.BanButton.gameObject.SetActive(false);
-
-                TransportList2.CharCount.enabled = false;
-                TransportList2.CharCount.gameObject.SetActive(false);
-
-                TransportList2.OpenKeyboardButton.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                TransportList2.OpenKeyboardButton.Destroy();
-
-                TransportList2.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>()
-                    .enabled = false;
-                TransportList2.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-
-                TransportList2.BackgroundImage.enabled = false;
-
-                foreach (var rend in TransportList2.Content
-                    .GetComponentsInChildren<SpriteRenderer>())
-                    if (rend.name == "SendButton" || rend.name == "QuickChatButton")
-                    {
-                        rend.enabled = false;
-                        rend.gameObject.SetActive(false);
-                    }
-
-                foreach (var bubble in TransportList2.chatBubPool.activeChildren)
-                {
-                    bubble.enabled = false;
-                    bubble.gameObject.SetActive(false);
-                }
-
-                TransportList2.chatBubPool.activeChildren.Clear();
-
-                foreach (var TempPlayer in PlayerControl.AllPlayerControls)
-                {
-                    if (TempPlayer != null &&
-                        TempPlayer.Data != null &&
-                        !TempPlayer.Data.IsDead &&
-                        !TempPlayer.Data.Disconnected &&
-                        TempPlayer.PlayerId != PlayerControl.LocalPlayer.PlayerId)
-                    {
-                        foreach (var player in PlayerControl.AllPlayerControls)
-                        {
-                            if (player.PlayerId != TransportPlayer1.PlayerId &&
-                                player != null &&
-                                player.Data != null &&
-                                ((!player.Data.Disconnected && !player.Data.IsDead) ||
-                                Object.FindObjectsOfType<DeadBody>().Any(x => x.ParentId == player.PlayerId)))
-                            {
-                                TransportList2.AddChat(TempPlayer, "Click here");
-                                TransportList2.chatBubPool.activeChildren[TransportList2.chatBubPool.activeChildren._size - 1].Cast<ChatBubble>().SetName(player.Data.PlayerName, false, false,
-                                    PlayerControl.LocalPlayer.PlayerId == player.PlayerId ? Color : Color.white);
-                                var IsDeadTemp = player.Data.IsDead;
-                                player.Data.IsDead = false;
-                                TransportList2.chatBubPool.activeChildren[TransportList2.chatBubPool.activeChildren._size - 1].Cast<ChatBubble>().SetCosmetics(player.Data);
-                                player.Data.IsDead = IsDeadTemp;
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-            if (TransportList2 != null)
-            {
-                if (Minigame.Instance)
-                    Minigame.Instance.Close();
-
-                if (!TransportList2.IsOpen || MeetingHud.Instance || Input.GetKeyInt(KeyCode.Escape) || PlayerControl.LocalPlayer.Data.IsDead)
-                {
-                    TransportList2.Toggle();
-                    TransportList2.SetVisible(false);
-                    TransportList2 = null;
                     TransportPlayer1 = null;
                 }
                 else
                 {
-                    foreach (var bubble in TransportList2.chatBubPool.activeChildren)
-                        if (TransportTimer() == 0f && TransportList2 != null)
+                    foreach (var bubble in TransportList.chatBubPool.activeChildren)
+                    {
+                        if (TransportTimer() == 0f && TransportList != null)
                         {
                             Vector2 ScreenMin =
                                 Camera.main.WorldToScreenPoint(bubble.Cast<ChatBubble>().Background.bounds.min);
                             Vector2 ScreenMax =
                                 Camera.main.WorldToScreenPoint(bubble.Cast<ChatBubble>().Background.bounds.max);
                             if (Input.mousePosition.x > ScreenMin.x && Input.mousePosition.x < ScreenMax.x)
+                            {
                                 if (Input.mousePosition.y > ScreenMin.y && Input.mousePosition.y < ScreenMax.y)
                                 {
                                     if (!Input.GetMouseButtonDown(0) && LastMouse)
                                     {
                                         LastMouse = false;
-                                        TransportList2.Toggle();
-                                        TransportList2.SetVisible(false);
-                                        TransportList2 = null;
                                         foreach (var player in PlayerControl.AllPlayerControls)
+                                        {
                                             if (player.Data.PlayerName == bubble.Cast<ChatBubble>().NameText.text)
                                             {
-                                                LastTransported = DateTime.UtcNow;
-                                                UsesLeft--;
+                                                if (TransportPlayer1 == null)
+                                                {
+                                                    TransportPlayer1 = player;
+                                                    bubble.Cast<ChatBubble>().Background.color = Color.green;
+                                                }
+                                                else if (player.PlayerId == TransportPlayer1.PlayerId)
+                                                {
+                                                    TransportPlayer1 = null;
+                                                    bubble.Cast<ChatBubble>().Background.color = Color.white;
+                                                }
+                                                else
+                                                {
+                                                    PressedButton = false;
+                                                    TransportList.Toggle();
+                                                    TransportList.SetVisible(false);
+                                                    TransportList = null;
 
-                                                TransportPlayer2 = player;
+                                                    TransportPlayer2 = player;
 
-                                                TransportPlayers(TransportPlayer1.PlayerId, TransportPlayer2.PlayerId);
-                                                
-                                                var write = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                                    (byte) CustomRPC.Transport, SendOption.Reliable, -1);
-                                                write.Write(TransportPlayer1.PlayerId);
-                                                write.Write(TransportPlayer2.PlayerId);
-                                                AmongUsClient.Instance.FinishRpcImmediately(write);
+                                                    if (!UntransportablePlayers.ContainsKey(TransportPlayer1.PlayerId) && !UntransportablePlayers.ContainsKey(TransportPlayer2.PlayerId))
+                                                    {
+                                                        LastTransported = DateTime.UtcNow;
+                                                        UsesLeft--;
+                                                        TransportPlayers(TransportPlayer1.PlayerId, TransportPlayer2.PlayerId);
+                                                        
+                                                        var write = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                                                            (byte) CustomRPC.Transport, SendOption.Reliable, -1);
+                                                        write.Write(TransportPlayer1.PlayerId);
+                                                        write.Write(TransportPlayer2.PlayerId);
+                                                        AmongUsClient.Instance.FinishRpcImmediately(write);
+                                                    }
+                                                    else
+                                                    {
+                                                        (__instance as MonoBehaviour).StartCoroutine(Effects.SwayX(__instance.KillButton.transform));
+                                                    }
 
-                                                TransportPlayer1 = null;
-                                                TransportPlayer2 = null;
+                                                    TransportPlayer1 = null;
+                                                    TransportPlayer2 = null;
+                                                }
                                             }
+                                        }
                                     }
                                 }
+                            }
                         }
+                    }
                     if (!Input.GetMouseButtonDown(0) && LastMouse)
                     {
                         if (MenuClick)
                             MenuClick = false;
                         else {
-                            TransportList2.Toggle();
-                            TransportList2.SetVisible(false);
-                            TransportList2 = null;
+                            TransportList.Toggle();
+                            TransportList.SetVisible(false);
+                            TransportList = null;
+                            PressedButton = false;
                             TransportPlayer1 = null;
                         }
                     }
@@ -356,12 +255,10 @@ namespace TownOfUs.Roles
 
             if (TP1.inVent && PlayerControl.LocalPlayer.PlayerId == TP1.PlayerId)
             {
-                TP1.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 TP1.MyPhysics.ExitAllVents();
             }
             if (TP2.inVent && PlayerControl.LocalPlayer.PlayerId == TP2.PlayerId)
             {
-                TP2.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                 TP2.MyPhysics.ExitAllVents();
             }
 
@@ -403,10 +300,17 @@ namespace TownOfUs.Roles
 
             if (PlayerControl.LocalPlayer.PlayerId == TP1.PlayerId ||
                 PlayerControl.LocalPlayer.PlayerId == TP2.PlayerId)
+            {
                 Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Transporter));
+                if (Minigame.Instance) Minigame.Instance.Close();
+            }
 
             TP1.moveable = true;
             TP2.moveable = true;
+            TP1.Collider.enabled = true;
+            TP2.Collider.enabled = true;
+            TP1.NetTransform.enabled = true;
+            TP2.NetTransform.enabled = true;
         }
 
         public static void StopDragging(byte PlayerId)

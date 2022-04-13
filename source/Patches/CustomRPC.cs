@@ -102,6 +102,7 @@ namespace TownOfUs
         Remember,
         BaitReport,
         Transport,
+        SetUntransportable,
 
         SetGlitch,
         BypassKill,

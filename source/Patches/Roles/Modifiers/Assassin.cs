@@ -9,7 +9,7 @@ namespace TownOfUs.Roles.Modifiers
 {
     public class Assassin : Ability
     {
-        public Dictionary<byte, (GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, TMP_Text)>();
+        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)>();
 
 
         private Dictionary<string, Color> ColorMapping = new Dictionary<string, Color>();

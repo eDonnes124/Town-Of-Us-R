@@ -749,6 +749,12 @@ namespace TownOfUs
                     case CustomRPC.Transport:
                         Transporter.TransportPlayers(reader.ReadByte(), reader.ReadByte());
                         break;
+                    case CustomRPC.SetUntransportable:
+                        if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))
+                        {
+                            Role.GetRole<Transporter>(PlayerControl.LocalPlayer).UntransportablePlayers.Add(reader.ReadByte(), DateTime.UtcNow);
+                        }
+                        break;
                     case CustomRPC.SetGrenadier:
                         new Grenadier(Utils.PlayerById(reader.ReadByte()));
                         break;
@@ -840,7 +846,18 @@ namespace TownOfUs
                         break;
                     case CustomRPC.BarryButton:
                         var buttonBarry = Utils.PlayerById(reader.ReadByte());
-                        buttonBarry.ReportDeadBody(null);
+
+                        if (AmongUsClient.Instance.AmHost)
+                        {
+                            MeetingRoomManager.Instance.reporter = buttonBarry;
+                            MeetingRoomManager.Instance.target = null;
+                            AmongUsClient.Instance.DisconnectHandlers.AddUnique(MeetingRoomManager.Instance
+                                .Cast<IDisconnectHandler>());
+                            if (ShipStatus.Instance.CheckTaskCompletion()) return;
+
+                            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(buttonBarry);
+                            buttonBarry.RpcStartMeeting(null);
+                        }
                         break;
                     case CustomRPC.BaitReport:
                         var baitKiller = Utils.PlayerById(reader.ReadByte());

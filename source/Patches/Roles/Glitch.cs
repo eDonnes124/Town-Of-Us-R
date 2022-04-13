@@ -658,6 +658,7 @@ namespace TownOfUs.Roles
             {
                 if (__gInstance.MimicList == null)
                 {
+                    HudManager.Instance.Chat.SetVisible(false);
                     __gInstance.MimicList = Object.Instantiate(HudManager.Instance.Chat);
 
                     __gInstance.MimicList.transform.SetParent(Camera.main.transform);

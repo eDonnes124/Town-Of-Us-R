@@ -23,16 +23,21 @@ namespace TownOfUs.Modifiers.ButtonBarryMod
             System.Console.WriteLine("Reached here!");
 
             role.ButtonUsed = true;
+
+            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte)CustomRPC.BarryButton, SendOption.Reliable, -1);
+            writer.Write(PlayerControl.LocalPlayer.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+
             if (AmongUsClient.Instance.AmHost)
             {
-                PlayerControl.LocalPlayer.ReportDeadBody(null);
-            }
-            else
-            {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.BarryButton, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                MeetingRoomManager.Instance.reporter = PlayerControl.LocalPlayer;
+                MeetingRoomManager.Instance.target = null;
+                AmongUsClient.Instance.DisconnectHandlers.AddUnique(
+                    MeetingRoomManager.Instance.Cast<IDisconnectHandler>());
+                if (ShipStatus.Instance.CheckTaskCompletion()) return false;
+                DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(PlayerControl.LocalPlayer);
+                PlayerControl.LocalPlayer.RpcStartMeeting(null);
             }
 
             return false;

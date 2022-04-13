@@ -9,14 +9,16 @@ namespace TownOfUs.Modifiers.AssassinMod
     {
         public static void HideButtons(Assassin role)
         {
-            foreach (var (_, (cycle, guess, guessText)) in role.Buttons)
+            foreach (var (_, (cycleBack, cycleForward, guess, guessText)) in role.Buttons)
             {
-                if (cycle == null) continue;
-                cycle.SetActive(false);
+                if (cycleBack == null || cycleForward == null) continue;
+                cycleBack.SetActive(false);
+                cycleForward.SetActive(false);
                 guess.SetActive(false);
                 guessText.gameObject.SetActive(false);
 
-                cycle.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+                cycleBack.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+                cycleForward.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
                 guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
                 role.GuessedThisMeeting = true;
             }
@@ -38,15 +40,17 @@ namespace TownOfUs.Modifiers.AssassinMod
                 return;
             }
 
-            var (cycle, guess, guessText) = role.Buttons[targetId];
-            if (cycle == null) return;
-            cycle.SetActive(false);
+            var (cycleBack, cycleForward, guess, guessText) = role.Buttons[targetId];
+            if (cycleBack == null || cycleForward == null) return;
+            cycleBack.SetActive(false);
+            cycleForward.SetActive(false);
             guess.SetActive(false);
             guessText.gameObject.SetActive(false);
 
-            cycle.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+            cycleBack.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
+            cycleForward.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-            role.Buttons[targetId] = (null, null, null);
+            role.Buttons[targetId] = (null, null, null, null);
             role.Guesses.Remove(targetId);
         }
 

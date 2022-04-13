@@ -14,7 +14,8 @@ namespace TownOfUs.Modifiers.AssassinMod
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
     public class AddButton
     {
-        private static Sprite CycleSprite => TownOfUs.CycleSprite;
+        private static Sprite CycleBackSprite => TownOfUs.CycleBackSprite;
+        private static Sprite CycleForwardSprite => TownOfUs.CycleForwardSprite;
 
         private static Sprite GuessSprite => TownOfUs.GuessSprite;
 
@@ -38,7 +39,7 @@ namespace TownOfUs.Modifiers.AssassinMod
             var targetId = voteArea.TargetPlayerId;
             if (IsExempt(voteArea))
             {
-                role.Buttons[targetId] = (null, null, null);
+                role.Buttons[targetId] = (null, null, null, null);
                 return;
             }
 
@@ -50,20 +51,36 @@ namespace TownOfUs.Modifiers.AssassinMod
             nameText.transform.localPosition = new Vector3(0.55f, -0.12f, -0.1f);
             nameText.text = "Guess";
             
-            var cycle = Object.Instantiate(confirmButton, voteArea.transform);
-            var cycleRenderer = cycle.GetComponent<SpriteRenderer>();
-            cycleRenderer.sprite = CycleSprite;
-            cycle.transform.localPosition = new Vector3(-0.35f, 0.15f, -2f);
-            cycle.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-            cycle.layer = 5;
-            cycle.transform.parent = parent;
-            var cycleEvent = new Button.ButtonClickedEvent();
-            cycleEvent.AddListener(Cycle(role, voteArea, nameText));
-            cycle.GetComponent<PassiveButton>().OnClick = cycleEvent;
-            var cycleCollider = cycle.GetComponent<BoxCollider2D>();
-            cycleCollider.size = cycleRenderer.sprite.bounds.size;
-            cycleCollider.offset = Vector2.zero;
-            cycle.transform.GetChild(0).gameObject.Destroy();
+            var cycleBack = Object.Instantiate(confirmButton, voteArea.transform);
+            var cycleRendererBack = cycleBack.GetComponent<SpriteRenderer>();
+            cycleRendererBack.sprite = CycleBackSprite;
+            cycleBack.transform.localPosition = new Vector3(-0.5f, 0.15f, -2f);
+            cycleBack.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+            cycleBack.layer = 5;
+            cycleBack.transform.parent = parent;
+            var cycleEventBack = new Button.ButtonClickedEvent();
+            cycleEventBack.AddListener(Cycle(role, voteArea, nameText, false));
+            cycleBack.GetComponent<PassiveButton>().OnClick = cycleEventBack;
+            var cycleColliderBack = cycleBack.GetComponent<BoxCollider2D>();
+            cycleColliderBack.size = cycleRendererBack.sprite.bounds.size;
+            cycleColliderBack.offset = Vector2.zero;
+            cycleBack.transform.GetChild(0).gameObject.Destroy();
+
+            
+            var cycleForward = Object.Instantiate(confirmButton, voteArea.transform);
+            var cycleRendererForward = cycleForward.GetComponent<SpriteRenderer>();
+            cycleRendererForward.sprite = CycleForwardSprite;
+            cycleForward.transform.localPosition = new Vector3(-0.2f, 0.15f, -2f);
+            cycleForward.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+            cycleForward.layer = 5;
+            cycleForward.transform.parent = parent;
+            var cycleEventForward = new Button.ButtonClickedEvent();
+            cycleEventForward.AddListener(Cycle(role, voteArea, nameText, true));
+            cycleForward.GetComponent<PassiveButton>().OnClick = cycleEventForward;
+            var cycleColliderForward = cycleForward.GetComponent<BoxCollider2D>();
+            cycleColliderForward.size = cycleRendererForward.sprite.bounds.size;
+            cycleColliderForward.offset = Vector2.zero;
+            cycleForward.transform.GetChild(0).gameObject.Destroy();
 
 
             var guess = Object.Instantiate(confirmButton, voteArea.transform);
@@ -85,10 +102,10 @@ namespace TownOfUs.Modifiers.AssassinMod
 
 
             role.Guesses.Add(targetId, "None");
-            role.Buttons[targetId] = (cycle, guess, nameText);
+            role.Buttons[targetId] = (cycleBack, cycleForward, guess, nameText);
         }
 
-        private static Action Cycle(Assassin role, PlayerVoteArea voteArea, TextMeshPro nameText)
+        private static Action Cycle(Assassin role, PlayerVoteArea voteArea, TextMeshPro nameText, bool forwardsCycle = true)
         {
             void Listener()
             {
@@ -97,9 +114,13 @@ namespace TownOfUs.Modifiers.AssassinMod
                 var guessIndex = currentGuess == "None"
                     ? -1
                     : role.PossibleGuesses.IndexOf(currentGuess);
-                if (++guessIndex == role.PossibleGuesses.Count)
-                    guessIndex = 0;
-
+                if (forwardsCycle) {
+                    if (++guessIndex >= role.PossibleGuesses.Count)
+                        guessIndex = 0;
+                } else {
+                    if (--guessIndex < 0)
+                        guessIndex = role.PossibleGuesses.Count - 1;
+                }
                 var newGuess = role.Guesses[voteArea.TargetPlayerId] = role.PossibleGuesses[guessIndex];
 
                 nameText.text = newGuess == "None"
