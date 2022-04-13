@@ -9,16 +9,16 @@
 	<PropertyGroup>
 		<!-- Defaults to Steam version -->
 		<GamePlatform Condition="'$(GamePlatform)' == ''">Steam</GamePlatform>
-    		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2021.12.15</GameVersion>
-    		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2021.12.15</GameVersion>
+    		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2022.3.29</GameVersion>
+    		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2022.3.29</GameVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Reactor" Version="1.1.0" />
-    		<PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.549" />
+    		<PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.553" />
     		<PackageReference Include="AmongUs.GameLibs.$(GamePlatform)" Version="$(GameVersion)" PrivateAssets="all" />
     		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.0.2" PrivateAssets="all" />
-			<PackageReference Include="System.Text.Json" Version="5.0.2" PrivateAssets="all" />
+		<PackageReference Include="System.Text.Json" Version="5.0.2" PrivateAssets="all" />
 	</ItemGroup>
 
 	<Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
