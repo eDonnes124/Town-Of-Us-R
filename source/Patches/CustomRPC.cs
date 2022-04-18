@@ -50,7 +50,6 @@ namespace TownOfUs
         SetBait,
         SetSleuth,
         SetAssassin,
-        SetHorse,
 
         SetPhantom,
         PhantomDied,

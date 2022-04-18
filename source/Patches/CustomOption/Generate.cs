@@ -68,7 +68,6 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption GlobalModifiers;
         public static CustomNumberOption ButtonBarryOn;
         public static CustomNumberOption DrunkOn;
-        public static CustomNumberOption HorseOn;
         public static CustomNumberOption FlashOn;
         public static CustomNumberOption GiantOn;
         public static CustomNumberOption LoversOn;
@@ -81,6 +80,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption DeadSeeRoles;
         public static CustomToggleOption DisableLevels;
         public static CustomToggleOption WhiteNameplates;
+        public static CustomToggleOption Horse;
         public static CustomNumberOption MaxNeutralRoles;
         public static CustomNumberOption VanillaGame;
         public static CustomNumberOption InitialCooldowns;
@@ -407,8 +407,6 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             DrunkOn = new CustomNumberOption(true, num++, "<color=#758000FF>Drunk</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            HorseOn = new CustomNumberOption(true, num++, "<color=#FAB216FF>Horse</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
             FlashOn = new CustomNumberOption(true, num++, "<color=#FF8080FF>Flash</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             GiantOn = new CustomNumberOption(true, num++, "<color=#FFB34DFF>Giant</color>", 0f, 0f, 100f, 10f,
@@ -435,7 +433,7 @@ namespace TownOfUs.CustomOption
             ParallelMedScans = new CustomToggleOption(num++, "Parallel Medbay Scans", false);
             DisableLevels = new CustomToggleOption(num++, "Disable Level Icons", false);
             WhiteNameplates = new CustomToggleOption(num++, "Disable Player Nameplates", false);
-
+            Horse = new CustomToggleOption(num++, "Turn everyone to horses", false);
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, "Task Tracking Settings");
             SeeTasksDuringRound = new CustomToggleOption(num++, "See Tasks During Round", false);

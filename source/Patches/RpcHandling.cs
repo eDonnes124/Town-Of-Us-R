@@ -345,10 +345,6 @@ namespace TownOfUs
                         readByte = reader.ReadByte();
                         new Flash(Utils.PlayerById(readByte));
                         break;
-                    case CustomRPC.SetHorse:
-                        readByte = reader.ReadByte();
-                        new Horse(Utils.PlayerById(readByte));
-                        break;
 
                     case CustomRPC.SetMedic:
                         readByte = reader.ReadByte();
@@ -1097,9 +1093,6 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.BaitOn))
                     CrewmateModifiers.Add((typeof(Bait), CustomRPC.SetBait, CustomGameOptions.BaitOn));
-
-                if (Check(CustomGameOptions.HorseOn))
-                    CrewmateModifiers.Add((typeof(Horse), CustomRPC.SetHorse, CustomGameOptions.HorseOn));
                 #endregion
                 #region Global Modifiers
                 if (Check(CustomGameOptions.TiebreakerOn))

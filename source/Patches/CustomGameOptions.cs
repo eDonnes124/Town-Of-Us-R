@@ -56,7 +56,6 @@ namespace TownOfUs
         public static int ButtonBarryOn => (int)Generate.ButtonBarryOn.Get();
         public static int BaitOn => (int)Generate.BaitOn.Get();
         public static int SleuthOn => (int)Generate.SleuthOn.Get();
-        public static int HorseOn => (int)Generate.HorseOn.Get();
         public static int VanillaGame => (int)Generate.VanillaGame.Get();
         public static float InitialCooldowns => Generate.InitialCooldowns.Get();
         public static bool BothLoversDie => Generate.BothLoversDie.Get();
@@ -121,6 +120,7 @@ namespace TownOfUs
         public static bool DeadSeeRoles => Generate.DeadSeeRoles.Get();
         public static bool DisableLevels => Generate.DisableLevels.Get();
         public static bool WhiteNameplates => Generate.WhiteNameplates.Get();
+        public static bool Horse => Generate.Horse.Get();
         public static bool SeeTasksDuringRound => Generate.SeeTasksDuringRound.Get();
         public static bool SeeTasksDuringMeeting => Generate.SeeTasksDuringMeeting.Get();
         public static bool SeeTasksWhenDead => Generate.SeeTasksWhenDead.Get();

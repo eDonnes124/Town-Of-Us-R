@@ -18,7 +18,7 @@ namespace TownOfUs.Patches
         {
             foreach (var player in PlayerControl.AllPlayerControls.ToArray())
             {
-                if (!player.GetAppearance().IsHorse) {
+                if (CustomGameOptions.Horse) {
                     player.CurrentBodySprite = player.BodySprites[1];
 
                     //Animations
@@ -71,6 +71,22 @@ namespace TownOfUs.Patches
 
                     
 
+                } else
+                {
+                    if (player.transform.Find("hatown") != null)
+                    {
+                        player.CurrentBodySprite = player.BodySprites[0];
+                        player.NormalBodySprite.Visible = true;
+                        player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[0];
+                        var outfit = player.GetDefaultOutfit();
+                        player.SetColor(outfit.ColorId);
+                        player.SetSkin(outfit.SkinId, outfit.ColorId);
+                        player.SetHat(outfit.HatId, outfit.ColorId);
+                        player.SetVisor(outfit.VisorId);
+                        player.HatRenderer.transform.SetParent(player.NormalBodySprite.BodySprite.transform);
+                        player.VisorSlot.transform.SetParent(player.NormalBodySprite.BodySprite.transform);
+                        Object.Destroy(player.transform.Find("hatown").gameObject);
+                    }
                 }
             }
         }
