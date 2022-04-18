@@ -1097,6 +1097,9 @@ namespace TownOfUs
 
                 if (Check(CustomGameOptions.BaitOn))
                     CrewmateModifiers.Add((typeof(Bait), CustomRPC.SetBait, CustomGameOptions.BaitOn));
+
+                if (Check(CustomGameOptions.HorseOn))
+                    CrewmateModifiers.Add((typeof(Horse), CustomRPC.SetHorse, CustomGameOptions.HorseOn));
                 #endregion
                 #region Global Modifiers
                 if (Check(CustomGameOptions.TiebreakerOn))
@@ -1120,8 +1123,7 @@ namespace TownOfUs
                 if (Check(CustomGameOptions.SleuthOn))
                     GlobalModifiers.Add((typeof(Sleuth), CustomRPC.SetSleuth, CustomGameOptions.SleuthOn));
 
-                if (Check(CustomGameOptions.HorseOn))
-                    GlobalModifiers.Add((typeof(Horse), CustomRPC.SetHorse, CustomGameOptions.HorseOn));
+                
                 #endregion
                 #region Assassin Modifier
                 AssassinModifier.Add((typeof(Assassin), CustomRPC.SetAssassin, 100));

@@ -18,67 +18,12 @@ namespace TownOfUs.Patches
         {
             foreach (var player in PlayerControl.AllPlayerControls.ToArray())
             {
-                if (player.GetAppearance().IsHorse) {
+                if (!player.GetAppearance().IsHorse) {
                     player.CurrentBodySprite = player.BodySprites[1];
-                    
 
-                    // Cosmetics to a degree - Its not animated but It displays and thats what matters.
-                    GameObject HatOwner = new GameObject("hatown");
-                    if (player.transform.Find("hatown") == null)
-                    {
-                        HatOwner = GameObject.Instantiate(HatOwner, player.NormalBodySprite.BodySprite.transform.position, Quaternion.identity);
-                        HatOwner.name = "hatown";
-                        HatOwner.transform.SetParent(player.CurrentBodySprite.BodySprite.transform);
-                        player.HatRenderer.transform.SetParent(HatOwner.transform);
-                        player.VisorSlot.transform.SetParent(HatOwner.transform);
-                    } else
-                    {
-                        HatOwner = player.transform.Find("hatown").gameObject;
-                    }
-
-
-                    if (player.CurrentBodySprite.BodySprite.flipX)
-                    {
-                        HatOwner.transform.localPosition = new Vector3(-1.3f, -2.1f, 0f);
-                        player.NormalBodySprite.BodySprite.flipX = true;
-                        
-                    } else
-                    {
-                        HatOwner.transform.localPosition = new Vector3(1.3f, -2.1f, 0f);
-                        player.NormalBodySprite.BodySprite.flipX = false;
-                        
-                    }
-
-                    
-                    
-                    
-                    
-                    player.NormalBodySprite.Visible = false;
-                    
-                    //Loading horse outfits
-                    var outfit = player.CurrentOutfit;
-                    player.SetColor(outfit.ColorId);
-                    player.SetSkin("", outfit.ColorId);
-                    
                     //Animations
                     player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[1];
-
                     
-                }
-            }
-        }
-
-
-        [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.FixedUpdate))]
-        [HarmonyPostfix]
-        public static void PhysicsPostfix()
-        {
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
-            {
-                if (player.GetAppearance().IsHorse)
-                {
-                    player.CurrentBodySprite = player.BodySprites[1];
-
 
                     // Cosmetics to a degree - Its not animated but It displays and thats what matters.
                     GameObject HatOwner = new GameObject("hatown");
@@ -89,6 +34,15 @@ namespace TownOfUs.Patches
                         HatOwner.transform.SetParent(player.CurrentBodySprite.BodySprite.transform);
                         player.HatRenderer.transform.SetParent(HatOwner.transform);
                         player.VisorSlot.transform.SetParent(HatOwner.transform);
+                        //Loading horse outfits
+                        var outfit = player.CurrentOutfit;
+                        player.SetColor(outfit.ColorId);
+                        player.SetSkin("", outfit.ColorId);
+                        //player.SetHat("", outfit.ColorId);
+                        //player.SetVisor("");
+                        player.NormalBodySprite.Visible = false;
+
+
                     }
                     else
                     {
@@ -113,76 +67,15 @@ namespace TownOfUs.Patches
 
 
 
-                    player.NormalBodySprite.Visible = false;
-
-                    //Loading horse outfits
-                    var outfit = player.CurrentOutfit;
-                    player.SetColor(outfit.ColorId);
-                    player.SetSkin("", outfit.ColorId);
-
-                    //Animations
-                    player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[1];
                     
+
+                    
+
                 }
             }
         }
 
-        [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.FixedUpdate))]
-        [HarmonyPostfix]
-        public static void NetworkingPostfix()
-        {
-            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
-            {
-                if (player.GetAppearance().IsHorse)
-                {
-                    player.CurrentBodySprite = player.BodySprites[1];
 
-
-                    // Cosmetics to a degree - Its not animated but It displays and thats what matters.
-                    GameObject HatOwner = new GameObject("hatown");
-                    if (player.transform.Find("hatown") == null)
-                    {
-                        HatOwner = GameObject.Instantiate(HatOwner, player.NormalBodySprite.BodySprite.transform.position, Quaternion.identity);
-                        HatOwner.name = "hatown";
-                        HatOwner.transform.SetParent(player.CurrentBodySprite.BodySprite.transform);
-                        player.HatRenderer.transform.SetParent(HatOwner.transform);
-                        player.VisorSlot.transform.SetParent(HatOwner.transform);
-                    }
-                    else
-                    {
-                        HatOwner = player.transform.Find("hatown").gameObject;
-                    }
-
-
-                    if (player.CurrentBodySprite.BodySprite.flipX)
-                    {
-                        HatOwner.transform.localPosition = new Vector3(-1.3f, -2.1f, 0f);
-                        player.NormalBodySprite.BodySprite.flipX = true;
-
-                    }
-                    else
-                    {
-                        HatOwner.transform.localPosition = new Vector3(1.3f, -2.1f, 0f);
-                        player.NormalBodySprite.BodySprite.flipX = false;
-
-                    }
-
-
-
-
-
-                    player.NormalBodySprite.Visible = false;
-
-                    //Loading horse outfits
-                    var outfit = player.CurrentOutfit;
-                    player.SetColor(outfit.ColorId);
-                    player.SetSkin("", outfit.ColorId);
-
-                    //Animations
-                    player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[1];
-                }
-            }
-        }
 
 
     }
