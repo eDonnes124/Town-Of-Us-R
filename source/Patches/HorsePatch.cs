@@ -39,8 +39,9 @@ namespace TownOfUs.Patches
                         player.SetColor(outfit.ColorId);
                         player.SetSkin("", outfit.ColorId);
                         player.NormalBodySprite.Visible = false;
-
+                        
                         player.CurrentBodySprite.Visible = true;
+                        player.CurrentBodySprite.BodySprite.enabled = true;
                     }
                     else
                     {
@@ -73,25 +74,9 @@ namespace TownOfUs.Patches
                 {
                     if (player.CurrentBodySprite.BodySprite.transform.Find("hatown") != null)
                     {
-
-                        player.HatRenderer.transform.SetParent(player.NormalBodySprite.BodySprite.transform);
-                        player.VisorSlot.transform.SetParent(player.NormalBodySprite.BodySprite.transform);
-                        Object.Destroy(player.CurrentBodySprite.BodySprite.transform.Find("hatown"));
-
-                        player.CurrentBodySprite.BodySprite.enabled = false;
-                        player.CurrentBodySprite = player.NormalBodySprite;
-                        player.CurrentBodySprite.Visible = false;
-                        player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[0];
-                        player.NormalBodySprite.Visible = true;
-
-
-                        var outfit = player.Data.Outfits[PlayerOutfitType.Default];
-                        player.CurrentOutfitType = PlayerOutfitType.Default;
-                        player.RawSetName(outfit.PlayerName);
-                        player.RawSetColor(outfit.ColorId);
-                        player.RawSetHat(outfit.HatId, outfit.ColorId);
-                        player.RawSetVisor(outfit.VisorId);
-                        player.RawSetPet(outfit.PetId, outfit.ColorId);
+                        
+                         Utils.EndGame();
+                        
                         
                         
                         
