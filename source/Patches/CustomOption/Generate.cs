@@ -86,6 +86,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption InitialCooldowns;
         public static CustomToggleOption ParallelMedScans;
 
+        public static CustomHeaderOption JokeSettings;
         public static CustomHeaderOption TaskTrackingSettings;
         public static CustomToggleOption SeeTasksDuringRound;
         public static CustomToggleOption SeeTasksDuringMeeting;
@@ -433,6 +434,7 @@ namespace TownOfUs.CustomOption
             ParallelMedScans = new CustomToggleOption(num++, "Parallel Medbay Scans", false);
             DisableLevels = new CustomToggleOption(num++, "Disable Level Icons", false);
             WhiteNameplates = new CustomToggleOption(num++, "Disable Player Nameplates", false);
+            JokeSettings = new CustomHeaderOption(num++, "Joke Settings - USE AT YOUR OWN RISK");
             Horse = new CustomToggleOption(num++, "Turn everyone to horses", false);
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, "Task Tracking Settings");

@@ -27,7 +27,7 @@ namespace TownOfUs.Patches
 
                     // Cosmetics to a degree - Its not animated but It displays and thats what matters.
                     GameObject HatOwner = new GameObject("hatown");
-                    if (player.transform.Find("hatown") == null)
+                    if (player.CurrentBodySprite.BodySprite.transform.Find("hatown") == null)
                     {
                         HatOwner = GameObject.Instantiate(HatOwner, player.NormalBodySprite.BodySprite.transform.position, Quaternion.identity);
                         HatOwner.name = "hatown";
@@ -38,15 +38,13 @@ namespace TownOfUs.Patches
                         var outfit = player.CurrentOutfit;
                         player.SetColor(outfit.ColorId);
                         player.SetSkin("", outfit.ColorId);
-                        //player.SetHat("", outfit.ColorId);
-                        //player.SetVisor("");
                         player.NormalBodySprite.Visible = false;
 
-
+                        player.CurrentBodySprite.Visible = true;
                     }
                     else
                     {
-                        HatOwner = player.transform.Find("hatown").gameObject;
+                        HatOwner = player.CurrentBodySprite.BodySprite.transform.Find("hatown").gameObject;
                     }
 
 
@@ -73,19 +71,30 @@ namespace TownOfUs.Patches
 
                 } else
                 {
-                    if (player.transform.Find("hatown") != null)
+                    if (player.CurrentBodySprite.BodySprite.transform.Find("hatown") != null)
                     {
-                        player.CurrentBodySprite = player.BodySprites[0];
-                        player.NormalBodySprite.Visible = true;
-                        player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[0];
-                        var outfit = player.GetDefaultOutfit();
-                        player.SetColor(outfit.ColorId);
-                        player.SetSkin(outfit.SkinId, outfit.ColorId);
-                        player.SetHat(outfit.HatId, outfit.ColorId);
-                        player.SetVisor(outfit.VisorId);
+
                         player.HatRenderer.transform.SetParent(player.NormalBodySprite.BodySprite.transform);
                         player.VisorSlot.transform.SetParent(player.NormalBodySprite.BodySprite.transform);
-                        Object.Destroy(player.transform.Find("hatown").gameObject);
+                        Object.Destroy(player.CurrentBodySprite.BodySprite.transform.Find("hatown"));
+
+                        player.CurrentBodySprite.BodySprite.enabled = false;
+                        player.CurrentBodySprite = player.NormalBodySprite;
+                        player.CurrentBodySprite.Visible = false;
+                        player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[0];
+                        player.NormalBodySprite.Visible = true;
+
+
+                        var outfit = player.Data.Outfits[PlayerOutfitType.Default];
+                        player.CurrentOutfitType = PlayerOutfitType.Default;
+                        player.RawSetName(outfit.PlayerName);
+                        player.RawSetColor(outfit.ColorId);
+                        player.RawSetHat(outfit.HatId, outfit.ColorId);
+                        player.RawSetVisor(outfit.VisorId);
+                        player.RawSetPet(outfit.PetId, outfit.ColorId);
+                        
+                        
+                        
                     }
                 }
             }
