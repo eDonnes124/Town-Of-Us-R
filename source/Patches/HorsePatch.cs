@@ -8,7 +8,69 @@ namespace TownOfUs.Patches
     [HarmonyPatch]
     class HorsePatch
     {
+        [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__19), nameof(IntroCutscene._CoBegin_d__19.MoveNext))]
+        [HarmonyPostfix]
+        public static void IntroFix()
+        {
+            foreach (var player in PlayerControl.AllPlayerControls.ToArray())
+            {
+                if (CustomGameOptions.Horse)
+                {
+                    player.CurrentBodySprite = player.BodySprites[1];
 
+                    //Animations
+                    player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[1];
+                    //Loading horse outfits
+                    var outfit = player.CurrentOutfit;
+                    player.SetColor(outfit.ColorId);
+                    player.SetSkin("", outfit.ColorId);
+                    player.NormalBodySprite.Visible = false;
+
+                    player.CurrentBodySprite.Visible = true;
+                    player.CurrentBodySprite.BodySprite.enabled = true;
+
+                    // Cosmetics to a degree - Its not animated but It displays and thats what matters.
+                    GameObject HatOwner = new GameObject("hatown");
+                    if (player.CurrentBodySprite.BodySprite.transform.Find("hatown") == null)
+                    {
+                        HatOwner = GameObject.Instantiate(HatOwner, player.NormalBodySprite.BodySprite.transform.position, Quaternion.identity);
+                        HatOwner.name = "hatown";
+                        HatOwner.transform.SetParent(player.CurrentBodySprite.BodySprite.transform);
+                        player.HatRenderer.transform.SetParent(HatOwner.transform);
+                        player.VisorSlot.transform.SetParent(HatOwner.transform);
+
+                    }
+                    else
+                    {
+                        HatOwner = player.CurrentBodySprite.BodySprite.transform.Find("hatown").gameObject;
+                    }
+
+
+                    if (player.CurrentBodySprite.BodySprite.flipX)
+                    {
+                        HatOwner.transform.localPosition = new Vector3(-1.3f, -2.1f, 0f);
+                        player.NormalBodySprite.BodySprite.flipX = true;
+
+                    }
+                    else
+                    {
+                        HatOwner.transform.localPosition = new Vector3(1.3f, -2.1f, 0f);
+                        player.NormalBodySprite.BodySprite.flipX = false;
+
+                    }
+                }
+                else
+                {
+                    if (player.CurrentBodySprite.BodySprite.transform.Find("hatown") != null)
+                    {
+
+                        Utils.EndGame();
+
+                    }
+                }
+            }
+        
+        }
 
 
 
@@ -23,7 +85,7 @@ namespace TownOfUs.Patches
 
                     //Animations
                     player.MyPhysics.CurrentAnimationGroup = player.MyPhysics.AnimationGroups[1];
-                    
+
 
                     // Cosmetics to a degree - Its not animated but It displays and thats what matters.
                     GameObject HatOwner = new GameObject("hatown");
@@ -34,14 +96,18 @@ namespace TownOfUs.Patches
                         HatOwner.transform.SetParent(player.CurrentBodySprite.BodySprite.transform);
                         player.HatRenderer.transform.SetParent(HatOwner.transform);
                         player.VisorSlot.transform.SetParent(HatOwner.transform);
+
+
+
                         //Loading horse outfits
                         var outfit = player.CurrentOutfit;
                         player.SetColor(outfit.ColorId);
                         player.SetSkin("", outfit.ColorId);
                         player.NormalBodySprite.Visible = false;
-                        
+
                         player.CurrentBodySprite.Visible = true;
                         player.CurrentBodySprite.BodySprite.enabled = true;
+
                     }
                     else
                     {
