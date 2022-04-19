@@ -59,8 +59,7 @@ namespace TownOfUs
         Giant,
         ButtonBarry,
         Bait,
-        Sleuth,
-        Horse
+        Sleuth
     }
 
     public enum AbilityEnum
