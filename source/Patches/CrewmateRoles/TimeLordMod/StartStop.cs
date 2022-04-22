@@ -27,7 +27,33 @@ namespace TownOfUs.CrewmateRoles.TimeLordMod
             role.FinishRewind = DateTime.UtcNow;
             RecordRewind.rewinding = false;
             PlayerControl.LocalPlayer.moveable = true;
-            HudManager.Instance.FullScreen.enabled = false;
+
+            bool fs = false;
+            switch (PlayerControl.GameOptions.MapId)
+            {
+                case 0:
+                case 3:
+                    var reactor1 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
+                    if (reactor1.IsActive) fs = true;
+                    var oxygen1 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
+                    if (oxygen1.IsActive) fs = true;
+                    break;
+                case 1:
+                    var reactor2 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
+                    if (reactor2.IsActive) fs = true;
+                    var oxygen2 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
+                    if (oxygen2.IsActive) fs = true;
+                    break;
+                case 2:
+                    var seismic = ShipStatus.Instance.Systems[SystemTypes.Laboratory].Cast<ReactorSystemType>();
+                    if (seismic.IsActive) fs = true;
+                    break;
+                case 4:
+                    var reactor = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<HeliSabotageSystem>();
+                    if (reactor.IsActive) fs = true;
+                    break;
+            }
+            HudManager.Instance.FullScreen.enabled = fs;
             HudManager.Instance.FullScreen.color = oldColor;
         }
     }
