@@ -35,6 +35,9 @@ namespace TownOfUs
         {
             if (__instance.KillButton == null) return;
 
+            if (!Kill) Kill = __instance.KillButton.graphic.sprite;
+
+
             var flag = false;
             if (PlayerControl.LocalPlayer.Is(RoleEnum.TimeLord))
             {
@@ -98,13 +101,9 @@ namespace TownOfUs
             }
             else
             {
-                if (!Kill) Kill = __instance.KillButton.graphic.sprite;
-                else
-                {
-                    __instance.KillButton.graphic.sprite = Kill;
-                    __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
-                    __instance.KillButton.buttonLabelText.text = "Kill";
-                }
+                __instance.KillButton.graphic.sprite = Kill;
+                __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                __instance.KillButton.buttonLabelText.text = "Kill";
                 flag = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff);
             }
 
