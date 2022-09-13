@@ -40,6 +40,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 - [Plaguebearer](#plaguebearer)
 - [The Glitch](#the-glitch)
 - [Werewolf](#werewolf)
+- [Juggernaut](#juggernaut)
 
 **Impostor Roles**
 - [Grenadier](#grenadier)
@@ -1139,6 +1140,15 @@ The Werewolf needs to be the last killer alive to win the game.
 | Rampage Duration | The duration of the Werewolf's Rampage | Time | 25s |
 | Rampage Kill Cooldown | The cooldown of the Werewolf's Kill button | Time | 10s |
 | Werewolf can Vent when Rampaged | Whether the Werewolf can Vent when Rampaged | Toggle | False |
+
+-----------------------
+## Juggernaut
+### **Team: Neutral**
+
+The Juggernaut is a Neutral role with its own win condition.\
+The Juggernaut's aim is to kill everyone and be the last person standing.\
+The Juggernaut's kill cooldown is the same as The Glitch kill cooldown plus 5 seconds.\
+The Juggernaut's kill cooldown reduces with each kill by 5 seconds.
 
 -----------------------
 # Impostor Roles
