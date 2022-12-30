@@ -847,7 +847,8 @@ namespace TownOfUs
                         var minerRole = Role.GetRole<Miner>(miner);
                         var pos = reader.ReadVector2();
                         var zAxis = reader.ReadSingle();
-                        PerformKill.SpawnVent(ventId, minerRole, pos, zAxis);
+                        var layer = PlayerControl.LocalPlayer.Is(Faction.Impostors) ? "UICollide" : "ShortObjects";
+                        PerformKill.SpawnVent(ventId, minerRole, pos, zAxis, layer);
                         break;
                     case CustomRPC.SetSwooper:
                         new Swooper(Utils.PlayerById(reader.ReadByte()));
