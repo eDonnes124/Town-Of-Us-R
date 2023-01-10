@@ -36,7 +36,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
                 writer.Write(position);
                 writer.Write(0.01f);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                SpawnVent(id, role, position, 0.01f, "UICollide");
+                SpawnVent(id, role, position, 0.01f, 14);
                 return false;
             }
 
@@ -44,7 +44,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
         }
 
 
-        public static void SpawnVent(int ventId, Miner role, Vector2 position, float zAxis, string layer)
+        public static void SpawnVent(int ventId, Miner role, Vector2 position, float zAxis, int layer)
         {
             
             var ventPrefab = Object.FindObjectOfType<Vent>();
@@ -52,7 +52,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
             
             vent.Id = ventId;
             vent.transform.position = new Vector3(position.x, position.y, zAxis);
-            vent.gameObject.layer = LayerMask.NameToLayer(layer);
+            vent.gameObject.layer = layer;
 
             if (role.Vents.Count > 0)
             {
