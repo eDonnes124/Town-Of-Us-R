@@ -13,12 +13,8 @@ namespace TownOfUs.Modifiers
                 {
                     try
                     {
-                        DestroyableSingleton<HudManager>.Instance.ReportButton.SetActive(false);
-                    }
-                    catch
-                    {
-
-                    }
+                        __instance.ReportButton.gameObject.SetActive(false);
+                    } catch {}
                 }
             }
         }
