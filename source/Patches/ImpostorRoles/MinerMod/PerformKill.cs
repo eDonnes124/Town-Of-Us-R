@@ -36,7 +36,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
                 writer.Write(position);
                 writer.Write(0.01f);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                SpawnVent(id, role, position, 0.01f, 14);
+                SpawnVent(id, role, position, 0.01f, 15);
                 return false;
             }
 

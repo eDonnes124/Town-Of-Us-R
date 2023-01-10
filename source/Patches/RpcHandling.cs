@@ -847,7 +847,7 @@ namespace TownOfUs
                         var minerRole = Role.GetRole<Miner>(miner);
                         var pos = reader.ReadVector2();
                         var zAxis = reader.ReadSingle();
-                        var layer = PlayerControl.LocalPlayer.Is(Faction.Impostors) ? 14 : 12;
+                        var layer = PlayerControl.LocalPlayer.Is(Faction.Impostors) ? 15 : 12;
                         PerformKill.SpawnVent(ventId, minerRole, pos, zAxis, layer);
                         break;
                     case CustomRPC.SetSwooper:
