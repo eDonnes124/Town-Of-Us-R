@@ -11,8 +11,10 @@ namespace TownOfUs.Modifiers.RadarMod
     {
         public static void Postfix(PlayerControl __instance)
         {
-            foreach (var modifier in Modifier.AllModifiers.Where(x => x.ModifierType == ModifierEnum.Radar))
+            foreach (var modifier in Modifier.AllModifiers)
             {
+                if (x.ModifierType != ModifierEnum.Radar) continue;
+                
                 var radar = (Radar)modifier;
                 if (radar.Player.Data.IsDead)
                 {
@@ -22,7 +24,7 @@ namespace TownOfUs.Modifiers.RadarMod
 
                 foreach (var arrow in radar.RadarArrow)
                 {
-                    radar.ClosestPlayer = GetClosestPlayer(PlayerControl.LocalPlayer, PlayerControl.AllPlayerControls.ToArray().ToList());
+                    radar.ClosestPlayer = GetClosestPlayer(PlayerControl.LocalPlayer, PlayerControl.AllPlayerControls);
                     arrow.target = radar.ClosestPlayer.transform.position;
                 }
             }
