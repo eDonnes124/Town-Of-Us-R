@@ -13,7 +13,7 @@ namespace TownOfUs.Modifiers.RadarMod
         {
             foreach (var modifier in Modifier.AllModifiers)
             {
-                if (x.ModifierType != ModifierEnum.Radar) continue;
+                if (modifier.ModifierType != ModifierEnum.Radar) continue;
                 
                 var radar = (Radar)modifier;
                 if (radar.Player.Data.IsDead)
@@ -30,7 +30,7 @@ namespace TownOfUs.Modifiers.RadarMod
             }
         }
 
-        public static PlayerControl GetClosestPlayer(PlayerControl refPlayer, List<PlayerControl> AllPlayers)
+        public static PlayerControl GetClosestPlayer(PlayerControl refPlayer, Il2CppSystem.Collections.Generic.List<PlayerControl> AllPlayers)
         {
             var num = double.MaxValue;
             var refPosition = refPlayer.GetTruePosition();
