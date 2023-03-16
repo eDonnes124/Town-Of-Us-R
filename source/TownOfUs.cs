@@ -95,6 +95,7 @@ namespace TownOfUs
 
         public static Sprite HorseEnabledImage;
         public static Sprite HorseDisabledImage;
+        public static Sprite DiscordImage;
         public static Vector3 ButtonPosition { get; private set; } = new Vector3(2.6f, 0.7f, -9f);
 
         private static DLoadImage _iCallLoadImage;
@@ -177,6 +178,7 @@ namespace TownOfUs
 
             HorseEnabledImage = CreateSprite("TownOfUs.Resources.HorseOn.png");
             HorseDisabledImage = CreateSprite("TownOfUs.Resources.HorseOff.png");
+            DiscordImage = CreateSprite("TownOfUs.Resources.Discord.png");
 
             PalettePatch.Load();
             ClassInjector.RegisterTypeInIl2Cpp<RainbowBehaviour>();
