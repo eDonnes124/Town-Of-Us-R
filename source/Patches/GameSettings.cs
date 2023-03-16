@@ -5,6 +5,8 @@ using HarmonyLib;
 using Reactor.Utilities.Extensions;
 using TownOfUs.CustomOption;
 using AmongUs.GameOptions;
+using System.Linq;
+using UnityEngine;
 
 namespace TownOfUs
 {
@@ -12,6 +14,7 @@ namespace TownOfUs
     public static class GameSettings
     {
         public static bool AllOptions;
+        public static int SettingsPage = 0;
 
         [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.ToHudString))]
         private static class GameOptionsDataPatch
@@ -26,19 +29,21 @@ namespace TownOfUs
                 if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return;
 
                 var builder = new StringBuilder(AllOptions ? __result : "");
+                builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 1)}/5)");
+                builder.AppendLine("Press Tab To Change Pages");
 
-                foreach (var option in CustomOption.CustomOption.AllOptions)
+                if (SettingsPage == 1)
+                    builder.Append(new StringBuilder(__result));
+
+                foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
                 {
-                    if (option.Name == "Crewmate Investigative Roles")
-                    {
-                        builder.Append("(Scroll for all settings)");
-                        builder.AppendLine("");
-                        builder.Append(new StringBuilder(__result));
-                    }
-                    if (option.Type == CustomOptionType.Button) continue;
-                    if (option.Type == CustomOptionType.Header) builder.AppendLine($"\n{option.Name}");
-                    else if (option.Indent) builder.AppendLine($"     {option.Name}: {option}");
-                    else builder.AppendLine($"{option.Name}: {option}");
+                    if (option.Type == CustomOptionType.Button)
+                        continue;
+
+                    if (option.Type == CustomOptionType.Header)
+                        builder.AppendLine($"\n{option.Name}");
+                    else
+                        builder.AppendLine($"    {option.Name}: {option}");
                 }
 
                 __result = builder.ToString();
@@ -52,6 +57,21 @@ namespace TownOfUs
             public static void Postfix(ref GameOptionsMenu __instance)
             {
                 __instance.GetComponentInParent<Scroller>().ContentYBounds.max = (__instance.Children.Length - 6.5f) / 2;
+            }
+        }
+
+        [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+        public class LobbyPatch
+        {
+            public static void Postfix(HudManager __instance)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
+                    if (GameSettings.SettingsPage + 1 > 5)
+                        GameSettings.SettingsPage = 0;
+                    else
+                        GameSettings.SettingsPage++;
+                }
             }
         }
     }

@@ -102,10 +102,7 @@ namespace TownOfUs
         public static bool JesterVent => Generate.JesterVent.Get();
         public static bool JesterImpVision => Generate.JesterImpVision.Get();
         public static ShieldOptions ShowShielded => (ShieldOptions)Generate.ShowShielded.Get();
-
-        public static NotificationOptions NotificationShield =>
-            (NotificationOptions)Generate.WhoGetsNotification.Get();
-
+        public static NotificationOptions NotificationShield => (NotificationOptions)Generate.WhoGetsNotification.Get();
         public static bool ShieldBreaks => Generate.ShieldBreaks.Get();
         public static float MedicReportNameDuration => Generate.MedicReportNameDuration.Get();
         public static float MedicReportColorDuration => Generate.MedicReportColorDuration.Get();
@@ -288,10 +285,8 @@ namespace TownOfUs
         public static int SmallMapIncreasedLongTasks => (int)Generate.SmallMapIncreasedLongTasks.Get();
         public static int LargeMapDecreasedShortTasks => (int)Generate.LargeMapDecreasedShortTasks.Get();
         public static int LargeMapDecreasedLongTasks => (int)Generate.LargeMapDecreasedLongTasks.Get();
-        public static DisableSkipButtonMeetings SkipButtonDisable =>
-            (DisableSkipButtonMeetings)Generate.SkipButtonDisable.Get();
-        public static GameMode GameMode =>
-            (GameMode)Generate.GameMode.Get();
+        public static DisableSkipButtonMeetings SkipButtonDisable => (DisableSkipButtonMeetings)Generate.SkipButtonDisable.Get();
+        public static GameMode GameMode => (GameMode)Generate.GameMode.Get();
         public static int MayorCultistOn => (int)Generate.MayorCultistOn.Get();
         public static int SeerCultistOn => (int)Generate.SeerCultistOn.Get();
         public static int SheriffCultistOn => (int)Generate.SheriffCultistOn.Get();
