@@ -418,8 +418,6 @@ namespace TownOfUs.Roles
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
-
-                    Lights.SetLights();
                 }
             }
 
@@ -433,7 +431,6 @@ namespace TownOfUs.Roles
                         ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
                     else
                         ModifierText = null;
-                    Lights.SetLights();
                 }
             }
 
@@ -687,7 +684,6 @@ namespace TownOfUs.Roles
                 RoleHistory.Clear();
                 Modifier.ModifierDictionary.Clear();
                 Ability.AbilityDictionary.Clear();
-                Lights.SetLights(Color.white);
             }
         }
 

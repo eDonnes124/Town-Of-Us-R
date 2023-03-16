@@ -13,7 +13,6 @@ namespace TownOfUs
     [HarmonyPatch]
     public static class GameSettings
     {
-        public static bool AllOptions;
         public static int SettingsPage = 0;
 
         [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.ToHudString))]
@@ -28,7 +27,7 @@ namespace TownOfUs
             {
                 if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return;
 
-                var builder = new StringBuilder(AllOptions ? __result : "");
+                var builder = new StringBuilder();
                 builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 1)}/5)");
                 builder.AppendLine("Press Tab To Change Pages");
 

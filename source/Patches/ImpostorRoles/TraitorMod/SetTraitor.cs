@@ -188,8 +188,6 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                     haunterRole.ImpArrows.Add(arrow);
                 }
             }
-
-            Lights.SetLights();
         }
 
         public static void Postfix(ExileController __instance) => ExileControllerPostfix(__instance);
