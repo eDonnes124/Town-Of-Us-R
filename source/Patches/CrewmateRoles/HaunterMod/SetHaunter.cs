@@ -47,6 +47,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 role.CorrectAssassinKills = killsList.CorrectAssassinKills;
                 role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                 role.RegenTask();
+                Lights.SetLights();
 
                 RemoveTasks(PlayerControl.LocalPlayer);
                 PlayerControl.LocalPlayer.MyPhysics.ResetMoveState();

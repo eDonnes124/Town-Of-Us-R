@@ -449,6 +449,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                     }
                 }
             }
+            Lights.SetLights();
         }
     }
 }

@@ -791,6 +791,8 @@ namespace TownOfUs
                     player2.nameText().color = Patches.Colors.Impostor;
                 }
             }
+
+            Lights.SetLights();
         }
 
         public static IEnumerator FlashCoroutine(Color color, float waitfor = 1f, float alpha = 0.3f)
