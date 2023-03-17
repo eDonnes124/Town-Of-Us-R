@@ -31,7 +31,7 @@ namespace TownOfUs
                 builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 1)}/5)");
                 builder.AppendLine("Press Tab To Change Pages");
 
-                if (SettingsPage == 1)
+                if (SettingsPage == 0)
                     builder.Append(new StringBuilder(__result));
 
                 foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
