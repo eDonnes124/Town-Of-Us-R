@@ -53,10 +53,9 @@ namespace TownOfUs.CustomOption
             return options;
         }
 
-        protected internal Action Cancel(Func<IEnumerator> flashCoro)
+        protected internal void Cancel(Func<IEnumerator> flashCoro)
         {
             Coroutines.Start(CancelCoro(flashCoro));
-            return null;
         }
 
         protected internal IEnumerator CancelCoro(Func<IEnumerator> flashCoro)
@@ -167,11 +166,7 @@ namespace TownOfUs.CustomOption
 
             if (DoAction)
             {
-            Rpc.SendRpc();
-            Rpc.SendRpc();
-
                 Rpc.SendRpc();
-
                 Cancel(FlashGreen);
             }
 
