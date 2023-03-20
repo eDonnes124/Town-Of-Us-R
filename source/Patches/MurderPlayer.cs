@@ -11,7 +11,7 @@ namespace TownOfUs.Patches
         {
             public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
             {
-                Utils.MurderPlayer(__instance, target);
+                Utils.MurderPlayer(__instance, target, true);
                 return false;
             }
         }

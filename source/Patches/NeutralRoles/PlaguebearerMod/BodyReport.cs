@@ -11,6 +11,7 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
+            if (info == null) return;
 
             foreach (var player in PlayerControl.AllPlayerControls)
             {

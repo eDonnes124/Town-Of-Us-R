@@ -1,13 +1,10 @@
 using UnityEngine;
-using Hazel;
-using Reactor.Utilities;
-using TownOfUs.Extensions;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Reactor.Utilities.Extensions;
-using TownOfUs.CrewmateRoles.MedicMod;
 using System;
 using TownOfUs.ImpostorRoles.BomberMod;
 using System.Reflection;
+using Hazel;
+using TownOfUs.CrewmateRoles.MedicMod;
 
 namespace TownOfUs.Roles
 {
@@ -75,99 +72,20 @@ namespace TownOfUs.Roles
             while (playersToDie.Count > CustomGameOptions.MaxKillsInDetonation) playersToDie.Remove(playersToDie[playersToDie.Count - 1]);
             foreach (var player in playersToDie)
             {
-                if (!player.Is(RoleEnum.Pestilence))
+                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected())
                 {
-                    DetonateKillEnd(player, Player);
-
+                    Utils.RpcMultiMurderPlayer(Player, player);
+                }
+                else if (player.IsShielded())
+                {
+                    var medic = player.GetMedic().Player.PlayerId;
                     var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Detonate, SendOption.Reliable, -1);
+                        (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
+                    writer.Write(medic);
                     writer.Write(player.PlayerId);
-                    writer.Write(Player.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
-            }
-        }
-        public static void DetonateKillEnd(PlayerControl target, PlayerControl killer)
-        {
-            var data = target.Data;
-            if (data != null && !data.IsDead)
-            {
-                if (killer == PlayerControl.LocalPlayer)
-                    SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
-
-                GetRole(killer).Kills += 1;
-
-                target.gameObject.layer = LayerMask.NameToLayer("Ghost");
-                target.Visible = false;
-
-                if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
-                {
-                    Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Mystic));
-                }
-
-                if (target.AmOwner)
-                {
-                    try
-                    {
-                        if (Minigame.Instance)
-                        {
-                            Minigame.Instance.Close();
-                            Minigame.Instance.Close();
-                        }
-
-                        if (MapBehaviour.Instance)
-                        {
-                            MapBehaviour.Instance.Close();
-                            MapBehaviour.Instance.Close();
-                        }
-                    }
-                    catch
-                    {
-                    }
-
-                    DestroyableSingleton<HudManager>.Instance.KillOverlay.ShowKillAnimation(killer.Data, data);
-                    DestroyableSingleton<HudManager>.Instance.ShadowQuad.gameObject.SetActive(false);
-                    target.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
-                    target.RpcSetScanner(false);
-                    var importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
-                    importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
-                    if (!GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks)
-                    {
-                        for (var i = 0; i < target.myTasks.Count; i++)
-                        {
-                            var playerTask = target.myTasks.ToArray()[i];
-                            playerTask.OnRemove();
-                            UnityEngine.Object.Destroy(playerTask.gameObject);
-                        }
-
-                        target.myTasks.Clear();
-                        importantTextTask.Text = DestroyableSingleton<TranslationController>.Instance.GetString(
-                            StringNames.GhostIgnoreTasks,
-                            new Il2CppReferenceArray<Il2CppSystem.Object>(0));
-                    }
-                    else
-                    {
-                        importantTextTask.Text = DestroyableSingleton<TranslationController>.Instance.GetString(
-                            StringNames.GhostDoTasks,
-                            new Il2CppReferenceArray<Il2CppSystem.Object>(0));
-                    }
-
-                    target.myTasks.Insert(0, importantTextTask);
-                }
-                killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(target, target));
-                
-                var deadBody = new DeadPlayer
-                {
-                    PlayerId = target.PlayerId,
-                    KillerId = killer.PlayerId,
-                    KillTime = DateTime.UtcNow
-                };
-
-                Murder.KilledPlayers.Add(deadBody);
-
-                if (killer != PlayerControl.LocalPlayer) return;
-
-                if (target.Is(ModifierEnum.Bait)) Utils.BaitReport(killer, target);
             }
         }
         public static Il2CppSystem.Collections.Generic.List<PlayerControl> Shuffle(Il2CppSystem.Collections.Generic.List<PlayerControl> playersToDie)

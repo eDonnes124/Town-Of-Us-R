@@ -67,6 +67,8 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
                         }
                     }
 
+                    position.y -= 0.3636f;
+
                     writer.Write(position);
                     writer.Write(position.z);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);

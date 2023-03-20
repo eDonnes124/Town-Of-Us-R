@@ -33,12 +33,15 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
             if (
                 killedSelf ||
                 role.RemainingKills == 0 ||
-                !CustomGameOptions.VigilanteMultiKill
-            )
-            {
-                HideButtonsVigi(role);
-                return;
-            }
+                (!CustomGameOptions.VigilanteMultiKill)
+            ) HideButtonsVigi(role);
+            else HideTarget(role, targetId);
+        }
+        public static void HideTarget(
+            Vigilante role,
+            byte targetId
+        )
+        {
 
             var (cycleBack, cycleForward, guess, guessText) = role.Buttons[targetId];
             if (cycleBack == null || cycleForward == null) return;

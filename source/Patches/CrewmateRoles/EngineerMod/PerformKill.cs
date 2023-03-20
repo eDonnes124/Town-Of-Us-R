@@ -83,6 +83,16 @@ namespace TownOfUs.CrewmateRoles.EngineerMod
                         }
                     }
                     break;
+                case 6:
+                    var comms6 = ShipStatus.Instance.Systems[SystemTypes.Comms].Cast<HudOverrideSystemType>();
+                    if (comms6.IsActive) return FixComms();
+                    var reactor6 = ShipStatus.Instance.Systems[SystemTypes.Reactor].Cast<ReactorSystemType>();
+                    if (reactor6.IsActive) return FixReactor(SystemTypes.Reactor);
+                    var oxygen6 = ShipStatus.Instance.Systems[SystemTypes.LifeSupp].Cast<LifeSuppSystemType>();
+                    if (oxygen6.IsActive) return FixOxygen();
+                    var lights6 = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (lights6.IsActive) return FixLights(lights6);
+                    break;
             }
 
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,

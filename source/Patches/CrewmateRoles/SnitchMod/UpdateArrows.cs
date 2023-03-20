@@ -4,11 +4,15 @@ using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.SnitchMod
 {
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class UpdateArrows
     {
-        public static void Postfix(PlayerControl __instance)
+        public static void Postfix(HudManager __instance)
         {
+            if (PlayerControl.AllPlayerControls.Count <= 1) return;
+            if (PlayerControl.LocalPlayer == null) return;
+            if (PlayerControl.LocalPlayer.Data == null) return;
+
             foreach (var role in Role.AllRoles.Where(x => x.RoleType == RoleEnum.Snitch))
             {
                 var snitch = (Snitch)role;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace TownOfUs.CrewmateRoles.SpyMod
                     area.UpdateCount(0);
         }
 
-        public static void UpdateBlips(CounterArea area, List<int> colorMapping)
+        public static void UpdateBlips(CounterArea area, List<int> colorMapping, bool isSpy)
         {
             area.UpdateCount(colorMapping.Count);
             var icons = area.myIcons.ToArray();
@@ -26,19 +27,16 @@ namespace TownOfUs.CrewmateRoles.SpyMod
             {
                 var icon = icons[i];
                 var sprite = icon.GetComponent<SpriteRenderer>();
-                if (Patches.SubmergedCompatibility.Loaded)
-                {
-                    sprite.color = new Color(1, 1, 1, 1);
-                }
+                if (Patches.SubmergedCompatibility.Loaded) sprite.color = new Color(1, 1, 1, 1);
                 if (sprite != null)
                 {
-                    //PlayerControl.SetPlayerMaterialColors(colorMapping[i], sprite);
-                    PlayerMaterial.SetColors(colorMapping[i], sprite);
+                    if (isSpy) PlayerMaterial.SetColors(colorMapping[i], sprite);
+                    else PlayerMaterial.SetColors(new Color(0.8793f, 1, 0, 1), sprite);
                 }
             }
         }
 
-        public static void UpdateBlips(MapCountOverlay __instance)
+        public static void UpdateBlips(MapCountOverlay __instance, bool isSpy)
         {
             var rooms = ShipStatus.Instance.FastRooms;
             foreach (var area in __instance.CountAreas)
@@ -51,25 +49,28 @@ namespace TownOfUs.CrewmateRoles.SpyMod
                 for (var i = 0;i < objectsInRoom;i++)
                 {
                     var collider = __instance.buffer[i];
-                    if (collider.tag == "DeadBody")
+                    var player = collider.GetComponent<PlayerControl>();
+                    var data = player?.Data;
+                    if (collider.tag == "DeadBody" &&
+                        (isSpy && CustomGameOptions.WhoSeesDead == AdminDeadPlayers.Spy || 
+                        !isSpy && CustomGameOptions.WhoSeesDead == AdminDeadPlayers.EveryoneButSpy ||
+                        CustomGameOptions.WhoSeesDead == AdminDeadPlayers.Everyone))
                     {
                         var playerId = collider.GetComponent<DeadBody>().ParentId;
                         colorMap.Add(GameData.Instance.GetPlayerById(playerId).DefaultOutfit.ColorId);
                         continue;
                     }
-                    var player = collider.GetComponent<PlayerControl>();
-                    var data = player?.Data;
-                    if (data != null && !data.Disconnected && !data.IsDead)
-                        colorMap.Add(data.DefaultOutfit.ColorId);
+                    if (data != null && !data.Disconnected && !data.IsDead && !colorMap.Contains(data.DefaultOutfit.ColorId)) colorMap.Add(data.DefaultOutfit.ColorId);
                 }
-                UpdateBlips(area, colorMap);
+                UpdateBlips(area, colorMap, isSpy);
             }
         }
 
         public static bool Prefix(MapCountOverlay __instance)
         {
+            if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return true;
             var localPlayer = PlayerControl.LocalPlayer;
-            if (!localPlayer.Is(RoleEnum.Spy)) return true;
+            var isSpy = localPlayer.Is(RoleEnum.Spy);
             __instance.timer += Time.deltaTime;
             if (__instance.timer < 0.1f) return false;
 
@@ -81,7 +82,7 @@ namespace TownOfUs.CrewmateRoles.SpyMod
                 SetSabotaged(__instance, sabotaged);
 
             if (!sabotaged)
-                UpdateBlips(__instance);
+                UpdateBlips(__instance, isSpy);
             return false;
         }
     }

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
-using Reactor.Utilities;
 using TownOfUs.Roles;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +15,6 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
         private static int _mostRecentId;
         private static Sprite ActiveSprite => TownOfUs.SwapperSwitch;
         public static Sprite DisabledSprite => TownOfUs.SwapperSwitchDisabled;
-
 
         public static void GenButton(Swapper role, int index, bool isDead)
         {
@@ -60,7 +58,6 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
                 role.ListOfActives[index] = !role.ListOfActives[index];
 
                 _mostRecentId = index;
-                PluginSingleton<TownOfUs>.Instance.Log.LogMessage(string.Join(" ", role.ListOfActives));
 
                 SwapVotes.Swap1 = null;
                 SwapVotes.Swap2 = null;

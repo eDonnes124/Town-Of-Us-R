@@ -55,6 +55,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 var haunter = Role.GetRole<Haunter>(imitator.ImitatePlayer);
                 imitatorRole = haunter.formerRole;
             }
+            if (imitatorRole == RoleEnum.Crewmate) return;
             var role = Role.GetRole(ImitatingPlayer);
             var killsList = (role.Kills, role.CorrectKills, role.IncorrectKills, role.CorrectAssassinKills, role.IncorrectAssassinKills);
             Role.RoleDictionary.Remove(ImitatingPlayer.PlayerId);

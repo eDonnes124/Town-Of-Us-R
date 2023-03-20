@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +9,7 @@ using Object = UnityEngine.Object;
 namespace TownOfUs.CrewmateRoles.ImitatorMod
 {
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-    public class AddButton
+    public class AddButtonImitator
     {
         private static int _mostRecentId;
         private static Sprite ActiveSprite => TownOfUs.ImitateSelectSprite;
@@ -50,7 +49,16 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             void Listener()
             {
                 if (role.ListOfActives.Count(x => x) == 1 &&
-                    role.Buttons[index].GetComponent<SpriteRenderer>().sprite == DisabledSprite) return;
+                    role.Buttons[index].GetComponent<SpriteRenderer>().sprite == DisabledSprite)
+                {
+                    int active = 0;
+                    for (var i = 0; i < role.ListOfActives.Count; i++) if (role.ListOfActives[i]) active = i;
+
+                    role.Buttons[active].GetComponent<SpriteRenderer>().sprite =
+                        role.ListOfActives[active] ? DisabledSprite : ActiveSprite;
+
+                    role.ListOfActives[active] = !role.ListOfActives[active];
+                }
 
                 role.Buttons[index].GetComponent<SpriteRenderer>().sprite =
                     role.ListOfActives[index] ? DisabledSprite : ActiveSprite;

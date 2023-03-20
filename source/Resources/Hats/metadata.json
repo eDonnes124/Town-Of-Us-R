@@ -1450,11 +1450,11 @@
       "name": "Kangaroo hat",
       "artist": "Ophidian"
     },
-    {
+    /*{
       "id": "hats0290",
       "name": "HeckMuffins hat",
       "artist": "Ophidian"
-    },
+    },*/
     {
       "id": "hats0291",
       "name": "HecksAmphy hat",
@@ -1475,11 +1475,11 @@
       "name": "SpiceRat hat",
       "artist": "Ophidian"
     },
-    {
+    /*{
       "id": "hats0295",
       "name": "Spicesjolt hat",
       "artist": "Ophidian"
-    },
+    },*/
     {
       "id": "hats0296",
       "name": "RicKafe hat",
@@ -1750,11 +1750,11 @@
       "name": "Lucas hat ",
       "artist": "Ophidian"
     },
-    {
+    /*{
       "id": "hats0350",
       "name": "NewHeckMuffins hat ",
       "artist": "Ophidian"
-    },
+    },*/
     {
       "id": "hats0351",
       "name": "OogieBoogie hat ",
@@ -1790,11 +1790,11 @@
       "name": "Chickenz hat ",
       "artist": "Ophidian"
     },
-    {
+    /*{
       "id": "hats0358",
       "name": "HeckMeowstic hat ",
       "artist": "Ophidian"
-    },
+    },*/
     {
       "id": "hats0359",
       "name": "HecksBunBun hat ",
@@ -1805,11 +1805,11 @@
       "name": "MxJosie hat ",
       "artist": "Ophidian"
     },
-    {
+    /*{
       "id": "hats0361",
       "name": "SpiceMeowstic hat ",
       "artist": "Ophidian"
-    },
+    },*/
     {
       "id": "hats0362",
       "name": "Gfro hat ",
@@ -2159,6 +2159,101 @@
       "id": "hats0431",
       "name": "Princess Zeach hat",
       "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0432",
+      "name": "Firemage hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0433",
+      "name": "Peter Griffin hat",
+      "artist": "Pigoletto"
+    },
+    {
+      "id": "hats0434",
+      "name": "Hovpool hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0435",
+      "name": "Spiderhov hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0436",
+      "name": "Espeon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0437",
+      "name": "Evee hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0438",
+      "name": "Flareon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0439",
+      "name": "Glaceon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0440",
+      "name": "Leafeon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0441",
+      "name": "Sylveon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0442",
+      "name": "Umbreon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0443",
+      "name": "Vaporeon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0444",
+      "name": "Jolteon hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0445",
+      "name": "CB hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0446",
+      "name": "Dangorpa hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0447",
+      "name": "Galaxybrain hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0448",
+      "name": "IchigoHollow hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0449",
+      "name": "Tessany Beauty Warrior hat",
+      "artist": "Ophidian"
+    },
+    {
+      "id": "hats0450",
+      "name": "Pikabubs hat",
+      "artist": "Ophidian"
     },
     {
       "id": "misc0000",
@@ -2628,6 +2723,21 @@
     {
       "id": "standard0047",
       "name": "Pumpkin hat",
+      "artist": "Little Doo Doo"
+    },
+    {
+      "id": "standard0048",
+      "name": "Cat Helmet hat",
+      "artist": "Little Doo Doo"
+    },
+    {
+      "id": "standard0049",
+      "name": "Cat Helmet With Apron hat",
+      "artist": "Little Doo Doo"
+    },
+    {
+      "id": "standard0050",
+      "name": "Zeta Mark V hat",
       "artist": "Little Doo Doo"
     }
   ]

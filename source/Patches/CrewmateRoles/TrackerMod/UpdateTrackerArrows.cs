@@ -6,7 +6,7 @@ using System;
 
 namespace TownOfUs.CrewmateRoles.TrackerMod
 {
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class UpdateTrackerArrows
     {
         public static Sprite Sprite => TownOfUs.Arrow;
@@ -14,7 +14,7 @@ namespace TownOfUs.CrewmateRoles.TrackerMod
         private static float Interval => CustomGameOptions.UpdateInterval;
         public static bool CamoedLastTick = false;
 
-        public static void Postfix(PlayerControl __instance)
+        public static void Postfix(HudManager __instance)
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;

@@ -35,8 +35,6 @@ namespace TownOfUs.CustomOption
 
         public static bool LobbyTextScroller { get; set; } = true;
 
-        protected internal bool Indent { get; set; }
-
         public override string ToString()
         {
             return Format(Value);

@@ -70,7 +70,8 @@ namespace TownOfUs
             PlayerControl playerControl = playerInfo.Object;
             if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal) couldUse = CanVent(playerControl, playerInfo) && !playerControl.MustCleanVent(__instance.Id) && (!playerInfo.IsDead || playerControl.inVent) && (playerControl.CanMove || playerControl.inVent);
             else if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek && playerControl.Data.IsImpostor()) couldUse = false;
-            else couldUse = true;
+            else couldUse = canUse;
+
             var ventitaltionSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
             if (ventitaltionSystem != null && ventitaltionSystem.PlayersCleaningVents != null)
             {
@@ -79,8 +80,8 @@ namespace TownOfUs
                     if (item == __instance.Id)
                         couldUse = false;
                 }
-
             }
+
             canUse = couldUse;
 
             if (Patches.SubmergedCompatibility.isSubmerged())

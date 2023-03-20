@@ -6,6 +6,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using TownOfUs.Patches;
+using AmongUs.GameOptions;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod
 {
@@ -106,6 +107,11 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                             console.Image.color = Color.white;
                     normalPlayerTask.taskStep = 0;
                     if (normalPlayerTask.TaskType == TaskTypes.UploadData)
+                        normalPlayerTask.taskStep = 1;
+                    if ((normalPlayerTask.TaskType == TaskTypes.EmptyGarbage || normalPlayerTask.TaskType == TaskTypes.EmptyChute)
+                        && (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 0 ||
+                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 3 ||
+                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4))
                         normalPlayerTask.taskStep = 1;
                     if (updateArrow)
                         normalPlayerTask.UpdateArrow();

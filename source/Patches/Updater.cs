@@ -108,7 +108,7 @@ namespace TownOfUs {
             checkForUpdate("TOU").GetAwaiter().GetResult();
 
             //Only check of Submerged update if Submerged is already installed
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            string codeBase = Assembly.GetExecutingAssembly().Location;
             System.UriBuilder uri = new System.UriBuilder(codeBase);
             string submergedPath = System.Uri.UnescapeDataString(uri.Path.Replace("TownOfUs", "Submerged"));
             if (File.Exists(submergedPath)) {
@@ -249,7 +249,7 @@ namespace TownOfUs {
                     PluginSingleton<TownOfUs>.Instance.Log.LogMessage("Server returned no data: " + response.StatusCode.ToString());
                     return false;
                 }
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                string codeBase = Assembly.GetExecutingAssembly().Location;
                 System.UriBuilder uri = new System.UriBuilder(codeBase);
                 string fullname = System.Uri.UnescapeDataString(uri.Path);
                 if (updateType == "Submerged") {

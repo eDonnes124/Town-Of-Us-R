@@ -931,7 +931,13 @@ namespace TownOfUs
                         var killer = Utils.PlayerById(reader.ReadByte());
                         var target = Utils.PlayerById(reader.ReadByte());
 
-                        Utils.MurderPlayer(killer, target);
+                        Utils.MurderPlayer(killer, target, true);
+                        break;
+                    case CustomRPC.BypassMultiKill:
+                        var killer2 = Utils.PlayerById(reader.ReadByte());
+                        var target2 = Utils.PlayerById(reader.ReadByte());
+
+                        Utils.MurderPlayer(killer2, target2, false);
                         break;
                     case CustomRPC.AssassinKill:
                         var toDie = Utils.PlayerById(reader.ReadByte());
@@ -1065,20 +1071,6 @@ namespace TownOfUs
                         grenadierRole.TimeRemaining = CustomGameOptions.GrenadeDuration;
                         grenadierRole.Flash();
                         break;
-                    case CustomRPC.Douse:
-                        var arsonist = Utils.PlayerById(reader.ReadByte());
-                        var douseTarget = Utils.PlayerById(reader.ReadByte());
-                        var arsonistRole = Role.GetRole<Arsonist>(arsonist);
-                        arsonistRole.DousedPlayers.Add(douseTarget.PlayerId);
-                        arsonistRole.LastDoused = DateTime.UtcNow;
-
-                        break;
-                    case CustomRPC.Ignite:
-                        var theArsonist = Utils.PlayerById(reader.ReadByte());
-                        var theArsonistRole = Role.GetRole<Arsonist>(theArsonist);
-                        theArsonistRole.Ignite();
-                        break;
-
                     case CustomRPC.ArsonistWin:
                         var theArsonistTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Arsonist);
                         ((Arsonist) theArsonistTheRole)?.Wins();
@@ -1329,11 +1321,6 @@ namespace TownOfUs
                         var escapePos = reader.ReadVector2();
                         escapistRole.EscapePoint = escapePos;
                         Escapist.Escape(escapist);
-                        break;
-                    case CustomRPC.Detonate:
-                        var playerToDie = Utils.PlayerById(reader.ReadByte());
-                        var bomber = Utils.PlayerById(reader.ReadByte());
-                        Bomber.DetonateKillEnd(playerToDie, bomber);
                         break;
                     case CustomRPC.Revive:
                         var necromancer = Utils.PlayerById(reader.ReadByte());

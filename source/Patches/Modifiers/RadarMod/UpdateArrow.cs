@@ -6,25 +6,27 @@ using UnityEngine;
 
 namespace TownOfUs.Modifiers.RadarMod
 {
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class UpdateArrow
     {
-        public static void Postfix(PlayerControl __instance)
+        public static void Postfix(HudManager __instance)
         {
-            foreach (var modifier in Modifier.AllModifiers.Where(x => x.ModifierType == ModifierEnum.Radar))
-            {
-                var radar = (Radar)modifier;
-                if (radar.Player.Data.IsDead)
-                {
-                    radar.RadarArrow.DestroyAll();
-                    radar.RadarArrow.Clear();
-                }
+            if (PlayerControl.AllPlayerControls.Count <= 1) return;
+            if (PlayerControl.LocalPlayer == null) return;
+            if (PlayerControl.LocalPlayer.Data == null) return;
+            if (!PlayerControl.LocalPlayer.Is(ModifierEnum.Radar)) return;
 
-                foreach (var arrow in radar.RadarArrow)
-                {
-                    radar.ClosestPlayer = GetClosestPlayer(PlayerControl.LocalPlayer, PlayerControl.AllPlayerControls.ToArray().ToList());
-                    arrow.target = radar.ClosestPlayer.transform.position;
-                }
+            var radar = Modifier.GetModifier<Radar>(PlayerControl.LocalPlayer);
+            if (radar.Player.Data.IsDead)
+            {
+                radar.RadarArrow.DestroyAll();
+                radar.RadarArrow.Clear();
+            }
+
+            foreach (var arrow in radar.RadarArrow)
+            {
+                radar.ClosestPlayer = GetClosestPlayer(PlayerControl.LocalPlayer, PlayerControl.AllPlayerControls.ToArray().ToList());
+                arrow.target = radar.ClosestPlayer.transform.position;
             }
         }
 

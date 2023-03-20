@@ -5,14 +5,13 @@ using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.InvestigatorMod
 {
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public static class AddPrints
     {
-        private const float PeriodInterval = 0.25f;
         private static float _time;
 
         public static bool GameStarted = false;
-        private static float Interval => CustomGameOptions.FootprintInterval*10;
+        private static float Interval => CustomGameOptions.FootprintInterval;
         private static bool Vent => CustomGameOptions.VentFootprintVisible;
 
         private static Vector2 Position(PlayerControl player)
@@ -21,7 +20,7 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
         }
 
 
-        public static void Postfix(PlayerControl __instance)
+        public static void Postfix(HudManager __instance)
         {
             if (!GameStarted || !PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) return;
             // New Footprint

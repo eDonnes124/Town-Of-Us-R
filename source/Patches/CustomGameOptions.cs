@@ -20,6 +20,13 @@ namespace TownOfUs
         KillingOnly,
         Cultist
     }
+    public enum AdminDeadPlayers
+    {
+        Nobody,
+        Spy,
+        EveryoneButSpy,
+        Everyone
+    }
     public static class CustomGameOptions
     {
         public static int MayorOn => (int)Generate.MayorOn.Get();
@@ -270,6 +277,7 @@ namespace TownOfUs
         public static int MaxKillsInDetonation => (int) Generate.MaxKillsInDetonation.Get();
         public static float DetonateRadius => Generate.DetonateRadius.Get();
         public static bool BomberVent => Generate.BomberVent.Get();
+        public static AdminDeadPlayers WhoSeesDead => (AdminDeadPlayers)Generate.WhoSeesDead.Get();
         public static bool VentImprovements => Generate.VentImprovements.Get();
         public static bool VitalsLab => Generate.VitalsLab.Get();
         public static bool ColdTempDeathValley => Generate.ColdTempDeathValley.Get();

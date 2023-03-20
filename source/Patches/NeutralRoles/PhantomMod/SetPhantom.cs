@@ -102,6 +102,11 @@ namespace TownOfUs.NeutralRoles.PhantomMod
 
                     if (normalPlayerTask.TaskType == TaskTypes.UploadData)
                         normalPlayerTask.taskStep = 1;
+                    if ((normalPlayerTask.TaskType == TaskTypes.EmptyGarbage || normalPlayerTask.TaskType == TaskTypes.EmptyChute)
+                        && (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 0 ||
+                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 3 ||
+                        GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4))
+                        normalPlayerTask.taskStep = 1;
                     if (updateArrow)
                         normalPlayerTask.UpdateArrow();
 

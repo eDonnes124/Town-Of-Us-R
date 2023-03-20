@@ -39,20 +39,26 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage(Swap1 == null ? "null" : Swap1.ToString());
                 PluginSingleton<TownOfUs>.Instance.Log.LogMessage(Swap2 == null ? "null" : Swap2.ToString());
 
-                if (!((Swap1 != null) & (Swap2 != null))) return;
-                foreach (var player in PlayerControl.AllPlayerControls)
-                {
-                    if ((player.Data.IsDead || player.Data.Disconnected) && player.Is(RoleEnum.Swapper))
-                    {
-                        return;
-                    }
-                }
-
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Swapper))
                 {
                     var swapper = Role.GetRole<Swapper>(PlayerControl.LocalPlayer);
                     foreach (var button in swapper.Buttons.Where(button => button != null)) button.SetActive(false);
                 }
+                
+                if (Swap1 == null || Swap2 == null) return;
+                foreach (var swapper in Role.AllRoles.Where(x => x.RoleType == RoleEnum.Swapper))
+                {
+                    if (swapper.Player.Data.IsDead || swapper.Player.Data.Disconnected) return;
+                }
+                PlayerControl swapPlayer1 = null;
+                PlayerControl swapPlayer2 = null;
+                foreach (var player in PlayerControl.AllPlayerControls)
+                {
+                    if (player.PlayerId == Swap1.TargetPlayerId) swapPlayer1 = player;
+                    if (player.PlayerId == Swap2.TargetPlayerId) swapPlayer2 = player;
+                }
+                if (swapPlayer1.Data.IsDead || swapPlayer1.Data.Disconnected ||
+                    swapPlayer2.Data.IsDead || swapPlayer2.Data.Disconnected) return;
 
                 var pool1 = Swap1.PlayerIcon.transform;
                 var name1 = Swap1.NameText.transform;
@@ -83,13 +89,12 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
                 var whiteBackgroundDest2 = (Vector2) whiteBackground2.position;
                // background2.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0f);
 
-
                 Coroutines.Start(Slide2D(pool1, pooldest1, pooldest2, 2f));
                 Coroutines.Start(Slide2D(pool2, pooldest2, pooldest1, 2f));
                 Coroutines.Start(Slide2D(name1, namedest1, namedest2, 2f));
                 Coroutines.Start(Slide2D(name2, namedest2, namedest1, 2f));
-              //  Coroutines.Start(Slide2D(background1, backgroundDest1, backgrounddest2, 2f));
-               // Coroutines.Start(Slide2D(background2, backgrounddest2, backgroundDest1, 2f));
+                //  Coroutines.Start(Slide2D(background1, backgroundDest1, backgrounddest2, 2f));
+                // Coroutines.Start(Slide2D(background2, backgrounddest2, backgroundDest1, 2f));
                 Coroutines.Start(Slide2D(mask1, maskdest1, maskdest2, 2f));
                 Coroutines.Start(Slide2D(mask2, maskdest2, maskdest1, 2f));
                 Coroutines.Start(Slide2D(whiteBackground1, whiteBackgroundDest1, whiteBackgroundDest2, 2f));

@@ -27,7 +27,7 @@ namespace TownOfUs.Patches
                 {
                     foreach (var player in PlayerControl.AllPlayerControls)
                     {
-                        if (player.Data.IsImpostor()) Utils.MurderPlayer(player, player);
+                        if (player.Data.IsImpostor()) Utils.MurderPlayer(player, player, true);
                     }
                 }
             }
@@ -38,7 +38,7 @@ namespace TownOfUs.Patches
                         .Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
                 foreach (var player in alives)
                 {
-                    if (player.Data.IsImpostor()) Utils.MurderPlayer(player, player);
+                    if (player.Data.IsImpostor()) Utils.MurderPlayer(player, player, true);
                 }
             }
         }

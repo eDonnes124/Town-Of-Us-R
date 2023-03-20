@@ -19,6 +19,8 @@ using Object = UnityEngine.Object;
 using PerformKill = TownOfUs.Modifiers.UnderdogMod.PerformKill;
 using Random = UnityEngine.Random;
 using AmongUs.GameOptions;
+using TownOfUs.CrewmateRoles.TrapperMod;
+using TownOfUs.ImpostorRoles.BomberMod;
 
 namespace TownOfUs
 {
@@ -440,7 +442,7 @@ namespace TownOfUs
 
         public static void RpcMurderPlayer(PlayerControl killer, PlayerControl target)
         {
-            MurderPlayer(killer, target);
+            MurderPlayer(killer, target, true);
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                 (byte)CustomRPC.BypassKill, SendOption.Reliable, -1);
             writer.Write(killer.PlayerId);
@@ -448,7 +450,17 @@ namespace TownOfUs
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void MurderPlayer(PlayerControl killer, PlayerControl target)
+        public static void RpcMultiMurderPlayer(PlayerControl killer, PlayerControl target)
+        {
+            MurderPlayer(killer, target, false);
+            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte)CustomRPC.BypassMultiKill, SendOption.Reliable, -1);
+            writer.Write(killer.PlayerId);
+            writer.Write(target.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
+        public static void MurderPlayer(PlayerControl killer, PlayerControl target, bool jumpToBody)
         {
             var data = target.Data;
             if (data != null && !data.IsDead)
@@ -539,14 +551,12 @@ namespace TownOfUs
                     target.myTasks.Insert(0, importantTextTask);
                 }
 
-                if (!killer.Is(RoleEnum.Arsonist))
+                if (jumpToBody)
                 {
                     killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(killer, target));
                 }
-                else
-                {
-                    killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(target, target));
-                }
+                else killer.MyPhysics.StartCoroutine(killer.KillAnimations.Random().CoPerformKill(target, target));
+
                 var deadBody = new DeadPlayer
                 {
                     PlayerId = target.PlayerId,
@@ -559,6 +569,13 @@ namespace TownOfUs
                 if (MeetingHud.Instance) target.Exiled();
 
                 if (!killer.AmOwner) return;
+
+                if (target.Is(ModifierEnum.Bait))
+                {
+                    BaitReport(killer, target);
+                }
+
+                if (!jumpToBody) return;
 
                 if (killer.Data.IsImpostor() && GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek)
                 {
@@ -603,11 +620,6 @@ namespace TownOfUs
                 {
                     killer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier);
                     return;
-                }
-
-                if (target.Is(ModifierEnum.Bait))
-                {
-                    BaitReport(killer, target);
                 }
 
                 if (killer.Is(ModifierEnum.Underdog))
@@ -885,120 +897,183 @@ namespace TownOfUs
         public static void ResetCustomTimers()
         {
             #region CrewmateRoles
-            foreach (Medium role in Role.GetRoles(RoleEnum.Medium))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Medium))
             {
-                role.LastMediated = DateTime.UtcNow;
+                var medium = Role.GetRole<Medium>(PlayerControl.LocalPlayer);
+                medium.LastMediated = DateTime.UtcNow;
             }
-            foreach (Seer role in Role.GetRoles(RoleEnum.Seer))
+            foreach (var role in Role.GetRoles(RoleEnum.Medium))
             {
-                role.LastInvestigated = DateTime.UtcNow;
+                var medium = (Medium)role;
+                medium.MediatedPlayers.Values.DestroyAll();
+                medium.MediatedPlayers.Clear();
             }
-            foreach (CultistSeer role in Role.GetRoles(RoleEnum.CultistSeer))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Seer))
             {
-                role.LastInvestigated = DateTime.UtcNow;
+                var seer = Role.GetRole<Seer>(PlayerControl.LocalPlayer);
+                seer.LastInvestigated = DateTime.UtcNow;
             }
-            foreach (Sheriff role in Role.GetRoles(RoleEnum.Sheriff))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.CultistSeer))
             {
-                role.LastKilled = DateTime.UtcNow;
+                var seer = Role.GetRole<CultistSeer>(PlayerControl.LocalPlayer);
+                seer.LastInvestigated = DateTime.UtcNow;
             }
-            foreach (Tracker role in Role.GetRoles(RoleEnum.Tracker))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff))
             {
-                role.LastTracked = DateTime.UtcNow;
+                var sheriff = Role.GetRole<Sheriff>(PlayerControl.LocalPlayer);
+                sheriff.LastKilled = DateTime.UtcNow;
             }
-            foreach (Transporter role in Role.GetRoles(RoleEnum.Transporter))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Tracker))
             {
-                role.LastTransported = DateTime.UtcNow;
+                var tracker = Role.GetRole<Tracker>(PlayerControl.LocalPlayer);
+                tracker.LastTracked = DateTime.UtcNow;
+                tracker.UsesLeft = CustomGameOptions.MaxTracks;
+                if (CustomGameOptions.ResetOnNewRound)
+                {
+                    tracker.TrackerArrows.Values.DestroyAll();
+                    tracker.TrackerArrows.Clear();
+                }
             }
-            foreach (Veteran role in Role.GetRoles(RoleEnum.Veteran))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))
             {
-                role.LastAlerted = DateTime.UtcNow;
+                var transporter = Role.GetRole<Transporter>(PlayerControl.LocalPlayer);
+                transporter.LastTransported = DateTime.UtcNow;
             }
-            foreach (Trapper role in Role.GetRoles(RoleEnum.Trapper))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Veteran))
             {
-                role.LastTrapped = DateTime.UtcNow;
+                var veteran = Role.GetRole<Veteran>(PlayerControl.LocalPlayer);
+                veteran.LastAlerted = DateTime.UtcNow;
             }
-            foreach (Detective role in Role.GetRoles(RoleEnum.Detective))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Trapper))
             {
-                role.LastExamined = DateTime.UtcNow;
+                var trapper = Role.GetRole<Trapper>(PlayerControl.LocalPlayer);
+                trapper.LastTrapped = DateTime.UtcNow;
+                trapper.trappedPlayers.Clear();
+                if (CustomGameOptions.TrapsRemoveOnNewRound) trapper.traps.ClearTraps();
             }
-            foreach (Chameleon role in Role.GetRoles(RoleEnum.Chameleon))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
             {
-                role.LastSwooped = DateTime.UtcNow;
+                var detective = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
+                detective.LastExamined = DateTime.UtcNow;
+                detective.LastExamined = detective.LastExamined.AddSeconds(CustomGameOptions.InitialExamineCd - CustomGameOptions.ExamineCd);
+                detective.LastExaminedPlayer = null;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Chameleon))
+            {
+                var chameleon = Role.GetRole<Chameleon>(PlayerControl.LocalPlayer);
+                chameleon.LastSwooped = DateTime.UtcNow;
             }
             #endregion
             #region NeutralRoles
-            foreach (Survivor role in Role.GetRoles(RoleEnum.Survivor))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
             {
-                role.LastVested = DateTime.UtcNow;
+                var surv = Role.GetRole<Survivor>(PlayerControl.LocalPlayer);
+                surv.LastVested = DateTime.UtcNow;
             }
-            foreach (GuardianAngel role in Role.GetRoles(RoleEnum.GuardianAngel))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel))
             {
-                role.LastProtected = DateTime.UtcNow;
+                var ga = Role.GetRole<GuardianAngel>(PlayerControl.LocalPlayer);
+                ga.LastProtected = DateTime.UtcNow;
             }
-            foreach (Arsonist role in Role.GetRoles(RoleEnum.Arsonist))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist))
             {
-                role.LastDoused = DateTime.UtcNow;
+                var arsonist = Role.GetRole<Arsonist>(PlayerControl.LocalPlayer);
+                arsonist.LastDoused = DateTime.UtcNow;
             }
-            foreach (Glitch role in Role.GetRoles(RoleEnum.Glitch))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch))
             {
-                role.LastHack = DateTime.UtcNow;
-                role.LastKill = DateTime.UtcNow;
-                role.LastMimic = DateTime.UtcNow;
+                var glitch = Role.GetRole<Glitch>(PlayerControl.LocalPlayer);
+                glitch.LastKill = DateTime.UtcNow;
+                glitch.LastHack = DateTime.UtcNow;
+                glitch.LastMimic = DateTime.UtcNow;
             }
-            foreach (Juggernaut role in Role.GetRoles(RoleEnum.Juggernaut))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut))
             {
-                role.LastKill = DateTime.UtcNow;
+                var juggernaut = Role.GetRole<Juggernaut>(PlayerControl.LocalPlayer);
+                juggernaut.LastKill = DateTime.UtcNow;
             }
-            foreach (Werewolf role in Role.GetRoles(RoleEnum.Werewolf))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf))
             {
-                role.LastRampaged = DateTime.UtcNow;
-                role.LastKilled = DateTime.UtcNow;
+                var werewolf = Role.GetRole<Werewolf>(PlayerControl.LocalPlayer);
+                werewolf.LastRampaged = DateTime.UtcNow;
+                werewolf.LastKilled = DateTime.UtcNow;
             }
-            foreach (Plaguebearer role in Role.GetRoles(RoleEnum.Plaguebearer))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Plaguebearer))
             {
-                role.LastInfected = DateTime.UtcNow;
+                var plaguebearer = Role.GetRole<Plaguebearer>(PlayerControl.LocalPlayer);
+                plaguebearer.LastInfected = DateTime.UtcNow;
             }
-            foreach (Pestilence role in Role.GetRoles(RoleEnum.Pestilence))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence))
             {
-                role.LastKill = DateTime.UtcNow;
+                var pest = Role.GetRole<Pestilence>(PlayerControl.LocalPlayer);
+                pest.LastKill = DateTime.UtcNow;
             }
             #endregion
             #region ImposterRoles
-            foreach (Escapist role in Role.GetRoles(RoleEnum.Escapist))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Escapist))
             {
-                role.LastEscape = DateTime.UtcNow;
+                var escapist = Role.GetRole<Escapist>(PlayerControl.LocalPlayer);
+                escapist.LastEscape = DateTime.UtcNow;
+                escapist.EscapeButton.graphic.sprite = TownOfUs.MarkSprite;
             }
-            foreach (Blackmailer role in Role.GetRoles(RoleEnum.Blackmailer))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Blackmailer))
             {
-                role.LastBlackmailed = DateTime.UtcNow;
+                var blackmailer = Role.GetRole<Blackmailer>(PlayerControl.LocalPlayer);
+                blackmailer.LastBlackmailed = DateTime.UtcNow;
+                if (blackmailer.Player.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+                {
+                    blackmailer.Blackmailed?.myRend().material.SetFloat("_Outline", 0f);
+                }
             }
-            foreach (Grenadier role in Role.GetRoles(RoleEnum.Grenadier))
+            foreach (var role in Role.GetRoles(RoleEnum.Blackmailer))
             {
-                role.LastFlashed = DateTime.UtcNow;
+                var blackmailer = (Blackmailer)role;
+                blackmailer.Blackmailed = null;
             }
-            foreach (Miner role in Role.GetRoles(RoleEnum.Miner))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Bomber))
             {
-                role.LastMined = DateTime.UtcNow;
+                var bomber = Role.GetRole<Bomber>(PlayerControl.LocalPlayer);
+                bomber.PlantButton.graphic.sprite = TownOfUs.PlantSprite;
+                bomber.Bomb.ClearBomb();
             }
-            foreach (Morphling role in Role.GetRoles(RoleEnum.Morphling))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Grenadier))
             {
-                role.LastMorphed = DateTime.UtcNow;
+                var grenadier = Role.GetRole<Grenadier>(PlayerControl.LocalPlayer);
+                grenadier.LastFlashed = DateTime.UtcNow;
             }
-            foreach (Swooper role in Role.GetRoles(RoleEnum.Swooper))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Miner))
             {
-                role.LastSwooped = DateTime.UtcNow;
+                var miner = Role.GetRole<Miner>(PlayerControl.LocalPlayer);
+                miner.LastMined = DateTime.UtcNow;
             }
-            foreach (Undertaker role in Role.GetRoles(RoleEnum.Undertaker))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Morphling))
             {
-                role.LastDragged = DateTime.UtcNow;
+                var morphling = Role.GetRole<Morphling>(PlayerControl.LocalPlayer);
+                morphling.LastMorphed = DateTime.UtcNow;
+                morphling.MorphButton.graphic.sprite = TownOfUs.SampleSprite;
+                morphling.SampledPlayer = null;
             }
-            foreach (Necromancer role in Role.GetRoles(RoleEnum.Necromancer))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Swooper))
             {
-                role.LastRevived = DateTime.UtcNow;
+                var swooper = Role.GetRole<Swooper>(PlayerControl.LocalPlayer);
+                swooper.LastSwooped = DateTime.UtcNow;
             }
-            foreach (Whisperer role in Role.GetRoles(RoleEnum.Whisperer))
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Undertaker))
             {
-                role.LastWhispered = DateTime.UtcNow;
+                var undertaker = Role.GetRole<Undertaker>(PlayerControl.LocalPlayer);
+                undertaker.LastDragged = DateTime.UtcNow;
+                undertaker.DragDropButton.graphic.sprite = TownOfUs.DragSprite;
+                undertaker.CurrentlyDragging = null;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Necromancer))
+            {
+                var necro = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
+                necro.LastRevived = DateTime.UtcNow;
+            }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Whisperer))
+            {
+                var whisperer = Role.GetRole<Whisperer>(PlayerControl.LocalPlayer);
+                whisperer.LastWhispered = DateTime.UtcNow;
             }
             #endregion
         }

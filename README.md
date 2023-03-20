@@ -75,6 +75,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2023.2.28s & 2023.2.28e | v4.0.3 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.3/ToU.v4.0.3.zip) |
 | 2022.12.14s & 2022.12.14e | v4.0.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.2/ToU.v4.0.2.zip) |
 | 2022.12.14s & 2022.12.14e | v4.0.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.1/ToU.v4.0.1.zip) |
 | 2022.12.14s & 2022.12.14e | v4.0.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.0/ToU.v4.0.0.zip) |
@@ -129,6 +130,17 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 
 <details>
   <summary> Changelog </summary>
+  <details>
+  <summary> v4.0.3 </summary>
+  <ul> <li>Compatibility with the new Among Us version v2023.2.28</li> </ul>
+  <ul> <li>New Setting: Who can see dead players on admin (under Spy)</li> </ul>
+  <ul> <li>Bug Fix: Transporter and Glitch get everyone alive on their transport/mimic menus</li> </ul>
+  <ul> <li>Bug Fix: Undertaker can no longer drag bodies to unreportable positions</li> </ul>
+  <ul> <li>Bug Fix: Players can no longer infinitely vent in Hide & Seek</li> </ul>
+  <ul> <li>Bug Fix: Swapper swap bugs... all of them... I think</li> </ul>
+  <ul> <li>Optimisation: As Imitator you no longer need to deselect someone to select another player</li> </ul>
+  <ul> <li>Medic Shields and Guardian Angel Protects now stop a Bomb detonation and Arsonist ignites</li> </ul>
+  </details>
   <details>
   <summary> v4.0.2 </summary>
   <ul> <li>Bug Fix: Cultist no longer doesn't automatically set the Impostors to 1 for the game mode</li> </ul>
@@ -803,6 +815,7 @@ On Vitals, the Spy can see how long killed bodies have been dead for.
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Spy | The percentage probability of the Spy appearing | Percentage | 0% |
+| Who Sees Dead Bodies On Admin | Which players see dead bodies on the admin map | Nobody / Spy / Everyone But Spy / Everyone | Nobody |
 
 -----------------------
 ## Tracker

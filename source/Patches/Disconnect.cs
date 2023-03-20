@@ -15,7 +15,7 @@ namespace TownOfUs.Patches
                 {
                     foreach (var player2 in PlayerControl.AllPlayerControls)
                     {
-                        if (player2.Is(Faction.Impostors)) Utils.MurderPlayer(player2, player2);
+                        if (player2.Is(Faction.Impostors)) Utils.MurderPlayer(player2, player2, true);
                     }
                 }
             }

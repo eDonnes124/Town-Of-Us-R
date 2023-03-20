@@ -20,16 +20,13 @@ namespace TownOfUs.Modifiers.LoversMod
             if (reason == DeathReason.Exile)
             {
                 KillButtonTarget.DontRevive = __instance.PlayerId;
-                otherLover.Exiled();
+                if (!otherLover.Is(RoleEnum.Pestilence)) otherLover.Exiled();
             }
-            else if (!otherLover.Is(RoleEnum.Pestilence))
+            else if (AmongUsClient.Instance.AmHost && !otherLover.Is(RoleEnum.Pestilence)) Utils.RpcMurderPlayer(otherLover, otherLover);
+            if (otherLover.Is(RoleEnum.Sheriff))
             {
-                Utils.MurderPlayer(otherLover, otherLover);
-                if (otherLover.Is(RoleEnum.Sheriff))
-                {
-                    var sheriff = Role.GetRole<Sheriff>(otherLover);
-                    sheriff.IncorrectKills -= 1;
-                }
+                var sheriff = Role.GetRole<Sheriff>(otherLover);
+                sheriff.IncorrectKills -= 1;
             }
 
             return true;

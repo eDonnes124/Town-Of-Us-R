@@ -16,7 +16,7 @@ namespace TownOfUs.Roles
         public bool PlaguebearerWins { get; set; }
 
         public int InfectedAlive => InfectedPlayers.Count(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead);
-        public bool CanTransform => PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead) <= InfectedAlive;
+        public bool CanTransform => PlayerControl.AllPlayerControls.ToArray().Count(x => x != null && !x.Data.IsDead && !x.Data.Disconnected) <= InfectedAlive;
 
         public Plaguebearer(PlayerControl player) : base(player)
         {

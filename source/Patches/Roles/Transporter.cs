@@ -120,7 +120,6 @@ namespace TownOfUs.Roles
                 foreach (var TempPlayer in PlayerControl.AllPlayerControls)
                 {
                     if (TempPlayer != null &&
-                        TempPlayer.Data != null &&
                         !TempPlayer.Data.IsDead &&
                         !TempPlayer.Data.Disconnected &&
                         TempPlayer.PlayerId != PlayerControl.LocalPlayer.PlayerId)
@@ -128,7 +127,6 @@ namespace TownOfUs.Roles
                         foreach (var player in PlayerControl.AllPlayerControls)
                         {
                             if (player != null &&
-                                player.Data != null &&
                                 ((!player.Data.Disconnected && !player.Data.IsDead) ||
                                 Object.FindObjectsOfType<DeadBody>().Any(x => x.ParentId == player.PlayerId)))
                             {
@@ -324,13 +322,15 @@ namespace TownOfUs.Roles
             DeadBody Player1Body = null;
             DeadBody Player2Body = null;
             if (TP1.Data.IsDead)
-                foreach (var body in deadBodies)
-                    if (body.ParentId == TP1.PlayerId)
-                        Player1Body = body;
+            {
+                foreach (var body in deadBodies) if (body.ParentId == TP1.PlayerId) Player1Body = body;
+                if (Player1Body == null) yield break;
+            }
             if (TP2.Data.IsDead)
-                foreach (var body in deadBodies)
-                    if (body.ParentId == TP2.PlayerId)
-                        Player2Body = body;
+            {
+                foreach (var body in deadBodies) if (body.ParentId == TP2.PlayerId) Player2Body = body;
+                if (Player2Body == null) yield break;
+            }
 
             if (TP1.inVent && PlayerControl.LocalPlayer.PlayerId == TP1.PlayerId)
             {
@@ -357,7 +357,7 @@ namespace TownOfUs.Roles
                 var TempFacing = TP1.myRend().flipX;
                 TP1.NetTransform.SnapTo(new Vector2(TP2.GetTruePosition().x, TP2.GetTruePosition().y + 0.3636f));
                 TP1.myRend().flipX = TP2.myRend().flipX;
-                if (die) Utils.MurderPlayer(TP1, TP2);
+                if (die) Utils.MurderPlayer(TP1, TP2, true);
                 else
                 {
                     TP2.NetTransform.SnapTo(new Vector2(TempPosition.x, TempPosition.y + 0.3636f));

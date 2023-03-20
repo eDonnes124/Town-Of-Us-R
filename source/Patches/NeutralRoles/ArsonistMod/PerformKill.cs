@@ -30,14 +30,7 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
                     if (!role.DousedPlayers.Contains(role.ClosestPlayerIgnite.PlayerId)) return false;
 
                     var interact2 = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayerIgnite);
-                    if (interact2[4] == true)
-                    {
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.Ignite, SendOption.Reliable, -1);
-                        writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        role.Ignite();
-                    }
+                    if (interact2[4] == true) role.Ignite();
                     if (interact2[0] == true)
                     {
                         role.LastDoused = DateTime.UtcNow;
@@ -64,15 +57,7 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
             if (!flag2) return false;
             if (role.DousedPlayers.Contains(role.ClosestPlayerDouse.PlayerId)) return false;
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayerDouse);
-            if (interact[4] == true)
-            {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Douse, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(role.ClosestPlayerDouse.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                role.DousedPlayers.Add(role.ClosestPlayerDouse.PlayerId);
-            }
+            if (interact[4] == true) role.DousedPlayers.Add(role.ClosestPlayerDouse.PlayerId);
             if (interact[0] == true)
             {
                 role.LastDoused = DateTime.UtcNow;

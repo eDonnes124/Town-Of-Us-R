@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace TownOfUs.CrewmateRoles.ImitatorMod
 {
-    public class ShowHideButtons
+    public class ShowHideButtonsImitator
     {
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Confirm))]
         public static class Confirm
@@ -18,7 +18,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 var imitator = Role.GetRole<Imitator>(PlayerControl.LocalPlayer);
                 foreach (var button in imitator.Buttons.Where(button => button != null))
                 {
-                    if (button.GetComponent<SpriteRenderer>().sprite == AddButton.DisabledSprite)
+                    if (button.GetComponent<SpriteRenderer>().sprite == AddButtonImitator.DisabledSprite)
                         button.SetActive(false);
 
                     button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();

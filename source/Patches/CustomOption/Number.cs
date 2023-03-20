@@ -13,13 +13,6 @@ namespace TownOfUs.CustomOption
             Increment = increment;
         }
 
-        protected internal CustomNumberOption(bool indent, int id, MultiMenu menu, string name, float value, float min, float max,
-            float increment,
-            Func<object, string> format = null) : this(id, menu, name, value, min, max, increment, format)
-        {
-            Indent = indent;
-        }
-
         protected float Min { get; set; }
         protected float Max { get; set; }
         protected float Increment { get; set; }

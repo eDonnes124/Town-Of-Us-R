@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TownOfUs.Extensions
+﻿namespace TownOfUs.Extensions
 {
     public enum CustomPlayerOutfitType 
     {
