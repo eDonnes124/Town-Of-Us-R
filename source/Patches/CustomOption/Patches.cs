@@ -9,14 +9,13 @@ namespace TownOfUs.CustomOption
 {
     public static class Patches
     {
-
         static string[] Menus = { "Game", "Crew", "Neutral", "Imposter", "Modifier" };
 
         public static Export ExportButton;
         public static Import ImportButton;
+        public static Presets PresetButton;
         public static List<OptionBehaviour> DefaultOptions;
         public static float LobbyTextRowHeight { get; set; } = 0.081F;
-
 
         private static List<OptionBehaviour> CreateOptions(GameOptionsMenu __instance, MultiMenu type)
         {
@@ -38,7 +37,6 @@ namespace TownOfUs.CustomOption
                     var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
                     toggle.transform.GetChild(2).gameObject.SetActive(false);
                     toggle.transform.GetChild(0).localPosition += new Vector3(1f, 0f, 0f);
-
                     ExportButton.Setting = toggle;
                     ExportButton.OptionCreated();
                     options.Add(toggle);
@@ -54,9 +52,23 @@ namespace TownOfUs.CustomOption
                     var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
                     toggle.transform.GetChild(2).gameObject.SetActive(false);
                     toggle.transform.GetChild(0).localPosition += new Vector3(1f, 0f, 0f);
-
                     ImportButton.Setting = toggle;
                     ImportButton.OptionCreated();
+                    options.Add(toggle);
+                }
+
+                if (PresetButton.Setting != null)
+                {
+                    PresetButton.Setting.gameObject.SetActive(true);
+                    options.Add(PresetButton.Setting);
+                }
+                else
+                {
+                    var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
+                    toggle.transform.GetChild(2).gameObject.SetActive(false);
+                    toggle.transform.GetChild(0).localPosition += new Vector3(1f, 0f, 0f);
+                    PresetButton.Setting = toggle;
+                    PresetButton.OptionCreated();
                     options.Add(toggle);
                 }
             }
@@ -73,30 +85,40 @@ namespace TownOfUs.CustomOption
                     options.Add(option.Setting);
                     continue;
                 }
-
+                
                 switch (option.Type)
                 {
-                    case CustomOptionType.Header:
-                        var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
-                        toggle.transform.GetChild(1).gameObject.SetActive(false);
-                        toggle.transform.GetChild(2).gameObject.SetActive(false);
-                        option.Setting = toggle;
-                        options.Add(toggle);
-                        break;
-                    case CustomOptionType.Toggle:
-                        var toggle2 = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
-                        option.Setting = toggle2;
-                        options.Add(toggle2);
-                        break;
                     case CustomOptionType.Number:
                         var number = Object.Instantiate(numberPrefab, numberPrefab.transform.parent);
                         option.Setting = number;
                         options.Add(number);
                         break;
+
                     case CustomOptionType.String:
                         var str = Object.Instantiate(stringPrefab, stringPrefab.transform.parent);
                         option.Setting = str;
                         options.Add(str);
+                        break;
+
+                    case CustomOptionType.Toggle:
+                    case CustomOptionType.Nested:
+                    case CustomOptionType.Button:
+                    case CustomOptionType.Header:
+                        var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
+
+                        if (option.Type == CustomOptionType.Header)
+                        {
+                            toggle.transform.GetChild(1).gameObject.SetActive(false);
+                            toggle.transform.GetChild(2).gameObject.SetActive(false);
+                        }
+                        else if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Nested)
+                        {
+                            toggle.transform.GetChild(2).gameObject.SetActive(false);
+                            toggle.transform.GetChild(0).localPosition += new Vector3(1f, 0f, 0f);
+                        }
+
+                        option.Setting = toggle;
+                        options.Add(toggle);
                         break;
                 }
 
@@ -121,10 +143,14 @@ namespace TownOfUs.CustomOption
                 return false;
             }
 
+            if (opt == PresetButton.Setting)
+            {
+                PresetButton.OptionCreated();
+                return false;
+            }
 
-            var customOption =
-                CustomOption.AllOptions.FirstOrDefault(option =>
-                    option.Setting == opt); // Works but may need to change to gameObject.name check
+            var customOption = CustomOption.AllOptions.FirstOrDefault(option => option.Setting == opt);
+            // Works but may need to change to gameObject.name check
 
             if (customOption == null)
             {
@@ -132,7 +158,20 @@ namespace TownOfUs.CustomOption
                 if (customOption == null)
                 {
                     customOption = ImportButton.SlotButtons.FirstOrDefault(option => option.Setting == opt);
-                    if (customOption == null) return true;
+                    if (customOption == null)
+                    {
+                        customOption = PresetButton.SlotButtons.FirstOrDefault(option => option.Setting == opt);
+                        if (customOption == null)
+                        {
+                            customOption = CustomNestedOption.AllCancelButtons.FirstOrDefault(option => option.Setting == opt);
+                            if (customOption == null)
+                            {
+                                customOption = CustomNestedOption.AllInternalOptions.FirstOrDefault(option => option.Setting == opt);
+                                if (customOption == null)
+                                    return true;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -366,6 +405,13 @@ namespace TownOfUs.CustomOption
                     return false;
                 }
 
+                if (option is CustomNestedOption nested)
+                {
+                    if (!AmongUsClient.Instance.AmHost) return false;
+                    nested.ToDo();
+                    return false;
+                }
+
                 if (__instance == ExportButton.Setting)
                 {
                     if (!AmongUsClient.Instance.AmHost) return false;
@@ -380,6 +426,14 @@ namespace TownOfUs.CustomOption
                     return false;
                 }
 
+                if (__instance == PresetButton.Setting)
+                {
+                    if (!AmongUsClient.Instance.AmHost)
+                        return false;
+
+                    PresetButton.Do();
+                    return false;
+                }
 
                 if (option is CustomHeaderOption) return false;
 
@@ -396,6 +450,28 @@ namespace TownOfUs.CustomOption
                 {
                     if (!AmongUsClient.Instance.AmHost) return false;
                     button2.Do();
+                    return false;
+                }
+
+                var option4 = PresetButton.SlotButtons.FirstOrDefault(option => option.Setting == __instance);
+
+                if (option4 is CustomButtonOption button3)
+                {
+                    if (!AmongUsClient.Instance.AmHost)
+                        return false;
+
+                    button3.Do();
+                    return false;
+                }
+
+                var option5 = CustomNestedOption.AllCancelButtons.FirstOrDefault(option => option.Setting == __instance);
+
+                if (option5 is CustomButtonOption button4)
+                {
+                    if (!AmongUsClient.Instance.AmHost)
+                        return false;
+
+                    button4.Do();
                     return false;
                 }
 

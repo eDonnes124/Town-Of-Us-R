@@ -430,14 +430,13 @@ namespace TownOfUs.CustomOption
         private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
         private static Func<object, string> MultiplierFormat { get; } = value => $"{value:0.0#}x";
 
-
         public static void GenerateAll()
         {
             var num = 0;
 
             Patches.ExportButton = new Export(num++);
             Patches.ImportButton = new Import(num++);
-
+            Patches.PresetButton = new Presets(num++);
 
             CrewInvestigativeRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Investigative Roles");
             DetectiveOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>", 0f, 0f, 100f, 10f,

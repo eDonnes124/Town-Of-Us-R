@@ -15,7 +15,6 @@ namespace TownOfUs.CustomOption
     {
         public CustomButtonOption Loading;
         public List<OptionBehaviour> OldButtons;
-
         public List<CustomButtonOption> SlotButtons = new List<CustomButtonOption>();
 
         protected internal Import(int id) : base(id, MultiMenu.main, "Load Custom Settings")
@@ -23,15 +22,10 @@ namespace TownOfUs.CustomOption
             Do = ToDo;
         }
 
-
         private List<OptionBehaviour> CreateOptions()
         {
             var options = new List<OptionBehaviour>();
-
             var togglePrefab = Object.FindObjectOfType<ToggleOption>();
-            var numberPrefab = Object.FindObjectOfType<NumberOption>();
-            var stringPrefab = Object.FindObjectOfType<StringOption>();
-
 
             foreach (var button in SlotButtons)
                 if (button.Setting != null)
@@ -44,7 +38,6 @@ namespace TownOfUs.CustomOption
                     var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent).DontDestroy();
                     toggle.transform.GetChild(2).gameObject.SetActive(false);
                     toggle.transform.GetChild(0).localPosition += new Vector3(1f, 0f, 0f);
-
                     button.Setting = toggle;
                     button.OptionCreated();
                     options.Add(toggle);
@@ -91,6 +84,11 @@ namespace TownOfUs.CustomOption
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 3", delegate { ImportSlot(3); }));
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 4", delegate { ImportSlot(4); }));
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 5", delegate { ImportSlot(5); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 6", delegate { ImportSlot(6); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 7", delegate { ImportSlot(7); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 8", delegate { ImportSlot(8); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 9", delegate { ImportSlot(9); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 10", delegate { ImportSlot(10); }));
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Cancel", delegate { Cancel(FlashWhite); }));
 
             var options = CreateOptions();

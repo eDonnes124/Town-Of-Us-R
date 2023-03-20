@@ -12,10 +12,7 @@ namespace TownOfUs.CustomOption
             Do = toDo ?? BaseToDo;
         }
 
-        public static void BaseToDo()
-        {
-        }
-
+        public static void BaseToDo() {}
 
         public override void OptionCreated()
         {

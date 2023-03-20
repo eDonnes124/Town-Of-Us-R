@@ -1,0 +1,572 @@
+<color=#4D4DFFFF>Detective</color>
+0
+<color=#D3D3D3FF>Haunter</color>
+0
+<color=#00B3B3FF>Investigator</color>
+0
+<color=#4D99E6FF>Mystic</color>
+0
+<color=#FFCC80FF>Seer</color>
+0
+<color=#D4AF37FF>Snitch</color>
+0
+<color=#CCA3CCFF>Spy</color>
+0
+<color=#009900FF>Tracker</color>
+0
+<color=#A7D1B3FF>Trapper</color>
+0
+<color=#FFFF00FF>Sheriff</color>
+0
+<color=#998040FF>Veteran</color>
+0
+<color=#FFFF99FF>Vigilante</color>
+0
+<color=#660000FF>Altruist</color>
+0
+<color=#006600FF>Medic</color>
+0
+<color=#FFA60AFF>Engineer</color>
+0
+<color=#B3D94DFF>Imitator</color>
+0
+<color=#704FA8FF>Mayor</color>
+0
+<color=#A680FFFF>Medium</color>
+0
+<color=#66E666FF>Swapper</color>
+0
+<color=#00EEFFFF>Transporter</color>
+0
+<color=#80B2FFFF>Amnesiac</color>
+0
+<color=#B3FFFFFF>Guardian Angel</color>
+0
+<color=#FFE64DFF>Survivor</color>
+0
+<color=#8C4005FF>Executioner</color>
+0
+<color=#FFBFCCFF>Jester</color>
+0
+<color=#662962FF>Phantom</color>
+0
+<color=#FF4D00FF>Arsonist</color>
+0
+<color=#E6FFB3FF>Plaguebearer</color>
+0
+<color=#00FF00FF>The Glitch</color>
+0
+<color=#A86629FF>Werewolf</color>
+0
+<color=#FF0000FF>Escapist</color>
+0
+<color=#FF0000FF>Grenadier</color>
+0
+<color=#FF0000FF>Morphling</color>
+0
+<color=#FF0000FF>Swooper</color>
+0
+<color=#FF0000FF>Bomber</color>
+0
+<color=#FF0000FF>Traitor</color>
+0
+<color=#FF0000FF>Blackmailer</color>
+0
+<color=#FF0000FF>Janitor</color>
+0
+<color=#FF0000FF>Miner</color>
+0
+<color=#FF0000FF>Undertaker</color>
+0
+<color=#00B3B3FF>Bait</color>
+0
+<color=#AAAAAAFF>Blind</color>
+0
+<color=#808080FF>Diseased</color>
+0
+<color=#FF804DFF>Multitasker</color>
+0
+<color=#FFFF99FF>Torch</color>
+0
+<color=#E600FFFF>Button Barry</color>
+0
+<color=#FF8080FF>Flash</color>
+0
+<color=#FFB34DFF>Giant</color>
+0
+<color=#FF66CCFF>Lovers</color>
+0
+<color=#FF0080FF>Radar</color>
+0
+<color=#803333FF>Sleuth</color>
+0
+<color=#99E699FF>Tiebreaker</color>
+0
+<color=#FF0000FF>Disperser</color>
+0
+<color=#FF0000FF>Double Shot</color>
+0
+<color=#FF0000FF>Underdog</color>
+0
+Game Mode
+0
+Min Neutral Non-Killing Roles
+1
+Max Neutral Non-Killing Roles
+1
+Min Neutral Killing Roles
+1
+Max Neutral Killing Roles
+1
+Random Number Of Impostors
+True
+Neutral Roles
+1
+Veteran Count
+1
+Vigilante Count
+1
+Add Arsonist
+True
+Add Plaguebearer
+True
+<color=#704FA8FF>Mayor</color> (Cultist Mode)
+100
+<color=#FFCC80FF>Seer</color> (Cultist Mode)
+100
+<color=#FFFF00FF>Sheriff</color> (Cultist Mode)
+100
+<color=#FFE64DFF>Survivor</color> (Cultist Mode)
+100
+Number Of Special Roles
+4
+Max Chameleons
+3
+Max Engineers
+3
+Max Investigators
+3
+Max Mystics
+3
+Max Spies
+3
+Max Transporters
+3
+Max Vigilantes
+3
+Initial Whisper Cooldown
+25
+Increased Cooldown Per Whisper
+5
+Whisper Radius
+1
+Conversion Percentage
+25
+Decreased Conversion Percentage Per Conversion
+5
+Initial Revive Cooldown
+25
+Increased Cooldown Per Revive
+25
+Maximum Number Of Reveals
+5
+Choose Random Map
+False
+Skeld Chance
+0
+Mira Chance
+0
+Polus Chance
+0
+Airship Chance
+0
+Submerged Chance
+0
+Auto Adjust Settings
+False
+Half Vision On Skeld/Mira HQ
+False
+Mira HQ Decreased Cooldowns
+0
+Airship/Submerged Increased Cooldowns
+0
+Skeld/Mira HQ Increased Short Tasks
+0
+Skeld/Mira HQ Increased Long Tasks
+0
+Airship/Submerged Decreased Short Tasks
+0
+Airship/Submerged Decreased Long Tasks
+0
+Better Polus Vent Layout
+False
+Vitals Moved To Lab
+False
+Cold Temp Moved To Death Valley
+False
+Reboot Wifi And Chart Course Swapped
+False
+Camouflaged Comms
+False
+Impostors Can See The Roles Of Their Team
+False
+Dead Can See Everyone's Roles/Votes
+False
+Probability Of A Completely Vanilla Game
+0
+Game Start Cooldowns
+10
+Parallel Medbay Scans
+False
+Disable Meeting Skip Button
+0
+Disable Level Icons
+False
+Disable Player Nameplates
+False
+Enable Hidden Roles
+True
+See Tasks During Round
+False
+See Tasks During Meetings
+False
+See Tasks When Dead
+True
+Number Of Impostor Assassins
+1
+Number Of Neutral Assassins
+1
+Amnesiac Turned Impostor Gets Ability
+False
+Amnesiac Turned Neutral Killing Gets Ability
+False
+Traitor Gets Ability
+False
+Number Of Assassin Kills
+1
+Assassin Can Kill More Than Once Per Meeting
+False
+Assassin Can Guess "Crewmate"
+False
+Assassin Can Guess Neutral Benign Roles
+False
+Assassin Can Guess Neutral Evil Roles
+False
+Assassin Can Guess Neutral Killing Roles
+False
+Assassin Can Guess Impostor Roles
+False
+Assassin Can Guess Crewmate Modifiers
+False
+Assassin Can Guess Lovers
+False
+Assassin Can Guess After Voting
+False
+Initial Examine Cooldown
+25
+Examine Cooldown
+10
+How Long Players Stay Bloody For
+25
+Show Detective Reports
+True
+Time Where Detective Will Have Role
+15
+Time Where Detective Will Have Faction
+30
+Show Examine Reports
+True
+Tasks Remaining When Haunter Can Be Clicked
+5
+Tasks Remaining When Alert Is Sent
+1
+Haunter Reveals Neutral Roles
+False
+Who Can Click Haunter
+0
+Footprint Size
+4
+Footprint Interval
+0.1
+Footprint Duration
+10
+Anonymous Footprint
+False
+Footprint Vent Visible
+False
+Dead Body Arrow Duration
+0.1
+Seer Cooldown
+25
+Crewmate Killing Roles Show Evil
+False
+Neutral Benign Roles Show Evil
+False
+Neutral Evil Roles Show Evil
+False
+Neutral Killing Roles Show Evil
+False
+Traitor Does Not Swap Colours
+False
+Snitch Sees Neutral Roles
+False
+Tasks Remaining When Revealed
+1
+Snitch Sees Impostors In Meetings
+True
+Snitch Sees Traitor
+True
+Who Sees Dead Bodies On Admin
+0
+Arrow Update Interval
+5
+Track Cooldown
+25
+Tracker Arrows Reset After Each Round
+False
+Maximum Number Of Tracks Per Round
+5
+Min Amount Of Time In Trap To Register
+1
+Trap Cooldown
+25
+Traps Removed After Each Round
+True
+Maximum Number Of Traps Per Game
+5
+Trap Size
+0.25
+Minimum Number Of Roles Required To Trigger Trap
+3
+Sheriff Miskill Kills Crewmate
+False
+Sheriff Kills Executioner
+False
+Sheriff Kills Jester
+False
+Sheriff Kills Arsonist
+False
+Sheriff Kills The Glitch
+False
+Sheriff Kills Juggernaut
+False
+Sheriff Kills Plaguebearer
+False
+Sheriff Kills Werewolf
+False
+Sheriff Kill Cooldown
+25
+Sheriff Can Report Who They've Killed
+True
+Can Be Killed On Alert
+False
+Alert Cooldown
+25
+Alert Duration
+10
+Maximum Number Of Alerts
+5
+Number Of Vigilante Kills
+1
+Vigilante Can Kill More Than Once Per Meeting
+False
+Vigilante Can Guess Neutral Benign Roles
+False
+Vigilante Can Guess Neutral Evil Roles
+False
+Vigilante Can Guess Neutral Killing Roles
+False
+Vigilante Can Guess Lovers
+False
+Vigilante Can Guess After Voting
+False
+Altruist Revive Duration
+10
+Target's Body Disappears On Beginning Of Revive
+False
+Show Shielded Player
+0
+Who Gets Murder Attempt Indicator
+0
+Shield Breaks On Murder Attempt
+False
+Show Medic Reports
+True
+Time Where Medic Will Have Name
+0
+Time Where Medic Will Have Color Type
+15
+Maximum Number Of Fixes
+5
+Initial Mayor Vote Bank
+1
+Mayor Votes Show Anonymous
+False
+Mediate Cooldown
+10
+Reveal Appearance Of Mediate Target
+True
+Reveal The Medium To The Mediate Target
+True
+Who Is Revealed With Mediate
+0
+Swapper Can Button
+True
+Transport Cooldown
+25
+Maximum Number Of Transports
+5
+Transporter Can Use Vitals
+False
+Amnesiac Gets Arrows Pointing To Dead Bodies
+False
+Time After Death Arrow Appears
+5
+Protect Cooldown
+25
+Protect Duration
+10
+Kill Cooldown Reset When Protected
+2.5
+Maximum Number Of Protects
+5
+Show Protected Player
+0
+GA Becomes On Target Dead
+0
+Target Knows GA Exists
+False
+GA Knows Targets Role
+False
+Vest Cooldown
+25
+Vest Duration
+10
+Kill Cooldown Reset On Attack
+2.5
+Maximum Number Of Vests
+5
+Executioner Becomes On Target Dead
+0
+Executioner Can Button
+True
+Jester Can Button
+True
+Jester Can Hide In Vents
+False
+Jester Has Impostor Vision
+False
+Tasks Remaining When Phantom Can Be Clicked
+5
+Douse Cooldown
+25
+Maximum Alive Players Doused
+5
+Arsonist Has Impostor Vision
+False
+Ignite Cooldown Removed When Arsonist Is Last Killer
+False
+Juggernaut Initial Kill Cooldown
+25
+Reduced Kill Cooldown Per Kill
+5
+Juggernaut Can Vent
+False
+Infect Cooldown
+25
+Pestilence Kill Cooldown
+25
+Pestilence Can Vent
+False
+Mimic Cooldown
+25
+Mimic Duration
+10
+Hack Cooldown
+25
+Hack Duration
+10
+Glitch Kill Cooldown
+25
+Glitch Hack Distance
+0
+Glitch Can Vent
+False
+Rampage Cooldown
+25
+Rampage Duration
+25
+Rampage Kill Cooldown
+10
+Werewolf Can Vent When Rampaged
+False
+Recall Cooldown
+25
+Escapist Can Vent
+False
+Flash Grenade Cooldown
+25
+Flash Grenade Duration
+10
+Flash Radius
+1
+Indicate Flashed Crewmates
+False
+Grenadier Can Vent
+False
+Morphling Cooldown
+25
+Morphling Duration
+10
+Morphling Can Vent
+False
+Swoop Cooldown
+25
+Swoop Duration
+10
+Swooper Can Vent
+False
+Detonate Delay
+5
+Max Kills In Detonation
+5
+Detonate Radius
+0.25
+Bomber Can Vent
+False
+Minimum People Alive When Traitor Can Spawn
+5
+Traitor Won't Spawn If Any Neutral Killing Is Alive
+False
+Initial Blackmail Cooldown
+10
+Mine Cooldown
+25
+Drag Cooldown
+25
+Undertaker Drag Speed
+0.75
+Undertaker Can Vent
+False
+Undertaker Can Vent While Dragging
+False
+Minimum Delay for the Bait Report
+0
+Maximum Delay for the Bait Report
+1
+Diseased Kill Multiplier
+3
+Flash Speed
+1.25
+Giant Speed
+0.75
+Both Lovers Die
+True
+Loving Impostor Probability
+20
+Neutral Roles Can Be Lovers
+True
+Kill Cooldown Bonus
+5
+Increased Kill Cooldown When 2+ Imps
+True

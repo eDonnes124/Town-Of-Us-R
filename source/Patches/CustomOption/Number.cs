@@ -22,21 +22,24 @@ namespace TownOfUs.CustomOption
             return (float) Value;
         }
 
-       
         protected internal void Increase()
         {
-            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift)
-                ? 5
-                : Increment;
-            Set(Mathf.Clamp(Get() + increment, Min, Max));
+            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift) ? 5 : Increment;
+
+            if (Get() >= Max)
+                Set(Min);
+            else
+                Set(Get() + increment);
         }
 
         protected internal void Decrease()
         {
-            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift)
-                ? 5
-                : Increment;
-            Set(Mathf.Clamp(Get() - increment, Min, Max));
+            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift) ? 5 : Increment;
+
+            if (Get() <= Min)
+                Set(Max);
+            else
+                Set(Get() - increment);
         }
 
         public override void OptionCreated()

@@ -30,14 +30,13 @@ namespace TownOfUs
                 var builder = new StringBuilder();
                 builder.AppendLine("Press Tab To Change Page");
                 builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 2)}/6)");
-                if (SettingsPage == 0) builder.AppendLine("General Mod Settings");
-                else if (SettingsPage == 1) builder.AppendLine("Crewmate Settings");
-                else if (SettingsPage == 2) builder.AppendLine("Neutral Settings");
-                else if (SettingsPage == 3) builder.AppendLine("Impostor Settings");
-                else if (SettingsPage == 4) builder.AppendLine("Modifier Settings");
+                if (SettingsPage == 0) builder.AppendLine("\nGeneral Mod Settings");
+                else if (SettingsPage == 1) builder.AppendLine("\nCrewmate Settings");
+                else if (SettingsPage == 2) builder.AppendLine("\nNeutral Settings");
+                else if (SettingsPage == 3) builder.AppendLine("\nImpostor Settings");
+                else if (SettingsPage == 4) builder.AppendLine("\nModifier Settings");
 
                 if (SettingsPage == -1) builder.Append(new StringBuilder(__result));
-
                 else
                 {
                     foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
@@ -52,8 +51,7 @@ namespace TownOfUs
                     }
                 }
 
-                __result = builder.ToString();
-                __result = $"<size=1.25>{__result}</size>";
+                __result = $"<size=1.25>{builder.ToString()}</size>";
             }
         }
 
