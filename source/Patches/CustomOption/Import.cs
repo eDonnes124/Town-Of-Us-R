@@ -21,6 +21,7 @@ namespace TownOfUs.CustomOption
         protected internal Import(int id) : base(id, MultiMenu.main, "Load Custom Settings")
         {
             Do = ToDo;
+            TryLoadExistingFile();
         }
 
 
@@ -29,11 +30,9 @@ namespace TownOfUs.CustomOption
             var options = new List<OptionBehaviour>();
 
             var togglePrefab = Object.FindObjectOfType<ToggleOption>();
-            var numberPrefab = Object.FindObjectOfType<NumberOption>();
-            var stringPrefab = Object.FindObjectOfType<StringOption>();
-
 
             foreach (var button in SlotButtons)
+            {
                 if (button.Setting != null)
                 {
                     button.Setting.gameObject.SetActive(true);
@@ -49,13 +48,15 @@ namespace TownOfUs.CustomOption
                     button.OptionCreated();
                     options.Add(toggle);
                 }
+            }
 
             return options;
         }
 
-        protected internal void Cancel(Func<IEnumerator> flashCoro)
+        protected internal Action Cancel(Func<IEnumerator> flashCoro)
         {
             Coroutines.Start(CancelCoro(flashCoro));
+            return null;
         }
 
         protected internal IEnumerator CancelCoro(Func<IEnumerator> flashCoro)
@@ -111,7 +112,7 @@ namespace TownOfUs.CustomOption
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
 
-        private void ImportSlot(int slotId)
+        private void ImportSlot(int slotId, bool DoAction = true)
         {
             System.Console.WriteLine(slotId);
 
@@ -124,10 +125,9 @@ namespace TownOfUs.CustomOption
             }
             catch
             {
-                Cancel(FlashRed);
+                if (DoAction) Cancel(FlashRed);
                 return;
             }
-
 
             var splitText = text.Split("\n").ToList();
 
@@ -135,7 +135,7 @@ namespace TownOfUs.CustomOption
             {
                 var name = splitText[0].Trim();
                 splitText.RemoveAt(0);
-                var option = AllOptions.FirstOrDefault(o => o.Name.Equals(name, StringComparison.Ordinal));
+                var option = AllOptions.Find(o => o.Name.Equals(name, StringComparison.Ordinal));
                 if (option == null)
                 {
                     try
@@ -165,11 +165,30 @@ namespace TownOfUs.CustomOption
                 }
             }
 
+            if (DoAction)
+            {
+            Rpc.SendRpc();
             Rpc.SendRpc();
 
-            Cancel(FlashGreen);
+                Rpc.SendRpc();
+
+                Cancel(FlashGreen);
+            }
+
+            return;
         }
 
+        private void TryLoadExistingFile()
+        {
+            for (int i = 1; i < 6; i++)
+            {
+                if (File.Exists(Application.persistentDataPath + $"\\GameSettings-Slot{i}"))
+                {
+                    ImportSlot(i, false);
+                    return;
+                }
+            }
+        }
 
         private IEnumerator FlashGreen()
         {

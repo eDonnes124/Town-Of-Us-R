@@ -435,10 +435,6 @@ namespace TownOfUs.CustomOption
         {
             var num = 0;
 
-            Patches.ExportButton = new Export(num++);
-            Patches.ImportButton = new Import(num++);
-
-
             CrewInvestigativeRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Investigative Roles");
             DetectiveOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -1109,6 +1105,9 @@ namespace TownOfUs.CustomOption
             Underdog = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>");
             UnderdogKillBonus = new CustomNumberOption(num++, MultiMenu.modifiers, "Kill Cooldown Bonus", 5f, 2.5f, 10f, 2.5f, CooldownFormat);
             UnderdogIncreasedKC = new CustomToggleOption(num++, MultiMenu.modifiers, "Increased Kill Cooldown When 2+ Imps", true);
+
+            Patches.ExportButton = new Export(num++);
+            Patches.ImportButton = new Import(num++);
         }
     }
 }
