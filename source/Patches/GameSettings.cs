@@ -30,16 +30,20 @@ namespace TownOfUs
                 var builder = new StringBuilder();
                 builder.AppendLine("Press Tab To Change Page");
                 builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 2)}/6)");
-                if (SettingsPage == 0) builder.AppendLine("\nGeneral Mod Settings");
-                else if (SettingsPage == 1) builder.AppendLine("\nCrewmate Settings");
-                else if (SettingsPage == 2) builder.AppendLine("\nNeutral Settings");
-                else if (SettingsPage == 3) builder.AppendLine("\nImpostor Settings");
-                else if (SettingsPage == 4) builder.AppendLine("\nModifier Settings");
 
                 if (SettingsPage == -1)
+                {
+                    builder.Append("\nVanilla Settings\n");
                     builder.Append(new StringBuilder(__result));
+                }
                 else
                 {
+                    if (SettingsPage == 0) builder.AppendLine("\nGeneral Mod Settings");
+                    else if (SettingsPage == 1) builder.AppendLine("\nCrewmate Settings");
+                    else if (SettingsPage == 2) builder.AppendLine("\nNeutral Settings");
+                    else if (SettingsPage == 3) builder.AppendLine("\nImpostor Settings");
+                    else if (SettingsPage == 4) builder.AppendLine("\nModifier Settings");
+
                     foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
                     {
                         if (option.Type == CustomOptionType.Button)
