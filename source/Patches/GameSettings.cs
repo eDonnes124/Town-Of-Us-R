@@ -49,8 +49,20 @@ namespace TownOfUs
                         if (option.Type == CustomOptionType.Button)
                             continue;
 
-                        if (option.Type == CustomOptionType.Header || option.Type == CustomOptionType.Nested)
+                        if (option.Type == CustomOptionType.Header)
                             builder.AppendLine($"\n{option.Name}");
+                        else if (option.Type == CustomOptionType.Nested)
+                        {
+                            var nested = (CustomNestedOption)option;
+
+                            builder.AppendLine($"\n{option.Name}");
+
+                            foreach (var option2 in nested.InternalOptions)
+                            {
+                                if (option2.Type != CustomOptionType.Header && option2.Type != CustomOptionType.Button)
+                                    builder.AppendLine($"    {option2.Name}: {option2}");
+                            }
+                        }
                         else
                             builder.AppendLine($"    {option.Name}: {option}");
                     }
