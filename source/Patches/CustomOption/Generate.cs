@@ -426,6 +426,11 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption LovingImpPercent;
         public static CustomToggleOption NeutralLovers;
 
+        public static CustomNestedOption ExampleNested;
+        public static CustomToggleOption ExampleToggle;
+        public static CustomNumberOption ExampleNumber;
+        public static CustomStringOption ExampleString;
+
         public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
         private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
         private static Func<object, string> MultiplierFormat { get; } = value => $"{value:0.0#}x";
@@ -437,6 +442,12 @@ namespace TownOfUs.CustomOption
             Patches.ExportButton = new Export(num++);
             Patches.ImportButton = new Import(num++);
             Patches.PresetButton = new Presets(num++);
+
+            ExampleNested = new CustomNestedOption(num++, MultiMenu.main, "Example Nested Option");
+            ExampleToggle = new CustomToggleOption(num++, MultiMenu.external, "Example Toggle Option");
+            ExampleNumber = new CustomNumberOption(num++, MultiMenu.external, "Example Number Option", 1, 1, 5, 1, MultiplierFormat);
+            ExampleString = new CustomStringOption(num++, MultiMenu.external, "Example String Option", new[] { "Something", "Something Else", "Something Else Else" });
+            ExampleNested.AddOptions(ExampleNumber, ExampleString, ExampleToggle);
 
             CrewInvestigativeRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Investigative Roles");
             DetectiveOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>", 0f, 0f, 100f, 10f,
