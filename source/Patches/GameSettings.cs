@@ -36,7 +36,8 @@ namespace TownOfUs
                 else if (SettingsPage == 3) builder.AppendLine("\nImpostor Settings");
                 else if (SettingsPage == 4) builder.AppendLine("\nModifier Settings");
 
-                if (SettingsPage == -1) builder.Append(new StringBuilder(__result));
+                if (SettingsPage == -1)
+                    builder.Append(new StringBuilder(__result));
                 else
                 {
                     foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
@@ -44,7 +45,7 @@ namespace TownOfUs
                         if (option.Type == CustomOptionType.Button)
                             continue;
 
-                        if (option.Type == CustomOptionType.Header)
+                        if (option.Type == CustomOptionType.Header || option.Type == CustomOptionType.Nested)
                             builder.AppendLine($"\n{option.Name}");
                         else
                             builder.AppendLine($"    {option.Name}: {option}");
