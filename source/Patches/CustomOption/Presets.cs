@@ -7,6 +7,8 @@ using Reactor.Utilities.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Reflection;
+using System.IO;
 
 namespace TownOfUs.CustomOption
 {
@@ -102,7 +104,7 @@ namespace TownOfUs.CustomOption
 
             try
             {
-                text = Utils.CreateText(presetName, "Presets");
+                text = CreatePresetText(presetName);
             }
             catch
             {
@@ -110,7 +112,7 @@ namespace TownOfUs.CustomOption
                 return;
             }
 
-            if (text == null)
+            if (text == null || text == "")
             {
                 Cancel(FlashRed);
                 return;
@@ -172,6 +174,18 @@ namespace TownOfUs.CustomOption
         private IEnumerator FlashWhite()
         {
             yield return null;
+        }
+
+        private string CreatePresetText(string itemName)
+        {
+            if (itemName == "")
+                return "";
+            
+            var path = $"TownOfUs.Resources.Presets.{itemName}";
+            var assembly = Assembly.GetExecutingAssembly();
+            var stream = assembly.GetManifestResourceStream(path);
+            var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
     }
 }

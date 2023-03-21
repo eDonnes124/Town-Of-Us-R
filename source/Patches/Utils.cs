@@ -21,8 +21,6 @@ using Random = UnityEngine.Random;
 using AmongUs.GameOptions;
 using TownOfUs.CrewmateRoles.TrapperMod;
 using TownOfUs.ImpostorRoles.BomberMod;
-using System.Reflection;
-using System.IO;
 
 namespace TownOfUs
 {
@@ -847,23 +845,6 @@ namespace TownOfUs
                 if (item.gameObject == null) return;
                 Object.Destroy(item.gameObject);
             }
-        }
-
-        public static string CreateText(string itemName, string folder = "", string subfolder = "")
-        {
-            var resourceName = "";
-
-            if (subfolder != "" && folder != "")
-                resourceName = $"TownOfUs.Resources.{folder}.{subfolder}.{itemName}";
-            else if (subfolder == "" && folder != "")
-                resourceName = $"TownOfUs.Resources.{folder}.{itemName}";
-            else 
-                resourceName = $"TownOfUs.Resources.{itemName}";
-
-            var assembly = Assembly.GetExecutingAssembly();
-            var stream = assembly.GetManifestResourceStream(resourceName);
-            var reader = new StreamReader(stream);
-            return reader.ReadToEnd();
         }
 
         public static void EndGame(GameOverReason reason = GameOverReason.ImpostorByVote, bool showAds = false)
