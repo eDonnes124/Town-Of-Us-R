@@ -50,6 +50,8 @@ namespace TownOfUs.CustomOption
 
         public void AddOptions(params CustomOption[] options)
         {
+            AllInternalOptions.RemoveRange(InternalOptions);
+
             foreach (var option in options)
                 InternalOptions.Insert(1, option);
 
