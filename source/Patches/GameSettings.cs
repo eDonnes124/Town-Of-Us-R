@@ -55,11 +55,15 @@ namespace TownOfUs
                         {
                             var nested = (CustomNestedOption)option;
 
-                            builder.AppendLine($"\n{option.Name}");
-
-                            foreach (var option2 in nested.InternalOptions.Skip(1))
+                            //Nothing's better then a good ol' copy paste lmao
+                            foreach (var option2 in nested.InternalOptions)
                             {
-                                if (option2.Type != CustomOptionType.Button)
+                                if (option2.Type == CustomOptionType.Button)
+                                    continue;
+
+                                if (option2.Type == CustomOptionType.Header)
+                                    builder.AppendLine($"\n{option2.Name}");
+                                else
                                     builder.AppendLine($"    {option2.Name}: {option2}");
                             }
                         }
