@@ -57,9 +57,9 @@ namespace TownOfUs
 
                             builder.AppendLine($"\n{option.Name}");
 
-                            foreach (var option2 in nested.InternalOptions)
+                            foreach (var option2 in nested.InternalOptions.Skip(1))
                             {
-                                if (option2.Type != CustomOptionType.Header && option2.Type != CustomOptionType.Button)
+                                if (option2.Type != CustomOptionType.Button)
                                     builder.AppendLine($"    {option2.Name}: {option2}");
                             }
                         }
