@@ -546,9 +546,9 @@ namespace TownOfUs.Roles
                     Utils.SetTarget(
                         ref closestPlayer,
                         __gInstance.HackButton,
-                        GameOptionsData.KillDistances[CustomGameOptions.GlitchHackDistance]
+                        GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance]
                     );
-                    __gInstance.HackTarget = closestPlayer; 
+                    __gInstance.HackTarget = closestPlayer;
                 }
 
                 if (__gInstance.HackTarget != null)
