@@ -175,6 +175,12 @@ namespace TownOfUs.CustomOption
 
         private void TryLoadExistingFile()
         {
+            if (File.Exists(Application.persistentDataPath + $"\\GameSettings-Slot{TownOfUs.PreferredFile.Value}"))
+            {
+                ImportSlot(TownOfUs.PreferredFile.Value, false);
+                return;
+            }
+
             for (int i = 1; i < 6; i++)
             {
                 if (File.Exists(Application.persistentDataPath + $"\\GameSettings-Slot{i}"))
