@@ -49,8 +49,6 @@ namespace TownOfUs.CustomOption
                 else if (type == CustomOptionType.String) value = reader.ReadInt32();
 
                 customOption?.Set(value);
-
-                PluginSingleton<TownOfUs>.Instance.Log.LogInfo($"{customOption?.Name} : {customOption}:");
             }
         }
     }
