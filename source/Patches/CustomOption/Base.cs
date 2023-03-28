@@ -5,13 +5,16 @@ namespace TownOfUs.CustomOption
 {
     public class CustomOption
     {
-        public static List<CustomOption> AllOptions = new List<CustomOption>();
+        public readonly static List<CustomOption> AllOptions = new();
         public readonly int ID;
         public readonly MultiMenu Menu;
-
         public Func<object, string> Format;
         public string Name;
-
+        protected internal object Value { get; set; }
+        protected internal OptionBehaviour Setting { get; set; }
+        protected internal CustomOptionType Type { get; set; }
+        public object DefaultValue { get; set; }
+        public static bool LobbyTextScroller { get; set; } = true;
 
         protected internal CustomOption(int id, MultiMenu menu, string name, CustomOptionType type, object defaultValue,
             Func<object, string> format = null)
@@ -23,36 +26,24 @@ namespace TownOfUs.CustomOption
             DefaultValue = Value = defaultValue;
             Format = format ?? (obj => $"{obj}");
 
-            if (Type == CustomOptionType.Button) return;
+            if (Type == CustomOptionType.Button)
+                return;
+
             AllOptions.Add(this);
             Set(Value);
         }
 
-        protected internal object Value { get; set; }
-        protected internal OptionBehaviour Setting { get; set; }
-        protected internal CustomOptionType Type { get; set; }
-        public object DefaultValue { get; set; }
+        public override string ToString() => Format(Value);
 
-        public static bool LobbyTextScroller { get; set; } = true;
-
-        public override string ToString()
-        {
-            return Format(Value);
-        }
-
-        public virtual void OptionCreated()
-        {
-            Setting.name = Setting.gameObject.name = Name;
-        }
-
+        public virtual void OptionCreated() => Setting.name = Setting.gameObject.name = Name;
 
         protected internal void Set(object value, bool SendRpc = true)
         {
             System.Console.WriteLine($"{Name} set to {value}");
-
             Value = value;
 
-            if (Setting != null && AmongUsClient.Instance.AmHost && SendRpc) Rpc.SendRpc(this);
+            if (Setting != null && AmongUsClient.Instance.AmHost && SendRpc)
+                Rpc.SendRpc(this);
 
             try
             {
@@ -76,10 +67,7 @@ namespace TownOfUs.CustomOption
                     str.Value = str.oldValue = newValue;
                     str.ValueText.text = ToString();
                 }
-            }
-            catch
-            {
-            }
+            } catch {}
         }
     }
 }

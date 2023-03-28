@@ -17,10 +17,7 @@ namespace TownOfUs.CustomOption
         protected float Max { get; set; }
         protected float Increment { get; set; }
 
-        protected internal float Get()
-        {
-            return (float) Value;
-        }
+        protected internal float Get() => (float)Value;
 
         protected internal void Increase()
         {
@@ -46,7 +43,6 @@ namespace TownOfUs.CustomOption
         {
             base.OptionCreated();
             var number = Setting.Cast<NumberOption>();
-
             number.TitleText.text = Name;
             number.ValidRange = new FloatRange(Min, Max);
             number.Increment = Increment;

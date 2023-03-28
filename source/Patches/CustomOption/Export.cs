@@ -15,15 +15,10 @@ namespace TownOfUs.CustomOption
     public class Export : CustomButtonOption
     {
         public CustomButtonOption Loading;
-        public List<OptionBehaviour> OldButtons;
+        public List<OptionBehaviour> OldButtons = new();
+        public List<CustomButtonOption> SlotButtons = new();
 
-        public List<CustomButtonOption> SlotButtons = new List<CustomButtonOption>();
-
-        protected internal Export(int id) : base(id, MultiMenu.main, "Save Custom Settings")
-        {
-            Do = ToDo;
-        }
-
+        protected internal Export(int id) : base(id, MultiMenu.main, "Save Custom Settings") => Do = ToDo;
 
         private List<OptionBehaviour> CreateOptions()
         {
@@ -31,6 +26,7 @@ namespace TownOfUs.CustomOption
             var togglePrefab = Object.FindObjectOfType<ToggleOption>();
 
             foreach (var button in SlotButtons)
+            {
                 if (button.Setting != null)
                 {
                     button.Setting.gameObject.SetActive(true);
@@ -46,33 +42,29 @@ namespace TownOfUs.CustomOption
                     button.OptionCreated();
                     options.Add(toggle);
                 }
+            }
 
             return options;
         }
 
-        protected internal void Cancel(Func<IEnumerator> flashCoro)
-        {
-            Coroutines.Start(CancelCoro(flashCoro));
-        }
+        protected internal void Cancel(Func<IEnumerator> flashCoro) => Coroutines.Start(CancelCoro(flashCoro));
 
         protected internal IEnumerator CancelCoro(Func<IEnumerator> flashCoro)
         {
             var __instance = Object.FindObjectOfType<GameOptionsMenu>();
-            foreach (var option in SlotButtons.Skip(1)) option.Setting.gameObject.Destroy();
+
+            foreach (var option in SlotButtons.Skip(1))
+                option.Setting.gameObject.Destroy();
 
             Loading = SlotButtons[0];
             Loading.Do = () => { };
             Loading.Setting.Cast<ToggleOption>().TitleText.text = "Loading...";
-
             __instance.Children = new[] {Loading.Setting};
-
-
             yield return new WaitForSeconds(0.5f);
-
             Loading.Setting.gameObject.Destroy();
 
-            foreach (var option in OldButtons) option.gameObject.SetActive(true);
-
+            foreach (var option in OldButtons)
+                option.gameObject.SetActive(true);
 
             __instance.Children = OldButtons.ToArray();
 
@@ -99,16 +91,18 @@ namespace TownOfUs.CustomOption
 
             var __instance = Object.FindObjectOfType<GameOptionsMenu>();
 
-            var y = __instance.GetComponentsInChildren<OptionBehaviour>()
-                .Max(option => option.transform.localPosition.y);
+            var y = __instance.GetComponentsInChildren<OptionBehaviour>().Max(option => option.transform.localPosition.y);
             var x = __instance.Children[1].transform.localPosition.x;
             var z = __instance.Children[1].transform.localPosition.z;
             var i = 0;
 
             OldButtons = __instance.Children.ToList();
-            foreach (var option in __instance.Children) option.gameObject.SetActive(false);
 
-            foreach (var option in options) option.transform.localPosition = new Vector3(x, y - i++ * 0.5f, z);
+            foreach (var option in __instance.Children)
+                option.gameObject.SetActive(false);
+
+            foreach (var option in options)
+                option.transform.localPosition = new Vector3(x, y - (i++ * 0.5f), z);
 
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
@@ -116,10 +110,8 @@ namespace TownOfUs.CustomOption
         private void ExportSlot(int slotId)
         {
             System.Console.WriteLine(slotId);
-
-            var dictie = new Dictionary<string, string>();
-
             var builder = new StringBuilder();
+
             foreach (var option in AllOptions)
             {
                 if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header) continue;
@@ -127,8 +119,8 @@ namespace TownOfUs.CustomOption
                 builder.AppendLine(option.Value.ToString());
             }
 
-
             var text = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}-temp");
+
             try
             {
                 File.WriteAllText(text, builder.ToString());
@@ -142,7 +134,6 @@ namespace TownOfUs.CustomOption
                 Cancel(FlashRed);
             }
         }
-
 
         private IEnumerator FlashGreen()
         {

@@ -16,7 +16,7 @@ namespace TownOfUs.CustomOption
     {
         public CustomButtonOption Loading;
         public List<OptionBehaviour> OldButtons;
-        public List<CustomButtonOption> SlotButtons = new List<CustomButtonOption>();
+        public List<CustomButtonOption> SlotButtons = new();
 
         protected internal Presets(int id) : base(id, MultiMenu.main, "Load Presets") => Do = ToDo;
 
@@ -58,18 +58,14 @@ namespace TownOfUs.CustomOption
             Loading = SlotButtons[0];
             Loading.Do = () => { };
             Loading.Setting.Cast<ToggleOption>().TitleText.text = "Loading...";
-
             __instance.Children = new[] { Loading.Setting };
-
             yield return new WaitForSeconds(0.5f);
-
             Loading.Setting.gameObject.Destroy();
 
             foreach (var option in OldButtons)
                 option.gameObject.SetActive(true);
 
             __instance.Children = OldButtons.ToArray();
-
             yield return new WaitForEndOfFrame();
             yield return flashCoro();
         }
@@ -92,7 +88,7 @@ namespace TownOfUs.CustomOption
                 option.gameObject.SetActive(false);
 
             foreach (var option in options)
-                option.transform.localPosition = new Vector3(x, y - i++ * 0.5f, z);
+                option.transform.localPosition = new Vector3(x, y - (i++ * 0.5f), z);
 
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
@@ -112,7 +108,7 @@ namespace TownOfUs.CustomOption
                 return;
             }
 
-            if (text == null || text == "")
+            if (string.IsNullOrEmpty(text))
             {
                 Cancel(FlashRed);
                 return;
@@ -124,7 +120,7 @@ namespace TownOfUs.CustomOption
             {
                 var name = splitText[0].Trim();
                 splitText.RemoveAt(0);
-                var option = AllOptions.FirstOrDefault(o => o.Name.Equals(name, StringComparison.Ordinal));
+                var option = AllOptions.Find(o => o.Name.Equals(name, StringComparison.Ordinal));
 
                 if (option == null)
                 {
@@ -176,11 +172,11 @@ namespace TownOfUs.CustomOption
             yield return null;
         }
 
-        private string CreatePresetText(string itemName)
+        private static string CreatePresetText(string itemName)
         {
-            if (itemName == "")
+            if (itemName?.Length == 0)
                 return "";
-            
+
             var path = $"TownOfUs.Resources.Presets.{itemName}";
             var assembly = Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream(path);
