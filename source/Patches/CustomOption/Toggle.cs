@@ -9,15 +9,9 @@ namespace TownOfUs.CustomOption
             Format = val => (bool) val ? "On" : "Off";
         }
 
-        protected internal bool Get()
-        {
-            return (bool) Value;
-        }
+        protected internal bool Get() => (bool)Value;
 
-        protected internal void Toggle()
-        {
-            Set(!Get());
-        }
+        protected internal void Toggle() => Set(!Get());
 
         public override void OptionCreated()
         {

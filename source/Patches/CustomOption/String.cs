@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TownOfUs.CustomOption
 {
     public class CustomStringOption : CustomOption
@@ -14,10 +12,7 @@ namespace TownOfUs.CustomOption
 
         protected string[] Values { get; set; }
 
-        protected internal int Get()
-        {
-            return (int) Value;
-        }
+        protected internal int Get() => (int)Value;
 
         protected internal void Increase()
         {

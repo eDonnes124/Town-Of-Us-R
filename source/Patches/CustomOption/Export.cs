@@ -67,7 +67,6 @@ namespace TownOfUs.CustomOption
                 option.gameObject.SetActive(true);
 
             __instance.Children = OldButtons.ToArray();
-
             yield return new WaitForEndOfFrame();
             yield return flashCoro();
         }
