@@ -88,7 +88,7 @@ namespace TownOfUs
         [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
         public class LobbyPatch
         {
-            public static void Postfix(HudManager __instance)
+            public static void Postfix()
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
@@ -97,6 +97,24 @@ namespace TownOfUs
                     else
                         SettingsPage++;
                 }
+
+                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                    SettingsPage = -1;
+
+                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                    SettingsPage = 0;
+
+                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                    SettingsPage = 1;
+
+                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                    SettingsPage = 2;
+
+                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                    SettingsPage = 3;
+
+                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                    SettingsPage = 4;
             }
         }
     }
