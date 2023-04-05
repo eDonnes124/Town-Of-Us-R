@@ -687,6 +687,7 @@ namespace TownOfUs.Roles
                 RoleHistory.Clear();
                 Modifier.ModifierDictionary.Clear();
                 Ability.AbilityDictionary.Clear();
+                Patches.AddHauntPatch.AssassinatedPlayers.Clear();
                 Lights.SetLights(Color.white);
             }
         }
