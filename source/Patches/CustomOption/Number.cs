@@ -21,7 +21,7 @@ namespace TownOfUs.CustomOption
 
         protected internal void Increase()
         {
-            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift) ? 5 : Increment;
+            var increment = Increment > 1 && Input.GetKeyInt(KeyCode.LeftShift) ? Increment / 2 : Increment;
 
             if (Get() >= Max)
                 Set(Min);
