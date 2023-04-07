@@ -18,11 +18,6 @@ namespace TownOfUs
         [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.ToHudString))]
         private static class GameOptionsDataPatch
         {
-            public static IEnumerable<MethodBase> TargetMethods()
-            {
-                return typeof(GameOptionsData).GetMethods(typeof(string), typeof(int));
-            }
-
             private static void Postfix(ref string __result)
             {
                 if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return;
