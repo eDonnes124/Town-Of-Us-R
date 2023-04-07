@@ -325,13 +325,8 @@ namespace TownOfUs.CustomOption
                     return;
 
                 var y = __instance.GetComponentsInChildren<OptionBehaviour>().Max(option => option.transform.localPosition.y);
-                float x, z;
-
-                if (__instance.Children.Length == 1)
-                    (x, z) = (__instance.Children[0].transform.localPosition.x, __instance.Children[0].transform.localPosition.z);
-                else
-                    (x, z) = (__instance.Children[1].transform.localPosition.x, __instance.Children[1].transform.localPosition.z);
-
+                var s = __instance.Children.Length == 1;
+                var (x, z) = (__instance.Children[s ? 0 : 1].transform.localPosition.x, __instance.Children[s ? 0 : 1].transform.localPosition.z);
                 var i = 0;
 
                 foreach (var option in __instance.Children)
