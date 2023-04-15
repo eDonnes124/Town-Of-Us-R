@@ -4,7 +4,6 @@ namespace TownOfUs.Roles
 {
     public class Blackmailer : Role
     {
-        public KillButton _blackmailButton;
         
         public PlayerControl ClosestPlayer;
         public PlayerControl Blackmailed;
@@ -20,17 +19,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Blackmailer;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
-        }
-
-        public KillButton BlackmailButton
-        {
-            get => _blackmailButton;
-            set
-            {
-                _blackmailButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
         public float BlackmailTimer()
         {

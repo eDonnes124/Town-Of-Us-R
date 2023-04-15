@@ -1,53 +1,49 @@
-using System;
-using System.Linq;
 using HarmonyLib;
 using Hazel;
+using Reactor.Networking.Extensions;
+using System;
+using System.Linq;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Reactor.Networking.Extensions;
 
 namespace TownOfUs.ImpostorRoles.MinerMod
 {
-    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
+    [HarmonyPatch(typeof(AbilityButton), nameof(AbilityButton.DoClick))]
     public class PerformKill
     {
-        public static bool Prefix(KillButton __instance)
+        public static bool Prefix(AbilityButton __instance)
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Miner);
             if (!flag) return true;
+            if (RoleManager.IsGhostRole(PlayerControl.LocalPlayer.Data.RoleType)) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Miner>(PlayerControl.LocalPlayer);
-            if (__instance == role.MineButton)
-            {
-                if (__instance.isCoolingDown) return false;
-                if (!__instance.isActiveAndEnabled) return false;
-                if (!role.CanPlace) return false;
-                if (role.MineTimer() != 0) return false;
-                if (SubmergedCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1) return false;
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.Mine, SendOption.Reliable, -1);
-                var position = PlayerControl.LocalPlayer.transform.position;
-                var id = GetAvailableId();
-                writer.Write(id);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(position);
-                writer.Write(position.z + 0.001f);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                SpawnVent(id, role, position, position.z + 0.001f);
-                return false;
-            }
-
-            return true;
+            if (__instance.isCoolingDown) return false;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (!role.CanPlace) return false;
+            if (role.MineTimer() != 0) return false;
+            if (SubmergedCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1) return false;
+            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte)CustomRPC.Mine, SendOption.Reliable, -1);
+            var position = PlayerControl.LocalPlayer.transform.position;
+            var id = GetAvailableId();
+            writer.Write(id);
+            writer.Write(PlayerControl.LocalPlayer.PlayerId);
+            writer.Write(position);
+            writer.Write(position.z + 0.001f);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            SpawnVent(id, role, position, position.z + 0.001f);
+            return false;
         }
 
         public static void SpawnVent(int ventId, Miner role, Vector2 position, float zAxis)
         {
             var ventPrefab = Object.FindObjectOfType<Vent>();
             var vent = Object.Instantiate(ventPrefab, ventPrefab.transform.parent);
-            
+
             vent.Id = ventId;
             vent.transform.position = new Vector3(position.x, position.y, zAxis);
 

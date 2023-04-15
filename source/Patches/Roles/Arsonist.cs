@@ -9,7 +9,6 @@ namespace TownOfUs.Roles
 {
     public class Arsonist : Role
     {
-        private KillButton _igniteButton;
         public bool ArsonistWins;
         public PlayerControl ClosestPlayerDouse;
         public PlayerControl ClosestPlayerIgnite;
@@ -30,17 +29,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Arsonist;
             AddToRoleHistory(RoleType);
             Faction = Faction.Neutral;
-        }
-
-        public KillButton IgniteButton
-        {
-            get => _igniteButton;
-            set
-            {
-                _igniteButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         internal override bool EABBNOODFGL(LogicGameFlowNormal __instance)

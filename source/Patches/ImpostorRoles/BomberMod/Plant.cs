@@ -1,46 +1,40 @@
 ﻿using HarmonyLib;
 using TownOfUs.Roles;
-using UnityEngine;
 
 namespace TownOfUs.ImpostorRoles.BomberMod
 {
-    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
+    [HarmonyPatch(typeof(AbilityButton), nameof(AbilityButton.DoClick))]
     public class Plant
     {
-        public static Sprite PlantSprite => TownOfUs.PlantSprite;
-        public static Sprite DetonateSprite => TownOfUs.DetonateSprite;
-        public static bool Prefix(KillButton __instance)
+        public static bool Prefix(AbilityButton __instance)
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Bomber);
             if (!flag) return true;
+            if (RoleManager.IsGhostRole(PlayerControl.LocalPlayer.Data.RoleType)) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Bomber>(PlayerControl.LocalPlayer);
             if (role.StartTimer() > 0) return false;
 
-            if (__instance == role.PlantButton)
+            var flag2 = __instance.isCoolingDown;
+            if (flag2) return false;
+            if (role.Player.inVent) return false;
+            if (!__instance.isActiveAndEnabled) return false;
+            if (__instance.graphic.sprite == TownOfUs.PlantSprite)
             {
-                var flag2 = __instance.isCoolingDown;
-                if (flag2) return false;
-                if (role.Player.inVent) return false;
-                if (!__instance.isActiveAndEnabled) return false;
-                if (role.PlantButton.graphic.sprite == PlantSprite)
-                {
-                    role.Detonated = false;
-                    var pos = PlayerControl.LocalPlayer.transform.position;
-                    pos.z += 0.001f;
-                    role.DetonatePoint = pos;
-                    role.PlantButton.graphic.sprite = DetonateSprite;
-                    role.TimeRemaining = CustomGameOptions.DetonateDelay;
-                    role.PlantButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
-                    PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.DetonateDelay);
-                    DestroyableSingleton<HudManager>.Instance.KillButton.SetTarget(null);
-                    role.Bomb = BombExtentions.CreateBomb(pos);
-                    return false;
-                }
-                else return false;
+                role.Detonated = false;
+                var pos = PlayerControl.LocalPlayer.transform.position;
+                pos.z += 0.001f;
+                role.DetonatePoint = pos;
+                __instance.graphic.sprite = TownOfUs.DetonateSprite;
+                role.TimeRemaining = CustomGameOptions.DetonateDelay;
+                __instance.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
+                PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.DetonateDelay);
+                DestroyableSingleton<HudManager>.Instance.KillButton.SetTarget(null);
+                role.Bomb = pos.CreateBomb();
+                return false;
             }
-            return true;
+            else return false;
         }
     }
 }

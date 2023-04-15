@@ -1,17 +1,15 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
-using TownOfUs.Roles;
-using UnityEngine;
 using System.Linq;
 using TownOfUs.Extensions;
-using AmongUs.GameOptions;
+using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.ImpostorRoles.BlackmailerMod
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class HudManagerUpdate
     {
-        public static Sprite Blackmail => TownOfUs.BlackmailSprite;
-
         public static void Postfix(HudManager __instance)
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
@@ -19,25 +17,25 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Blackmailer)) return;
             var role = Role.GetRole<Blackmailer>(PlayerControl.LocalPlayer);
-            if (role.BlackmailButton == null)
-            {
-                role.BlackmailButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.BlackmailButton.graphic.enabled = true;
-                role.BlackmailButton.gameObject.SetActive(false);
-            }
-
-            role.BlackmailButton.graphic.sprite = Blackmail;
-            role.BlackmailButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
             var notBlackmailed = PlayerControl.AllPlayerControls.ToArray().Where(
                 player => role.Blackmailed?.PlayerId != player.PlayerId
             ).ToList();
 
-            Utils.SetTarget(ref role.ClosestPlayer, role.BlackmailButton, GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance], notBlackmailed);
-
-            role.BlackmailButton.SetCoolDown(role.BlackmailTimer(), CustomGameOptions.BlackmailCd);
+            var player = PlayerControl.LocalPlayer;
+            role.ClosestPlayer = Utils.SetClosestPlayer(ref player,
+                                                        GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance],
+                                                        notBlackmailed);
+            if (role.ClosestPlayer != null)
+            {
+                __instance.AbilityButton.graphic.color = Palette.EnabledColor;
+                __instance.AbilityButton.graphic.material.SetFloat("_Desat", 0f);
+            }
+            else if (role.ClosestPlayer == null)
+            {
+                __instance.AbilityButton.graphic.color = Palette.DisabledClear;
+                __instance.AbilityButton.graphic.material.SetFloat("_Desat", 1f);
+            }
 
             if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead && !role.Blackmailed.Data.Disconnected)
             {

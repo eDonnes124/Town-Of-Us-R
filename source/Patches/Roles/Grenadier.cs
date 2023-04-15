@@ -6,8 +6,7 @@ using TownOfUs.Extensions;
 namespace TownOfUs.Roles
 {
     public class Grenadier : Role
-    {
-        public KillButton _flashButton;
+    { 
         public bool Enabled;
         public DateTime LastFlashed;
         public float TimeRemaining;
@@ -31,18 +30,6 @@ namespace TownOfUs.Roles
         }
 
         public bool Flashed => TimeRemaining > 0f;
-
-
-        public KillButton FlashButton
-        {
-            get => _flashButton;
-            set
-            {
-                _flashButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
 
         public float FlashTimer()
         {

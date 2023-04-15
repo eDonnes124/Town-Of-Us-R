@@ -1,35 +1,35 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 using Reactor.Utilities.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
 using Object = UnityEngine.Object;
-using System;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.CultistRoles.NecromancerMod
 {
-    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
+    [HarmonyPatch(typeof(AbilityButton), nameof(AbilityButton.DoClick))]
     public class PerformRevive
     {
-        public static bool Prefix(KillButton __instance)
+        public static bool Prefix(AbilityButton __instance)
         {
             var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Necromancer);
             if (!flag) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
-            if (__instance == role.ReviveButton)
+            if (__instance.graphic.sprite == TownOfUs.NecroReviveSprite)
             {
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.ReviveTimer() != 0) return false;
 
-                var flag2 = role.ReviveButton.isCoolingDown;
+                var flag2 = __instance.isCoolingDown;
                 if (flag2) return false;
                 if (!__instance.enabled) return false;
                 var maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
@@ -92,7 +92,6 @@ namespace TownOfUs.CultistRoles.NecromancerMod
             if (revived.Any(x => x.AmOwner))
                 try
                 {
-                    Minigame.Instance.Close();
                     Minigame.Instance.Close();
                 }
                 catch

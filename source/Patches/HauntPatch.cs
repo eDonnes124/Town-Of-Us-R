@@ -1,7 +1,7 @@
+using AmongUs.GameOptions;
+using HarmonyLib;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
-using HarmonyLib;
-using AmongUs.GameOptions;
 
 namespace TownOfUs
 {

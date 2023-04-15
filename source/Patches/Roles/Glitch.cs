@@ -1,17 +1,16 @@
-﻿using Hazel;
+﻿using AmongUs.GameOptions;
+using Hazel;
 using InnerNet;
+using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TownOfUs.CrewmateRoles.MedicMod;
-using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.Extensions;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.Roles
 {
@@ -20,6 +19,7 @@ namespace TownOfUs.Roles
         public static Sprite MimicSprite = TownOfUs.MimicSprite;
         public static Sprite HackSprite = TownOfUs.HackSprite;
         public static Sprite LockSprite = TownOfUs.LockSprite;
+        public static List<KillButton> ExtraButtons = new();
 
         public bool lastMouse;
 
@@ -68,7 +68,7 @@ namespace TownOfUs.Roles
             {
                 var writer = AmongUsClient.Instance.StartRpcImmediately(
                     PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.GlitchWin,
+                    (byte)CustomRPC.GlitchWin,
                     SendOption.Reliable,
                     -1
                 );
@@ -294,7 +294,7 @@ namespace TownOfUs.Roles
                             }
                             else
                             {
-                                lockImg[1].transform.position = 
+                                lockImg[1].transform.position =
                                     new Vector3(HudManager.Instance.PetButton.transform.position.x,
                                     HudManager.Instance.PetButton.transform.position.y, -50f);
                                 lockImg[1].layer = 5;
@@ -323,7 +323,7 @@ namespace TownOfUs.Roles
 
                         var role = GetRole(PlayerControl.LocalPlayer);
                         if (role != null)
-                            if (role.ExtraButtons.Count > 0)
+                            if (ExtraButtons.Count > 0)
                             {
                                 if (lockImg[3] == null)
                                 {
@@ -333,12 +333,12 @@ namespace TownOfUs.Roles
                                 }
 
                                 lockImg[3].transform.position = new Vector3(
-                                    role.ExtraButtons[0].transform.position.x,
-                                    role.ExtraButtons[0].transform.position.y, -50f);
+                                    ExtraButtons[0].transform.position.x,
+                                    ExtraButtons[0].transform.position.y, -50f);
                                 lockImg[3].layer = 5;
-                                role.ExtraButtons[0].enabled = false;
-                                role.ExtraButtons[0].graphic.color = Palette.DisabledClear;
-                                role.ExtraButtons[0].graphic.material.SetFloat("_Desat", 1f);
+                                ExtraButtons[0].enabled = false;
+                                ExtraButtons[0].graphic.color = Palette.DisabledClear;
+                                ExtraButtons[0].graphic.material.SetFloat("_Desat", 1f);
                             }
 
                         if (Minigame.Instance)
@@ -383,11 +383,11 @@ namespace TownOfUs.Roles
                             HudManager.Instance.KillButton.enabled = true;
                             var role = GetRole(PlayerControl.LocalPlayer);
                             if (role != null)
-                                if (role.ExtraButtons.Count > 0)
+                                if (ExtraButtons.Count > 0)
                                 {
-                                    role.ExtraButtons[0].enabled = true;
-                                    role.ExtraButtons[0].graphic.color = Palette.EnabledColor;
-                                    role.ExtraButtons[0].graphic.material.SetFloat("_Desat", 0f);
+                                    ExtraButtons[0].enabled = true;
+                                    ExtraButtons[0].graphic.color = Palette.EnabledColor;
+                                    ExtraButtons[0].graphic.material.SetFloat("_Desat", 0f);
                                 }
                         }
 
@@ -548,7 +548,7 @@ namespace TownOfUs.Roles
                         __gInstance.HackButton,
                         GameOptionsData.KillDistances[CustomGameOptions.GlitchHackDistance]
                     );
-                    __gInstance.HackTarget = closestPlayer; 
+                    __gInstance.HackTarget = closestPlayer;
                 }
 
                 if (__gInstance.HackTarget != null)
@@ -574,7 +574,7 @@ namespace TownOfUs.Roles
                     else if (interact[1] == true)
                     {
                         __gInstance.LastHack = DateTime.UtcNow;
-                        __gInstance.LastHack.AddSeconds(CustomGameOptions.ProtectKCReset  - CustomGameOptions.HackCooldown);
+                        __gInstance.LastHack.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.HackCooldown);
                         return;
                     }
                     else if (interact[3] == true) return;

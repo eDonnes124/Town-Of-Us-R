@@ -13,7 +13,7 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
             return __instance == DestroyableSingleton<HudManager>.Instance.KillButton;
         }
 
-        public static void SetTarget(KillButton __instance, DeadBody target, Undertaker role)
+        public static void SetTarget(AbilityButton __instance, DeadBody target, Undertaker role)
         {
             if (role.CurrentTarget && role.CurrentTarget != target)
                 role.CurrentTarget.bodyRenderer.material.SetFloat("_Outline", 0f);
