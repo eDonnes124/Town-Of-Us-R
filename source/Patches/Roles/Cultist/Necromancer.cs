@@ -5,7 +5,6 @@ namespace TownOfUs.Roles.Cultist
     public class Necromancer : Role
     {
         public DeadBody CurrentTarget;
-        public KillButton _reviveButton;
         public DateTime LastRevived;
         public int ReviveCount;
 
@@ -20,17 +19,6 @@ namespace TownOfUs.Roles.Cultist
             RoleType = RoleEnum.Necromancer;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
-        }
-
-        public KillButton ReviveButton
-        {
-            get => _reviveButton;
-            set
-            {
-                _reviveButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         public float ReviveTimer()

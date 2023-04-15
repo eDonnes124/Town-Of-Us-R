@@ -8,7 +8,6 @@ namespace TownOfUs.Roles
 {
     public class Werewolf : Role
     {
-        private KillButton _rampageButton;
         public bool Enabled;
         public bool WerewolfWins;
         public PlayerControl ClosestPlayer;
@@ -28,17 +27,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Werewolf;
             AddToRoleHistory(RoleType);
             Faction = Faction.Neutral;
-        }
-
-        public KillButton RampageButton
-        {
-            get => _rampageButton;
-            set
-            {
-                _rampageButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         internal override bool EABBNOODFGL(LogicGameFlowNormal __instance)

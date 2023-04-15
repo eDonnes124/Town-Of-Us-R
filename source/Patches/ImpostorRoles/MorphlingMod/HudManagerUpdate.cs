@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
+using System.Linq;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -18,37 +20,39 @@ namespace TownOfUs.ImpostorRoles.MorphlingMod
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Morphling)) return;
             var role = Role.GetRole<Morphling>(PlayerControl.LocalPlayer);
-            if (role.MorphButton == null)
+
+            if (__instance.AbilityButton.graphic.sprite != SampleSprite && __instance.AbilityButton.graphic.sprite != MorphSprite)
+                __instance.AbilityButton.graphic.sprite = SampleSprite;
+
+            if (__instance.AbilityButton.graphic.sprite == SampleSprite)
             {
-                role.MorphButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.MorphButton.graphic.enabled = true;
-                role.MorphButton.graphic.sprite = SampleSprite;
-                role.MorphButton.gameObject.SetActive(false);
-
-            }
-
-            if (role.MorphButton.graphic.sprite != SampleSprite && role.MorphButton.graphic.sprite != MorphSprite)
-                role.MorphButton.graphic.sprite = SampleSprite;
-
-            role.MorphButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            if (role.MorphButton.graphic.sprite == SampleSprite)
-            {
-                role.MorphButton.SetCoolDown(0f, 1f);
-                Utils.SetTarget(ref role.ClosestPlayer, role.MorphButton);
+                __instance.AbilityButton.SetCoolDown(0f, 1f);
+                var player = PlayerControl.LocalPlayer;
+                role.ClosestPlayer = Utils.SetClosestPlayer(ref player, 
+                                                            GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance], 
+                                                            PlayerControl.AllPlayerControls.ToArray().ToList());
+                if (role.ClosestPlayer != null)
+                {
+                    __instance.AbilityButton.graphic.color = Palette.EnabledColor;
+                    __instance.AbilityButton.graphic.material.SetFloat("_Desat", 0f);
+                }
+                else if (role.ClosestPlayer == null)
+                {
+                    __instance.AbilityButton.graphic.color = Palette.DisabledClear;
+                    __instance.AbilityButton.graphic.material.SetFloat("_Desat", 1f);
+                }
             }
             else
             {
                 if (role.Morphed)
                 {
-                    role.MorphButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.MorphlingDuration);
+                    __instance.AbilityButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.MorphlingDuration);
                     return;
                 }
 
-                role.MorphButton.SetCoolDown(role.MorphTimer(), CustomGameOptions.MorphlingCd);
-                role.MorphButton.graphic.color = Palette.EnabledColor;
-                role.MorphButton.graphic.material.SetFloat("_Desat", 0f);
+                __instance.AbilityButton.SetCoolDown(role.MorphTimer(), CustomGameOptions.MorphlingCd);
+                __instance.AbilityButton.graphic.color = Palette.EnabledColor;
+                __instance.AbilityButton.graphic.material.SetFloat("_Desat", 0f);
             }
         }
     }

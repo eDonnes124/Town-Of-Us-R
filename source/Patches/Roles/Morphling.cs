@@ -6,9 +6,7 @@ using UnityEngine;
 namespace TownOfUs.Roles
 {
     public class Morphling : Role, IVisualAlteration
-
     {
-        public KillButton _morphButton;
         public PlayerControl ClosestPlayer;
         public DateTime LastMorphed;
         public PlayerControl MorphedPlayer;
@@ -26,17 +24,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Morphling;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
-        }
-
-        public KillButton MorphButton
-        {
-            get => _morphButton;
-            set
-            {
-                _morphButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         public bool Morphed => TimeRemaining > 0f;

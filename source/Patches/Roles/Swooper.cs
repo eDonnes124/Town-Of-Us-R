@@ -6,7 +6,6 @@ namespace TownOfUs.Roles
 {
     public class Swooper : Role
     {
-        public KillButton _swoopButton;
         public bool Enabled;
         public DateTime LastSwooped;
         public float TimeRemaining;
@@ -24,17 +23,6 @@ namespace TownOfUs.Roles
         }
 
         public bool IsSwooped => TimeRemaining > 0f;
-
-        public KillButton SwoopButton
-        {
-            get => _swoopButton;
-            set
-            {
-                _swoopButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
 
         public float SwoopTimer()
         {

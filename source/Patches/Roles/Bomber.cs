@@ -9,9 +9,7 @@ using TownOfUs.CrewmateRoles.MedicMod;
 namespace TownOfUs.Roles
 {
     public class Bomber : Role
-
     {
-        public KillButton _plantButton;
         public float TimeRemaining;
         public bool Enabled = false;
         public bool Detonated = true;
@@ -31,16 +29,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Bomber;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
-        }
-        public KillButton PlantButton
-        {
-            get => _plantButton;
-            set
-            {
-                _plantButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
         public float StartTimer()
         {

@@ -18,12 +18,7 @@ namespace TownOfUs.ImpostorRoles.GrenadierMod
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Grenadier)) return;
             var role = Role.GetRole<Grenadier>(PlayerControl.LocalPlayer);
-            if (role.FlashButton == null)
-            {
-                role.FlashButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.FlashButton.graphic.enabled = true;
-                role.FlashButton.gameObject.SetActive(false);
-            }
+            var button = __instance.AbilityButton;
 
             if (CustomGameOptions.GrenadierIndicators) {
                 foreach (var player in PlayerControl.AllPlayerControls)
@@ -44,18 +39,15 @@ namespace TownOfUs.ImpostorRoles.GrenadierMod
                 }
             }
 
-            role.FlashButton.graphic.sprite = FlashSprite;
-            role.FlashButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            button.graphic.sprite = FlashSprite;
 
             if (role.Flashed)
             {
-                role.FlashButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.GrenadeDuration);
+                button.SetCoolDown(role.TimeRemaining, CustomGameOptions.GrenadeDuration);
                 return;
             }
 
-            role.FlashButton.SetCoolDown(role.FlashTimer(), CustomGameOptions.GrenadeCd);
+            button.SetCoolDown(role.FlashTimer(), CustomGameOptions.GrenadeCd);
 
             var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
             var specials = system.specials.ToArray();
@@ -64,13 +56,13 @@ namespace TownOfUs.ImpostorRoles.GrenadierMod
 
             if (sabActive & !dummyActive)
             {
-                role.FlashButton.graphic.color = Palette.DisabledClear;
-                role.FlashButton.graphic.material.SetFloat("_Desat", 1f);
+                button.graphic.color = Palette.DisabledClear;
+                button.graphic.material.SetFloat("_Desat", 1f);
                 return;
             }
 
-            role.FlashButton.graphic.color = Palette.EnabledColor;
-            role.FlashButton.graphic.material.SetFloat("_Desat", 0f);
+            button.graphic.color = Palette.EnabledColor;
+            button.graphic.material.SetFloat("_Desat", 0f);
         }
     }
 }

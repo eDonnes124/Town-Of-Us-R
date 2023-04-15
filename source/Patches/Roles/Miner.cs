@@ -8,7 +8,6 @@ namespace TownOfUs.Roles
     {
         public readonly List<Vent> Vents = new List<Vent>();
 
-        public KillButton _mineButton;
         public DateTime LastMined;
 
 
@@ -26,17 +25,6 @@ namespace TownOfUs.Roles
 
         public bool CanPlace { get; set; }
         public Vector2 VentSize { get; set; }
-
-        public KillButton MineButton
-        {
-            get => _mineButton;
-            set
-            {
-                _mineButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
 
         public float MineTimer()
         {

@@ -10,10 +10,10 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
         public static bool Prefix(KillButton __instance)
         {
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Janitor)) return true;
-            return __instance == DestroyableSingleton<HudManager>.Instance.KillButton;
+            return __instance == HudManager.Instance.KillButton;
         }
 
-        public static void SetTarget(KillButton __instance, DeadBody target, Janitor role)
+        public static void SetTarget(AbilityButton __instance, DeadBody target, Janitor role)
         {
             if (role.CurrentTarget && role.CurrentTarget != target)
                 role.CurrentTarget.bodyRenderer.material.SetFloat("_Outline", 0f);

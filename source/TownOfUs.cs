@@ -1,22 +1,22 @@
+using BepInEx;
+using BepInEx.Configuration;
+using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.Injection;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Reactor;
+using Reactor.Networking.Attributes;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.Unity.IL2CPP;
-using HarmonyLib;
-using Reactor;
-using Reactor.Utilities.Extensions;
-using Reactor.Networking.Attributes;
 using TownOfUs.CustomOption;
+using TownOfUs.Extensions;
 using TownOfUs.Patches;
 using TownOfUs.RainbowMod;
-using TownOfUs.Extensions;
-using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.Injection;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,7 +31,7 @@ namespace TownOfUs
         public const string Id = "com.slushiegoose.townofus";
         public const string VersionString = "4.0.3";
         public static System.Version Version = System.Version.Parse(VersionString);
-        
+
         public static Sprite JanitorClean;
         public static Sprite EngineerFix;
         public static Sprite SwapperSwitch;
@@ -76,7 +76,7 @@ namespace TownOfUs
         public static Sprite ExamineSprite;
         public static Sprite EscapeSprite;
         public static Sprite MarkSprite;
-        public static Sprite Revive2Sprite;
+        public static Sprite NecroReviveSprite;
         public static Sprite WhisperSprite;
         public static Sprite ImitateSelectSprite;
         public static Sprite ImitateDeselectSprite;
@@ -158,7 +158,7 @@ namespace TownOfUs
             ExamineSprite = CreateSprite("TownOfUs.Resources.Examine.png");
             EscapeSprite = CreateSprite("TownOfUs.Resources.Recall.png");
             MarkSprite = CreateSprite("TownOfUs.Resources.Mark.png");
-            Revive2Sprite = CreateSprite("TownOfUs.Resources.Revive2.png");
+            NecroReviveSprite = CreateSprite("TownOfUs.Resources.Revive2.png");
             WhisperSprite = CreateSprite("TownOfUs.Resources.Whisper.png");
             ImitateSelectSprite = CreateSprite("TownOfUs.Resources.ImitateSelect.png");
             ImitateDeselectSprite = CreateSprite("TownOfUs.Resources.ImitateDeselect.png");
@@ -184,7 +184,7 @@ namespace TownOfUs
             // RegisterInIl2CppAttribute.Register();
 
             Ip = Config.Bind("Custom", "Ipv4 or Hostname", "127.0.0.1");
-            Port = Config.Bind("Custom", "Port", (ushort) 22023);
+            Port = Config.Bind("Custom", "Port", (ushort)22023);
             var defaultRegions = ServerManager.DefaultRegions.ToList();
             var ip = Ip.Value;
             if (Uri.CheckHostName(Ip.Value).ToString() == "Dns")
@@ -198,7 +198,7 @@ namespace TownOfUs
 
             ServerManager.DefaultRegions = defaultRegions.ToArray();
 
-            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>) ((scene, loadSceneMode) =>
+            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>)((scene, loadSceneMode) =>
             {
                 try { ModManager.Instance.ShowModStamp(); }
                 catch { }
@@ -227,7 +227,7 @@ namespace TownOfUs
         public static void LoadImage(Texture2D tex, byte[] data, bool markNonReadable)
         {
             _iCallLoadImage ??= IL2CPP.ResolveICall<DLoadImage>("UnityEngine.ImageConversion::LoadImage");
-            var il2CPPArray = (Il2CppStructArray<byte>) data;
+            var il2CPPArray = (Il2CppStructArray<byte>)data;
             _iCallLoadImage.Invoke(tex.Pointer, il2CPPArray.Pointer, markNonReadable);
         }
 

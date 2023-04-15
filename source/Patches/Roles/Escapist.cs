@@ -7,7 +7,6 @@ namespace TownOfUs.Roles
 {
     public class Escapist : Role
     {
-        public KillButton _escapeButton;
         public DateTime LastEscape;
         public Vector3 EscapePoint;
 
@@ -20,17 +19,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Escapist;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
-        }
-
-        public KillButton EscapeButton
-        {
-            get => _escapeButton;
-            set
-            {
-                _escapeButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         public float EscapeTimer()

@@ -1,26 +1,26 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
 using Hazel;
+using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.CrewmateRoles.MedicMod;
+using TownOfUs.CrewmateRoles.TrapperMod;
 using TownOfUs.Extensions;
+using TownOfUs.ImpostorRoles.BomberMod;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using TownOfUs.Roles.Modifiers;
-using Il2CppInterop.Runtime.InteropTypes;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using PerformKill = TownOfUs.Modifiers.UnderdogMod.PerformKill;
 using Random = UnityEngine.Random;
-using AmongUs.GameOptions;
-using TownOfUs.CrewmateRoles.TrapperMod;
-using TownOfUs.ImpostorRoles.BomberMod;
 
 namespace TownOfUs
 {
@@ -43,7 +43,7 @@ namespace TownOfUs
 
         public static void Unmorph(PlayerControl player)
         {
-           player.SetOutfit(CustomPlayerOutfitType.Default);
+            player.SetOutfit(CustomPlayerOutfitType.Default);
         }
 
         public static void Camouflage()
@@ -65,7 +65,7 @@ namespace TownOfUs
                     PlayerMaterial.SetColors(Color.grey, player.myRend());
                     player.nameText().color = Color.clear;
                     player.cosmetics.colorBlindText.color = Color.clear;
-                  
+
                 }
             }
         }
@@ -398,7 +398,7 @@ namespace TownOfUs
                 num = distBetweenPlayers;
                 result = player;
             }
-            
+
             return result;
         }
         public static void SetTarget(
@@ -865,19 +865,24 @@ namespace TownOfUs
                 }
             }
         }
-      
+
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.StartMeeting))]
-        class StartMeetingPatch {
-            public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)]GameData.PlayerInfo meetingTarget) {
+        class StartMeetingPatch
+        {
+            public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo meetingTarget)
+            {
                 voteTarget = meetingTarget;
             }
         }
 
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-        class MeetingHudUpdatePatch {
-            static void Postfix(MeetingHud __instance) {
+        class MeetingHudUpdatePatch
+        {
+            static void Postfix(MeetingHud __instance)
+            {
                 // Deactivate skip Button if skipping on emergency meetings is disabled 
-                if ((voteTarget == null && CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Emergency) || (CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Always)) {
+                if ((voteTarget == null && CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Emergency) || (CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Always))
+                {
                     __instance.SkipVoteButton.gameObject.SetActive(false);
                 }
             }
@@ -1014,7 +1019,7 @@ namespace TownOfUs
             {
                 var escapist = Role.GetRole<Escapist>(PlayerControl.LocalPlayer);
                 escapist.LastEscape = DateTime.UtcNow;
-                escapist.EscapeButton.graphic.sprite = TownOfUs.MarkSprite;
+                HudManager.Instance.AbilityButton.graphic.sprite = TownOfUs.MarkSprite;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Blackmailer))
             {
@@ -1033,7 +1038,7 @@ namespace TownOfUs
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Bomber))
             {
                 var bomber = Role.GetRole<Bomber>(PlayerControl.LocalPlayer);
-                bomber.PlantButton.graphic.sprite = TownOfUs.PlantSprite;
+                HudManager.Instance.AbilityButton.graphic.sprite = TownOfUs.PlantSprite;
                 bomber.Bomb.ClearBomb();
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Grenadier))
@@ -1050,7 +1055,7 @@ namespace TownOfUs
             {
                 var morphling = Role.GetRole<Morphling>(PlayerControl.LocalPlayer);
                 morphling.LastMorphed = DateTime.UtcNow;
-                morphling.MorphButton.graphic.sprite = TownOfUs.SampleSprite;
+                HudManager.Instance.AbilityButton.graphic.sprite = TownOfUs.SampleSprite;
                 morphling.SampledPlayer = null;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Swooper))
@@ -1062,7 +1067,7 @@ namespace TownOfUs
             {
                 var undertaker = Role.GetRole<Undertaker>(PlayerControl.LocalPlayer);
                 undertaker.LastDragged = DateTime.UtcNow;
-                undertaker.DragDropButton.graphic.sprite = TownOfUs.DragSprite;
+                HudManager.Instance.AbilityButton.graphic.sprite = TownOfUs.DragSprite;
                 undertaker.CurrentlyDragging = null;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Necromancer))

@@ -18,47 +18,37 @@ namespace TownOfUs.ImpostorRoles.BomberMod
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Bomber)) return;
             var role = Role.GetRole<Bomber>(PlayerControl.LocalPlayer);
-            if (role.PlantButton == null)
-            {
-                role.PlantButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.PlantButton.graphic.enabled = true;
-                role.PlantButton.graphic.sprite = PlantSprite;
-                role.PlantButton.gameObject.SetActive(false);
-            }
-
-            role.PlantButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            var button = __instance.AbilityButton;
 
             if (role.Detonating)
             {
-                role.PlantButton.graphic.sprite = DetonateSprite;
+                button.graphic.sprite = DetonateSprite;
                 role.DetonateTimer();
-                role.PlantButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
+                button.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
             }
             else
             {
-                role.PlantButton.graphic.sprite = PlantSprite;
+                button.graphic.sprite = PlantSprite;
                 if (!role.Detonated) role.DetonateKillStart();
                 if (PlayerControl.LocalPlayer.killTimer > 0)
                 {
-                    role.PlantButton.graphic.color = Palette.DisabledClear;
-                    role.PlantButton.graphic.material.SetFloat("_Desat", 1f);
+                    button.graphic.color = Palette.DisabledClear;
+                    button.graphic.material.SetFloat("_Desat", 1f);
                 }
                 else
                 {
-                    role.PlantButton.graphic.color = Palette.EnabledColor;
-                    role.PlantButton.graphic.material.SetFloat("_Desat", 0f);
+                    button.graphic.color = Palette.EnabledColor;
+                    button.graphic.material.SetFloat("_Desat", 0f);
                 }
-                role.PlantButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer,
+                button.SetCoolDown(PlayerControl.LocalPlayer.killTimer,
                     GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
             }
 
-            role.PlantButton.graphic.color = Palette.EnabledColor;
-            role.PlantButton.graphic.material.SetFloat("_Desat", 0f);
-            if (role.PlantButton.graphic.sprite == PlantSprite) role.PlantButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer, 
+            button.graphic.color = Palette.EnabledColor;
+            button.graphic.material.SetFloat("_Desat", 0f);
+            if (button.graphic.sprite == PlantSprite) button.SetCoolDown(PlayerControl.LocalPlayer.killTimer, 
                 GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
-            else role.PlantButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
+            else button.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
         }
     }
 }

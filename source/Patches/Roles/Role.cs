@@ -1,18 +1,18 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Extensions;
+using TownOfUs.ImpostorRoles.TraitorMod;
 using TownOfUs.Roles.Modifiers;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
-using TownOfUs.Extensions;
-using TownOfUs.ImpostorRoles.TraitorMod;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.Roles
 {
@@ -23,8 +23,6 @@ namespace TownOfUs.Roles
 
         public static bool NobodyWins;
         public static bool SurvOnlyWins;
-
-        public List<KillButton> ExtraButtons = new List<KillButton>();
 
         public Func<string> ImpostorText;
         public Func<string> TaskText;
@@ -242,7 +240,7 @@ namespace TownOfUs.Roles
 
             foreach (var role in GetRoles(RoleEnum.GuardianAngel))
             {
-                var ga = (GuardianAngel) role;
+                var ga = (GuardianAngel)role;
                 if (Player == ga.target && ((Player == PlayerControl.LocalPlayer && CustomGameOptions.GATargetKnows)
                     || (PlayerControl.LocalPlayer.Data.IsDead && !ga.Player.Data.IsDead)))
                 {
@@ -252,7 +250,7 @@ namespace TownOfUs.Roles
 
             foreach (var role in GetRoles(RoleEnum.Executioner))
             {
-                var exe = (Executioner) role;
+                var exe = (Executioner)role;
                 if (Player == exe.target && PlayerControl.LocalPlayer.Data.IsDead && !exe.Player.Data.IsDead)
                 {
                     PlayerName += "<color=#8C4005FF> X</color>";
@@ -384,7 +382,7 @@ namespace TownOfUs.Roles
 
             return null;
         }
-        
+
         public static T GetRole<T>(PlayerControl player) where T : Role
         {
             return GetRole(player) as T;
@@ -688,6 +686,7 @@ namespace TownOfUs.Roles
                 Modifier.ModifierDictionary.Clear();
                 Ability.AbilityDictionary.Clear();
                 Lights.SetLights(Color.white);
+                KillButtonSprite.AbilityButtonUpdatePatch.Ran = false;
             }
         }
 
@@ -745,7 +744,7 @@ namespace TownOfUs.Roles
                             loverFlag,
                             player
                         );
-                        if(role.ColorCriteria())
+                        if (role.ColorCriteria())
                             player.NameText.color = role.Color;
                     }
                     else
