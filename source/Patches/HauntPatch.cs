@@ -22,5 +22,23 @@ namespace TownOfUs
                                                           : $"{role.Name}";
             return false;
         }
+        
+        [HarmonyPatch(typeof(HauntMenuMinigame), nameof(HauntMenuMinigame.FixedUpdate))]
+        [HarmonyPrefix]
+
+        public static void prefix(HauntMenuMinigame __instance)
+        {
+            if (__instance.amClosing == Minigame.CloseState.Closing)
+            {
+                __instance.amClosing = Minigame.CloseState.None;
+                return;
+            }
+            else if (__instance.amClosing == Minigame.CloseState.None)
+            {
+                __instance.amClosing = Minigame.CloseState.Closing;
+            }
+        }
+
+
     }
 }
