@@ -17,7 +17,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                     var role = Role.GetRole(player);
                     if (player.Is(Faction.Impostors))
                         state.NameText.color = Palette.ImpostorRed;
-                    if (player.Is(Faction.Neutral) && CustomGameOptions.HaunterRevealsNeutrals)
+                    if (player.Is(Faction.NeutralKilling) && CustomGameOptions.HaunterRevealsNeutrals)
                         state.NameText.color = role.Color;
                 }
             }

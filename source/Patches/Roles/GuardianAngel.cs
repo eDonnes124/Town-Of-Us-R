@@ -32,7 +32,7 @@ namespace TownOfUs.Roles
             LastProtected = DateTime.UtcNow;
             RoleType = RoleEnum.GuardianAngel;
             AddToRoleHistory(RoleType);
-            Faction = Faction.Neutral;
+            Faction = Faction.NeutralOther;
             Scale = 1.4f;
 
             UsesLeft = CustomGameOptions.MaxProtects;
@@ -81,7 +81,7 @@ namespace TownOfUs.Roles
             LostByRPC = true;
         }
 
-        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__32 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {
             var gaTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             gaTeam.Add(PlayerControl.LocalPlayer);

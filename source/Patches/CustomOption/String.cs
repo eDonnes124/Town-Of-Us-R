@@ -21,12 +21,18 @@ namespace TownOfUs.CustomOption
 
         protected internal void Increase()
         {
-            Set(Mathf.Clamp(Get() + 1, 0, Values.Length - 1));
+            if (Get() >= Values.Length)
+                Set(0);
+            else
+                Set(Get() + 1);
         }
 
         protected internal void Decrease()
         {
-            Set(Mathf.Clamp(Get() - 1, 0, Values.Length - 1));
+            if (Get() <= 0)
+                Set(Values.Length - 1);
+            else
+                Set(Get() - 1);
         }
 
         public override void OptionCreated()

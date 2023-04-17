@@ -40,7 +40,7 @@ namespace TownOfUs.Roles
             AddToRoleHistory(RoleType);
             ImpostorText = () => "Murder, Mimic, Hack... Data Lost";
             TaskText = () => "Murder everyone to win\nFake Tasks:";
-            Faction = Faction.Neutral;
+            Faction = Faction.NeutralKilling;
         }
 
         public PlayerControl ClosestPlayer;
@@ -57,7 +57,7 @@ namespace TownOfUs.Roles
         public PlayerControl MimicTarget { get; set; }
         public bool GlitchWins { get; set; }
 
-        internal override bool EABBNOODFGL(LogicGameFlowNormal __instance)
+        internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
             if (Player.Data.IsDead || Player.Data.Disconnected) return true;
 
@@ -93,7 +93,7 @@ namespace TownOfUs.Roles
             LostByRPC = true;
         }
 
-        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__32 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {
             var glitchTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             glitchTeam.Add(PlayerControl.LocalPlayer);

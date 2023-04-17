@@ -30,9 +30,6 @@ namespace TownOfUs.CustomOption
             var options = new List<OptionBehaviour>();
 
             var togglePrefab = Object.FindObjectOfType<ToggleOption>();
-            var numberPrefab = Object.FindObjectOfType<NumberOption>();
-            var stringPrefab = Object.FindObjectOfType<StringOption>();
-
 
             foreach (var button in SlotButtons)
                 if (button.Setting != null)
