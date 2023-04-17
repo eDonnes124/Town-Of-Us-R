@@ -11,11 +11,11 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches
 {
-    [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__29), nameof(IntroCutscene._CoBegin_d__29.MoveNext))]
+    [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__33), nameof(IntroCutscene._CoBegin_d__33.MoveNext))]
     public static class Start
     {
         public static Sprite Sprite => TownOfUs.Arrow;
-        public static void Postfix(IntroCutscene._CoBegin_d__29 __instance)
+        public static void Postfix(IntroCutscene._CoBegin_d__33 __instance)
         {
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
             {

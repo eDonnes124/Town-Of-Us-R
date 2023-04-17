@@ -10,6 +10,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using TownOfUs.Roles.Modifiers;
 using AmongUs.GameOptions;
+using TownOfUs.Patches;
 
 namespace TownOfUs.CrewmateRoles.AltruistMod
 {
@@ -98,6 +99,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                 {
                 }
 
+            ExilePatch.CheckTraitorSpawn(null);
 
             if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
                 || PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist) || PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf)

@@ -107,7 +107,6 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption DeadSeeRoles;
         public static CustomToggleOption DisableLevels;
         public static CustomToggleOption WhiteNameplates;
-        public static CustomNumberOption VanillaGame;
         public static CustomNumberOption InitialCooldowns;
         public static CustomToggleOption ParallelMedScans;
         public static CustomStringOption SkipButtonDisable;
@@ -695,8 +694,6 @@ namespace TownOfUs.CustomOption
             ImpostorSeeRoles = new CustomToggleOption(num++, MultiMenu.main, "Impostors Can See The Roles Of Their Team", false);
             DeadSeeRoles =
                 new CustomToggleOption(num++, MultiMenu.main, "Dead Can See Everyone's Roles/Votes", false);
-            VanillaGame = new CustomNumberOption(num++, MultiMenu.main, "Probability Of A Completely Vanilla Game", 0f, 0f, 100f, 5f,
-                PercentFormat);
             InitialCooldowns =
                 new CustomNumberOption(num++, MultiMenu.main, "Game Start Cooldowns", 10f, 10f, 30f, 2.5f, CooldownFormat);
             ParallelMedScans = new CustomToggleOption(num++, MultiMenu.main, "Parallel Medbay Scans", false);

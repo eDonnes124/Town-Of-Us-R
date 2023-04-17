@@ -212,9 +212,35 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                     }
                 }
 
-                AddHauntPatch.AssassinatedPlayers.Add(player);
+                if (ExilePatch.HaunterOn && ExilePatch.WillBeHaunter == null)
+                {
+                    if (player.Is(Faction.Crewmates) && !player.Is(ModifierEnum.Lover))
+                    {
+                        ExilePatch.WillBeHaunter = player;
+                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                            (byte)CustomRPC.SetHaunter, SendOption.Reliable, -1);
+                        writer.Write(player.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    }
+                }
+
+                if (ExilePatch.PhantomOn && ExilePatch.WillBePhantom == null)
+                {
+                    if ((player.Is(Faction.NeutralOther) || player.Is(Faction.NeutralKilling)) && !player.Is(ModifierEnum.Lover))
+                    {
+                        ExilePatch.WillBePhantom = player;
+                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                            (byte)CustomRPC.SetPhantom, SendOption.Reliable, -1);
+                        writer.Write(player.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    }
+                }
+
                 meetingHud.CheckForEndVoting();
             }
+
+            ExilePatch.AssassinatedPlayers.Add(player);
+            ExilePatch.CheckTraitorSpawn(player);
         }
     }
 }

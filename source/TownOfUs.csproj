@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Version>4.0.3</Version>
+		<Version>4.0.4</Version>
 		<DebugType>embedded</DebugType>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<GamePlatform Condition="'$(GamePlatform)' == ''">Steam</GamePlatform>
-		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2023.2.28</GameVersion>
-		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2023.2.28</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2023.3.28</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2023.3.28</GameVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

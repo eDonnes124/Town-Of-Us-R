@@ -16,7 +16,7 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
             if (__instance.Data.IsDead)
             {
                 role.CurrentlyDragging = null;
-                body.bodyRenderer.material.SetFloat("_Outline", 0f);
+                foreach (var body2 in body.bodyRenderers) body2.material.SetFloat("_Outline", 0f);
                 return;
             }
             var currentPosition = __instance.transform.position;
@@ -43,9 +43,11 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
                 false
             )) body.transform.position = newPos;
             if (!__instance.AmOwner) return;
-            var material = body.bodyRenderer.material;
-            material.SetColor("_OutlineColor", Color.green);
-            material.SetFloat("_Outline", 1f);
+            foreach (var body2 in body.bodyRenderers)
+            {
+                body2.material.SetColor("_OutlineColor", Color.green);
+                body2.material.SetFloat("_Outline", 1f);
+            }
         }
     }
 }

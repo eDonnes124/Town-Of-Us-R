@@ -143,6 +143,15 @@ namespace TownOfUs
             return null;
         }
 
+        public static bool IsExeTarget(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Executioner).Any(role =>
+            {
+                var exeTarget = ((Executioner)role).target;
+                return exeTarget != null && player.PlayerId == exeTarget.PlayerId;
+            });
+        }
+
         public static bool IsShielded(this PlayerControl player)
         {
             return Role.GetRoles(RoleEnum.Medic).Any(role =>
@@ -468,6 +477,8 @@ namespace TownOfUs
                 if (killer == PlayerControl.LocalPlayer)
                     SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
 
+                ExilePatch.CheckTraitorSpawn(target);
+
                 if (!killer.Is(Faction.Crewmates) && killer != target
                     && GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal) Role.GetRole(killer).Kills += 1;
 
@@ -489,8 +500,32 @@ namespace TownOfUs
                 if (killer.Is(RoleEnum.Veteran))
                 {
                     var veteran = Role.GetRole<Veteran>(killer);
-                    if (target.Is(Faction.Impostors) || target.Is(Faction.Neutral)) veteran.CorrectKills += 1;
+                    if (target.Is(Faction.Impostors) || target.Is(Faction.NeutralKilling)) veteran.CorrectKills += 1;
                     else if (killer != target) veteran.IncorrectKills += 1;
+                }
+
+                if (AmongUsClient.Instance.AmHost && ExilePatch.HaunterOn && ExilePatch.WillBeHaunter == null)
+                {
+                    if (target.Is(Faction.Crewmates) && !target.Is(ModifierEnum.Lover))
+                    {
+                        ExilePatch.WillBeHaunter = target;
+                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                            (byte)CustomRPC.SetHaunter, SendOption.Reliable, -1);
+                        writer.Write(target.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    }
+                }
+
+                if (AmongUsClient.Instance.AmHost && ExilePatch.PhantomOn && ExilePatch.WillBePhantom == null)
+                {
+                    if ((target.Is(Faction.NeutralOther) || target.Is(Faction.NeutralKilling)) && !target.Is(ModifierEnum.Lover))
+                    {
+                        ExilePatch.WillBePhantom = target;
+                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                            (byte)CustomRPC.SetPhantom, SendOption.Reliable, -1);
+                        writer.Write(target.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    }
                 }
 
                 target.gameObject.layer = LayerMask.NameToLayer("Ghost");
@@ -567,6 +602,18 @@ namespace TownOfUs
                 Murder.KilledPlayers.Add(deadBody);
 
                 if (MeetingHud.Instance) target.Exiled();
+
+                if (target.IsLover() && CustomGameOptions.BothLoversDie)
+                {
+                    var otherLover = Modifier.GetModifier<Lover>(target).OtherLover.Player;
+                    if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Data.IsDead
+                         && !otherLover.Data.Disconnected) MurderPlayer(otherLover, otherLover, true);
+                    if (otherLover.Is(RoleEnum.Sheriff))
+                    {
+                        var sheriff = Role.GetRole<Sheriff>(otherLover);
+                        sheriff.IncorrectKills -= 1;
+                    }
+                }
 
                 if (!killer.AmOwner) return;
 

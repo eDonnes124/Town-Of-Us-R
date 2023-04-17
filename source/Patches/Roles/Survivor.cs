@@ -26,7 +26,7 @@ namespace TownOfUs.Roles
             Color = Patches.Colors.Survivor;
             LastVested = DateTime.UtcNow;
             RoleType = RoleEnum.Survivor;
-            Faction = Faction.Neutral;
+            Faction = Faction.NeutralOther;
             AddToRoleHistory(RoleType);
 
             UsesLeft = CustomGameOptions.MaxVests;
@@ -57,7 +57,7 @@ namespace TownOfUs.Roles
             LastVested = DateTime.UtcNow;
         }
 
-        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__32 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {
             var survTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             survTeam.Add(PlayerControl.LocalPlayer);

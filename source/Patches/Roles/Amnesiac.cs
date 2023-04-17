@@ -17,7 +17,7 @@ namespace TownOfUs.Roles
             Color = Patches.Colors.Amnesiac;
             RoleType = RoleEnum.Amnesiac;
             AddToRoleHistory(RoleType);
-            Faction = Faction.Neutral;
+            Faction = Faction.NeutralOther;
         }
 
         public DeadBody CurrentTarget;
@@ -27,7 +27,7 @@ namespace TownOfUs.Roles
             LostByRPC = true;
         }
 
-        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__32 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {
             var amnesiacTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             amnesiacTeam.Add(PlayerControl.LocalPlayer);

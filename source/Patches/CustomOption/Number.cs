@@ -18,12 +18,12 @@ namespace TownOfUs.CustomOption
         protected float Increment { get; set; }
 
         protected internal float Get() => (float)Value;
-
+       
         protected internal void Increase()
         {
             var increment = Increment > 1 && Input.GetKeyInt(KeyCode.LeftShift) ? Increment / 2 : Increment;
 
-            if (Get() >= Max)
+            if (Get() + increment > Max + 0.001f) // the slight increase is because of the stupid float rounding errors in the Giant speed
                 Set(Min);
             else
                 Set(Get() + increment);
@@ -33,7 +33,7 @@ namespace TownOfUs.CustomOption
         {
             var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift) ? 5 : Increment;
 
-            if (Get() <= Min)
+            if (Get() - increment < Min - 0.001f) // added it here to in case I missed something else
                 Set(Max);
             else
                 Set(Get() - increment);

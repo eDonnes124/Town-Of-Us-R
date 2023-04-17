@@ -13,7 +13,8 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
         {
             KillButtonTarget.SetTarget(DestroyableSingleton<HudManager>.Instance.KillButton, null, role);
             role.Player.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
-            var renderer = body.bodyRenderer;
+            SpriteRenderer renderer = null;
+            foreach (var body2 in body.bodyRenderers) renderer = body2;
             var backColor = renderer.material.GetColor(BackColor);
             var bodyColor = renderer.material.GetColor(BodyColor);
             var newColor = new Color(1f, 1f, 1f, 0f);
