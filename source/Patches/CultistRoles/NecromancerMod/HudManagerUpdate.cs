@@ -65,7 +65,9 @@ namespace TownOfUs.CultistRoles.NecromancerMod
                 CustomGameOptions.ReviveCooldown + CustomGameOptions.IncreasedCooldownPerRevive * role.ReviveCount);
 
             if (role.CurrentTarget && role.CurrentTarget != closestBody)
-                role.CurrentTarget.bodyRenderer.material.SetFloat("_Outline", 0f);
+            {
+                foreach (var body in role.CurrentTarget.bodyRenderers) body.material.SetFloat("_Outline", 0f);
+            }
 
             if (closestBody != null && closestBody.ParentId == DontRevive) closestBody = null;
             role.CurrentTarget = closestBody;
@@ -80,7 +82,8 @@ namespace TownOfUs.CultistRoles.NecromancerMod
                 !(player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.CultistSeer) || player.Is(RoleEnum.Survivor) || player.Is(RoleEnum.Mayor)) &&
                 !(PlayerControl.LocalPlayer.killTimer > GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - 0.5f))
             {
-                var component = role.CurrentTarget.bodyRenderer;
+                SpriteRenderer component = null;
+                foreach (var body in role.CurrentTarget.bodyRenderers) component = body;
                 component.material.SetFloat("_Outline", 1f);
                 component.material.SetColor("_OutlineColor", Color.red);
                 role.ReviveButton.graphic.color = Palette.EnabledColor;

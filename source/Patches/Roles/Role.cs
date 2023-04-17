@@ -11,8 +11,8 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using TownOfUs.Extensions;
-using TownOfUs.ImpostorRoles.TraitorMod;
 using AmongUs.GameOptions;
+using TownOfUs.Patches;
 
 namespace TownOfUs.Roles
 {
@@ -155,7 +155,7 @@ namespace TownOfUs.Roles
             return PlayerControl.LocalPlayer.Is(RoleEnum.GuardianAngel) && CustomGameOptions.GAKnowsTargetRole && Player == GetRole<GuardianAngel>(PlayerControl.LocalPlayer).target;
         }
 
-        protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__32 __instance)
+        protected virtual void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {
         }
 
@@ -179,8 +179,7 @@ namespace TownOfUs.Roles
                 {
                     var role = GetRole(x);
                     if (role == null) return false;
-                    var flag2 = role.Faction == Faction.Neutral && !x.Is(RoleEnum.Juggernaut) && !x.Is(RoleEnum.Glitch)
-                    && !x.Is(RoleEnum.Arsonist) && !x.Is(RoleEnum.Plaguebearer) && !x.Is(RoleEnum.Pestilence) && !x.Is(RoleEnum.Werewolf);
+                    var flag2 = role.Faction == Faction.NeutralOther;
 
                     return flag2;
                 });
@@ -227,7 +226,7 @@ namespace TownOfUs.Roles
             return true;
         }
 
-        internal virtual bool EABBNOODFGL(LogicGameFlowNormal __instance)
+        internal virtual bool NeutralWin(LogicGameFlowNormal __instance)
         {
             return true;
         }
@@ -437,24 +436,27 @@ namespace TownOfUs.Roles
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__32), nameof(IntroCutscene._ShowTeam_d__32.MoveNext))]
+            [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__36), nameof(IntroCutscene._ShowTeam_d__36.MoveNext))]
             public static class IntroCutscene_ShowTeam__d_MoveNext
             {
-                public static void Prefix(IntroCutscene._ShowTeam_d__32 __instance)
+                public static void Prefix(IntroCutscene._ShowTeam_d__36 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
 
                     if (role != null) role.IntroPrefix(__instance);
                 }
 
-                public static void Postfix(IntroCutscene._ShowRole_d__35 __instance)
+                public static void Postfix(IntroCutscene._ShowRole_d__39 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
                     // var alpha = __instance.__4__this.RoleText.color.a;
                     if (role != null && !role.Hidden)
                     {
-                        __instance.__4__this.TeamTitle.text = role.Faction == Faction.Neutral ? "Neutral" : __instance.__4__this.TeamTitle.text;
-                        __instance.__4__this.TeamTitle.color = role.Faction == Faction.Neutral ? Color.white : __instance.__4__this.TeamTitle.color;
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralOther)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Neutral";
+                            __instance.__4__this.TeamTitle.color = Color.white;
+                        }
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
@@ -489,16 +491,19 @@ namespace TownOfUs.Roles
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__35), nameof(IntroCutscene._ShowRole_d__35.MoveNext))]
+            [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__39), nameof(IntroCutscene._ShowRole_d__39.MoveNext))]
             public static class IntroCutscene_ShowRole_d__24
             {
-                public static void Postfix(IntroCutscene._ShowRole_d__35 __instance)
+                public static void Postfix(IntroCutscene._ShowRole_d__39 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
                     {
-                        __instance.__4__this.TeamTitle.text = role.Faction == Faction.Neutral ? "Neutral" : __instance.__4__this.TeamTitle.text;
-                        __instance.__4__this.TeamTitle.color = role.Faction == Faction.Neutral ? Color.white : __instance.__4__this.TeamTitle.color;
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralOther)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Neutral";
+                            __instance.__4__this.TeamTitle.color = Color.white;
+                        }
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
@@ -528,16 +533,19 @@ namespace TownOfUs.Roles
                 }
             }
 
-            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__29), nameof(IntroCutscene._CoBegin_d__29.MoveNext))]
+            [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__33), nameof(IntroCutscene._CoBegin_d__33.MoveNext))]
             public static class IntroCutscene_CoBegin_d__29
             {
-                public static void Postfix(IntroCutscene._CoBegin_d__29 __instance)
+                public static void Postfix(IntroCutscene._CoBegin_d__33 __instance)
                 {
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
                     {
-                        __instance.__4__this.TeamTitle.text = role.Faction == Faction.Neutral ? "Neutral" : __instance.__4__this.TeamTitle.text;
-                        __instance.__4__this.TeamTitle.color = role.Faction == Faction.Neutral ? Color.white : __instance.__4__this.TeamTitle.color;
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralOther)
+                        {
+                            __instance.__4__this.TeamTitle.text = "Neutral";
+                            __instance.__4__this.TeamTitle.color = Color.white;
+                        }
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
@@ -568,10 +576,10 @@ namespace TownOfUs.Roles
             }
         }
 
-        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__113), nameof(PlayerControl._CoSetTasks_d__113.MoveNext))]
+        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__114), nameof(PlayerControl._CoSetTasks_d__114.MoveNext))]
         public static class PlayerControl_SetTasks
         {
-            public static void Postfix(PlayerControl._CoSetTasks_d__113 __instance)
+            public static void Postfix(PlayerControl._CoSetTasks_d__114 __instance)
             {
                 if (__instance == null) return;
                 var player = __instance.__4__this;
@@ -630,18 +638,12 @@ namespace TownOfUs.Roles
                 var result = true;
                 foreach (var role in AllRoles)
                 {
-                    var roleIsEnd = role.EABBNOODFGL(__instance);
+                    var roleIsEnd = role.NeutralWin(__instance);
                     var modifier = Modifier.GetModifier(role.Player);
                     bool modifierIsEnd = true;
-                    var alives = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
-                    var impsAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Data.IsImpostor()).ToList();
-                    var traitorIsEnd = true;
-                    if (SetTraitor.WillBeTraitor != null)
-                    {
-                        traitorIsEnd = SetTraitor.WillBeTraitor.Data.IsDead || SetTraitor.WillBeTraitor.Data.Disconnected || alives.Count < CustomGameOptions.LatestSpawn || impsAlive.Count * 2 >= alives.Count;
-                    }
+                    var traitorIsEnd = !ExilePatch.TraitorCanSpawn;
                     if (modifier != null)
-                        modifierIsEnd = modifier.EABBNOODFGL(__instance);
+                        modifierIsEnd = modifier.ModifierWin(__instance);
                     if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd) result = false;
                 }
 

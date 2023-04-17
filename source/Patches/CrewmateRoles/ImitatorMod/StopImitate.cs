@@ -17,7 +17,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             {
                 return;
             }
-            if (StartImitate.ImitatingPlayer != null)
+            if (StartImitate.ImitatingPlayer != null && !StartImitate.ImitatingPlayer.Is(RoleEnum.Traitor))
             {
                 PlayerControl lastExaminedPlayer = null;
                 List<RoleEnum> trappedPlayers = null;

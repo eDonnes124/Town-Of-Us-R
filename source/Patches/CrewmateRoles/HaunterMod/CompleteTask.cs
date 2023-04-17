@@ -26,7 +26,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 {
                     Coroutines.Start(Utils.FlashCoroutine(role.Color));
                 }
-                else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.Neutral) && CustomGameOptions.HaunterRevealsNeutrals))
+                else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.HaunterRevealsNeutrals))
                 {
                     role.Revealed = true;
                     Coroutines.Start(Utils.FlashCoroutine(role.Color));
@@ -48,7 +48,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
                 }
-                else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.Neutral) && CustomGameOptions.HaunterRevealsNeutrals))
+                else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.HaunterRevealsNeutrals))
                 {
                     Coroutines.Start(Utils.FlashCoroutine(Color.white));
                 }

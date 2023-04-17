@@ -31,7 +31,7 @@ namespace TownOfUs
             else if (__instance.Is(RoleEnum.Haunter))
             {
                 if (CustomGameOptions.HaunterCanBeClickedBy == HaunterCanBeClickedBy.ImpsOnly && !PlayerControl.LocalPlayer.Data.IsImpostor()) return;
-                if (CustomGameOptions.HaunterCanBeClickedBy == HaunterCanBeClickedBy.NonCrew && !(PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(Faction.Neutral))) return;
+                if (CustomGameOptions.HaunterCanBeClickedBy == HaunterCanBeClickedBy.NonCrew && !(PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(Faction.NeutralKilling))) return;
                 if (tasksLeft <= CustomGameOptions.HaunterTasksRemainingClicked)
                 {
                     var role = Role.GetRole<Haunter>(__instance);

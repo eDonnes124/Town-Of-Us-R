@@ -52,8 +52,7 @@ namespace TownOfUs
                     }
                 }
 
-                __result = builder.ToString();
-                __result = $"<size=1.25>{__result}</size>";
+                __result = $"<size=1.25>{builder.ToString()}</size>";
             }
         }
 

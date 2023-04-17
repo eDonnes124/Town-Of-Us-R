@@ -40,11 +40,9 @@ namespace TownOfUs.Roles.Modifiers
 
             foreach(var player in canHaveModifiers)
             {
-                if (player.Is(Faction.Impostors) || ((player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Plaguebearer)
-                    || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Juggernaut)) && CustomGameOptions.NeutralLovers))
+                if (player.Is(Faction.Impostors) || (player.Is(Faction.NeutralKilling) && CustomGameOptions.NeutralLovers))
                     impostors.Add(player);
-                else if (player.Is(Faction.Crewmates) || (player.Is(Faction.Neutral) && !player.Is(RoleEnum.Glitch) && !player.Is(RoleEnum.Arsonist)
-                    && !player.Is(RoleEnum.Plaguebearer) && !player.Is(RoleEnum.Werewolf) && !player.Is(RoleEnum.Juggernaut) && CustomGameOptions.NeutralLovers))
+                else if (player.Is(Faction.Crewmates) || (player.Is(Faction.NeutralOther) && CustomGameOptions.NeutralLovers))
                     crewmates.Add(player);
             }
 
@@ -86,7 +84,7 @@ namespace TownOfUs.Roles.Modifiers
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        internal override bool EABBNOODFGL(LogicGameFlowNormal __instance)
+        internal override bool ModifierWin(LogicGameFlowNormal __instance)
         {
             if (FourPeopleLeft()) return false;
 

@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using HarmonyLib;
+﻿using HarmonyLib;
 using InnerNet;
 using TownOfUs.Roles;
-using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.TransporterMod
 {

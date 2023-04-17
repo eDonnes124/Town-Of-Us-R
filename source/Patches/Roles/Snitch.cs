@@ -40,7 +40,7 @@ namespace TownOfUs.Roles
             {
                 return Revealed || base.RoleCriteria();
             }
-            else if (Role.GetRole(localPlayer).Faction == Faction.Neutral && !Player.Data.IsDead)
+            else if (GetRole(localPlayer).Faction == Faction.NeutralKilling && !Player.Data.IsDead)
             {
                 return Revealed && CustomGameOptions.SnitchSeesNeutrals || base.RoleCriteria();
             }

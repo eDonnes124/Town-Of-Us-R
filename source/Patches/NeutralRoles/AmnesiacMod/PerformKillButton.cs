@@ -69,7 +69,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 var amnesiacRole = Role.GetRole<Amnesiac>(amnesiac);
                 amnesiacRole.BodyArrows.Values.DestroyAll();
                 amnesiacRole.BodyArrows.Clear();
-                amnesiacRole.CurrentTarget.bodyRenderer.material.SetFloat("_Outline", 0f);
+                foreach (var body in amnesiacRole.CurrentTarget.bodyRenderers) body.material.SetFloat("_Outline", 0f);
             }
 
             switch (role)
