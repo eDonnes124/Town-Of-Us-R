@@ -32,7 +32,7 @@ namespace TownOfUs.Roles
         }
 
 
-        internal override bool EABBNOODFGL(LogicGameFlowNormal __instance)
+        internal override bool EABBNOODFGL(LogicGameFlowNormal __instance);
 
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
