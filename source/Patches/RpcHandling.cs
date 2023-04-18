@@ -1156,7 +1156,7 @@ namespace TownOfUs
                         break;
                     case CustomRPC.SetPhantom:
                         readByte = reader.ReadByte();
-                        ExilePatch.WillBePhantom = Utils.PlayerById(readByte);
+                        ExilePatch.WillBePhantom = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
                         break;
                     case CustomRPC.CatchPhantom:
                         var phantomPlayer = Utils.PlayerById(reader.ReadByte());
@@ -1168,7 +1168,7 @@ namespace TownOfUs
                         break;
                     case CustomRPC.SetHaunter:
                         readByte = reader.ReadByte();
-                        ExilePatch.WillBeHaunter = Utils.PlayerById(readByte);
+                        ExilePatch.WillBeHaunter = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
                         break;
                     case CustomRPC.CatchHaunter:
                         var haunterPlayer = Utils.PlayerById(reader.ReadByte());

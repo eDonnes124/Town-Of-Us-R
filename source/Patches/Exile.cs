@@ -27,18 +27,25 @@ namespace TownOfUs.Patches
         public static List<PlayerControl> AssassinatedPlayers = new List<PlayerControl>();
         public static void ExileControllerPostfix(ExileController __instance)
         {
+            if (PlayerControl.LocalPlayer.Data.Disconnected) return;
             foreach (var player in AssassinatedPlayers)
             {
-                player.Exiled();
+                if (!player.Data.Disconnected) player.Exiled();
             }
             AssassinatedPlayers.Clear();
             var exiled = __instance.exiled?.Object;
             if (exiled != null)
             {
                 foreach (var role in Role.GetRoles(RoleEnum.Jester))
+                {
                     if (exiled.PlayerId == ((Jester)role).Player.PlayerId) ((Jester)role).Wins();
+                    return;
+                }
                 foreach (var role in Role.GetRoles(RoleEnum.Executioner))
+                {
                     if (exiled.PlayerId == ((Executioner)role).target.PlayerId) ((Executioner)role).Wins();
+                    return;
+                }
             }
             if (CustomGameOptions.GameMode == GameMode.Cultist) CultistExile(exiled);
             CheckTraitorSpawn(exiled);
@@ -107,7 +114,6 @@ namespace TownOfUs.Patches
                 role.CorrectAssassinKills = killsList.CorrectAssassinKills;
                 role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                 role.RegenTask();
-                Lights.SetLights();
 
                 WillBeHaunter.gameObject.layer = LayerMask.NameToLayer("Players");
                 RemoveTasks(WillBeHaunter);
@@ -147,7 +153,6 @@ namespace TownOfUs.Patches
                 role.CorrectAssassinKills = killsList.CorrectAssassinKills;
                 role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                 role.RegenTask();
-                Lights.SetLights();
 
                 WillBePhantom.gameObject.layer = LayerMask.NameToLayer("Players");
                 RemoveTasks(WillBePhantom);
@@ -322,8 +327,6 @@ namespace TownOfUs.Patches
                     haunterRole.ImpArrows.Add(arrow);
                 }
             }
-
-            Lights.SetLights();
         }
 
         public static void CheckTraitorSpawn(PlayerControl deadPlayer)
