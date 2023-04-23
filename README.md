@@ -546,12 +546,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
     <ul> <li> Bug fixes with Lovers, Time Lord etc. </li> </ul>
     <ul> <li> New hats based on streamers! </li> </ul>
     <ul> <li> Investigator cannot spawn on airship due to too much lag with handling footprints </li> </ul>
-  </ul>
- </details>
- </details>
-  
   </details>
-  
   <details>
   <summary> v1.2.0 </summary>
     <ul> <li> New roles (see above)</li> </ul>
@@ -571,40 +566,34 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
     <ul> <li> New Button Art! </li> </ul>
     <ul> <li> Maps and Impostor Count can be changed from the Lobby! </li> </ul>
     <ul> <li> Shadows for the Custom Colours </li> </ul>
-    <ul> <li> Fixes </li> </ul>
-    <ul>
-      <ul> <li> The Jester and The Shifter unable to fix Sabotages </li>
-      <ul> <li> The Time Lord's Rewind not auto-force closing tasks </li>
-      <ul> <li> The Q button not working for Sheriff </li>
-      <ul> <li> The Shifter's Shift looking too much like a Kill </li>
-      <ul> <li> Changing colours would render you weirdly green in normal Among Us </li>
-    </ul>
+    <ul> <li> The Jester and The Shifter unable to fix Sabotages </li> </ul>
+    <ul> <li> The Time Lord's Rewind not auto-force closing tasks </li> </ul>
+    <ul> <li> The Q button not working for Sheriff </li> </ul>
+    <ul> <li> The Shifter's Shift looking too much like a Kill </li> </ul>
+    <ul> <li> Changing colours would render you weirdly green in normal Among Us </li> </ul>
   </details>
   <details>
   <summary> v1.0.3 </summary>
-  <p> Fixes: </p>
-    <ul> <li> Engineer being able to Fix every sabotage </li>
-    <ul> <li> The Investigator being able to revive people voted out (and instead made it an option) </li>
-    <ul> <li> Footprints not appearing if a person walks over old footprints </li>
-    <ul> <li> Graphical glitch where Jester and Lovers simultaneously win </li>
-    <ul> <li> Players spawning back into positions from the last game when time is rewound right at the beginning of a new game </li>
-    <ul> <li> Graphical Bug of Time Lord's name not being blue in Meetings </li>
-    <ul> <li> Fixed Medbay Scan not working for custom colours </li>
+    <ul> <li> Engineer being able to Fix every sabotage </li> </ul>
+    <ul> <li> The Investigator being able to revive people voted out (and instead made it an option) </li> </ul>
+    <ul> <li> Footprints not appearing if a person walks over old footprints </li> </ul>
+    <ul> <li> Graphical glitch where Jester and Lovers simultaneously win </li> </ul>
+    <ul> <li> Players spawning back into positions from the last game when time is rewound right at the beginning of a new game </li> </ul>
+    <ul> <li> Graphical Bug of Time Lord's name not being blue in Meetings </li> </ul>
+    <ul> <li> Fixed Medbay Scan not working for custom colours </li> </ul>
   </details>
   <details>
   <summary> v1.0.2 </summary>
-  <p> Fixes: </p>
-    <ul> <li>  The Swapper being unable to vote </li>
-    <ul> <li> Mayor Vote Bank ending up negative </li>
-    <ul> <li> Anonymous Voting not working when Mayor is in a game </li>
-    <ul> <li> Chats not working in the lobby </li>
-    <ul> <li> Sheriff desync (I think) </li>
-    <ul> <li> Buttons being able to be used during meetings </li>
-  <hr>
+    <ul> <li>  The Swapper being unable to vote </li> </ul>
+    <ul> <li> Mayor Vote Bank ending up negative </li> </ul>
+    <ul> <li> Anonymous Voting not working when Mayor is in a game </li> </ul>
+    <ul> <li> Chats not working in the lobby </li> </ul>
+    <ul> <li> Sheriff desync (I think) </li> </ul>
+    <ul> <li> Buttons being able to be used during meetings </li> </ul>
   </details>
   <details>
   <summary> v1.0.1 </summary>
-  <p> Fixes errors of not being able to launch. </p>
+    <ul> <li> Fixes errors of not being able to launch </li> </ul>
   </details>
 </details>
 
