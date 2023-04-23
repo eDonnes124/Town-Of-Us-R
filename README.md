@@ -52,6 +52,8 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 |                                 | [Veteran](#veteran)               |                                   |                               |
 |                                 | [Vigilante](#vigilante)           |                                   |                               |
 
+[**Assassin Ability**](#assassin-ability)
+
 -----------------------
 
 # Releases
@@ -806,7 +808,7 @@ The Investigator can see the footprints of players. Every footprint disappears a
 
 ## Mayor
 ### **Alignment: Crewmate (Support)**
-The Mayor can vote multiple times. The Mayor has a Vote Bank, which is the number of times they can vote. They have the option to abstain their vote during a meeting, adding that vote to the Vote Bank. As long as not everyone has voted, the Mayor can use as many votes from their Vote Bank as they please. This role cannot be converted in Cultist mode.
+The Mayor has a Vote Bank, with which is the number of times they can vote. They have the option to abstain their vote during a meeting, adding that vote to the Vote Bank. As long as not everyone has voted, the Mayor can use as many votes from their Vote Bank as they please. This role cannot be converted in Cultist mode.
 
 ### Game Options
 
@@ -1074,7 +1076,7 @@ The Arsonist can douse other players with gasoline. After dousing, the Arsonist 
 ### **Alignment: Neutral (Evil)**
 ### Win Condition: Live to see their target get ejected
 
-The Executioner has no abilities and instead must use gas-lighting techniques to get their target ejected. The Executioner's target, is always a crewmate that's not a Mayor, Swapper, Vigilante or Lover. If their target dies before ejected, the Executioner turns into a different role to compensate for their loss.
+The Executioner has no abilities and instead must use gas-lighting techniques to get their target ejected. The Executioner's target is always a crewmate that's not a Mayor, Swapper, Vigilante or Lover. If their target dies before ejected, the Executioner turns into a different role to compensate for their loss.
 
 ### Game Options
 
@@ -1104,12 +1106,12 @@ The Glitch can hack players, resulting in them being unable to do anything for a
 ## Guardian Angel
 ### **Alignment: Neutral (Benign)**
 
-The Guardian Angel aligns with the faction of their target. Their job is to protect their target at all costs. If their target loses, they lose.
+The Guardian Angel aligns with the faction of their target. Their job is to protect their target at all costs. If their target loses, they lose. If their target dies, the Guardian Angel turns into a different role to compensate for their loss.
 
 ### Game Options
 
 | Name | Description | Type | Default |
-|------|-------------|------|---------|\
+|------|-------------|------|---------|
 | Protect Cooldown | The cooldown of the Guardian Angel's Protect button | Time | 25s |
 | Protect Duration | How long The Guardian Angel's Protect lasts | Time | 10s |
 | Kill Cooldown Reset on Attack | The attackers kill cooldown after they attacked the protected target | Time | 2.5s |
@@ -1188,7 +1190,7 @@ The Plaguebearer can infect other players. Once infected, the infected player ca
 ### **Alignment: Neutral (Benign)**
 ### Win Condition: Live to the end of the game
 
-The Survivor which can win by simply surviving. However, if Lovers, or a Neutral Evil role wins the game, the Survivor loses.
+The Survivor which can win by simply surviving. However, if Lovers, or a Neutral Evil role wins the game, the Survivor loses. The Survivor is the only Neutral role that can spawn in Cultist mode and cannot be converted.
 
 ### Game Options
 
@@ -1237,7 +1239,7 @@ The Blackmailer can silence people in meetings. During each round, the Blackmail
 ## Bomber
 ### **Alignment: Impostor (Killing)**
 
-The Bomber has the ability to plant bombs instead of kill. After a bomb is planted, the bomb will detonate a fixed time period as per settings. Once the bomb detonates it will kill all crewmates (and Impostors!) inside a certain radius.
+The Bomber has the ability to plant bombs instead of killing. After a bomb is planted, the bomb will detonate a fixed time period as per settings. Once the bomb detonates it will kill all crewmates (and Impostors!) inside a certain radius.
 
 ### Game Options
 
@@ -1266,7 +1268,7 @@ The Demolitionist doesn't spawn like normal. A Demolitionist only appears when a
 ## Escapist
 ### **Aligment: Impostor (Support)**
 
-The Escapist can teleport to a different location. Once per round the Escapist can mark a location to which they can then escape to later in the round.
+The Escapist can teleport to a different location. Once per round the Escapist can mark a location to which they can then escape to later in the round. This role also appears when a [Transporter](#transporter) is converted in Cultist mode.
 
 ### Game Options
 
@@ -1337,7 +1339,7 @@ The Rogue Agent doesn't spawn like normal. A Rogue Agent only appears when a [Sp
 ## Swooper
 ### **Alignment: Impostor (Concealing)**
 
-The Swooper can temporarily turn invisible.
+The Swooper can temporarily turn invisible. This role also appears when a [Chameleon](#chameleon) is converted in Cultist mode.
 
 ### Game Options
 
@@ -1623,11 +1625,11 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 
 -----------------------
 
-## Assassin Ability
+# Assassin Ability
 
 The Assassin Ability is given to a certain number of Impostors or Neutral Killers. This ability gives the Impostor or Neutral Killer a chance to kill during meetings by guessing the roles or modifiers of others. If they guess wrong, they die instead. This ability also appears as an [Assassin](#assassin) role when a [Vigilante](#vigilante) is converted in Cultist mode.
 
-### Game Options
+## Game Options
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
