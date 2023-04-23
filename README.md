@@ -668,6 +668,8 @@ The first launch may take a while, so be patient if it doesn't launch immediatel
 ## Issues
 If you have issues installing Town of Us, you can join our [Discord](https://discord.gg/ugyc4EVUYZ) to receive help.
 
+-----------------------
+
 # Uninstallation
 
 For Epic Games users, delete these files and you're good to go!
