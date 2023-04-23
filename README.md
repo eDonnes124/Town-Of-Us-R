@@ -23,8 +23,6 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 
 [**Uninstallation**](#uninstallation)
 
-[**Roles & Modifiers**](#roles--modifiers)
-
 | [Impostors](#impostor-roles)    | [Crewmates](#crewmate-roles)      | [Neutrals](#neutral-roles)        | [Modifiers](#modifiers)       |
 |---------------------------------|-----------------------------------|-----------------------------------|-------------------------------|
 | [Assassin](#assassin)           | [Altruist](#altruist)             | [Amnesiac](#amnesiac)             | [Bait](#bait)                 |
@@ -54,11 +52,13 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 
 [**Assassin Ability**](#assassin-ability)
 
+[**Other Settings**](#other-settings)
+
 -----------------------
 
 # Releases
-| Among Us - Version| Mod Version | Link |
-|----------|-------------|-----------------|
+| Among Us - Version | Mod Version | Link |
+|--------------------|-------------|------|
 | 2023.3.28s & 2023.3.28e | v4.0.5 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.5/ToU.v4.0.5.zip) |
 | 2023.3.28s & 2023.3.28e | v4.0.4 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.4/ToU.v4.0.4.zip) |
 | 2023.2.28s & 2023.2.28e | v4.0.3 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.3/ToU.v4.0.3.zip) |
@@ -681,17 +681,6 @@ For Epic Games users, delete these files and you're good to go!
 For Steam users, delete the `Among Us - ToU-R` that you created.
 
 -----------------------
-
-# Common Settings
-## Each role and modifier has these settings
-
-| Name | Description | Type | Default |
-|------|-------------|------|---------|
-| Role/Modifier | The percentage probability of the specified type appearing in game | Percentage | 0% |
-
------------------------
-
-# Roles
 
 # Crewmate Roles
 
@@ -1501,15 +1490,48 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 
 -----------------------
 
-# Game Mode Settings
+# Assassin Ability
+
+The Assassin Ability is given to a certain number of Impostors or Neutral Killers. This ability gives the Impostor or Neutral Killer a chance to kill during meetings by guessing the roles or modifiers of others. If they guess wrong, they die instead. This ability also appears as an [Assassin](#assassin) role when a [Vigilante](#vigilante) is converted in Cultist mode.
+
+## Game Options
+
+| Name | Description | Type | Default |
+|------|-------------|------|---------|
+| Number of Impostor Assassins | How many Impostors can Assassinate | Number | 1 |
+| Number of Neutral Killing Assassins | How many Neutral Killers can Assassinate | Number | 1 |
+| Amnesiac Turned Impostor Can Assassinate | Whether former Amnesiacs now Impostor can Assassinate | Toggle | False |
+| Amnesiac Turned Neutral Killing Can Assassinate | Whether former Amnesiacs now Neutral Killers can Assassinate | Toggle | False |
+| Traitor Can Assassinate | If someone turns into a Traitor they can Assassinate | Toggle | False |
+| Assassin Kill | The number of kill the Assassin can do with his ability | Number | 1 |
+| Assassin Guess Crewmate | Whether the Assassin can Guess "Crewmate" | Toggle | False |
+| Assassin Multiple Kill  | Whether the Assassin can kill more than once per meeting | Toggle | False |
+| Assassin Guess Neutral Benign  | Whether the Assassin can Guess Neutral Benign roles | Toggle | False |
+| Assassin Guess Neutral Evil  | Whether the Assassin can Guess Neutral Evil roles | Toggle | False |
+| Assassin Guess Neutral Killing  | Whether the Assassin can Guess Neutral Killing roles | Toggle | False |
+| Assassin Guess Impostors  | Whether the Assassin can Guess Impostor roles | Toggle | False |
+| Assassin Guess Crewmate Modifiers  | Whether the Assassin can Guess Crewmate Modifiers | Toggle | False |
+| Assassin Can Guess Lovers  | Whether the Assassin can Guess Lovers | Toggle | False |
+| Assassin Can Guess After Voting  | Whether the Assassin can Guess after voting | Toggle | False |
+
+-----------------------
+
+# Common Settings
+
+## Common Settings
+### Each role and modifier has these settings
+
+| Name | Description | Type | Default |
+|------|-------------|------|---------|
+| Role/Modifier | The percentage probability of the specified type appearing in game | Percentage | 0% |
+
+## Game Mode Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
 | Game Mode | What game mode the next game will be | Classic / All Any / Killing Only / Cultist | Classic |
 
------------------------
-
-# Classic Game Mode Settings
+## Classic Game Mode Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
@@ -1518,17 +1540,13 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 | Min Neutral Killing Roles | The minimum number of Neutral killing roles a game can have | Number | 1 |
 | Max Neutral Killing Roles | The maximum number of Neutral killing roles a game can have | Number | 1 |
 
------------------------
-
-# All Any Settings
+## All Any Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
 | Random Number of Impostors | Whether there are a random number of Impostors | Toggle | True |
 
------------------------
-
-# Killing Only Settings
+## Killing Only Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
@@ -1538,9 +1556,7 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 | Add Arsonist | Whether Arsonist will be added to the role list | Toggle | True |
 | Add Plaguebearer | Whether Plaguebearer will be added to the role list | Toggle | True |
 
------------------------
-
-# Cultist Settings
+## Cultist Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
@@ -1565,9 +1581,7 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 | Increased Cooldown Per Revive | The amount of time the Necromancer's revive cooldown increases by per Revive | Time | 25s |
 | Maximum Number Of Reveals | The maximum number of times the Seer can reveal someone | Number | 5 |
 
------------------------
-
-# Map Settings
+## Map Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
@@ -1586,9 +1600,7 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 | Airship/Submerged Decreased Short Tasks | How many less short tasks when the map is Airship/Submerged | Number | 0 |
 | Airship/Submerged Decreased Longt Tasks | How many less long tasks when the map is Airship/Submerged | Number | 0 |
 
------------------------
-
-# Better Polus Settings
+## Better Polus Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
@@ -1597,9 +1609,7 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 | Cole Temp Moved to Death Valley | Whether the cold temperaure task is moved to death valley | Toggle | False |
 | Reboot Wifi and Chart Course Swapped | Whether the Reboot Wifi and Chart Course swap locations | Toggle | False |
 
------------------------
-
-# Custom Game Options
+## Custom Game Options
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
@@ -1613,41 +1623,13 @@ The Underdog normally has a prolonged kill cooldown. When they are the only rema
 | Disable Player Nameplates | Whether all decorative nameplates are disabled in meetings | Toggle | False |
 | Enable Hidden Roles | Whether hidden roles are added to the role selections | Toggle | True |
 
------------------------
-
-# Task Tracking Settings
+## Task Tracking Settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
 | See Tasks During Round | Whether people see their tasks update in game | Toggle | False |
 | See Tasks During Meetings | Whether people see their task count during meetings | Toggle | False |
 | See Tasks When Dead | Whether people see everyone's tasks when they're dead | Toggle | False |
-
------------------------
-
-# Assassin Ability
-
-The Assassin Ability is given to a certain number of Impostors or Neutral Killers. This ability gives the Impostor or Neutral Killer a chance to kill during meetings by guessing the roles or modifiers of others. If they guess wrong, they die instead. This ability also appears as an [Assassin](#assassin) role when a [Vigilante](#vigilante) is converted in Cultist mode.
-
-## Game Options
-
-| Name | Description | Type | Default |
-|------|-------------|------|---------|
-| Number of Impostor Assassins | How many Impostors can Assassinate | Number | 1 |
-| Number of Neutral Killing Assassins | How many Neutral Killers can Assassinate | Number | 1 |
-| Amnesiac Turned Impostor Can Assassinate | Whether former Amnesiacs now Impostor can Assassinate | Toggle | False |
-| Amnesiac Turned Neutral Killing Can Assassinate | Whether former Amnesiacs now Neutral Killers can Assassinate | Toggle | False |
-| Traitor Can Assassinate | If someone turns into a Traitor they can Assassinate | Toggle | False |
-| Assassin Kill | The number of kill the Assassin can do with his ability | Number | 1 |
-| Assassin Guess Crewmate | Whether the Assassin can Guess "Crewmate" | Toggle | False |
-| Assassin Multiple Kill  | Whether the Assassin can kill more than once per meeting | Toggle | False |
-| Assassin Guess Neutral Benign  | Whether the Assassin can Guess Neutral Benign roles | Toggle | False |
-| Assassin Guess Neutral Evil  | Whether the Assassin can Guess Neutral Evil roles | Toggle | False |
-| Assassin Guess Neutral Killing  | Whether the Assassin can Guess Neutral Killing roles | Toggle | False |
-| Assassin Guess Impostors  | Whether the Assassin can Guess Impostor roles | Toggle | False |
-| Assassin Guess Crewmate Modifiers  | Whether the Assassin can Guess Crewmate Modifiers | Toggle | False |
-| Assassin Can Guess Lovers  | Whether the Assassin can Guess Lovers | Toggle | False |
-| Assassin Can Guess After Voting  | Whether the Assassin can Guess after voting | Toggle | False |
 
 -----------------------
 
