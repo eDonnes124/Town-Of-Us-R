@@ -1516,7 +1516,7 @@ The Assassin Ability is given to a certain number of Impostors or Neutral Killer
 
 -----------------------
 
-# Common Settings
+# Other Settings
 
 ## Common Settings
 ### Each role and modifier has these settings
