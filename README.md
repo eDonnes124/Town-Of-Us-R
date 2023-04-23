@@ -681,7 +681,7 @@ For Steam users, delete the `Among Us - ToU-R` that you created.
 -----------------------
 
 # Common Settings
-## Each role, modifier, objectifier and ability has these settings
+## Each role and modifier has these settings
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
