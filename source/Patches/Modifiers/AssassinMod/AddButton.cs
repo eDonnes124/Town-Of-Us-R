@@ -24,7 +24,7 @@ namespace TownOfUs.Modifiers.AssassinMod
         {
             if (voteArea.AmDead) return true;
             var player = Utils.PlayerById(voteArea.TargetPlayerId);
-            if (PlayerControl.LocalPlayer.Is(Faction.Neutral))
+            if (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling))
             {
                 if (
                     player == null ||
@@ -215,6 +215,7 @@ namespace TownOfUs.Modifiers.AssassinMod
 
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(AbilityEnum.Assassin)) return;
+            if (PlayerControl.LocalPlayer.Is(Faction.NeutralOther)) return;
 
             var assassinRole = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
             if (assassinRole.RemainingKills <= 0) return;

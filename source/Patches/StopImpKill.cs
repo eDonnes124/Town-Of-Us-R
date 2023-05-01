@@ -1,8 +1,5 @@
 using HarmonyLib;
-using TownOfUs.CrewmateRoles.MedicMod;
-using Hazel;
 using TownOfUs.Extensions;
-using TownOfUs.Roles;
 using AmongUs.GameOptions;
 
 namespace TownOfUs

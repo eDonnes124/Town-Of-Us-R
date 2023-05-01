@@ -2,7 +2,6 @@ using HarmonyLib;
 using TownOfUs.Roles;
 using System;
 using Hazel;
-using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.CrewmateRoles.TransporterMod
 {

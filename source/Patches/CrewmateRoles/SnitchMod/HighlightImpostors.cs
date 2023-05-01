@@ -20,7 +20,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                         state.NameText.color = Palette.ImpostorRed;
                     else if (player.Is(RoleEnum.Traitor) && CustomGameOptions.SnitchSeesTraitor)
                         state.NameText.color = Palette.ImpostorRed;
-                    if (player.Is(Faction.Neutral) && CustomGameOptions.SnitchSeesNeutrals)
+                    if (player.Is(Faction.NeutralKilling) && CustomGameOptions.SnitchSeesNeutrals)
                         state.NameText.color = role.Color;
                 }
             }
@@ -38,7 +38,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                 if (player.Data.IsImpostor() && !player.Is(RoleEnum.Traitor)) player.nameText().color = Palette.ImpostorRed;
                 else if (player.Is(RoleEnum.Traitor) && CustomGameOptions.SnitchSeesTraitor) player.nameText().color = Palette.ImpostorRed;
                 var playerRole = Role.GetRole(player);
-                if (playerRole.Faction == Faction.Neutral && CustomGameOptions.SnitchSeesNeutrals)
+                if (playerRole.Faction == Faction.NeutralKilling && CustomGameOptions.SnitchSeesNeutrals)
                     player.nameText().color = playerRole.Color;
             }
         }

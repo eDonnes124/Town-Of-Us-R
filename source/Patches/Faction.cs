@@ -4,6 +4,7 @@ namespace TownOfUs
     {
         Crewmates,
         Impostors,
-        Neutral
+        NeutralKilling,
+        NeutralOther
     }
 }

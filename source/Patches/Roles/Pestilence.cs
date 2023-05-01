@@ -16,14 +16,14 @@ namespace TownOfUs.Roles
             AddToRoleHistory(RoleType);
             ImpostorText = () => "";
             TaskText = () => "Kill everyone with your unstoppable abilities!\nFake Tasks:";
-            Faction = Faction.Neutral;
+            Faction = Faction.NeutralKilling;
         }
 
         public PlayerControl ClosestPlayer;
         public DateTime LastKill { get; set; }
         public bool PestilenceWins { get; set; }
 
-        internal override bool EABBNOODFGL(LogicGameFlowNormal __instance)
+        internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
             if (Player.Data.IsDead || Player.Data.Disconnected) return true;
 

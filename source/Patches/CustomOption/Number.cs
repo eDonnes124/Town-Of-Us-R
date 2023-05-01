@@ -21,22 +21,25 @@ namespace TownOfUs.CustomOption
         {
             return (float) Value;
         }
-
        
         protected internal void Increase()
         {
-            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift)
-                ? 5
-                : Increment;
-            Set(Mathf.Clamp(Get() + increment, Min, Max));
+            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift) ? 5 : Increment;
+
+            if (Get() + increment > Max + 0.001f) // the slight increase is because of the stupid float rounding errors in the Giant speed
+                Set(Min);
+            else
+                Set(Get() + increment);
         }
 
         protected internal void Decrease()
         {
-            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift)
-                ? 5
-                : Increment;
-            Set(Mathf.Clamp(Get() - increment, Min, Max));
+            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift) ? 5 : Increment;
+
+            if (Get() - increment < Min - 0.001f) // added it here to in case I missed something else
+                Set(Max);
+            else
+                Set(Get() - increment);
         }
 
         public override void OptionCreated()
