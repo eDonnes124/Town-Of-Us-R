@@ -13,6 +13,9 @@ namespace TownOfUs.CustomOption
         public static Export ExportButton;
         public static Import ImportButton;
         public static Presets PresetButton;
+        private static int LastPage;
+        private static readonly List<GameObject> MenuG = new();
+        private static readonly List<SpriteRenderer> MenuS = new();
 
         private static List<OptionBehaviour> CreateOptions(GameOptionsMenu __instance, MultiMenu type)
         {
@@ -188,8 +191,8 @@ namespace TownOfUs.CustomOption
                 obj.transform.localPosition = new Vector3(obj.transform.localPosition.x - diff, obj.transform.localPosition.y, obj.transform.localPosition.z);
                 __instance.GameSettingsHightlight.gameObject.transform.parent.localPosition = new Vector3(obj.transform.localPosition.x, obj.transform.localPosition.y,
                     obj.transform.localPosition.z);
-                var menug = new List<GameObject>();
-                var menugs = new List<SpriteRenderer>();
+                MenuG.Clear();
+                MenuS.Clear();
 
                 for (var index = 0; index < Menus.Length; index++)
                 {
@@ -221,12 +224,12 @@ namespace TownOfUs.CustomOption
                     var renderer = hatIcon.GetComponent<SpriteRenderer>();
                     renderer.sprite = GetSettingSprite(index);
                     var touSettingsHighlight = tabBackground.GetComponent<SpriteRenderer>();
-                    menug.Add(touSettings);
-                    menugs.Add(touSettingsHighlight);
+                    MenuG.Add(touSettings);
+                    MenuS.Add(touSettingsHighlight);
 
                     var passiveButton = tabBackground.GetComponent<PassiveButton>();
                     passiveButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                    passiveButton.OnClick.AddListener(ToggleButton(__instance, menug, menugs, index + 2));
+                    passiveButton.OnClick.AddListener(ToggleButton(__instance, MenuG, MenuS, index + 2));
 
                     //fix for scrollbar (bug in among us)
                     touSettings.GetComponentInChildren<Scrollbar>().parent = touSettings.GetComponentInChildren<Scroller>();
@@ -234,10 +237,10 @@ namespace TownOfUs.CustomOption
 
                 var passiveButton2 = __instance.GameSettingsHightlight.GetComponent<PassiveButton>();
                 passiveButton2.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                passiveButton2.OnClick.AddListener(ToggleButton(__instance, menug, menugs, 0));
+                passiveButton2.OnClick.AddListener(ToggleButton(__instance, MenuG, MenuS, 0));
                 passiveButton2 = __instance.RolesSettingsHightlight.GetComponent<PassiveButton>();
                 passiveButton2.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                passiveButton2.OnClick.AddListener(ToggleButton(__instance, menug, menugs, 1));
+                passiveButton2.OnClick.AddListener(ToggleButton(__instance, MenuG, MenuS, 1));
 
                 __instance.RegularGameSettings.GetComponentInChildren<Scrollbar>().parent = __instance.RegularGameSettings.GetComponentInChildren<Scroller>();
 
@@ -245,6 +248,8 @@ namespace TownOfUs.CustomOption
                 {
                     __instance.RolesSettings.GetComponentInChildren<Scrollbar>().parent = __instance.RolesSettings.GetComponentInChildren<Scroller>();
                 } catch {}
+
+                ToggleButtonVoid(__instance, MenuG, MenuS, LastPage);
             }
 
             static Sprite GetSettingSprite(int index)
@@ -261,21 +266,23 @@ namespace TownOfUs.CustomOption
             }
         }
 
-        public static System.Action ToggleButton(GameSettingMenu settingMenu, List<GameObject> TouSettings, List<SpriteRenderer> highlight, int id)
-        {
-            return new System.Action(() =>
-            {
-                settingMenu.RegularGameSettings.SetActive(id == 0);
-                settingMenu.GameSettingsHightlight.enabled = id == 0;
-                settingMenu.RolesSettings.gameObject.SetActive(id == 1);
-                settingMenu.RolesSettingsHightlight.enabled = id == 1;
+        public static System.Action ToggleButton(GameSettingMenu settingMenu, List<GameObject> settings, List<SpriteRenderer> highlight, int id) => new(() =>
+            ToggleButtonVoid(settingMenu, settings, highlight, id));
 
-                foreach (GameObject g in TouSettings)
-                {
-                    g.SetActive(id == TouSettings.IndexOf(g) + 2);
-                    highlight[TouSettings.IndexOf(g)].enabled = id == TouSettings.IndexOf(g) + 2;
-                }
-            });
+        public static void ToggleButtonVoid(GameSettingMenu settingMenu, List<GameObject> settings, List<SpriteRenderer> highlight, int id)
+        {
+            settingMenu.RegularGameSettings.SetActive(id == 0);
+            settingMenu.GameSettingsHightlight.enabled = id == 0;
+            settingMenu.RolesSettings.gameObject.SetActive(id == 1);
+            settingMenu.RolesSettingsHightlight.enabled = id == 1;
+
+            foreach (var g in settings)
+            {
+                g.SetActive(id == settings.IndexOf(g));
+                highlight[settings.IndexOf(g)].enabled = id == settings.IndexOf(g);
+            }
+
+            LastPage = id;
         }
 
         [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
@@ -313,6 +320,37 @@ namespace TownOfUs.CustomOption
                 }
 
                 return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Update))]
+        public static class OptionsMenuBehaviour_Update
+        {
+            public static void Postfix(GameSettingMenu __instance)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 0);
+
+                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 1);
+
+                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 2);
+
+                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 3);
+
+                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 4);
+
+                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 5);
+
+                if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 6);
+
+                if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
+                    ToggleButtonVoid(__instance, MenuG, MenuS, 7);
             }
         }
 

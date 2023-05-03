@@ -73,7 +73,8 @@ namespace TownOfUs.CustomOption
         protected internal void ToDo()
         {
             SlotButtons.Clear();
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Default", delegate { LoadPreset("Default"); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Default", delegate { LoadPreset("Default", true); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Last Used", delegate { LoadPreset("LastUsed", true); }));
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Cancel", delegate { Cancel(FlashWhite); }));
 
             var options = CreateOptions();
@@ -93,19 +94,18 @@ namespace TownOfUs.CustomOption
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
 
-        private void LoadPreset(string presetName)
+        private void LoadPreset(string presetName, bool data)
         {
             System.Console.WriteLine($"Loading - {presetName}");
             string text = null;
 
             try
             {
-                text = CreatePresetText(presetName);
+                text = data ? File.ReadAllText(Path.Combine(Application.persistentDataPath, $"{presetName}Settings")) : CreatePresetText(presetName);
             }
             catch
             {
-                Cancel(FlashRed);
-                return;
+                text = "";
             }
 
             if (string.IsNullOrEmpty(text))

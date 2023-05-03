@@ -1,4 +1,7 @@
 using System;
+using UnityEngine;
+using System.Text;
+using System.IO;
 
 namespace TownOfUs.CustomOption
 {
@@ -1115,6 +1118,27 @@ namespace TownOfUs.CustomOption
             Underdog = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>");
             UnderdogKillBonus = new CustomNumberOption(num++, MultiMenu.modifiers, "Kill Cooldown Bonus", 5f, 2.5f, 10f, 2.5f, CooldownFormat);
             UnderdogIncreasedKC = new CustomToggleOption(num++, MultiMenu.modifiers, "Increased Kill Cooldown When 2+ Imps", true);
+
+            var builder = new StringBuilder();
+
+            foreach (var option in CustomOption.AllOptions)
+            {
+                if (option.Type is CustomOptionType.Button or CustomOptionType.Header or CustomOptionType.Nested)
+                    continue;
+
+                builder.AppendLine(option.Name);
+                builder.AppendLine(option.Value.ToString());
+            }
+
+            var text = Path.Combine(Application.persistentDataPath, "DefaultSettings-temp");
+
+            try
+            {
+                File.WriteAllText(text, builder.ToString());
+                var text2 = Path.Combine(Application.persistentDataPath, "DefaultSettings");
+                File.Delete(text2);
+                File.Move(text, text2);
+            } catch {}
         }
     }
 }
