@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Hazel;
-using UnityEngine;
 using TownOfUs.Extensions;
+using UnityEngine;
 
 namespace TownOfUs.Roles
 {
@@ -50,15 +49,8 @@ namespace TownOfUs.Roles
                     (x.Data.IsImpostor() || x.Is(RoleEnum.Glitch) || x.Is(RoleEnum.Arsonist) ||
                     x.Is(RoleEnum.Juggernaut) || x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence))) == 0)
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(
-                    PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.WerewolfWin,
-                    SendOption.Reliable,
-                    -1
-                );
-                writer.Write(Player.PlayerId);
+                Utils.CallRpc(CustomRPC.WerewolfWin, Player.PlayerId);
                 Wins();
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
                 Utils.EndGame();
                 return false;
             }
@@ -90,9 +82,9 @@ namespace TownOfUs.Roles
             var utcNow = DateTime.UtcNow;
             var timeSpan = utcNow - LastRampaged;
             var num = CustomGameOptions.RampageCd * 1000f;
-            var flag2 = num - (float) timeSpan.TotalMilliseconds < 0f;
+            var flag2 = num - (float)timeSpan.TotalMilliseconds < 0f;
             if (flag2) return 0;
-            return (num - (float) timeSpan.TotalMilliseconds) / 1000f;
+            return (num - (float)timeSpan.TotalMilliseconds) / 1000f;
         }
 
         public void Rampage()

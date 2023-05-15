@@ -49,7 +49,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
             killButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && GameManager.Instance.GameHasStarted);
 
             KillButtonTarget.SetTarget(killButton, closestBody, role);
             __instance.KillButton.SetCoolDown(0f, 1f);

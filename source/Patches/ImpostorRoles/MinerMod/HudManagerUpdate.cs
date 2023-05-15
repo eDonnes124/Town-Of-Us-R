@@ -27,7 +27,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
             role.MineButton.graphic.sprite = MineSprite;
             role.MineButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && GameManager.Instance.GameHasStarted);
 
             role.MineButton.SetCoolDown(role.MineTimer(), CustomGameOptions.MineCd);
             var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, role.VentSize, 0);

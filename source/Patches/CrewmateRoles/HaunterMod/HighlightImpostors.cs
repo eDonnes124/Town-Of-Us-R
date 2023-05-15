@@ -1,6 +1,5 @@
 using HarmonyLib;
 using TownOfUs.Roles;
-using Hazel;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod
 {
@@ -30,10 +29,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
             if (MeetingHud.Instance)
             {
                 UpdateMeeting(MeetingHud.Instance);
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.HaunterFinished, SendOption.Reliable, -1);
-                writer.Write(role.Player.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.HaunterFinished, role.Player.PlayerId);
             }
         }
     }

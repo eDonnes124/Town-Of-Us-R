@@ -1,14 +1,13 @@
+using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using InnerNet;
+using Reactor.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
-using Hazel;
-using InnerNet;
-using Reactor.Utilities;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -45,11 +44,11 @@ namespace TownOfUs.CrewmateRoles.MayorMod
             }
 
             foreach (var role in Role.GetRoles(RoleEnum.Mayor))
-            foreach (var number in ((Mayor)role).ExtraVotes)
-                if (dictionary.TryGetValue(number, out var num))
-                    dictionary[number] = num + 1;
-                else
-                    dictionary[number] = 1;
+                foreach (var number in ((Mayor)role).ExtraVotes)
+                    if (dictionary.TryGetValue(number, out var num))
+                        dictionary[number] = num + 1;
+                    else
+                        dictionary[number] = 1;
 
             dictionary.MaxPair(out var tie);
 
@@ -112,11 +111,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
                             if (mayor.Player == PlayerControl.LocalPlayer)
                                 mayor.VoteBank += votesRegained;
 
-                            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                (byte)CustomRPC.AddMayorVoteBank, SendOption.Reliable, -1);
-                            writer.Write(mayor.Player.PlayerId);
-                            writer.Write(mayor.VoteBank);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            Utils.CallRpc(CustomRPC.AddMayorVoteBank, mayor.Player.PlayerId, mayor.VoteBank);
                         }
                     }
                 }

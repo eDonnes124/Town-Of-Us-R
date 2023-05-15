@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
-using UnityEngine;
 using Reactor.Utilities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using TownOfUs.Roles;
-using Hazel;
+using UnityEngine;
 
 namespace TownOfUs.Patches
 {
@@ -43,10 +42,10 @@ namespace TownOfUs.Patches
                 if (PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(RoleEnum.Phantom))
                 {
                     if (!Role.GetRole<Phantom>(PlayerControl.LocalPlayer).Caught) __instance.MapButton.transform.parent.Find(__instance.MapButton.name + "(Clone)").gameObject.SetActive(false);
-                    else  __instance.MapButton.transform.parent.Find(__instance.MapButton.name + "(Clone)").gameObject.SetActive(true);
+                    else __instance.MapButton.transform.parent.Find(__instance.MapButton.name + "(Clone)").gameObject.SetActive(true);
                 }
             }
-                
+
         }
     }
 
@@ -157,7 +156,7 @@ namespace TownOfUs.Patches
         private static FieldInfo getSubElevatorSystem;
 
         private static Type SubmarineElevatorSystem;
-        private static FieldInfo UpperDeckIsTargetFloor; 
+        private static FieldInfo UpperDeckIsTargetFloor;
 
         private static FieldInfo SubmergedInstance;
         private static FieldInfo SubmergedElevators;
@@ -224,7 +223,7 @@ namespace TownOfUs.Patches
             if (!elevator.Item1) return;
             bool CurrentFloor = (bool)UpperDeckIsTargetFloor.GetValue(getSubElevatorSystem.GetValue(elevator.Item2)); //true is top, false is bottom
             bool PlayerFloor = player.transform.position.y > -7f; //true is top, false is bottom
-            
+
             if (CurrentFloor != PlayerFloor)
             {
                 ChangeFloor(CurrentFloor);
@@ -292,7 +291,7 @@ namespace TownOfUs.Patches
             while (DestroyableSingleton<HudManager>.Instance.PlayerCam.transform.Find("SpawnInMinigame(Clone)") != null)
             {
                 yield return null;
-            }       
+            }
             next();
         }
 
@@ -319,12 +318,8 @@ namespace TownOfUs.Patches
                     }
                     ChangeFloor(startingVent.transform.position.y > -7f);
 
-                    var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
-                    writer2.Write(PlayerControl.LocalPlayer.PlayerId);
-                    writer2.Write(startingVent.transform.position.x);
-                    writer2.Write(startingVent.transform.position.y);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    Utils.CallRpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x,
+                                                                                        startingVent.transform.position.y);
 
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                     PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
@@ -343,12 +338,8 @@ namespace TownOfUs.Patches
                     }
                     ChangeFloor(startingVent.transform.position.y > -7f);
 
-                    var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
-                    writer2.Write(PlayerControl.LocalPlayer.PlayerId);
-                    writer2.Write(startingVent.transform.position.x);
-                    writer2.Write(startingVent.transform.position.y);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    Utils.CallRpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x,
+                                                                                        startingVent.transform.position.y);
 
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                     PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
@@ -371,7 +362,7 @@ namespace TownOfUs.Patches
                         else player.Collider.enabled = false;
                         Transform transform = __instance.transform;
                         Vector3 position = transform.position;
-                        position.z = position.y/1000;
+                        position.z = position.y / 1000;
 
                         transform.position = position;
                         __instance.myPlayer.gameObject.layer = 8;
@@ -431,7 +422,7 @@ namespace TownOfUs.Patches
             }
             catch (System.NullReferenceException)
             {
-                
+
             }
 
         }

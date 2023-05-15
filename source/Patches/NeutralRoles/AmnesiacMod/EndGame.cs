@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.AmnesiacMod
@@ -7,17 +6,14 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.RpcEndGame))]
     public class EndGame
     {
-        public static bool Prefix(GameManager __instance, [HarmonyArgument(0)] GameOverReason reason)
+        public static bool Prefix([HarmonyArgument(0)] GameOverReason reason)
         {
             if (reason != GameOverReason.HumansByVote && reason != GameOverReason.HumansByTask) return true;
 
             foreach (var role in Role.AllRoles)
                 if (role.RoleType == RoleEnum.Amnesiac)
-                    ((Amnesiac) role).Loses();
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.AmnesiacLose,
-                SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    ((Amnesiac)role).Loses();
+            Utils.CallRpc(CustomRPC.AmnesiacLose);
 
             return true;
         }

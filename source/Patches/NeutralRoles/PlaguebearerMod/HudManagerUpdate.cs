@@ -1,9 +1,8 @@
-using System.Linq;
 using HarmonyLib;
+using System.Linq;
+using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
-using Hazel;
-using TownOfUs.Extensions;
 
 namespace TownOfUs.NeutralRoles.PlaguebearerMod
 {
@@ -33,7 +32,7 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
 
             infectButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && GameManager.Instance.GameHasStarted);
             infectButton.SetCoolDown(role.InfectTimer(), CustomGameOptions.InfectCd);
 
             var notInfected = PlayerControl.AllPlayerControls.ToArray().Where(
@@ -61,10 +60,7 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
                 if (transform)
                 {
                     role.TurnPestilence();
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.TurnPestilence, SendOption.Reliable, -1);
-                    writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.TurnPestilence, PlayerControl.LocalPlayer.PlayerId);
                 }
             }
         }

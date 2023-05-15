@@ -7,6 +7,7 @@ using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Reactor.Networking.Extensions;
+using Reactor.Networking.Rpc;
 
 namespace TownOfUs.ImpostorRoles.MinerMod
 {
@@ -27,15 +28,9 @@ namespace TownOfUs.ImpostorRoles.MinerMod
                 if (!role.CanPlace) return false;
                 if (role.MineTimer() != 0) return false;
                 if (SubmergedCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1) return false;
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.Mine, SendOption.Reliable, -1);
-                var position = PlayerControl.LocalPlayer.transform.position;
                 var id = GetAvailableId();
-                writer.Write(id);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(position);
-                writer.Write(position.z + 0.001f);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                var position = PlayerControl.LocalPlayer.transform.position;
+                Utils.CallRpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.001f);
                 SpawnVent(id, role, position, position.z + 0.001f);
                 return false;
             }

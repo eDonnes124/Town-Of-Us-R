@@ -1,10 +1,9 @@
-using System;
 using HarmonyLib;
+using System;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using TownOfUs.Patches;
-using Hazel;
 
 namespace TownOfUs.CrewmateRoles.ImitatorMod
 {
@@ -13,7 +12,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
     {
         public static void Postfix(AirshipExileController __instance) => StartImitate.ExileControllerPostfix(__instance);
     }
-    
+
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
     public class StartImitate
     {
@@ -30,10 +29,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
 
             Imitate(imitator);
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.StartImitate, SendOption.Reliable, -1);
-            writer.Write(imitator.Player.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.StartImitate, imitator.Player.PlayerId);
         }
 
         public static void Postfix(ExileController __instance) => ExileControllerPostfix(__instance);
@@ -78,8 +74,10 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             if (imitatorRole == RoleEnum.Trapper) new Trapper(ImitatingPlayer);
             if (imitatorRole == RoleEnum.Medic)
             {
-                var medic = new Medic(ImitatingPlayer);
-                medic.UsedAbility = true;
+                var medic = new Medic(ImitatingPlayer)
+                {
+                    UsedAbility = true
+                };
                 medic.StartingCooldown = medic.StartingCooldown.AddSeconds(-10f);
             }
             var newRole = Role.GetRole(ImitatingPlayer);

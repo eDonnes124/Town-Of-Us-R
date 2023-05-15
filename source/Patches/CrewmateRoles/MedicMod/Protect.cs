@@ -1,6 +1,4 @@
 ﻿using HarmonyLib;
-using Hazel;
-using Reactor.Utilities;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.MedicMod
@@ -20,17 +18,12 @@ namespace TownOfUs.CrewmateRoles.MedicMod
             if (role.StartTimer() > 0) return false;
 
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
-            if (interact[4] == true)
+            if (interact[4])
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Protect, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(role.ClosestPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.Protect, PlayerControl.LocalPlayer.PlayerId, role.ClosestPlayer.PlayerId);
 
                 role.ShieldedPlayer = role.ClosestPlayer;
                 role.UsedAbility = true;
-                return false;
             }
             return false;
         }

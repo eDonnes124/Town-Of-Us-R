@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.JesterMod
@@ -13,12 +12,9 @@ namespace TownOfUs.NeutralRoles.JesterMod
 
             foreach (var role in Role.AllRoles)
                 if (role.RoleType == RoleEnum.Jester)
-                    ((Jester) role).Loses();
+                    ((Jester)role).Loses();
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.JesterLose,
-                SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.JesterLose);
 
             return true;
         }

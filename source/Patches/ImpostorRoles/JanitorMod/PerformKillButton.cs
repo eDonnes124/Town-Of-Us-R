@@ -1,9 +1,8 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
-using Hazel;
 using Reactor.Utilities;
 using TownOfUs.Roles;
 using UnityEngine;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.ImpostorRoles.JanitorMod
 {
@@ -34,11 +33,7 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
                 }
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.JanitorClean, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(playerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.JanitorClean, PlayerControl.LocalPlayer.PlayerId, playerId);
 
                 Coroutines.Start(Coroutine.CleanCoroutine(role.CurrentTarget, role));
                 return false;

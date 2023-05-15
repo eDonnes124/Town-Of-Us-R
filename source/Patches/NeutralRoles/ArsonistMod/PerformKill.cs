@@ -1,8 +1,7 @@
-﻿using System;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
-using Hazel;
+using System;
 using TownOfUs.Roles;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.NeutralRoles.ArsonistMod
 {

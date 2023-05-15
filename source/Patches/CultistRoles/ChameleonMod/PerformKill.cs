@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 
@@ -24,10 +23,7 @@ namespace TownOfUs.CultistRoles.ChameleonMod
                 role.TimeRemaining = CustomGameOptions.SwoopDuration;
                 role.RegenTask();
                 role.Swoop();
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.ChameleonSwoop, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.ChameleonSwoop, PlayerControl.LocalPlayer.PlayerId);
                 return false;
             }
 

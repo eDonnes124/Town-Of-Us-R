@@ -1,8 +1,8 @@
-using System;
-using UnityEngine;
-using TMPro;
 using AmongUs.GameOptions;
+using System;
+using TMPro;
 using TownOfUs.Extensions;
+using UnityEngine;
 
 namespace TownOfUs.Roles
 {

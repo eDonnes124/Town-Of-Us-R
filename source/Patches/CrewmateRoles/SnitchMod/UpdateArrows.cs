@@ -1,5 +1,5 @@
-using System.Linq;
 using HarmonyLib;
+using System.Linq;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.SnitchMod
@@ -7,7 +7,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class UpdateArrows
     {
-        public static void Postfix(HudManager __instance)
+        public static void Postfix()
         {
             if (PlayerControl.AllPlayerControls.Count <= 1) return;
             if (PlayerControl.LocalPlayer == null) return;

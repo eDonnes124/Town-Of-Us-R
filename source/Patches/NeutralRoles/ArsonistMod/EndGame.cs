@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.ArsonistMod
@@ -7,18 +6,15 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.RpcEndGame))]
     public class EndGame
     {
-        public static bool Prefix(GameManager __instance, [HarmonyArgument(0)] GameOverReason reason)
+        public static bool Prefix([HarmonyArgument(0)] GameOverReason reason)
         {
             if (reason != GameOverReason.HumansByVote && reason != GameOverReason.HumansByTask) return true;
 
             foreach (var role in Role.AllRoles)
                 if (role.RoleType == RoleEnum.Arsonist)
-                    ((Arsonist) role).Loses();
+                    ((Arsonist)role).Loses();
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.ArsonistLose,
-                SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.ArsonistLose);
 
             return true;
         }

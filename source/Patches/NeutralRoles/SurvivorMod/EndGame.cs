@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.SurvivorMod
@@ -16,10 +15,7 @@ namespace TownOfUs.NeutralRoles.SurvivorMod
                     {
                         ((Survivor)role).AliveImpWin();
 
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SurvivorImpWin,
-                            SendOption.Reliable, -1);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SurvivorImpWin);
                         return true;
                     }
             }
@@ -30,10 +26,7 @@ namespace TownOfUs.NeutralRoles.SurvivorMod
                     {
                         ((Survivor)role).DeadCrewWin();
 
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SurvivorCrewWin,
-                            SendOption.Reliable, -1);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SurvivorCrewWin);
                         return true;
                     }
             }

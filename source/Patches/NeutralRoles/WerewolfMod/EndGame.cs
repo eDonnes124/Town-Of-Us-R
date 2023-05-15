@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.WerewolfMod
@@ -13,12 +12,9 @@ namespace TownOfUs.NeutralRoles.WerewolfMod
 
             foreach (var role in Role.AllRoles)
                 if (role.RoleType == RoleEnum.Werewolf)
-                    ((Werewolf) role).Loses();
+                    ((Werewolf)role).Loses();
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.WerewolfLose,
-                SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.WerewolfLose);
 
             return true;
         }

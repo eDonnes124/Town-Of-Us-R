@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.SurvivorMod
@@ -24,10 +23,7 @@ namespace TownOfUs.NeutralRoles.SurvivorMod
                 role.TimeRemaining = CustomGameOptions.VestDuration;
                 role.UsesLeft--;
                 role.Vest();
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Vest, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.Vest, PlayerControl.LocalPlayer.PlayerId);
                 return false;
             }
 

@@ -1,6 +1,5 @@
-using System.Linq;
 using HarmonyLib;
-using Hazel;
+using System.Linq;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.ImitatorMod
@@ -24,27 +23,19 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
 
                     foreach (var player in PlayerControl.AllPlayerControls)
                     {
-                        if (player.PlayerId == Imitate.TargetPlayerId) 
-                        { 
+                        if (player.PlayerId == Imitate.TargetPlayerId)
+                        {
                             imitator.ImitatePlayer = player;
                         }
                     }
 
                     if (Imitate == null)
                     {
-                        var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.Imitate, SendOption.Reliable, -1);
-                        writer2.Write(imitator.Player.PlayerId);
-                        writer2.Write(sbyte.MaxValue);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                        Utils.CallRpc(CustomRPC.Imitate, imitator.Player.PlayerId, sbyte.MaxValue);
                         return;
                     }
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.Imitate, SendOption.Reliable, -1);
-                    writer.Write(imitator.Player.PlayerId);
-                    writer.Write(imitator.ImitatePlayer.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.Imitate, imitator.Player.PlayerId, imitator.ImitatePlayer.PlayerId);
                 }
             }
         }

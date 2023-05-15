@@ -1,7 +1,6 @@
 using HarmonyLib;
-using Hazel;
-using TownOfUs.Roles;
 using TownOfUs.Extensions;
+using TownOfUs.Roles;
 using UnityEngine;
 
 namespace TownOfUs.ImpostorRoles.BlackmailerMod
@@ -35,11 +34,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                         else role.Blackmailed.nameText().color = Color.clear;
                     }
                     role.Blackmailed = target;
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.Blackmail, SendOption.Reliable, -1);
-                    writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                    writer.Write(target.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.Blackmail, PlayerControl.LocalPlayer.PlayerId, target.PlayerId);
                 }
                 role.BlackmailButton.SetCoolDown(0.01f, 1f);
                 return false;

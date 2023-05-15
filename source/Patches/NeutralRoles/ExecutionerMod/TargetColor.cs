@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -41,10 +40,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
             if (!role.target.Data.IsDead && !role.target.Data.Disconnected) return;
             if (role.TargetVotedOut) return;
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.ExecutionerToJester, SendOption.Reliable, -1);
-            writer.Write(PlayerControl.LocalPlayer.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.ExecutionerToJester, PlayerControl.LocalPlayer.PlayerId);
 
             ExeToJes(PlayerControl.LocalPlayer);
         }

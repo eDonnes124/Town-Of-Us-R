@@ -28,7 +28,7 @@ namespace TownOfUs.ImpostorRoles.BomberMod
 
             role.PlantButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && GameManager.Instance.GameHasStarted);
 
             if (role.Detonating)
             {
@@ -56,7 +56,7 @@ namespace TownOfUs.ImpostorRoles.BomberMod
 
             role.PlantButton.graphic.color = Palette.EnabledColor;
             role.PlantButton.graphic.material.SetFloat("_Desat", 0f);
-            if (role.PlantButton.graphic.sprite == PlantSprite) role.PlantButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer, 
+            if (role.PlantButton.graphic.sprite == PlantSprite) role.PlantButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer,
                 GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
             else role.PlantButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
         }

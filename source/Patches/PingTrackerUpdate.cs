@@ -21,7 +21,7 @@ namespace TownOfUs
                 (!MeetingHud.Instance
                     ? "<color=#00FF00FF>Modded By: Donners, Term,</color>\n" +
                     "<color=#00FF00FF>-H & MyDragonBreath</color>\n" : "") +
-                (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
+                (!GameManager.Instance.GameHasStarted
                     ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>" : "");
         }
     }

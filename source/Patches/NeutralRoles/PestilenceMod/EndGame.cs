@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.PestilenceMod
@@ -15,10 +14,7 @@ namespace TownOfUs.NeutralRoles.PestilenceMod
                 if (role.RoleType == RoleEnum.Pestilence)
                     ((Pestilence)role).Loses();
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.PestilenceLose,
-                SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.PestilenceLose);
 
             return true;
         }

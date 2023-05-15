@@ -1,18 +1,17 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
-using Hazel;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Reactor.Utilities.Extensions;
 using TMPro;
+using TownOfUs.Extensions;
+using TownOfUs.Patches;
 using TownOfUs.Roles.Modifiers;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
-using TownOfUs.Extensions;
-using AmongUs.GameOptions;
-using TownOfUs.Patches;
 
 namespace TownOfUs.Roles
 {
@@ -204,9 +203,7 @@ namespace TownOfUs.Roles
             {
                 if (SurvOnly())
                 {
-                    var messageWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SurvivorOnlyWin, SendOption.Reliable, -1);
-                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                    Utils.CallRpc(CustomRPC.SurvivorOnlyWin);
 
                     SurvOnlyWin();
                     Utils.EndGame();
@@ -214,9 +211,7 @@ namespace TownOfUs.Roles
                 }
                 else
                 {
-                    var messageWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.NobodyWins, SendOption.Reliable, -1);
-                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                    Utils.CallRpc(CustomRPC.NobodyWins);
 
                     NobodyWinsFunc();
                     Utils.EndGame();
@@ -241,7 +236,7 @@ namespace TownOfUs.Roles
 
             foreach (var role in GetRoles(RoleEnum.GuardianAngel))
             {
-                var ga = (GuardianAngel) role;
+                var ga = (GuardianAngel)role;
                 if (Player == ga.target && ((Player == PlayerControl.LocalPlayer && CustomGameOptions.GATargetKnows)
                     || (PlayerControl.LocalPlayer.Data.IsDead && !ga.Player.Data.IsDead)))
                 {
@@ -251,7 +246,7 @@ namespace TownOfUs.Roles
 
             foreach (var role in GetRoles(RoleEnum.Executioner))
             {
-                var exe = (Executioner) role;
+                var exe = (Executioner)role;
                 if (Player == exe.target && PlayerControl.LocalPlayer.Data.IsDead && !exe.Player.Data.IsDead)
                 {
                     PlayerName += "<color=#8C4005FF> X</color>";
@@ -327,10 +322,7 @@ namespace TownOfUs.Roles
         {
             var role = (T)Activator.CreateInstance(type, new object[] { player });
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)rpc, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(rpc, player.PlayerId);
             return role;
         }
 
@@ -338,11 +330,7 @@ namespace TownOfUs.Roles
         {
             var role = (T)Activator.CreateInstance(type, new object[] { player });
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.SetRole, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(id);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.SetRole, player.PlayerId, id);
             return role;
         }
 
@@ -350,11 +338,7 @@ namespace TownOfUs.Roles
         {
             var modifier = (T)Activator.CreateInstance(type, new object[] { player });
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.SetModifier, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(id);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.SetModifier, player.PlayerId, id);
             return modifier;
         }
 
@@ -383,7 +367,7 @@ namespace TownOfUs.Roles
 
             return null;
         }
-        
+
         public static T GetRole<T>(PlayerControl player) where T : Role
         {
             return GetRole(player) as T;
@@ -743,7 +727,7 @@ namespace TownOfUs.Roles
                             loverFlag,
                             player
                         );
-                        if(role.ColorCriteria())
+                        if (role.ColorCriteria())
                             player.NameText.color = role.Color;
                     }
                     else

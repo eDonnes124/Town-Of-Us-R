@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Hazel;
 using TownOfUs.Patches;
-using TownOfUs.Roles.Modifiers;
 using UnityEngine;
 
 namespace TownOfUs.Roles.Modifiers
@@ -35,10 +33,10 @@ namespace TownOfUs.Roles.Modifiers
 
         public static void Gen(List<PlayerControl> canHaveModifiers)
         {
-            List<PlayerControl> crewmates = new List<PlayerControl>();
-            List<PlayerControl> impostors = new List<PlayerControl>();
+            List<PlayerControl> crewmates = new();
+            List<PlayerControl> impostors = new();
 
-            foreach(var player in canHaveModifiers)
+            foreach (var player in canHaveModifiers)
             {
                 if (player.Is(Faction.Impostors) || (player.Is(Faction.NeutralKilling) && CustomGameOptions.NeutralLovers))
                     impostors.Add(player);
@@ -71,17 +69,12 @@ namespace TownOfUs.Roles.Modifiers
             }
             canHaveModifiers.Remove(secondLover);
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.SetCouple, SendOption.Reliable, -1);
-            writer.Write(firstLover.PlayerId);
-            writer.Write(secondLover.PlayerId);
+            Utils.CallRpc(CustomRPC.SetCouple, firstLover.PlayerId, secondLover.PlayerId);
             var lover1 = new Lover(firstLover);
             var lover2 = new Lover(secondLover);
 
             lover1.OtherLover = lover2;
             lover2.OtherLover = lover1;
-
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
         internal override bool ModifierWin(LogicGameFlowNormal __instance)
@@ -91,10 +84,7 @@ namespace TownOfUs.Roles.Modifiers
             if (CheckLoversWin())
             {
                 //System.Console.WriteLine("LOVERS WIN");
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.LoveWin, SendOption.Reliable, -1);
-                writer.Write(Player.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.LoveWin, Player.PlayerId);
                 Win();
                 Utils.EndGame();
                 return false;
@@ -129,7 +119,7 @@ namespace TownOfUs.Roles.Modifiers
 
         public void Win()
         {
-            if (Role.AllRoles.Where(x => x.RoleType == RoleEnum.Jester).Any(x => ((Jester) x).VotedOut)) return;
+            if (Role.AllRoles.Where(x => x.RoleType == RoleEnum.Jester).Any(x => ((Jester)x).VotedOut)) return;
             LoveCoupleWins = true;
             OtherLover.LoveCoupleWins = true;
         }

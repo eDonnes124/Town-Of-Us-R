@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.GuardianAngelMod
@@ -16,19 +15,13 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
                     {
                         ((GuardianAngel)role).ImpTargetWin();
 
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.GAImpWin,
-                            SendOption.Reliable, -1);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.GAImpWin);
                     }
                     else
                     {
                         ((GuardianAngel)role).ImpTargetLose();
 
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.GAImpLose,
-                            SendOption.Reliable, -1);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.GAImpLose);
                     }
                     return true;
                 }

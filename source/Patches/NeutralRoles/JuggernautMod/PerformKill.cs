@@ -1,9 +1,7 @@
-using System;
-using HarmonyLib;
-using Hazel;
-using TownOfUs.Roles;
-using TownOfUs.CrewmateRoles.MedicMod;
 using AmongUs.GameOptions;
+using HarmonyLib;
+using System;
+using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.JuggernautMod
 {

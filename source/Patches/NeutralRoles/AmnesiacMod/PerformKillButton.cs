@@ -1,16 +1,15 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
-using Hazel;
+using System;
+using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.CrewmateRoles.InvestigatorMod;
 using TownOfUs.CrewmateRoles.SnitchMod;
 using TownOfUs.CrewmateRoles.TrapperMod;
-using TownOfUs.Roles;
-using UnityEngine;
-using System;
 using TownOfUs.Extensions;
-using TownOfUs.CrewmateRoles.ImitatorMod;
-using AmongUs.GameOptions;
-using TownOfUs.Roles.Modifiers;
 using TownOfUs.ImpostorRoles.BomberMod;
+using TownOfUs.Roles;
+using TownOfUs.Roles.Modifiers;
+using UnityEngine;
 
 namespace TownOfUs.NeutralRoles.AmnesiacMod
 {
@@ -44,11 +43,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
             }
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.Remember, SendOption.Reliable, -1);
-            writer.Write(PlayerControl.LocalPlayer.PlayerId);
-            writer.Write(playerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.Remember, PlayerControl.LocalPlayer.PlayerId, playerId);
 
             Remember(role, player);
             return false;
@@ -153,10 +148,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                     {
                         if (CustomGameOptions.AmneTurnNeutAssassin)
                         {
-                            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                (byte)CustomRPC.SetAssassin, SendOption.Reliable, -1);
-                            writer.Write(amnesiac.PlayerId);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            Utils.CallRpc(CustomRPC.SetAssassin, amnesiac.PlayerId);
                         }
                         if (other.Is(AbilityEnum.Assassin)) Ability.AbilityDictionary.Remove(other.PlayerId);
                     }
@@ -177,10 +169,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 }
                 if (CustomGameOptions.AmneTurnImpAssassin)
                 {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SetAssassin, SendOption.Reliable, -1);
-                    writer.Write(amnesiac.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.SetAssassin, amnesiac.PlayerId);
                 }
             }
 

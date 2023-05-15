@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
+using System;
 using TownOfUs.Roles;
 using UnityEngine;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.CrewmateRoles.SeerMod
 {

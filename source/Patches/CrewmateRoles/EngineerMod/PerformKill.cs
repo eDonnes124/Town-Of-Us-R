@@ -1,6 +1,5 @@
-using System.Linq;
 using HarmonyLib;
-using Hazel;
+using System.Linq;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.EngineerMod
@@ -95,10 +94,7 @@ namespace TownOfUs.CrewmateRoles.EngineerMod
                     break;
             }
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.EngineerFix, SendOption.Reliable, -1);
-            writer.Write(PlayerControl.LocalPlayer.NetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.EngineerFix, PlayerControl.LocalPlayer.NetId);
 
             return false;
         }
@@ -139,19 +135,14 @@ namespace TownOfUs.CrewmateRoles.EngineerMod
         {
             Patches.SubmergedCompatibility.RepairOxygen();
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.SubmergedFixOxygen, SendOption.Reliable, -1);
-            writer.Write(PlayerControl.LocalPlayer.NetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.SubmergedFixOxygen, PlayerControl.LocalPlayer.NetId);
 
             return false;
         }
 
         private static bool FixLights(SwitchSystem lights)
         {
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.FixLights, SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.FixLights);
 
             lights.ActualSwitches = lights.ExpectedSwitches;
 

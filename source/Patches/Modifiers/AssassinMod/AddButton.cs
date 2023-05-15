@@ -1,7 +1,7 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using System;
 using TMPro;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
@@ -57,7 +57,7 @@ namespace TownOfUs.Modifiers.AssassinMod
 
             var confirmButton = voteArea.Buttons.transform.GetChild(0).gameObject;
             var parent = confirmButton.transform.parent.parent;
-            
+
             var nameText = Object.Instantiate(voteArea.NameText, voteArea.transform);
             voteArea.NameText.transform.localPosition = new Vector3(0.55f, 0.12f, -0.1f);
             nameText.transform.localPosition = new Vector3(0.55f, -0.12f, -0.1f);
@@ -207,7 +207,7 @@ namespace TownOfUs.Modifiers.AssassinMod
         {
             foreach (var role in Ability.GetAbilities(AbilityEnum.Assassin))
             {
-                var assassin = (Assassin) role;
+                var assassin = (Assassin)role;
                 assassin.Guesses.Clear();
                 assassin.Buttons.Clear();
                 assassin.GuessedThisMeeting = false;

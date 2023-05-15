@@ -1,7 +1,6 @@
 using HarmonyLib;
-using Object = UnityEngine.Object;
-using Hazel;
 using Reactor.Utilities.Extensions;
+using Object = UnityEngine.Object;
 
 namespace TownOfUs
 {
@@ -24,9 +23,7 @@ namespace TownOfUs
     {
         public static void Postfix(MeetingHud __instance)
         {
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.RemoveAllBodies, SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.RemoveAllBodies);
             var buggedBodies = Object.FindObjectsOfType<DeadBody>();
             foreach (var body in buggedBodies)
             {

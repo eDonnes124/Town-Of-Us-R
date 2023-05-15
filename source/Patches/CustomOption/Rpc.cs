@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using Hazel;
 using Reactor.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TownOfUs.CustomOption
 {
@@ -11,23 +11,24 @@ namespace TownOfUs.CustomOption
         {
             List<CustomOption> options;
             if (optionn != null)
-                options = new List<CustomOption> {optionn};
+                options = new List<CustomOption> { optionn };
             else
                 options = CustomOption.AllOptions;
 
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.SyncCustomSettings, SendOption.Reliable);
+                (byte)CustomRPC.SyncCustomSettings, SendOption.Reliable);
             foreach (var option in options)
             {
-                if (writer.Position > 1000) {
+                if (writer.Position > 1000)
+                {
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte) CustomRPC.SyncCustomSettings, SendOption.Reliable);
+                        (byte)CustomRPC.SyncCustomSettings, SendOption.Reliable);
                 }
                 writer.Write(option.ID);
-                if (option.Type == CustomOptionType.Toggle) writer.Write((bool) option.Value);
-                else if (option.Type == CustomOptionType.Number) writer.Write((float) option.Value);
-                else if (option.Type == CustomOptionType.String) writer.Write((int) option.Value);
+                if (option.Type == CustomOptionType.Toggle) writer.Write((bool)option.Value);
+                else if (option.Type == CustomOptionType.Number) writer.Write((float)option.Value);
+                else if (option.Type == CustomOptionType.String) writer.Write((int)option.Value);
             }
 
             AmongUsClient.Instance.FinishRpcImmediately(writer);

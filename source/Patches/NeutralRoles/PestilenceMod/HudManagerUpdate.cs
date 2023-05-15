@@ -1,8 +1,5 @@
-using System.Linq;
 using HarmonyLib;
 using TownOfUs.Roles;
-using UnityEngine;
-using Hazel;
 
 namespace TownOfUs.NeutralRoles.PestilenceMod
 {
@@ -19,7 +16,7 @@ namespace TownOfUs.NeutralRoles.PestilenceMod
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && GameManager.Instance.GameHasStarted);
 
             __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.PestKillCd);
 

@@ -159,7 +159,7 @@ namespace TownOfUs
         {
             static void Postfix()
             {
-                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started)
+                if (!GameManager.Instance.GameHasStarted)
                 {
                     HudManager.Instance.AbilityButton.gameObject.SetActive(false);
                     return;

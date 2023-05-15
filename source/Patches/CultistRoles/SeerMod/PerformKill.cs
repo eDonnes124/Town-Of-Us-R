@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
 using Reactor.Utilities;
+using System;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using UnityEngine;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.CultistRoles.SeerMod
 {

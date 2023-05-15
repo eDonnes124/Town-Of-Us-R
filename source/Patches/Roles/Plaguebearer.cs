@@ -1,8 +1,7 @@
+using Reactor.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hazel;
-using Reactor.Utilities;
 using TownOfUs.Extensions;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace TownOfUs.Roles
     public class Plaguebearer : Role
     {
         public PlayerControl ClosestPlayer;
-        public List<byte> InfectedPlayers = new List<byte>();
+        public List<byte> InfectedPlayers = new();
         public DateTime LastInfected;
         public bool PlaguebearerWins { get; set; }
 
@@ -39,15 +38,8 @@ namespace TownOfUs.Roles
                     (x.Data.IsImpostor() || x.Is(RoleEnum.Glitch) || x.Is(RoleEnum.Arsonist) ||
                     x.Is(RoleEnum.Juggernaut) || x.Is(RoleEnum.Werewolf) || x.Is(RoleEnum.Pestilence))) == 0)
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(
-                    PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.PlaguebearerWin,
-                    SendOption.Reliable,
-                    -1
-                );
-                writer.Write(Player.PlayerId);
+                Utils.CallRpc(CustomRPC.PlaguebearerWin, Player.PlayerId);
                 Wins();
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
                 Utils.EndGame();
                 return false;
             }
@@ -88,20 +80,12 @@ namespace TownOfUs.Roles
             if (InfectedPlayers.Contains(source.PlayerId))
             {
                 InfectedPlayers.Add(target.PlayerId);
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Infect, SendOption.Reliable, -1);
-                writer.Write(Player.PlayerId);
-                writer.Write(target.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.Infect, Player.PlayerId, target.PlayerId);
             }
             else if (InfectedPlayers.Contains(target.PlayerId))
             {
                 InfectedPlayers.Add(source.PlayerId);
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Infect, SendOption.Reliable, -1);
-                writer.Write(Player.PlayerId);
-                writer.Write(source.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.Infect, Player.PlayerId, source.PlayerId);
             }
         }
 

@@ -1,23 +1,26 @@
+using AmongUs.GameOptions;
+using HarmonyLib;
+using Hazel;
+using Reactor.Networking.Extensions;
+using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
-using Hazel;
-using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
-using Reactor.Networking.Extensions;
 using TownOfUs.CrewmateRoles.AltruistMod;
+using TownOfUs.CrewmateRoles.HaunterMod;
+using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.CrewmateRoles.VigilanteMod;
 using TownOfUs.CultistRoles.NecromancerMod;
 using TownOfUs.CustomOption;
 using TownOfUs.Extensions;
+using TownOfUs.ImpostorRoles.MinerMod;
 using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
-using TownOfUs.ImpostorRoles.MinerMod;
-using TownOfUs.CrewmateRoles.HaunterMod;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using TownOfUs.Roles.Modifiers;
@@ -26,24 +29,21 @@ using Coroutine = TownOfUs.ImpostorRoles.JanitorMod.Coroutine;
 using Object = UnityEngine.Object;
 using PerformKillButton = TownOfUs.NeutralRoles.AmnesiacMod.PerformKillButton;
 using Random = UnityEngine.Random; //using Il2CppSystem;
-using TownOfUs.Patches;
-using TownOfUs.CrewmateRoles.ImitatorMod;
-using AmongUs.GameOptions;
 
 namespace TownOfUs
 {
     public static class RpcHandling
     {
-        private static readonly List<(Type, int, int, bool)> CrewmateRoles = new List<(Type, int, int, bool)>();
-        private static readonly List<(Type, int, int, bool)> NeutralNonKillingRoles = new List<(Type, int, int, bool)>();
-        private static readonly List<(Type, int, int, bool)> NeutralKillingRoles = new List<(Type, int, int, bool)>();
-        private static readonly List<(Type, int, int, bool)> ImpostorRoles = new List<(Type, int, int, bool)>();
-        private static readonly List<(Type, int, int)> CrewmateModifiers = new List<(Type, int, int)>();
-        private static readonly List<(Type, int, int)> GlobalModifiers = new List<(Type, int, int)>();
-        private static readonly List<(Type, int, int)> ImpostorModifiers = new List<(Type, int, int)>();
-        private static readonly List<(Type, int, int)> ButtonModifiers = new List<(Type, int, int)>();
-        private static readonly List<(Type, int, int)> AssassinModifiers = new List<(Type, int, int)>();
-        private static readonly List<(Type, CustomRPC, int)> AssassinAbility = new List<(Type, CustomRPC, int)>();
+        private static readonly List<(Type, int, int, bool)> CrewmateRoles = new();
+        private static readonly List<(Type, int, int, bool)> NeutralNonKillingRoles = new();
+        private static readonly List<(Type, int, int, bool)> NeutralKillingRoles = new();
+        private static readonly List<(Type, int, int, bool)> ImpostorRoles = new();
+        private static readonly List<(Type, int, int)> CrewmateModifiers = new();
+        private static readonly List<(Type, int, int)> GlobalModifiers = new();
+        private static readonly List<(Type, int, int)> ImpostorModifiers = new();
+        private static readonly List<(Type, int, int)> ButtonModifiers = new();
+        private static readonly List<(Type, int, int)> AssassinModifiers = new();
+        private static readonly List<(Type, CustomRPC, int)> AssassinAbility = new();
 
         internal static bool Check(int probability)
         {
@@ -268,10 +268,10 @@ namespace TownOfUs
             foreach (var (type, id, _) in GlobalModifiers)
             {
                 if (canHaveModifier.Count == 0) break;
-                if(id == 0)
+                if (id == 0)
                 {
                     if (canHaveModifier.Count == 1) continue;
-                        Lover.Gen(canHaveModifier);
+                    Lover.Gen(canHaveModifier);
                 }
                 else
                 {
@@ -305,11 +305,7 @@ namespace TownOfUs
                     exe.target = exeTargets[Random.RandomRangeInt(0, exeTargets.Count)];
                     exeTargets.Remove(exe.target);
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SetTarget, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    writer.Write(exe.target.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.SetTarget, role.Player.PlayerId, exe.target.PlayerId);
                 }
             }
 
@@ -322,11 +318,7 @@ namespace TownOfUs
                     ga.target = gaTargets[Random.RandomRangeInt(0, gaTargets.Count)];
                     gaTargets.Remove(ga.target);
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SetGATarget, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    writer.Write(ga.target.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.SetGATarget, role.Player.PlayerId, ga.target.PlayerId);
                 }
             }
         }
@@ -494,7 +486,7 @@ namespace TownOfUs
             {
                 byte readByte, readByte1, readByte2;
                 sbyte readSByte, readSByte2;
-                switch ((CustomRPC) callId)
+                switch ((CustomRPC)callId)
                 {
                     case CustomRPC.SetRole:
                         var player = Utils.PlayerById(reader.ReadByte());
@@ -696,20 +688,20 @@ namespace TownOfUs
                     case CustomRPC.JesterLose:
                         foreach (var role in Role.AllRoles)
                             if (role.RoleType == RoleEnum.Jester)
-                                ((Jester) role).Loses();
+                                ((Jester)role).Loses();
                         break;
 
                     case CustomRPC.PhantomLose:
                         foreach (var role in Role.AllRoles)
                             if (role.RoleType == RoleEnum.Phantom)
-                                ((Phantom) role).Loses();
+                                ((Phantom)role).Loses();
                         break;
 
 
                     case CustomRPC.GlitchLose:
                         foreach (var role in Role.AllRoles)
                             if (role.RoleType == RoleEnum.Glitch)
-                                ((Glitch) role).Loses();
+                                ((Glitch)role).Loses();
                         break;
 
 
@@ -728,7 +720,7 @@ namespace TownOfUs
                     case CustomRPC.ExecutionerLose:
                         foreach (var role in Role.AllRoles)
                             if (role.RoleType == RoleEnum.Executioner)
-                                ((Executioner) role).Loses();
+                                ((Executioner)role).Loses();
                         break;
 
                     case CustomRPC.NobodyWins:
@@ -881,7 +873,7 @@ namespace TownOfUs
                         break;
                     case CustomRPC.GlitchWin:
                         var theGlitch = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Glitch);
-                        ((Glitch) theGlitch)?.Wins();
+                        ((Glitch)theGlitch)?.Wins();
                         break;
                     case CustomRPC.JuggernautWin:
                         var juggernaut = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Juggernaut);
@@ -892,7 +884,7 @@ namespace TownOfUs
                         if (hackPlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId)
                         {
                             var glitch = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Glitch);
-                            ((Glitch) glitch)?.SetHacked(hackPlayer);
+                            ((Glitch)glitch)?.SetHacked(hackPlayer);
                         }
 
                         break;
@@ -995,12 +987,12 @@ namespace TownOfUs
                         break;
                     case CustomRPC.ArsonistWin:
                         var theArsonistTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Arsonist);
-                        ((Arsonist) theArsonistTheRole)?.Wins();
+                        ((Arsonist)theArsonistTheRole)?.Wins();
                         break;
                     case CustomRPC.ArsonistLose:
                         foreach (var role in Role.AllRoles)
                             if (role.RoleType == RoleEnum.Arsonist)
-                                ((Arsonist) role).Loses();
+                                ((Arsonist)role).Loses();
                         break;
                     case CustomRPC.WerewolfWin:
                         var theWerewolfTheRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Werewolf);
@@ -1206,12 +1198,14 @@ namespace TownOfUs
                         var necromancer = Utils.PlayerById(reader.ReadByte());
                         var necromancerRole = Role.GetRole<Necromancer>(necromancer);
                         var revived = reader.ReadByte();
-                        var theDeadBodies2 = Object.FindObjectsOfType<DeadBody>();
-                        foreach (var body in theDeadBodies2)
+                        foreach (var body in Object.FindObjectsOfType<DeadBody>())
+                        {
                             if (body.ParentId == revived)
                             {
-                                PerformRevive.Revive(body, necromancerRole);
+                                PerformRevive.Revive(body);
                             }
+                        }
+
                         break;
                     case CustomRPC.Convert:
                         var convertedPlayer = Utils.PlayerById(reader.ReadByte());
@@ -1275,9 +1269,7 @@ namespace TownOfUs
                 KillButtonTarget.DontRevive = byte.MaxValue;
                 ReviveHudManagerUpdate.DontRevive = byte.MaxValue;
 
-                var startWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.Start, SendOption.Reliable, -1);
-                AmongUsClient.Instance.FinishRpcImmediately(startWriter);
+                Utils.CallRpc(CustomRPC.Start);
 
                 if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return;
 
@@ -1287,12 +1279,7 @@ namespace TownOfUs
                     ExilePatch.HaunterOn = Check(CustomGameOptions.HaunterOn);
                     ExilePatch.TraitorOn = Check(CustomGameOptions.TraitorOn);
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SetDelayRoles, SendOption.Reliable, -1);
-                    writer.Write(ExilePatch.PhantomOn);
-                    writer.Write(ExilePatch.HaunterOn);
-                    writer.Write(ExilePatch.TraitorOn);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.SetDelayRoles, ExilePatch.PhantomOn, ExilePatch.HaunterOn, ExilePatch.TraitorOn);
                 }
                 else
                 {
@@ -1300,12 +1287,7 @@ namespace TownOfUs
                     ExilePatch.HaunterOn = false;
                     ExilePatch.TraitorOn = false;
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SetDelayRoles, SendOption.Reliable, -1);
-                    writer.Write(false);
-                    writer.Write(false);
-                    writer.Write(false);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.SetDelayRoles, false, false, false);
                 }
                 ExilePatch.WillBePhantom = null;
                 ExilePatch.WillBeHaunter = null;

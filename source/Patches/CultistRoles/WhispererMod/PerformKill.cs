@@ -1,10 +1,9 @@
 using HarmonyLib;
-using Hazel;
+using System;
+using System.Collections.Generic;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using UnityEngine;
-using System.Collections.Generic;
-using System;
 
 namespace TownOfUs.CultistRoles.WhispererMod
 {
@@ -62,10 +61,7 @@ namespace TownOfUs.CultistRoles.WhispererMod
                     role.WhisperConversion -= CustomGameOptions.DecreasedPercentagePerConversion;
                     if (role.WhisperConversion < 5) role.WhisperConversion = 5;
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.Convert, SendOption.Reliable, -1);
-                    writer.Write(playerConversion.Item1.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.Convert, playerConversion.Item1.PlayerId);
                     removals.Add(playerConversion);
                 }
             }

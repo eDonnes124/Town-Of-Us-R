@@ -1,6 +1,5 @@
-using System;
 using HarmonyLib;
-using Hazel;
+using System;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
 using TownOfUs.Roles;
@@ -166,10 +165,7 @@ namespace TownOfUs.Patches
                 var exe = Role.GetRole<Executioner>(PlayerControl.LocalPlayer);
                 if (exe.target == null)
                 {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.ExecutionerToJester, SendOption.Reliable, -1);
-                    writer.Write(exe.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.ExecutionerToJester, exe.Player.PlayerId);
 
                     TargetColor.ExeToJes(exe.Player);
                 }
@@ -177,7 +173,7 @@ namespace TownOfUs.Patches
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch))
             {
-                var glitch = Role.GetRole< Glitch> (PlayerControl.LocalPlayer);
+                var glitch = Role.GetRole<Glitch>(PlayerControl.LocalPlayer);
                 glitch.LastKill = DateTime.UtcNow;
                 glitch.LastHack = DateTime.UtcNow;
                 glitch.LastMimic = DateTime.UtcNow;
@@ -193,10 +189,7 @@ namespace TownOfUs.Patches
                 ga.LastProtected = ga.LastProtected.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.ProtectCd);
                 if (ga.target == null)
                 {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.GAToSurv, SendOption.Reliable, -1);
-                    writer.Write(ga.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.GAToSurv, ga.Player.PlayerId);
 
                     GATargetColor.GAToSurv(ga.Player);
                 }

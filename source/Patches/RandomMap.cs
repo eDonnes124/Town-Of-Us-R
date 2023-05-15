@@ -1,9 +1,8 @@
-using HarmonyLib;
-using Hazel;
-using System;
-using TownOfUs.Patches;
-using TownOfUs.CustomOption;
 using AmongUs.GameOptions;
+using HarmonyLib;
+using System;
+using TownOfUs.CustomOption;
+using TownOfUs.Patches;
 
 namespace TownOfUs
 {
@@ -18,7 +17,7 @@ namespace TownOfUs
 
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
         [HarmonyPrefix]
-        public static bool Prefix(GameStartManager __instance)
+        public static bool Prefix()
         {
             if (AmongUsClient.Instance.AmHost)
             {
@@ -37,10 +36,7 @@ namespace TownOfUs
                 GameOptionsManager.Instance.currentNormalGameOptions.RoleOptions.SetRoleRate(RoleTypes.Engineer, 0, 0);
                 GameOptionsManager.Instance.currentNormalGameOptions.RoleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
                 GameOptionsManager.Instance.currentNormalGameOptions.RoleOptions.SetRoleRate(RoleTypes.Shapeshifter, 0, 0);
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetSettings, SendOption.Reliable, -1);
-                writer.Write(map);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.SetSettings, map);
                 if (CustomGameOptions.AutoAdjustSettings) AdjustSettings(map);
             }
             return true;
@@ -70,7 +66,7 @@ namespace TownOfUs
 
         public static byte GetRandomMap()
         {
-            Random _rnd = new Random();
+            Random _rnd = new();
             float totalWeight = 0;
             totalWeight += CustomGameOptions.RandomMapSkeld;
             totalWeight += CustomGameOptions.RandomMapMira;

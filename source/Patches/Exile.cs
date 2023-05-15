@@ -1,17 +1,16 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
-using System.Linq;
-using TownOfUs.Extensions;
-using UnityEngine;
+using Reactor.Utilities;
 using System;
-using Hazel;
-using TownOfUs.Roles;
+using System.Collections.Generic;
+using System.Linq;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.CrewmateRoles.InvestigatorMod;
 using TownOfUs.CrewmateRoles.SnitchMod;
-using AmongUs.GameOptions;
-using Reactor.Utilities;
+using TownOfUs.Extensions;
+using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace TownOfUs.Patches
 {
@@ -125,12 +124,7 @@ namespace TownOfUs.Patches
                 var startingVent =
                     ShipStatus.Instance.AllVents[UnityEngine.Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
-                writer.Write(WillBeHaunter.PlayerId);
-                writer.Write(startingVent.transform.position.x);
-                writer.Write(startingVent.transform.position.y + 0.3636f);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.SetPos, WillBeHaunter.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3639f);
 
                 WillBeHaunter.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                 PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
@@ -164,12 +158,7 @@ namespace TownOfUs.Patches
                 var startingVent =
                     ShipStatus.Instance.AllVents[UnityEngine.Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
-                writer.Write(WillBePhantom.PlayerId);
-                writer.Write(startingVent.transform.position.x);
-                writer.Write(startingVent.transform.position.y + 0.3636f);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.SetPos, WillBePhantom.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3639f);
 
                 WillBePhantom.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                 PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
@@ -207,10 +196,7 @@ namespace TownOfUs.Patches
 
                 SpawnTraitor(WillBeTraitor);
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetTraitor, SendOption.Reliable, -1);
-                writer.Write(pc.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.SetTraitor, pc.PlayerId);
             }
         }
 

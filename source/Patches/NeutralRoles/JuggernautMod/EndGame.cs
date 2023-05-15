@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.JuggernautMod
@@ -15,10 +14,7 @@ namespace TownOfUs.NeutralRoles.JuggernautMod
                 if (role.RoleType == RoleEnum.Juggernaut)
                     ((Juggernaut)role).Loses();
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.JuggernautLose,
-                SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.JuggernautLose);
 
             return true;
         }

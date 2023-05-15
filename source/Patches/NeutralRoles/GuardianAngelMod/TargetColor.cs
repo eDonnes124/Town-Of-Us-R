@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -41,11 +40,7 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
 
             if (!role.target.Data.IsDead && !role.target.Data.Disconnected) return;
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.GAToSurv, SendOption.Reliable, -1);
-            writer.Write(PlayerControl.LocalPlayer.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-
+            Utils.CallRpc(CustomRPC.GAToSurv, PlayerControl.LocalPlayer.PlayerId);
             Object.Destroy(role.UsesText);
             DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
 

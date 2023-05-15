@@ -1,8 +1,7 @@
-using System;
-using HarmonyLib;
-using Hazel;
-using TownOfUs.Roles;
 using AmongUs.GameOptions;
+using HarmonyLib;
+using System;
+using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.PlaguebearerMod
 {
@@ -27,11 +26,7 @@ namespace TownOfUs.NeutralRoles.PlaguebearerMod
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
             if (interact[4] == true)
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Infect, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(role.ClosestPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.Infect, PlayerControl.LocalPlayer.PlayerId, role.ClosestPlayer.PlayerId);
                 role.InfectedPlayers.Add(role.ClosestPlayer.PlayerId);
             }
             if (interact[0] == true)

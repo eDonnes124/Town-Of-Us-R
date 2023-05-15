@@ -1,15 +1,14 @@
+using AmongUs.GameOptions;
 using HarmonyLib;
-using Hazel;
 using Reactor.Utilities.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
 using Object = UnityEngine.Object;
-using System;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.CultistRoles.NecromancerMod
 {
@@ -48,20 +47,16 @@ namespace TownOfUs.CultistRoles.NecromancerMod
                 role.ReviveCount += 1;
                 role.LastRevived = DateTime.UtcNow;
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Revive, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(playerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.Revive, PlayerControl.LocalPlayer.PlayerId, playerId);
 
-                Revive(role.CurrentTarget, role);
+                Revive(role.CurrentTarget);
                 return false;
             }
 
             return true;
         }
 
-        public static void Revive(DeadBody target, Necromancer role)
+        public static void Revive(DeadBody target)
         {
             var parentId = target.ParentId;
             var position = target.TruePosition;
@@ -71,7 +66,7 @@ namespace TownOfUs.CultistRoles.NecromancerMod
 
             if (target != null)
             {
-                foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                foreach (DeadBody deadBody in Object.FindObjectsOfType<DeadBody>())
                 {
                     if (deadBody.ParentId == target.ParentId) deadBody.gameObject.Destroy();
                 }

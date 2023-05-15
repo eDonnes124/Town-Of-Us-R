@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.PhantomMod
@@ -13,12 +12,9 @@ namespace TownOfUs.NeutralRoles.PhantomMod
 
             foreach (var role in Role.AllRoles)
                 if (role.RoleType == RoleEnum.Phantom)
-                    ((Phantom) role).Loses();
+                    ((Phantom)role).Loses();
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.PhantomLose,
-                SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.PhantomLose);
 
             return true;
         }

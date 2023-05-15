@@ -1,17 +1,16 @@
+using AmongUs.GameOptions;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Reactor.Utilities.Extensions;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Extensions;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Modifiers;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using TownOfUs.Roles.Modifiers;
-using AmongUs.GameOptions;
-using TownOfUs.Patches;
-using Hazel;
 
 namespace TownOfUs.CrewmateRoles.AltruistMod
 {
@@ -66,7 +65,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
             revived.Add(player);
             player.NetTransform.SnapTo(new Vector2(position.x, position.y + 0.3636f));
 
-            if (Patches.SubmergedCompatibility.isSubmerged() && PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
+            if (SubmergedCompatibility.isSubmerged() && PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
             {
                 Patches.SubmergedCompatibility.ChangeFloor(player.transform.position.y > -7);
             }
@@ -109,10 +108,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                     if (toChooseFrom.Count == 0)
                     {
                         ExilePatch.WillBeHaunter = null;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetHaunter, SendOption.Reliable, -1);
-                        writer.Write(byte.MaxValue);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SetHaunter, byte.MaxValue);
                     }
                     else
                     {
@@ -121,10 +117,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
                         ExilePatch.WillBeHaunter = pc;
 
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetHaunter, SendOption.Reliable, -1);
-                        writer.Write(pc.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SetHaunter, pc.PlayerId);
                     }
                 }
                 if (ExilePatch.WillBePhantom == player)
@@ -133,10 +126,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                     if (toChooseFrom.Count == 0)
                     {
                         ExilePatch.WillBePhantom = null;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetPhantom, SendOption.Reliable, -1);
-                        writer.Write(byte.MaxValue);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SetPhantom, byte.MaxValue);
                     }
                     else
                     {
@@ -145,10 +135,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
                         ExilePatch.WillBePhantom = pc;
 
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetPhantom, SendOption.Reliable, -1);
-                        writer.Write(pc.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SetPhantom, pc.PlayerId);
                     }
                 }
             }

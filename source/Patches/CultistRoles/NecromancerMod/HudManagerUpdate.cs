@@ -31,7 +31,7 @@ namespace TownOfUs.CultistRoles.NecromancerMod
 
             role.ReviveButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && GameManager.Instance.GameHasStarted);
 
             var data = PlayerControl.LocalPlayer.Data;
             var isDead = data.IsDead;

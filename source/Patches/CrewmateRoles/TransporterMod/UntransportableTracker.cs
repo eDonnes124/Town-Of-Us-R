@@ -1,7 +1,6 @@
 using HarmonyLib;
-using TownOfUs.Roles;
 using System;
-using Hazel;
+using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.TransporterMod
 {
@@ -46,7 +45,7 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
             }
         }
 
-        [HarmonyPatch(typeof(MovingPlatformBehaviour), nameof(MovingPlatformBehaviour.Use), new Type[] {})]
+        [HarmonyPatch(typeof(MovingPlatformBehaviour), nameof(MovingPlatformBehaviour.Use), new Type[] { })]
         public class SavePlatformPlayer
         {
             public static void Prefix(MovingPlatformBehaviour __instance)
@@ -58,10 +57,7 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
                 }
                 else
                 {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte) CustomRPC.SetUntransportable, SendOption.Reliable, -1);
-                    writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.SetUntransportable, PlayerControl.LocalPlayer.PlayerId);
                 }
             }
         }

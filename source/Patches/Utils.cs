@@ -1,40 +1,41 @@
-﻿using HarmonyLib;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
 using Hazel;
+using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Reactor.Networking.Extensions;
+using Reactor.Utilities;
+using Reactor.Utilities.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
 using TownOfUs.CrewmateRoles.MedicMod;
+using TownOfUs.CrewmateRoles.TrapperMod;
 using TownOfUs.Extensions;
+using TownOfUs.ImpostorRoles.BomberMod;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using TownOfUs.Roles.Modifiers;
-using Il2CppInterop.Runtime.InteropTypes;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using PerformKill = TownOfUs.Modifiers.UnderdogMod.PerformKill;
 using Random = UnityEngine.Random;
-using AmongUs.GameOptions;
-using TownOfUs.CrewmateRoles.TrapperMod;
-using TownOfUs.ImpostorRoles.BomberMod;
 
 namespace TownOfUs
 {
     [HarmonyPatch]
     public static class Utils
     {
-        internal static bool ShowDeadBodies = false;
-        private static GameData.PlayerInfo voteTarget = null;
+        internal static bool ShowDeadBodies;
+        private static GameData.PlayerInfo voteTarget;
 
-        public static Dictionary<PlayerControl, Color> oldColors = new Dictionary<PlayerControl, Color>();
+        public static Dictionary<PlayerControl, Color> oldColors = new();
 
-        public static List<WinningPlayerData> potentialWinners = new List<WinningPlayerData>();
+        public static List<WinningPlayerData> potentialWinners = new();
 
-        public static void Morph(PlayerControl player, PlayerControl MorphedPlayer, bool resetAnim = false)
+        public static void Morph(PlayerControl player, PlayerControl MorphedPlayer)
         {
             if (CamouflageUnCamouflage.IsCamoed) return;
             if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Morph)
@@ -43,7 +44,7 @@ namespace TownOfUs
 
         public static void Unmorph(PlayerControl player)
         {
-           player.SetOutfit(CustomPlayerOutfitType.Default);
+            player.SetOutfit(CustomPlayerOutfitType.Default);
         }
 
         public static void Camouflage()
@@ -65,7 +66,6 @@ namespace TownOfUs
                     PlayerMaterial.SetColors(Color.grey, player.myRend());
                     player.nameText().color = Color.clear;
                     player.cosmetics.colorBlindText.color = Color.clear;
-                  
                 }
             }
         }
@@ -175,7 +175,7 @@ namespace TownOfUs
             return Role.GetRoles(RoleEnum.Veteran).Any(role =>
             {
                 var veteran = (Veteran)role;
-                return veteran != null && veteran.OnAlert && player.PlayerId == veteran.Player.PlayerId;
+                return veteran?.OnAlert == true && player.PlayerId == veteran.Player.PlayerId;
             });
         }
 
@@ -184,7 +184,7 @@ namespace TownOfUs
             return Role.GetRoles(RoleEnum.Survivor).Any(role =>
             {
                 var surv = (Survivor)role;
-                return surv != null && surv.Vesting && player.PlayerId == surv.Player.PlayerId;
+                return surv?.Vesting == true && player.PlayerId == surv.Player.PlayerId;
             });
         }
 
@@ -207,6 +207,62 @@ namespace TownOfUs
             });
         }
 
+        public static void CallRpc(params object[] data)
+        {
+            if (data[0] is not CustomRPC) throw new ArgumentException($"first parameter must be a {typeof(CustomRPC).FullName}");
+
+            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                        (byte)(CustomRPC)data[0], SendOption.Reliable);
+
+            if (data.Length == 1)
+            {
+                //for rpcs such as removealldeadbodies
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                return;
+            }
+
+            foreach (var item in data[1..])
+            {
+                if (item is bool boolean)
+                {
+                    writer.Write(boolean);
+                }
+                else if (item is int integer)
+                {
+                    writer.Write(integer);
+                }
+                else if (item is uint uinteger)
+                {
+                    writer.Write(uinteger);
+                }
+                else if (item is float Float)
+                {
+                    writer.Write(Float);
+                }
+                else if (item is byte Byte)
+                {
+                    writer.Write(Byte);
+                }
+                else if (item is sbyte sByte)
+                {
+                    writer.Write(sByte);
+                }
+                else if (item is Vector2 vector)
+                {
+                    writer.Write(vector);
+                }
+                else if (item is Vector3 vector3)
+                {
+                    writer.Write(vector3);
+                }
+                else
+                {
+                    Logger<TownOfUs>.Error($"unknown data type entered for rpc write: item - {nameof(item)}, rpc - {data[0]}");
+                }
+            }
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
         public static List<bool> Interact(PlayerControl player, PlayerControl target, bool toKill = false)
         {
             bool fullCooldownReset = false;
@@ -223,11 +279,7 @@ namespace TownOfUs
                 if (player.IsShielded())
                 {
                     var medic = player.GetMedic().Player.PlayerId;
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                    writer.Write(medic);
-                    writer.Write(player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    CallRpc(CustomRPC.AttemptSound, medic, player.PlayerId);
 
                     if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
                     else zeroSecReset = true;
@@ -243,11 +295,7 @@ namespace TownOfUs
                 else if (player.IsShielded())
                 {
                     var medic = player.GetMedic().Player.PlayerId;
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                    writer.Write(medic);
-                    writer.Write(player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    CallRpc(CustomRPC.AttemptSound, medic, player.PlayerId);
 
                     if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
                     else zeroSecReset = true;
@@ -261,11 +309,7 @@ namespace TownOfUs
                     if (target.IsShielded())
                     {
                         var medic = target.GetMedic().Player.PlayerId;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                        writer.Write(medic);
-                        writer.Write(target.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        CallRpc(CustomRPC.AttemptSound, medic, target.PlayerId);
 
                         if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
                         else zeroSecReset = true;
@@ -306,11 +350,7 @@ namespace TownOfUs
             }
             else if (target.IsShielded() && toKill)
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                writer.Write(target.GetMedic().Player.PlayerId);
-                writer.Write(target.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                CallRpc(CustomRPC.AttemptSound, target.GetMedic().Player.PlayerId, target.PlayerId);
 
                 System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
                 if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
@@ -376,8 +416,8 @@ namespace TownOfUs
                 GameData.PlayerInfo playerInfo = allPlayers[index];
                 if (!playerInfo.Disconnected && (!playerInfo.Object.Data.IsDead || includeDead))
                 {
-                    Vector2 vector2 = new Vector2(playerInfo.Object.GetTruePosition().x - truePosition.x, playerInfo.Object.GetTruePosition().y - truePosition.y);
-                    float magnitude = ((Vector2)vector2).magnitude;
+                    Vector2 vector2 = new(playerInfo.Object.GetTruePosition().x - truePosition.x, playerInfo.Object.GetTruePosition().y - truePosition.y);
+                    float magnitude = (vector2).magnitude;
                     if (magnitude <= lightRadius)
                     {
                         PlayerControl playerControl = playerInfo.Object;
@@ -407,7 +447,7 @@ namespace TownOfUs
                 num = distBetweenPlayers;
                 result = player;
             }
-            
+
             return result;
         }
         public static void SetTarget(
@@ -452,21 +492,13 @@ namespace TownOfUs
         public static void RpcMurderPlayer(PlayerControl killer, PlayerControl target)
         {
             MurderPlayer(killer, target, true);
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.BypassKill, SendOption.Reliable, -1);
-            writer.Write(killer.PlayerId);
-            writer.Write(target.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            CallRpc(CustomRPC.BypassKill, killer.PlayerId, target.PlayerId);
         }
 
         public static void RpcMultiMurderPlayer(PlayerControl killer, PlayerControl target)
         {
             MurderPlayer(killer, target, false);
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.BypassMultiKill, SendOption.Reliable, -1);
-            writer.Write(killer.PlayerId);
-            writer.Write(target.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            CallRpc(CustomRPC.BypassMultiKill, killer.PlayerId, target.PlayerId);
         }
 
         public static void MurderPlayer(PlayerControl killer, PlayerControl target, bool jumpToBody)
@@ -509,10 +541,7 @@ namespace TownOfUs
                     if (target.Is(Faction.Crewmates) && !target.Is(ModifierEnum.Lover))
                     {
                         ExilePatch.WillBeHaunter = target;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetHaunter, SendOption.Reliable, -1);
-                        writer.Write(target.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        CallRpc(CustomRPC.SetHaunter, target.PlayerId);
                     }
                 }
 
@@ -521,10 +550,7 @@ namespace TownOfUs
                     if ((target.Is(Faction.NeutralOther) || target.Is(Faction.NeutralKilling)) && !target.Is(ModifierEnum.Lover))
                     {
                         ExilePatch.WillBePhantom = target;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetPhantom, SendOption.Reliable, -1);
-                        writer.Write(target.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        CallRpc(CustomRPC.SetPhantom, target.PlayerId);
                     }
                 }
 
@@ -693,11 +719,11 @@ namespace TownOfUs
 
         public static IEnumerator BaitReportDelay(PlayerControl killer, PlayerControl target)
         {
-            var extraDelay = Random.RandomRangeInt(0, (int) (100 * (CustomGameOptions.BaitMaxDelay - CustomGameOptions.BaitMinDelay) + 1));
+            var extraDelay = Random.RandomRangeInt(0, (int)(100 * (CustomGameOptions.BaitMaxDelay - CustomGameOptions.BaitMinDelay) + 1));
             if (CustomGameOptions.BaitMaxDelay <= CustomGameOptions.BaitMinDelay)
                 yield return new WaitForSeconds(CustomGameOptions.BaitMaxDelay + 0.01f);
             else
-                yield return new WaitForSeconds(CustomGameOptions.BaitMinDelay + 0.01f + extraDelay/100f);
+                yield return new WaitForSeconds(CustomGameOptions.BaitMinDelay + 0.01f + extraDelay / 100f);
             var bodies = Object.FindObjectsOfType<DeadBody>();
             if (AmongUsClient.Instance.AmHost)
             {
@@ -720,11 +746,7 @@ namespace TownOfUs
                     {
                         if (body.ParentId == target.PlayerId)
                         {
-                            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                (byte)CustomRPC.BaitReport, SendOption.Reliable, -1);
-                            writer.Write(killer.PlayerId);
-                            writer.Write(target.PlayerId);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            CallRpc(CustomRPC.BaitReport, killer.PlayerId, target.PlayerId);
                             break;
                         }
                     }
@@ -760,8 +782,10 @@ namespace TownOfUs
                 var chameleonRole = Role.GetRole<Chameleon>(player);
                 if (chameleonRole.IsSwooped) chameleonRole.UnSwoop();
                 Role.RoleDictionary.Remove(player.PlayerId);
-                var swooper = new Swooper(player);
-                swooper.LastSwooped = DateTime.UtcNow;
+                var swooper = new Swooper(player)
+                {
+                    LastSwooped = DateTime.UtcNow
+                };
                 swooper.RegenTask();
             }
 
@@ -769,7 +793,7 @@ namespace TownOfUs
             {
                 var engineer = Role.GetRole<Engineer>(player);
                 engineer.Name = "Demolitionist";
-                engineer.Color = Patches.Colors.Impostor;
+                engineer.Color = Colors.Impostor;
                 engineer.Faction = Faction.Impostors;
                 engineer.RegenTask();
             }
@@ -778,7 +802,7 @@ namespace TownOfUs
             {
                 var investigator = Role.GetRole<Investigator>(player);
                 investigator.Name = "Consigliere";
-                investigator.Color = Patches.Colors.Impostor;
+                investigator.Color = Colors.Impostor;
                 investigator.Faction = Faction.Impostors;
                 investigator.RegenTask();
             }
@@ -787,7 +811,7 @@ namespace TownOfUs
             {
                 var mystic = Role.GetRole<CultistMystic>(player);
                 mystic.Name = "Clairvoyant";
-                mystic.Color = Patches.Colors.Impostor;
+                mystic.Color = Colors.Impostor;
                 mystic.Faction = Faction.Impostors;
                 mystic.RegenTask();
             }
@@ -796,7 +820,7 @@ namespace TownOfUs
             {
                 var spy = Role.GetRole<Spy>(player);
                 spy.Name = "Rogue Agent";
-                spy.Color = Patches.Colors.Impostor;
+                spy.Color = Colors.Impostor;
                 spy.Faction = Faction.Impostors;
                 spy.RegenTask();
             }
@@ -814,7 +838,7 @@ namespace TownOfUs
                 var vigi = Role.GetRole<Vigilante>(player);
                 vigi.Name = "Assassin";
                 vigi.TaskText = () => "Guess the roles of crewmates mid-meeting to kill them!";
-                vigi.Color = Patches.Colors.Impostor;
+                vigi.Color = Colors.Impostor;
                 vigi.Faction = Faction.Impostors;
                 vigi.RegenTask();
                 var colorMapping = new Dictionary<string, Color>();
@@ -847,7 +871,7 @@ namespace TownOfUs
             {
                 if (player2.Data.IsImpostor() && PlayerControl.LocalPlayer.Data.IsImpostor())
                 {
-                    player2.nameText().color = Patches.Colors.Impostor;
+                    player2.nameText().color = Colors.Impostor;
                 }
             }
         }
@@ -910,19 +934,24 @@ namespace TownOfUs
                 }
             }
         }
-      
+
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.StartMeeting))]
-        class StartMeetingPatch {
-            public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)]GameData.PlayerInfo meetingTarget) {
+        class StartMeetingPatch
+        {
+            public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo meetingTarget)
+            {
                 voteTarget = meetingTarget;
             }
         }
 
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-        class MeetingHudUpdatePatch {
-            static void Postfix(MeetingHud __instance) {
+        class MeetingHudUpdatePatch
+        {
+            static void Postfix(MeetingHud __instance)
+            {
                 // Deactivate skip Button if skipping on emergency meetings is disabled 
-                if ((voteTarget == null && CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Emergency) || (CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Always)) {
+                if ((voteTarget == null && CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Emergency) || (CustomGameOptions.SkipButtonDisable == DisableSkipButtonMeetings.Always))
+                {
                     __instance.SkipVoteButton.gameObject.SetActive(false);
                 }
             }

@@ -1,7 +1,6 @@
 using HarmonyLib;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
-using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.SnitchMod
 {
@@ -26,7 +25,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
             }
         }
 
-        public static void Postfix(HudManager __instance)
+        public static void Postfix()
         {
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Snitch)) return;
             var role = Role.GetRole<Snitch>(PlayerControl.LocalPlayer);

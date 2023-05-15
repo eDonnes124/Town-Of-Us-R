@@ -1,12 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
 using Hazel;
-using Reactor.Utilities;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using System.Collections.Generic;
+using System.Linq;
 using TownOfUs.CrewmateRoles.MayorMod;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -80,11 +79,7 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
 
                 if (SwapVotes.Swap1 == null || SwapVotes.Swap2 == null) return true;
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.SetSwaps, SendOption.Reliable, -1);
-                writer.Write(SwapVotes.Swap1.TargetPlayerId);
-                writer.Write(SwapVotes.Swap2.TargetPlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.SetSwaps, SwapVotes.Swap1.TargetPlayerId, SwapVotes.Swap2.TargetPlayerId);
                 return true;
             }
         }

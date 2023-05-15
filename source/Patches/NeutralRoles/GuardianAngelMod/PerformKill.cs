@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.GuardianAngelMod
@@ -24,10 +23,7 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
                 role.TimeRemaining = CustomGameOptions.ProtectDuration;
                 role.UsesLeft--;
                 role.Protect();
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.GAProtect, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.CallRpc(CustomRPC.GAProtect, PlayerControl.LocalPlayer.PlayerId);
                 return false;
             }
 

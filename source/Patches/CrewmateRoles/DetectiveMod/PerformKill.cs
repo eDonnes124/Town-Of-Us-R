@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AmongUs.GameOptions;
 using HarmonyLib;
+using Reactor.Utilities;
+using System;
+using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Roles;
 using UnityEngine;
-using TownOfUs.CrewmateRoles.MedicMod;
-using Reactor.Utilities;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.CrewmateRoles.DetectiveMod
 {

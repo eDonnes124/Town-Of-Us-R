@@ -1,17 +1,15 @@
-﻿using System.Linq;
-using Hazel;
+﻿using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using System.Linq;
+using TownOfUs.CrewmateRoles.MedicMod;
+using TownOfUs.CrewmateRoles.SwapperMod;
+using TownOfUs.Extensions;
+using TownOfUs.ImpostorRoles.BlackmailerMod;
+using TownOfUs.Modifiers.AssassinMod;
+using TownOfUs.Patches;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
 using UnityEngine.UI;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfUs.CrewmateRoles.MedicMod;
-using TownOfUs.Modifiers.AssassinMod;
-using TownOfUs.ImpostorRoles.BlackmailerMod;
-using TownOfUs.Extensions;
-using TownOfUs.CrewmateRoles.ImitatorMod;
-using TownOfUs.CrewmateRoles.SwapperMod;
-using TownOfUs.Patches;
 
 namespace TownOfUs.CrewmateRoles.VigilanteMod
 {
@@ -28,11 +26,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
         {
             MurderPlayer(voteArea, player);
             VigiKillCount(player, vigilante);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.VigilanteKill, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(vigilante.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.CallRpc(CustomRPC.VigilanteKill, player.PlayerId, vigilante.PlayerId);
         }
 
         public static void MurderPlayer(PlayerControl player, bool checkLover = true)
@@ -71,7 +65,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
                 if (!GameOptionsManager.Instance.currentNormalGameOptions.GhostsDoTasks)
                 {
-                    for (int i = 0;i < player.myTasks.Count;i++)
+                    for (int i = 0; i < player.myTasks.Count; i++)
                     {
                         PlayerTask playerTask = player.myTasks.ToArray()[i];
                         playerTask.OnRemove();
@@ -166,11 +160,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                     swapper.ListOfActives[voteArea.TargetPlayerId] = false;
                     if (SwapVotes.Swap1 == voteArea) SwapVotes.Swap1 = null;
                     if (SwapVotes.Swap2 == voteArea) SwapVotes.Swap2 = null;
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetSwaps, SendOption.Reliable, -1);
-                    writer.Write(sbyte.MaxValue);
-                    writer.Write(sbyte.MaxValue);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.CallRpc(CustomRPC.SetSwaps, sbyte.MaxValue, sbyte.MaxValue);
                 }
                 button.SetActive(false);
                 button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
@@ -203,11 +193,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                             if (mayor.Player == PlayerControl.LocalPlayer)
                                 mayor.VoteBank += votesRegained;
 
-                            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                (byte)CustomRPC.AddMayorVoteBank, SendOption.Reliable, -1);
-                            writer.Write(mayor.Player.PlayerId);
-                            writer.Write(votesRegained);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            Utils.CallRpc(CustomRPC.AddMayorVoteBank, mayor.Player.PlayerId, votesRegained);
                         }
                     }
                 }
@@ -217,10 +203,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                     if (player.Is(Faction.Crewmates) && !player.Is(ModifierEnum.Lover))
                     {
                         ExilePatch.WillBeHaunter = player;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetHaunter, SendOption.Reliable, -1);
-                        writer.Write(player.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SetHaunter, player.PlayerId);
                     }
                 }
 
@@ -229,10 +212,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                     if ((player.Is(Faction.NeutralOther) || player.Is(Faction.NeutralKilling)) && !player.Is(ModifierEnum.Lover))
                     {
                         ExilePatch.WillBePhantom = player;
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetPhantom, SendOption.Reliable, -1);
-                        writer.Write(player.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SetPhantom, player.PlayerId);
                     }
                 }
 
