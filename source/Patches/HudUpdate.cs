@@ -42,7 +42,7 @@ namespace TownOfUs.Patches
 
             Pos2 = Pos + new Vector3(0, -0.66f, 0f);
             var dead = (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) && !PlayerControl.LocalPlayer.Is(RoleEnum.Phantom)) || (PlayerControl.LocalPlayer.Is(RoleEnum.Haunter) &&
-                Role.GetRole<Haunter>(PlayerControl.LocalPlayer).Caught);
+                Role.GetRole<Haunter>(PlayerControl.LocalPlayer).Caught)|| (PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) && Role.GetRole<Phantom>(PlayerControl.LocalPlayer).Caught);
             ZoomButton.SetActive(__instance.MapButton.gameObject.active && !(MapBehaviour.Instance && MapBehaviour.Instance.IsOpen) && dead &&
                 GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal && PlayerControl.LocalPlayer.Data.IsDead);
             ZoomButton.transform.localPosition = Pos2;
