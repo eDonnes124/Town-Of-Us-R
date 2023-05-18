@@ -2,8 +2,9 @@ using HarmonyLib;
 using Object = UnityEngine.Object;
 using Hazel;
 using Reactor.Utilities.Extensions;
+using UnityEngine;
 
-namespace TownOfUs
+namespace TownOfUs.Patches
 {
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
     public class MeetingHud_Start
@@ -16,6 +17,19 @@ namespace TownOfUs
             {
                 player.MyPhysics.ResetAnimState();
             }
+
+            HudUpdate.SettingsActive = false;
+            HudManager.Instance.GameSettings.gameObject.SetActive(false);
+            HudUpdate.Zooming = false;
+            Camera.main.orthographicSize = 3f;
+
+            foreach (var cam in Camera.allCameras)
+            {
+                if (cam?.gameObject.name == "UI Camera")
+                    cam.orthographicSize = 3f;
+            }
+
+            ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height);
         }
     }
 
