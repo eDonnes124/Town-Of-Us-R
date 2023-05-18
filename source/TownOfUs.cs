@@ -93,6 +93,10 @@ namespace TownOfUs
         public static Sprite UpdateTOUButton;
         public static Sprite UpdateSubmergedButton;
 
+        public static Sprite ZoomPlusButton;
+        public static Sprite ZoomMinusButton;
+        public static Sprite SettingsButton;
+
         public static Sprite HorseEnabledImage;
         public static Sprite HorseDisabledImage;
         public static Vector3 ButtonPosition { get; private set; } = new Vector3(2.6f, 0.7f, -9f);
@@ -175,6 +179,10 @@ namespace TownOfUs
             UpdateTOUButton = CreateSprite("TownOfUs.Resources.UpdateToUButton.png");
             UpdateSubmergedButton = CreateSprite("TownOfUs.Resources.UpdateSubmergedButton.png");
 
+            ZoomPlusButton = CreateSprite("TownOfUs.Resources.Plus.png");
+            ZoomMinusButton = CreateSprite("TownOfUs.Resources.Minus.png");
+            SettingsButton = CreateSprite("TownOfUs.Resources.CurrentSettings.png");
+
             HorseEnabledImage = CreateSprite("TownOfUs.Resources.HorseOn.png");
             HorseDisabledImage = CreateSprite("TownOfUs.Resources.HorseOff.png");
 
@@ -187,7 +195,9 @@ namespace TownOfUs
             Port = Config.Bind("Custom", "Port", (ushort) 22023);
             var defaultRegions = ServerManager.DefaultRegions.ToList();
             var ip = Ip.Value;
+
             if (Uri.CheckHostName(Ip.Value).ToString() == "Dns")
+            {
                 foreach (var address in Dns.GetHostAddresses(Ip.Value))
                 {
                     if (address.AddressFamily != AddressFamily.InterNetwork)
@@ -195,6 +205,7 @@ namespace TownOfUs
                     ip = address.ToString();
                     break;
                 }
+            }
 
             ServerManager.DefaultRegions = defaultRegions.ToArray();
 

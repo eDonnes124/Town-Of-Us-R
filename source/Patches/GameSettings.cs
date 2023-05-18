@@ -14,6 +14,7 @@ namespace TownOfUs
     public static class GameSettings
     {
         public static int SettingsPage = -1;
+        public static string VanillaSettings = "";
 
         [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.ToHudString))]
         private static class GameOptionsDataPatch
@@ -26,34 +27,38 @@ namespace TownOfUs
             private static void Postfix(ref string __result)
             {
                 if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return;
+                VanillaSettings = __result;
+                __result = Settings();
+            }
+        }
 
-                var builder = new StringBuilder();
-                builder.AppendLine("Press Tab To Change Page");
-                builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 2)}/6)");
+        public static string Settings()
+        {
+            var builder = new StringBuilder();
+            builder.AppendLine("Press Tab To Change Page");
+            builder.AppendLine($"Currently Viewing Page ({(SettingsPage + 2)}/6)");
+
+            if (SettingsPage == -1) builder.Append(new StringBuilder(VanillaSettings));
+            else
+            {
                 if (SettingsPage == 0) builder.AppendLine("General Mod Settings");
                 else if (SettingsPage == 1) builder.AppendLine("Crewmate Settings");
                 else if (SettingsPage == 2) builder.AppendLine("Neutral Settings");
                 else if (SettingsPage == 3) builder.AppendLine("Impostor Settings");
                 else if (SettingsPage == 4) builder.AppendLine("Modifier Settings");
-
-                if (SettingsPage == -1) builder.Append(new StringBuilder(__result));
-
-                else
+                foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
                 {
-                    foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
-                    {
-                        if (option.Type == CustomOptionType.Button)
-                            continue;
+                    if (option.Type == CustomOptionType.Button)
+                        continue;
 
-                        if (option.Type == CustomOptionType.Header)
-                            builder.AppendLine($"\n{option.Name}");
-                        else
-                            builder.AppendLine($"    {option.Name}: {option}");
-                    }
+                    if (option.Type == CustomOptionType.Header)
+                        builder.AppendLine($"\n{option.Name}");
+                    else
+                        builder.AppendLine($"    {option.Name}: {option}");
                 }
-
-                __result = $"<size=1.25>{builder.ToString()}</size>";
             }
+
+            return $"<size=1.25>{builder}</size>";
         }
 
         [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Update))]
