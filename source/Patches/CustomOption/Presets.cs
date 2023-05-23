@@ -167,14 +167,11 @@ namespace TownOfUs.CustomOption
             Setting.Cast<ToggleOption>().TitleText.color = Color.white;
         }
 
-        private IEnumerator FlashWhite()
-        {
-            yield return null;
-        }
+        private IEnumerator FlashWhite() => null;
 
         private static string CreatePresetText(string itemName)
         {
-            if (itemName?.Length == 0)
+            if (itemName == null || itemName.Length == 0)
                 return "";
 
             var path = $"TownOfUs.Resources.Presets.{itemName}";

@@ -74,16 +74,10 @@ namespace TownOfUs.CustomOption
         protected internal void ToDo()
         {
             SlotButtons.Clear();
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 1", delegate { ExportSlot(1); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 2", delegate { ExportSlot(2); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 3", delegate { ExportSlot(3); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 4", delegate { ExportSlot(4); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 5", delegate { ExportSlot(5); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 6", delegate { ExportSlot(6); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 7", delegate { ExportSlot(7); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 8", delegate { ExportSlot(8); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 9", delegate { ExportSlot(9); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 10", delegate { ExportSlot(10); }));
+
+            for (var j = 1; j < 11; j++)
+                SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, $"Slot {j}", delegate { ExportSlot(j); }));
+
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Cancel", delegate { Cancel(FlashWhite); }));
 
             var options = CreateOptions();
@@ -113,7 +107,9 @@ namespace TownOfUs.CustomOption
 
             foreach (var option in AllOptions)
             {
-                if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header) continue;
+                if (option.Type is CustomOptionType.Button or CustomOptionType.Header or CustomOptionType.Nested)
+                    continue;
+
                 builder.AppendLine(option.Name);
                 builder.AppendLine(option.Value.ToString());
             }
@@ -148,9 +144,6 @@ namespace TownOfUs.CustomOption
             Setting.Cast<ToggleOption>().TitleText.color = Color.white;
         }
 
-        private IEnumerator FlashWhite()
-        {
-            yield return null;
-        }
+        private IEnumerator FlashWhite() => null;
     }
 }

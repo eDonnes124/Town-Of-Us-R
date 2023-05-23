@@ -72,16 +72,10 @@ namespace TownOfUs.CustomOption
         protected internal void ToDo()
         {
             SlotButtons.Clear();
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 1", delegate { ImportSlot(1); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 2", delegate { ImportSlot(2); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 3", delegate { ImportSlot(3); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 4", delegate { ImportSlot(4); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 5", delegate { ImportSlot(5); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 6", delegate { ImportSlot(6); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 7", delegate { ImportSlot(7); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 8", delegate { ImportSlot(8); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 9", delegate { ImportSlot(9); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 10", delegate { ImportSlot(10); }));
+
+            for (var j = 1; j < 11; j++)
+                SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, $"Slot {j}", delegate { ImportSlot(j); }));
+
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Cancel", delegate { Cancel(FlashWhite); }));
 
             var options = CreateOptions();
