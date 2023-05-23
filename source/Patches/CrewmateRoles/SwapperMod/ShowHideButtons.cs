@@ -102,7 +102,6 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
                 {
                     playerVoteArea.VotedFor = PlayerVoteArea.DeadVote;
                     playerVoteArea.SetDead(false, true);
-                    return true;
                 }
 
                 return true;
@@ -132,11 +131,7 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
 
                     foreach (var role in Role.GetRoles(RoleEnum.Mayor))
                     {
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetExtraVotes, SendOption.Reliable, -1);
-                        writer.Write(role.Player.PlayerId);
-                        writer.WriteBytesAndSize(((Mayor)role).ExtraVotes.ToArray());
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.CallRpc(CustomRPC.SetExtraVotes, role.Player.PlayerId, ((Mayor)role).ExtraVotes.ToArray());
                     }
                 }
 

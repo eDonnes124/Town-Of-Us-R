@@ -255,6 +255,10 @@ namespace TownOfUs
                 {
                     writer.Write(vector3);
                 }
+                else if (item is byte[] array)
+                {
+                    writer.WriteBytesAndSize(array);
+                }
                 else
                 {
                     Logger<TownOfUs>.Error($"unknown data type entered for rpc write: item - {nameof(item)}, rpc - {data[0]}");
