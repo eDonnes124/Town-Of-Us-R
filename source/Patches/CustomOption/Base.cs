@@ -14,7 +14,6 @@ namespace TownOfUs.CustomOption
         protected internal OptionBehaviour Setting { get; set; }
         protected internal CustomOptionType Type { get; set; }
         public object DefaultValue { get; set; }
-        public static bool LobbyTextScroller { get; set; } = true;
 
         protected internal CustomOption(int id, MultiMenu menu, string name, CustomOptionType type, object defaultValue,
             Func<object, string> format = null)
