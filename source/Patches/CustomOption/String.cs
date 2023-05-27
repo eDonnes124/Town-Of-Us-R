@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TownOfUs.CustomOption
 {
     public class CustomStringOption : CustomOption
@@ -37,10 +35,10 @@ namespace TownOfUs.CustomOption
 
         public override void OptionCreated()
         {
-            var str = Setting.Cast<StringOption>();
-
+            base.OptionCreated();
+            var str = Setting.Cast<KeyValueOption>();
             str.TitleText.text = Name;
-            str.Value = str.oldValue = Get();
+            str.Selected = str.oldValue = Get();
             str.ValueText.text = ToString();
         }
     }

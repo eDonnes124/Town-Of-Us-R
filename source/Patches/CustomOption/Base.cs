@@ -69,11 +69,11 @@ namespace TownOfUs.CustomOption
                     number.Value = number.oldValue = newValue;
                     number.ValueText.text = ToString();
                 }
-                else if (Setting is StringOption str)
+                else if (Setting is KeyValueOption str)
                 {
                     var newValue = (int) Value;
 
-                    str.Value = str.oldValue = newValue;
+                    str.Selected = str.oldValue = newValue;
                     str.ValueText.text = ToString();
                 }
             }
