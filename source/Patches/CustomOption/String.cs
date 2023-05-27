@@ -32,8 +32,8 @@ namespace TownOfUs.CustomOption
 
         public override void OptionCreated()
         {
+            base.OptionCreated();
             var str = Setting.Cast<StringOption>();
-
             str.TitleText.text = Name;
             str.Value = str.oldValue = Get();
             str.ValueText.text = ToString();
