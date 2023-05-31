@@ -21,7 +21,6 @@ namespace TownOfUs.CultistRoles.ChameleonMod
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.SwoopTimer() != 0) return false;
                 role.TimeRemaining = CustomGameOptions.SwoopDuration;
-                role.RegenTask();
                 role.Swoop();
                 Utils.CallRpc(CustomRPC.ChameleonSwoop, PlayerControl.LocalPlayer.PlayerId);
                 return false;

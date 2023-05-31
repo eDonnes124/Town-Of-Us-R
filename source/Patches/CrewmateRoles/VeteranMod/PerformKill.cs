@@ -22,7 +22,6 @@ namespace TownOfUs.CrewmateRoles.VeteranMod
                 if (role.AlertTimer() != 0) return false;
                 role.TimeRemaining = CustomGameOptions.AlertDuration;
                 role.UsesLeft--;
-                role.RegenTask();
                 role.Alert();
                 Utils.CallRpc(CustomRPC.Alert, PlayerControl.LocalPlayer.PlayerId);
                 return false;

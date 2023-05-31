@@ -30,13 +30,15 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
             if (AmongUsClient.Instance.AmHost) Utils.RpcMurderPlayer(role.Player, role.Player);
 
             if (CustomGameOptions.AltruistTargetBody)
+            {
                 if (target != null)
                 {
-                    foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                    foreach (DeadBody deadBody in Object.FindObjectsOfType<DeadBody>())
                     {
                         if (deadBody.ParentId == target.ParentId) deadBody.gameObject.Destroy();
                     }
                 }
+            }
 
             var startTime = DateTime.UtcNow;
             while (true)
@@ -67,7 +69,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
             if (SubmergedCompatibility.isSubmerged() && PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
             {
-                Patches.SubmergedCompatibility.ChangeFloor(player.transform.position.y > -7);
+                SubmergedCompatibility.ChangeFloor(player.transform.position.y > -7);
             }
             if (target != null) Object.Destroy(target.gameObject);
 
@@ -98,47 +100,6 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                 catch
                 {
                 }
-
-            ExilePatch.CheckTraitorSpawn(null);
-            if (AmongUsClient.Instance.AmHost)
-            {
-                if (ExilePatch.WillBeHaunter == player)
-                {
-                    var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && x.Data.IsDead && !x.Data.Disconnected && x != player).ToList();
-                    if (toChooseFrom.Count == 0)
-                    {
-                        ExilePatch.WillBeHaunter = null;
-                        Utils.CallRpc(CustomRPC.SetHaunter, byte.MaxValue);
-                    }
-                    else
-                    {
-                        var rand = UnityEngine.Random.RandomRangeInt(0, toChooseFrom.Count);
-                        var pc = toChooseFrom[rand];
-
-                        ExilePatch.WillBeHaunter = pc;
-
-                        Utils.CallRpc(CustomRPC.SetHaunter, pc.PlayerId);
-                    }
-                }
-                if (ExilePatch.WillBePhantom == player)
-                {
-                    var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.NeutralOther) || x.Is(Faction.NeutralKilling)) && !x.Is(ModifierEnum.Lover) && x.Data.IsDead && !x.Data.Disconnected && x != player).ToList();
-                    if (toChooseFrom.Count == 0)
-                    {
-                        ExilePatch.WillBePhantom = null;
-                        Utils.CallRpc(CustomRPC.SetPhantom, byte.MaxValue);
-                    }
-                    else
-                    {
-                        var rand = UnityEngine.Random.RandomRangeInt(0, toChooseFrom.Count);
-                        var pc = toChooseFrom[rand];
-
-                        ExilePatch.WillBePhantom = pc;
-
-                        Utils.CallRpc(CustomRPC.SetPhantom, pc.PlayerId);
-                    }
-                }
-            }
 
             if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
                 || PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist) || PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf)

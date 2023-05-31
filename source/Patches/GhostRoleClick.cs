@@ -21,6 +21,7 @@ namespace TownOfUs
                 {
                     var role = Role.GetRole<Phantom>(__instance);
                     role.Caught = true;
+                    role.Player.Exiled();
                     Utils.CallRpc(CustomRPC.CatchPhantom, role.Player.PlayerId);
                 }
             }
@@ -32,6 +33,7 @@ namespace TownOfUs
                 {
                     var role = Role.GetRole<Haunter>(__instance);
                     role.Caught = true;
+                    role.Player.Exiled();
                     Utils.CallRpc(CustomRPC.CatchHaunter, role.Player.PlayerId);
                 }
             }

@@ -319,7 +319,7 @@ namespace TownOfUs.Patches
                     ChangeFloor(startingVent.transform.position.y > -7f);
 
                     Utils.CallRpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x,
-                                                                                        startingVent.transform.position.y);
+                                                                                        startingVent.transform.position.y + 0.3636f);
 
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                     PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
@@ -339,7 +339,7 @@ namespace TownOfUs.Patches
                     ChangeFloor(startingVent.transform.position.y > -7f);
 
                     Utils.CallRpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x,
-                                                                                        startingVent.transform.position.y);
+                                                                                        startingVent.transform.position.y + 0.3636f);
 
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                     PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);

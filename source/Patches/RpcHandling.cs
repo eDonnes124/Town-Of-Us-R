@@ -20,7 +20,8 @@ using TownOfUs.ImpostorRoles.MinerMod;
 using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
-using TownOfUs.Patches;
+using TownOfUs.NeutralRoles.PhantomMod;
+using TownOfUs.ImpostorRoles.TraitorMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using TownOfUs.Roles.Modifiers;
@@ -29,6 +30,7 @@ using Coroutine = TownOfUs.ImpostorRoles.JanitorMod.Coroutine;
 using Object = UnityEngine.Object;
 using PerformKillButton = TownOfUs.NeutralRoles.AmnesiacMod.PerformKillButton;
 using Random = UnityEngine.Random; //using Il2CppSystem;
+using TownOfUs.Patches;
 
 namespace TownOfUs
 {
@@ -44,6 +46,9 @@ namespace TownOfUs
         private static readonly List<(Type, int, int)> ButtonModifiers = new();
         private static readonly List<(Type, int, int)> AssassinModifiers = new();
         private static readonly List<(Type, CustomRPC, int)> AssassinAbility = new();
+        private static bool PhantomOn;
+        private static bool HaunterOn;
+        private static bool TraitorOn;
 
         internal static bool Check(int probability)
         {
@@ -296,7 +301,51 @@ namespace TownOfUs
                 Role.GenModifier<Modifier>(type, canHaveModifier.TakeFirst(), id);
             }
 
-            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante)).ToList();
+            var toChooseFromCrew = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover)).ToList();
+            if (TraitorOn && toChooseFromCrew.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
+                var pc = toChooseFromCrew[rand];
+
+                SetTraitor.WillBeTraitor = pc;
+
+                Utils.CallRpc(CustomRPC.SetTraitor, pc.PlayerId);
+            }
+            else
+            {
+                Utils.CallRpc(CustomRPC.SetTraitor, byte.MaxValue);
+            }
+
+            if (HaunterOn && toChooseFromCrew.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromCrew.Count);
+                var pc = toChooseFromCrew[rand];
+
+                SetHaunter.WillBeHaunter = pc;
+
+                Utils.CallRpc(CustomRPC.SetHaunter, pc.PlayerId);
+            }
+            else
+            {
+                Utils.CallRpc(CustomRPC.SetHaunter, byte.MaxValue);
+            }
+
+            var toChooseFromNeut = PlayerControl.AllPlayerControls.ToArray().Where(x => (x.Is(Faction.NeutralOther) || x.Is(Faction.NeutralKilling)) && !x.Is(ModifierEnum.Lover)).ToList();
+            if (PhantomOn && toChooseFromNeut.Count != 0)
+            {
+                var rand = Random.RandomRangeInt(0, toChooseFromNeut.Count);
+                var pc = toChooseFromNeut[rand];
+
+                SetPhantom.WillBePhantom = pc;
+
+                Utils.CallRpc(CustomRPC.SetPhantom, pc.PlayerId);
+            }
+            else
+            {
+                Utils.CallRpc(CustomRPC.SetPhantom, byte.MaxValue);
+            }
+
+            var exeTargets = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(ModifierEnum.Lover) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Swapper) && !x.Is(RoleEnum.Vigilante) && x != SetTraitor.WillBeTraitor).ToList();
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
             {
                 var exe = (Executioner)role;
@@ -755,7 +804,8 @@ namespace TownOfUs
                         StartImitate.ImitatingPlayer = null;
                         KillButtonTarget.DontRevive = byte.MaxValue;
                         ReviveHudManagerUpdate.DontRevive = byte.MaxValue;
-                        ExilePatch.AssassinatedPlayers.Clear();
+                        AddHauntPatch.AssassinatedPlayers.Clear();
+                        HudUpdate.Zooming = false;
                         break;
 
                     case CustomRPC.JanitorClean:
@@ -958,15 +1008,6 @@ namespace TownOfUs
                     case CustomRPC.Transport:
                         Coroutines.Start(Transporter.TransportPlayers(reader.ReadByte(), reader.ReadByte(), reader.ReadBoolean()));
                         break;
-                    case CustomRPC.SetDelayRoles:
-                        ExilePatch.PhantomOn = reader.ReadBoolean();
-                        ExilePatch.HaunterOn = reader.ReadBoolean();
-                        ExilePatch.TraitorOn = reader.ReadBoolean();
-                        ExilePatch.WillBePhantom = null;
-                        ExilePatch.WillBeHaunter = null;
-                        ExilePatch.WillBeTraitor = null;
-                        ExilePatch.TraitorCanSpawn = false;
-                        break;
                     case CustomRPC.SetUntransportable:
                         if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))
                         {
@@ -1148,44 +1189,48 @@ namespace TownOfUs
                         break;
                     case CustomRPC.SetPhantom:
                         readByte = reader.ReadByte();
-                        ExilePatch.WillBePhantom = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
+                        SetPhantom.WillBePhantom = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
                         break;
                     case CustomRPC.CatchPhantom:
                         var phantomPlayer = Utils.PlayerById(reader.ReadByte());
                         Role.GetRole<Phantom>(phantomPlayer).Caught = true;
                         if (PlayerControl.LocalPlayer == phantomPlayer) HudManager.Instance.AbilityButton.gameObject.SetActive(true);
+                        phantomPlayer.Exiled();
                         break;
                     case CustomRPC.PhantomWin:
                         Role.GetRole<Phantom>(Utils.PlayerById(reader.ReadByte())).CompletedTasks = true;
                         break;
                     case CustomRPC.SetHaunter:
                         readByte = reader.ReadByte();
-                        ExilePatch.WillBeHaunter = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
+                        SetHaunter.WillBeHaunter = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
                         break;
                     case CustomRPC.CatchHaunter:
                         var haunterPlayer = Utils.PlayerById(reader.ReadByte());
                         Role.GetRole<Haunter>(haunterPlayer).Caught = true;
                         if (PlayerControl.LocalPlayer == haunterPlayer) HudManager.Instance.AbilityButton.gameObject.SetActive(true);
+                        haunterPlayer.Exiled();
                         break;
                     case CustomRPC.HaunterFinished:
                         HighlightImpostors.UpdateMeeting(MeetingHud.Instance);
                         break;
                     case CustomRPC.SetTraitor:
                         readByte = reader.ReadByte();
-                        ExilePatch.WillBeTraitor = Utils.PlayerById(readByte);
-                        var traitor = ExilePatch.WillBeTraitor;
+                        SetTraitor.WillBeTraitor = readByte == byte.MaxValue ? null : Utils.PlayerById(readByte);
+                        break;
+                    case CustomRPC.TraitorSpawn:
+                        var traitor = SetTraitor.WillBeTraitor;
                         if (traitor == StartImitate.ImitatingPlayer) StartImitate.ImitatingPlayer = null;
                         var oldRole = Role.GetRole(traitor);
-                        var killsList3 = (oldRole.CorrectKills, oldRole.IncorrectKills, oldRole.CorrectAssassinKills, oldRole.IncorrectAssassinKills);
+                        var killsList = (oldRole.CorrectKills, oldRole.IncorrectKills, oldRole.CorrectAssassinKills, oldRole.IncorrectAssassinKills);
                         Role.RoleDictionary.Remove(traitor.PlayerId);
                         var traitorRole = new Traitor(traitor);
                         traitorRole.formerRole = oldRole.RoleType;
-                        traitorRole.CorrectKills = killsList3.CorrectKills;
-                        traitorRole.IncorrectKills = killsList3.IncorrectKills;
-                        traitorRole.CorrectAssassinKills = killsList3.CorrectAssassinKills;
-                        traitorRole.IncorrectAssassinKills = killsList3.IncorrectAssassinKills;
+                        traitorRole.CorrectKills = killsList.CorrectKills;
+                        traitorRole.IncorrectKills = killsList.IncorrectKills;
+                        traitorRole.CorrectAssassinKills = killsList.CorrectAssassinKills;
+                        traitorRole.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                         traitorRole.RegenTask();
-                        ExilePatch.SpawnTraitor(traitor);
+                        SetTraitor.TurnImp(traitor);
                         break;
                     case CustomRPC.Escape:
                         var escapist = Utils.PlayerById(reader.ReadByte());
@@ -1253,7 +1298,7 @@ namespace TownOfUs
                 ExileControllerPatch.lastExiled = null;
                 PatchKillTimer.GameStarted = false;
                 StartImitate.ImitatingPlayer = null;
-                ExilePatch.AssassinatedPlayers.Clear();
+                AddHauntPatch.AssassinatedPlayers.Clear();
                 CrewmateRoles.Clear();
                 NeutralNonKillingRoles.Clear();
                 NeutralKillingRoles.Clear();
@@ -1268,6 +1313,7 @@ namespace TownOfUs
                 Murder.KilledPlayers.Clear();
                 KillButtonTarget.DontRevive = byte.MaxValue;
                 ReviveHudManagerUpdate.DontRevive = byte.MaxValue;
+                HudUpdate.Zooming = false;
 
                 Utils.CallRpc(CustomRPC.Start);
 
@@ -1275,24 +1321,16 @@ namespace TownOfUs
 
                 if (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny)
                 {
-                    ExilePatch.PhantomOn = Check(CustomGameOptions.PhantomOn);
-                    ExilePatch.HaunterOn = Check(CustomGameOptions.HaunterOn);
-                    ExilePatch.TraitorOn = Check(CustomGameOptions.TraitorOn);
-
-                    Utils.CallRpc(CustomRPC.SetDelayRoles, ExilePatch.PhantomOn, ExilePatch.HaunterOn, ExilePatch.TraitorOn);
+                    PhantomOn = Check(CustomGameOptions.PhantomOn);
+                    HaunterOn = Check(CustomGameOptions.HaunterOn);
+                    TraitorOn = Check(CustomGameOptions.TraitorOn);
                 }
                 else
                 {
-                    ExilePatch.PhantomOn = false;
-                    ExilePatch.HaunterOn = false;
-                    ExilePatch.TraitorOn = false;
-
-                    Utils.CallRpc(CustomRPC.SetDelayRoles, false, false, false);
+                    PhantomOn = false;
+                    HaunterOn = false;
+                    TraitorOn = false;
                 }
-                ExilePatch.WillBePhantom = null;
-                ExilePatch.WillBeHaunter = null;
-                ExilePatch.WillBeTraitor = null;
-                ExilePatch.TraitorCanSpawn = false;
 
                 if (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny)
                 {
