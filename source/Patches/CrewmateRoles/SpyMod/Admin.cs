@@ -39,6 +39,7 @@ namespace TownOfUs.CrewmateRoles.SpyMod
         public static void UpdateBlips(MapCountOverlay __instance, bool isSpy)
         {
             var rooms = ShipStatus.Instance.FastRooms;
+            var colorMapDuplicate = new List<int>();
             foreach (var area in __instance.CountAreas)
             {
                 if (!rooms.ContainsKey(area.RoomType)) continue;
@@ -46,21 +47,33 @@ namespace TownOfUs.CrewmateRoles.SpyMod
                 if (room.roomArea == null) continue;
                 var objectsInRoom = room.roomArea.OverlapCollider(__instance.filter, __instance.buffer);
                 var colorMap = new List<int>();
-                for (var i = 0;i < objectsInRoom;i++)
+                for (var i = 0; i < objectsInRoom; i++)
                 {
                     var collider = __instance.buffer[i];
                     var player = collider.GetComponent<PlayerControl>();
                     var data = player?.Data;
                     if (collider.tag == "DeadBody" &&
-                        (isSpy && CustomGameOptions.WhoSeesDead == AdminDeadPlayers.Spy || 
+                        (isSpy && CustomGameOptions.WhoSeesDead == AdminDeadPlayers.Spy ||
                         !isSpy && CustomGameOptions.WhoSeesDead == AdminDeadPlayers.EveryoneButSpy ||
                         CustomGameOptions.WhoSeesDead == AdminDeadPlayers.Everyone))
                     {
                         var playerId = collider.GetComponent<DeadBody>().ParentId;
                         colorMap.Add(GameData.Instance.GetPlayerById(playerId).DefaultOutfit.ColorId);
+                        colorMapDuplicate.Add(GameData.Instance.GetPlayerById(playerId).DefaultOutfit.ColorId);
                         continue;
                     }
-                    if (data != null && !data.Disconnected && !data.IsDead && !colorMap.Contains(data.DefaultOutfit.ColorId)) colorMap.Add(data.DefaultOutfit.ColorId);
+                    else
+                    {
+                        PlayerControl component = collider.GetComponent<PlayerControl>();
+                        if (component && component.Data != null && !component.Data.Disconnected && !component.Data.IsDead && (__instance.showLivePlayerPosition || !component.AmOwner))
+                        {
+                            if (!colorMapDuplicate.Contains(data.DefaultOutfit.ColorId))
+                            {
+                                colorMap.Add(data.DefaultOutfit.ColorId);
+                                colorMapDuplicate.Add(data.DefaultOutfit.ColorId);
+                            }
+                        }
+                    }
                 }
                 UpdateBlips(area, colorMap, isSpy);
             }

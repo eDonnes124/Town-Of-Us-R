@@ -23,7 +23,6 @@ namespace TownOfUs.CrewmateRoles.VeteranMod
                 if (role.AlertTimer() != 0) return false;
                 role.TimeRemaining = CustomGameOptions.AlertDuration;
                 role.UsesLeft--;
-                role.RegenTask();
                 role.Alert();
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                     (byte)CustomRPC.Alert, SendOption.Reliable, -1);
