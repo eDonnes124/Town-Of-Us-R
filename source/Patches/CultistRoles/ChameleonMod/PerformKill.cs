@@ -22,7 +22,6 @@ namespace TownOfUs.CultistRoles.ChameleonMod
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.SwoopTimer() != 0) return false;
                 role.TimeRemaining = CustomGameOptions.SwoopDuration;
-                role.RegenTask();
                 role.Swoop();
                 var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
                     (byte)CustomRPC.ChameleonSwoop, SendOption.Reliable, -1);
