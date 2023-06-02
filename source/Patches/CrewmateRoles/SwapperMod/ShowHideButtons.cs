@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
-using Reactor.Utilities;
 using TownOfUs.CrewmateRoles.MayorMod;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;

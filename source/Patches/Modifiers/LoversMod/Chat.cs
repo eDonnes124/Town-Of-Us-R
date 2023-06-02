@@ -1,9 +1,20 @@
+using System;
 using HarmonyLib;
 
 namespace TownOfUs.Modifiers.LoversMod
 {
     public static class Chat
     {
+        private static DateTime MeetingStartTime = DateTime.MinValue;
+
+        [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+        public class MeetingStart
+        {
+            public static void Prefix(MeetingHud __instance)
+            {
+                MeetingStartTime = DateTime.UtcNow;
+            }
+        }
         [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
         public static class AddChat
         {
@@ -12,8 +23,13 @@ namespace TownOfUs.Modifiers.LoversMod
                 if (__instance != HudManager.Instance.Chat) return true;
                 var localPlayer = PlayerControl.LocalPlayer;
                 if (localPlayer == null) return true;
-                return MeetingHud.Instance != null || LobbyBehaviour.Instance != null || localPlayer.Data.IsDead ||
-                       localPlayer.IsLover() || sourcePlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId;
+                Boolean shouldSeeMessage = localPlayer.Data.IsDead || localPlayer.IsLover() ||
+                    sourcePlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId;
+                if (DateTime.UtcNow - MeetingStartTime < TimeSpan.FromSeconds(1))
+                {
+                    return shouldSeeMessage;
+                }
+                return MeetingHud.Instance != null || LobbyBehaviour.Instance != null || shouldSeeMessage;
             }
         }
 
