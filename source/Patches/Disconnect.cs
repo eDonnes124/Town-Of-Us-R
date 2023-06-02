@@ -1,4 +1,8 @@
 using HarmonyLib;
+using Hazel;
+using System.Linq;
+using UnityEngine;
+using TownOfUs.ImpostorRoles.TraitorMod;
 using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs.Patches
@@ -22,8 +26,7 @@ namespace TownOfUs.Patches
             }
             else
             {
-                ExilePatch.CheckTraitorSpawn(player);
-                /*if (player.IsLover())
+                /*if (player.IsLover() && CustomGameOptions.BothLoversDie)
                 {
                     var otherLover = Modifier.GetModifier<Lover>(player).OtherLover;
                     if (!otherLover.Is(RoleEnum.Pestilence) && !otherLover.Data.IsDead
@@ -34,6 +37,24 @@ namespace TownOfUs.Patches
                         sheriff.IncorrectKills -= 1;
                     }
                 }*/
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    if (player == SetTraitor.WillBeTraitor)
+                    {
+                        var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) &&
+                            !x.Is(ModifierEnum.Lover) && !x.Data.IsDead && !x.Data.Disconnected && !x.IsExeTarget()).ToList();
+                        if (toChooseFrom.Count == 0) return;
+                        var rand = Random.RandomRangeInt(0, toChooseFrom.Count);
+                        var pc = toChooseFrom[rand];
+
+                        SetTraitor.WillBeTraitor = pc;
+
+                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                            (byte)CustomRPC.SetTraitor, SendOption.Reliable, -1);
+                        writer.Write(pc.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    }
+                }
             }
         }
     }
