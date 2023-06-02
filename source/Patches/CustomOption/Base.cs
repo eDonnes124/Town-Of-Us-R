@@ -43,6 +43,8 @@ namespace TownOfUs.CustomOption
         public virtual void OptionCreated()
         {
             Setting.name = Setting.gameObject.name = Name;
+            Setting.Title = (StringNames)(999000 - ID);
+            Setting.OnValueChanged = new Action<OptionBehaviour>(_ => {});
         }
 
 
