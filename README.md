@@ -759,7 +759,7 @@ The Haunter can reveal evils if they finish all their tasks. Upon finishing all 
 ## Imitator
 ### **Alignment: Crewmate (Support)**
 
-The Imitator can mimic dead crewamtes.During meetings the Imitator can select who they are going to imitate the following round from the dead.They can choose to use each dead players as many times as they wish. It should be noted the Imitator can not imitate all crewmate roles. This role does not spawn in Cultist mode.
+The Imitator can mimic dead crewamtes.During meetings the Imitator can select who they are going to imitate the following round from the dead.They can choose to use each dead players as many times as they wish. It should be noted the Imitator can not imitate all crewmate roles. Only the Mayor, Vigilante, Snitch and the Swapper cannot be imitated. This role does not spawn in Cultist mode.
 
 ## Investigator
 ### **Alignment: Crewmate (Investigative)**
@@ -1075,6 +1075,7 @@ The Glitch can hack players, resulting in them being unable to do anything for a
 
 ## Guardian Angel
 ### **Alignment: Neutral (Benign)**
+### Win Condition: Have their target live to the end
 
 The Guardian Angel aligns with the faction of their target. Their job is to protect their target at all costs. If their target loses, they lose. If their target dies, the Guardian Angel turns into a different role to compensate for their loss.
 
