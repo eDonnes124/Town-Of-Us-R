@@ -38,9 +38,11 @@ namespace TownOfUs
                     else if (SettingsPage == 2) builder.AppendLine("\nNeutral Settings");
                     else if (SettingsPage == 3) builder.AppendLine("\nImpostor Settings");
                     else if (SettingsPage == 4) builder.AppendLine("\nModifier Settings");
+                    var tobedisplayed = CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage).ToList();
 
-                    foreach (var option in CustomOption.CustomOption.AllOptions.Where(x => x.Menu == (MultiMenu)SettingsPage))
+                    foreach (var option in tobedisplayed)
                     {
+                        var index = tobedisplayed.IndexOf(option);
                         if (option.Type == CustomOptionType.Button)
                             continue;
 
@@ -59,11 +61,11 @@ namespace TownOfUs
                                 if (option2.Type == CustomOptionType.Header)
                                     builder.AppendLine($"\n{option2.Name}");
                                 else
-                                    builder.AppendLine($"    {option2.Name}: {option2}");
+                                    builder.AppendLine($"{(index == tobedisplayed.Count - 1 || tobedisplayed[index + 1].Type == CustomOptionType.Header ? "┗ " : "┣ ")}{option2.Name}: {option2}");
                             }
                         }
                         else
-                            builder.AppendLine($"    {option.Name}: {option}");
+                            builder.AppendLine($"{(index == tobedisplayed.Count - 1 || tobedisplayed[index + 1].Type == CustomOptionType.Header ? "┗ " : "┣ ")}{option.Name}: {option}");
                     }
                 }
 
