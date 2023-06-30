@@ -9,7 +9,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
     {
         public static byte DontRevive = byte.MaxValue;
 
-        public static bool Prefix(KillButton __instance)
+        public static bool Prefix()
         {
             return !PlayerControl.LocalPlayer.Is(RoleEnum.Altruist);
         }

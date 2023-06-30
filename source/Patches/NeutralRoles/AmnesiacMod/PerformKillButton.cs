@@ -14,45 +14,9 @@ using TownOfUs.ImpostorRoles.BomberMod;
 
 namespace TownOfUs.NeutralRoles.AmnesiacMod
 {
-    [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
-    public class PerformKillButton
+    public sealed class PerformKillButton
     {
         public static Sprite Sprite => TownOfUs.Arrow;
-        public static bool Prefix(KillButton __instance)
-        {
-            if (__instance != DestroyableSingleton<HudManager>.Instance.KillButton) return true;
-            var flag = PlayerControl.LocalPlayer.Is(RoleEnum.Amnesiac);
-            if (!flag) return true;
-            if (!PlayerControl.LocalPlayer.CanMove) return false;
-            if (PlayerControl.LocalPlayer.Data.IsDead) return false;
-            var role = Role.GetRole<Amnesiac>(PlayerControl.LocalPlayer);
-
-            var flag2 = __instance.isCoolingDown;
-            if (flag2) return false;
-            if (!__instance.enabled) return false;
-            var maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
-            if (role == null)
-                return false;
-            if (role.CurrentTarget == null)
-                return false;
-            if (Vector2.Distance(role.CurrentTarget.TruePosition,
-                PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
-            var playerId = role.CurrentTarget.ParentId;
-            var player = Utils.PlayerById(playerId);
-            if ((player.IsInfected() || role.Player.IsInfected()) && !player.Is(RoleEnum.Plaguebearer))
-            {
-                foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
-            }
-
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.Remember, SendOption.Reliable, -1);
-            writer.Write(PlayerControl.LocalPlayer.PlayerId);
-            writer.Write(playerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-            Remember(role, player);
-            return false;
-        }
 
         public static void Remember(Amnesiac amneRole, PlayerControl other)
         {

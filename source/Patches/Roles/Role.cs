@@ -237,7 +237,7 @@ namespace TownOfUs.Roles
 
             if (Player == null) return "";
 
-            String PlayerName = Player.GetDefaultOutfit().PlayerName;
+            string PlayerName = Player.GetDefaultOutfit().PlayerName;
 
             foreach (var role in GetRoles(RoleEnum.GuardianAngel))
             {
@@ -259,7 +259,7 @@ namespace TownOfUs.Roles
             }
 
             var modifier = Modifier.GetModifier(Player);
-            if (modifier != null && modifier.GetColoredSymbol() != null)
+            if (modifier?.GetColoredSymbol() != null)
             {
                 if (modifier.ModifierType == ModifierEnum.Lover && (revealModifier || revealLover))
                     PlayerName += $" {modifier.GetColoredSymbol()}";
@@ -284,6 +284,10 @@ namespace TownOfUs.Roles
 
             return PlayerName + "\n" + Name;
         }
+
+        protected virtual void HudManagerUpdate(HudManager __instance) {}
+
+        protected virtual bool UseKillButton(KillButton __instance) { return false; }
 
         public static bool operator ==(Role a, Role b)
         {
@@ -807,6 +811,37 @@ namespace TownOfUs.Roles
 
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+
+        public sealed class RoleHudUpdates
+        {
+            [HarmonyPostfix]
+            public static void Postfix(HudManager __instance)
+            {
+                if (PlayerControl.AllPlayerControls.Count <= 1) return;
+                if (PlayerControl.LocalPlayer == null) return;
+                if (PlayerControl.LocalPlayer.Data == null) return;
+                if (PlayerControl.LocalPlayer.Data.IsDead) return;
+
+                var role = GetRole(PlayerControl.LocalPlayer);
+
+                role?.HudManagerUpdate(__instance);
+            }
+        }
+
+        [HarmonyPatch(typeof(KillButton), nameof(KillButton.DoClick))]
+
+        public sealed class RoleKillButton
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(KillButton __instance)
+            {
+                var role = GetRole(PlayerControl.LocalPlayer);
+
+                return role.UseKillButton(__instance);
             }
         }
     }
