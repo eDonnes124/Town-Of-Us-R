@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
-using Hazel;
-using InnerNet;
 using Reactor.Utilities;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
@@ -17,19 +14,34 @@ namespace TownOfUs.CrewmateRoles.MayorMod
     [HarmonyPatch(typeof(MeetingHud))]
     public class RegisterExtraVotes
     {
-        [HarmonyPatch(nameof(MeetingHud.Update))]
-        public static void Postfix(MeetingHud __instance)
-        {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Mayor)) return;
-            if (PlayerControl.LocalPlayer.Data.IsDead) return;
-            if (__instance.TimerText.text.Contains("Can Vote")) return;
-            var role = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
-            __instance.TimerText.text = "Can Vote: " + role.VoteBank + " time(s) | " + __instance.TimerText.text;
-        }
-
         public static Dictionary<byte, int> CalculateAllVotes(MeetingHud __instance)
         {
             var dictionary = new Dictionary<byte, int>();
+            for (var i = 0; i < __instance.playerStates.Length; i++)
+            {
+                var playerVoteArea = __instance.playerStates[i];
+                var player = Utils.PlayerById(playerVoteArea.TargetPlayerId);
+                if (!player.Is(RoleEnum.Prosecutor)) continue;
+                var pros = Role.GetRole<Prosecutor>(player);
+                if (pros.Player.Data.IsDead || pros.Player.Data.Disconnected) continue;
+                if (!playerVoteArea.DidVote
+                    || playerVoteArea.AmDead
+                    || playerVoteArea.VotedFor == PlayerVoteArea.MissedVote
+                    || playerVoteArea.VotedFor == PlayerVoteArea.DeadVote)
+                {
+                    pros.ProsecuteThisMeeting = false;
+                    continue;
+                }
+                else if (pros.ProsecuteThisMeeting)
+                {
+                    if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
+                        dictionary[playerVoteArea.VotedFor] = num2 + 5;
+                    else
+                        dictionary[playerVoteArea.VotedFor] = 5;
+                    return dictionary;
+                }
+            }
+
             for (var i = 0; i < __instance.playerStates.Length; i++)
             {
                 var playerVoteArea = __instance.playerStates[i];
@@ -38,18 +50,24 @@ namespace TownOfUs.CrewmateRoles.MayorMod
                     || playerVoteArea.VotedFor == PlayerVoteArea.MissedVote
                     || playerVoteArea.VotedFor == PlayerVoteArea.DeadVote) continue;
 
+                var player = Utils.PlayerById(playerVoteArea.TargetPlayerId);
+                if (player.Is(RoleEnum.Mayor))
+                {
+                    var mayor = Role.GetRole<Mayor>(player);
+                    if (mayor.Revealed)
+                    {
+                        if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num2))
+                            dictionary[playerVoteArea.VotedFor] = num2 + 2;
+                        else
+                            dictionary[playerVoteArea.VotedFor] = 2;
+                    }
+                }
+
                 if (dictionary.TryGetValue(playerVoteArea.VotedFor, out var num))
                     dictionary[playerVoteArea.VotedFor] = num + 1;
                 else
                     dictionary[playerVoteArea.VotedFor] = 1;
             }
-
-            foreach (var role in Role.GetRoles(RoleEnum.Mayor))
-            foreach (var number in ((Mayor)role).ExtraVotes)
-                if (dictionary.TryGetValue(number, out var num))
-                    dictionary[number] = num + 1;
-                else
-                    dictionary[number] = 1;
 
             dictionary.MaxPair(out var tie);
 
@@ -75,113 +93,6 @@ namespace TownOfUs.CrewmateRoles.MayorMod
             return dictionary;
         }
 
-        [HarmonyPatch(nameof(MeetingHud.Start))]
-        public static void Prefix()
-        {
-            foreach (var role in Role.GetRoles(RoleEnum.Mayor))
-            {
-                var mayor = (Mayor)role;
-                mayor.ExtraVotes.Clear();
-                if (mayor.VoteBank < 0)
-                    mayor.VoteBank = 0;
-
-                mayor.VoteBank++;
-                mayor.SelfVote = false;
-                mayor.VotedOnce = false;
-            }
-        }
-
-        [HarmonyPrefix]
-        [HarmonyPatch(
-            nameof(MeetingHud.HandleDisconnect),
-            typeof(PlayerControl), typeof(DisconnectReasons)
-        )]
-        public static void Prefix(
-            MeetingHud __instance, [HarmonyArgument(0)] PlayerControl player)
-        {
-            if (AmongUsClient.Instance.AmHost && MeetingHud.Instance)
-            {
-                foreach (var role in Role.GetRoles(RoleEnum.Mayor))
-                {
-                    if (role is Mayor mayor)
-                    {
-                        if (mayor.VotedOnce)
-                        {
-                            var votesRegained = mayor.ExtraVotes.RemoveAll(x => x == player.PlayerId);
-
-                            if (mayor.Player == PlayerControl.LocalPlayer)
-                                mayor.VoteBank += votesRegained;
-
-                            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                (byte)CustomRPC.AddMayorVoteBank, SendOption.Reliable, -1);
-                            writer.Write(mayor.Player.PlayerId);
-                            writer.Write(mayor.VoteBank);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Confirm))]
-        public static class Confirm
-        {
-            public static bool Prefix(MeetingHud __instance)
-            {
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Mayor)) return true;
-                if (__instance.state != MeetingHud.VoteStates.Voted) return true;
-                __instance.state = MeetingHud.VoteStates.NotVoted;
-                return true;
-            }
-
-            [HarmonyPriority(Priority.First)]
-            public static void Postfix(MeetingHud __instance)
-            {
-                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Mayor)) return;
-                var role = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
-                if (role.CanVote) __instance.SkipVoteButton.gameObject.SetActive(true);
-            }
-        }
-
-
-        [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
-        public static class CastVote
-        {
-            public static bool Prefix(MeetingHud __instance, [HarmonyArgument(0)] byte srcPlayerId,
-                [HarmonyArgument(1)] byte suspectPlayerId)
-            {
-                var player = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.PlayerId == srcPlayerId);
-                if (!player.Is(RoleEnum.Mayor)) return true;
-
-                var playerVoteArea = __instance.playerStates.ToArray().First(pv => pv.TargetPlayerId == srcPlayerId);
-
-                if (playerVoteArea.AmDead)
-                    return false;
-
-                if (PlayerControl.LocalPlayer.PlayerId == srcPlayerId || AmongUsClient.Instance.NetworkMode != NetworkModes.LocalGame)
-                {
-                    SoundManager.Instance.PlaySound(__instance.VoteLockinSound, false, 1f);
-                }
-
-                var role = Role.GetRole<Mayor>(player);
-                if (playerVoteArea.DidVote)
-                {
-                    role.ExtraVotes.Add(suspectPlayerId);
-                }
-                else
-                {
-                    playerVoteArea.SetVote(suspectPlayerId);
-                    playerVoteArea.Flag.enabled = true;
-                    PlayerControl.LocalPlayer.RpcSendChatNote(srcPlayerId, ChatNoteTypes.DidVote);
-                }
-                __instance.Cast<InnerNetObject>().SetDirtyBit(1U);
-                __instance.CheckForEndVoting();
-
-                return false;
-            }
-        }
-
         [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.VotingComplete))]
         public static class VotingComplete
         {
@@ -201,30 +112,75 @@ namespace TownOfUs.CrewmateRoles.MayorMod
         public static class PopulateResults
         {
             public static bool Prefix(MeetingHud __instance,
-                [HarmonyArgument(0)] Il2CppStructArray<MeetingHud.VoterState> statess)
+                [HarmonyArgument(0)] Il2CppStructArray<MeetingHud.VoterState> states)
             {
-                // var joined = string.Join(",", statess);
-                // var arr = joined.Split(',');
-                // var states = arr.Select(byte.Parse).ToArray();
-
-                // var allnums = new int[__instance.playerStates.Length];
-
                 var allNums = new Dictionary<int, int>();
-
 
                 __instance.TitleText.text = Object.FindObjectOfType<TranslationController>()
                     .GetString(StringNames.MeetingVotingResults, Array.Empty<Il2CppSystem.Object>());
                 var amountOfSkippedVoters = 0;
+
+                var isProsecuting = false;
+                foreach (var pros in Role.GetRoles(RoleEnum.Prosecutor))
+                {
+                    var prosRole = (Prosecutor)pros;
+                    if (pros.Player.Data.IsDead || pros.Player.Data.Disconnected) continue;
+                    if (prosRole.ProsecuteThisMeeting)
+                    {
+                        isProsecuting = true;
+                    }
+                }
+
                 for (var i = 0; i < __instance.playerStates.Length; i++)
                 {
                     var playerVoteArea = __instance.playerStates[i];
                     playerVoteArea.ClearForResults();
                     allNums.Add(i, 0);
 
-                    for (var stateIdx = 0; stateIdx < statess.Length; stateIdx++)
+                    for (var stateIdx = 0; stateIdx < states.Length; stateIdx++)
                     {
-                        var voteState = statess[stateIdx];
+                        var voteState = states[stateIdx];
                         var playerInfo = GameData.Instance.GetPlayerById(voteState.VoterId);
+                        foreach (var pros in Role.GetRoles(RoleEnum.Prosecutor))
+                        {
+                            var prosRole = (Prosecutor)pros;
+                            if (pros.Player.Data.IsDead || pros.Player.Data.Disconnected) continue;
+                            if (prosRole.ProsecuteThisMeeting)
+                            {
+                                if (voteState.VoterId == prosRole.Player.PlayerId)
+                                {
+                                    if (playerInfo == null)
+                                    {
+                                        Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
+                                            voteState.VoterId));
+                                        prosRole.Prosecuted = true;
+                                    }
+                                    else if (i == 0 && voteState.SkippedVote)
+                                    {
+                                        __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                        amountOfSkippedVoters += 5;
+                                        prosRole.Prosecuted = true;
+                                    }
+                                    else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
+                                    {
+                                        __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                        allNums[i] += 5;
+                                        prosRole.Prosecuted = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (isProsecuting) continue;
+
                         if (playerInfo == null)
                         {
                             Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
@@ -240,46 +196,37 @@ namespace TownOfUs.CrewmateRoles.MayorMod
                             __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
                             allNums[i]++;
                         }
-                    }
-                }
-
-                foreach (var role in Role.GetRoles(RoleEnum.Mayor))
-                {
-                    var mayor = (Mayor)role;
-                    var playerInfo = GameData.Instance.GetPlayerById(role.Player.PlayerId);
-
-                    var anonVotesOption = GameOptionsManager.Instance.currentNormalGameOptions.AnonymousVotes;
-                    GameOptionsManager.Instance.currentNormalGameOptions.AnonymousVotes = true;
-
-                    foreach (var extraVote in mayor.ExtraVotes)
-                    {
-                        if (extraVote == PlayerVoteArea.HasNotVoted ||
-                            extraVote == PlayerVoteArea.MissedVote ||
-                            extraVote == PlayerVoteArea.DeadVote)
+                        foreach (var mayor in Role.GetRoles(RoleEnum.Mayor))
                         {
-                            continue;
-                        }
-                        if (extraVote == PlayerVoteArea.SkippedVote)
-                        {
-
-                            __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
-                            amountOfSkippedVoters++;
-                        }
-                        else
-                        {
-                            for (var i = 0; i < __instance.playerStates.Length; i++)
+                            var mayorRole = (Mayor)mayor;
+                            if (mayorRole.Revealed)
                             {
-                                var area = __instance.playerStates[i];
-                                if (extraVote != area.TargetPlayerId) continue;
-                                __instance.BloopAVoteIcon(playerInfo, allNums[i], area.transform);
-                                allNums[i]++;
+                                if (voteState.VoterId == mayorRole.Player.PlayerId)
+                                {
+                                    if (playerInfo == null)
+                                    {
+                                        Debug.LogError(string.Format("Couldn't find player info for voter: {0}",
+                                            voteState.VoterId));
+                                    }
+                                    else if (i == 0 && voteState.SkippedVote)
+                                    {
+                                        __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, amountOfSkippedVoters, __instance.SkippedVoting.transform);
+                                        amountOfSkippedVoters++;
+                                        amountOfSkippedVoters++;
+                                    }
+                                    else if (voteState.VotedForId == playerVoteArea.TargetPlayerId)
+                                    {
+                                        __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                        __instance.BloopAVoteIcon(playerInfo, allNums[i], playerVoteArea.transform);
+                                        allNums[i]++;
+                                        allNums[i]++;
+                                    }
+                                }
                             }
                         }
                     }
-
-                    GameOptionsManager.Instance.currentNormalGameOptions.AnonymousVotes = anonVotesOption;
                 }
-
                 return false;
             }
         }

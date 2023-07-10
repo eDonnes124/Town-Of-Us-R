@@ -2,8 +2,8 @@
 using System.Linq;
 using Hazel;
 using TownOfUs.Patches;
-using TownOfUs.Roles.Modifiers;
 using UnityEngine;
+using TownOfUs.Extensions;
 
 namespace TownOfUs.Roles.Modifiers
 {
@@ -14,7 +14,7 @@ namespace TownOfUs.Roles.Modifiers
             Name = "Lover";
             SymbolName = "♥";
             TaskText = () =>
-                "You are in Love with " + OtherLover.Player.name;
+                "You are in Love with " + OtherLover.Player.GetDefaultOutfit().PlayerName;
             Color = Colors.Lovers;
             ModifierType = ModifierEnum.Lover;
         }
@@ -40,9 +40,10 @@ namespace TownOfUs.Roles.Modifiers
 
             foreach(var player in canHaveModifiers)
             {
-                if (player.Is(Faction.Impostors) || (player.Is(Faction.NeutralKilling) && CustomGameOptions.NeutralLovers))
+                if (player.Is(Faction.Impostors) || (player.Is(Faction.NeutralKilling) && !player.Is(RoleEnum.Vampire) && CustomGameOptions.NeutralLovers))
                     impostors.Add(player);
-                else if (player.Is(Faction.Crewmates) || (player.Is(Faction.NeutralOther) && CustomGameOptions.NeutralLovers))
+                else if (player.Is(Faction.Crewmates) || (player.Is(Faction.NeutralBenign) && CustomGameOptions.NeutralLovers)
+                     || (player.Is(Faction.NeutralEvil) && CustomGameOptions.NeutralLovers))
                     crewmates.Add(player);
             }
 
@@ -71,17 +72,12 @@ namespace TownOfUs.Roles.Modifiers
             }
             canHaveModifiers.Remove(secondLover);
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.SetCouple, SendOption.Reliable, -1);
-            writer.Write(firstLover.PlayerId);
-            writer.Write(secondLover.PlayerId);
+            Utils.Rpc(CustomRPC.SetCouple, firstLover.PlayerId, secondLover.PlayerId);
             var lover1 = new Lover(firstLover);
             var lover2 = new Lover(secondLover);
 
             lover1.OtherLover = lover2;
             lover2.OtherLover = lover1;
-
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
         internal override bool ModifierWin(LogicGameFlowNormal __instance)
@@ -90,11 +86,7 @@ namespace TownOfUs.Roles.Modifiers
 
             if (CheckLoversWin())
             {
-                //System.Console.WriteLine("LOVERS WIN");
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.LoveWin, SendOption.Reliable, -1);
-                writer.Write(Player.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.LoveWin, Player.PlayerId);
                 Win();
                 Utils.EndGame();
                 return false;

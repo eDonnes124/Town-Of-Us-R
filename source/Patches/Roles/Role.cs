@@ -23,6 +23,7 @@ namespace TownOfUs.Roles
 
         public static bool NobodyWins;
         public static bool SurvOnlyWins;
+        public static bool VampireWins;
 
         public List<KillButton> ExtraButtons = new List<KillButton>();
 
@@ -57,7 +58,6 @@ namespace TownOfUs.Roles
         protected float Scale { get; set; } = 1f;
         protected internal Color Color { get; set; }
         protected internal RoleEnum RoleType { get; set; }
-        public bool LostByRPC { get; protected set; }
         protected internal int TasksLeft => Player.Data.Tasks.ToArray().Count(x => !x.Complete);
         protected internal int TotalTasks => Player.Data.Tasks.Count;
         protected internal int Kills { get; set; } = 0;
@@ -109,12 +109,12 @@ namespace TownOfUs.Roles
 
         internal virtual bool Criteria()
         {
-            return DeadCriteria() || ImpostorCriteria() || LoverCriteria() || SelfCriteria() || RoleCriteria() || GuardianAngelCriteria() || Local;
+            return DeadCriteria() || ImpostorCriteria() || VampireCriteria() || LoverCriteria() || SelfCriteria() || RoleCriteria() || GuardianAngelCriteria() || Local;
         }
 
         internal virtual bool ColorCriteria()
         {
-            return SelfCriteria() || DeadCriteria() || ImpostorCriteria() || RoleCriteria() || GuardianAngelCriteria();
+            return SelfCriteria() || DeadCriteria() || ImpostorCriteria() || VampireCriteria() || RoleCriteria() || GuardianAngelCriteria();
         }
 
         internal virtual bool DeadCriteria()
@@ -130,13 +130,26 @@ namespace TownOfUs.Roles
             return false;
         }
 
+        internal virtual bool VampireCriteria()
+        {
+            if (RoleType == RoleEnum.Vampire && PlayerControl.LocalPlayer.Is(RoleEnum.Vampire)) return true;
+            return false;
+        }
+
         internal virtual bool LoverCriteria()
         {
             if (PlayerControl.LocalPlayer.Is(ModifierEnum.Lover))
             {
                 if (Local) return true;
                 var lover = Modifier.GetModifier<Lover>(PlayerControl.LocalPlayer);
-                return lover.OtherLover.Player == Player;
+                if (lover.OtherLover.Player != Player) return false;
+                if (!PlayerControl.LocalPlayer.Is(RoleEnum.Aurial)) return true;
+                if (MeetingHud.Instance || Utils.ShowDeadBodies) return true;
+                if (lover.OtherLover.Player.Is(RoleEnum.Mayor))
+                {
+                    var mayor = GetRole<Mayor>(lover.OtherLover.Player);
+                    if (mayor.Revealed) return true;
+                }
             }
             return false;
         }
@@ -167,6 +180,28 @@ namespace TownOfUs.Roles
         {
             SurvOnlyWins = true;
         }
+        public static void VampWin()
+        {
+            foreach (var jest in GetRoles(RoleEnum.Jester))
+            {
+                var jestRole = (Jester)jest;
+                if (jestRole.VotedOut) return;
+            }
+            foreach (var exe in GetRoles(RoleEnum.Executioner))
+            {
+                var exeRole = (Executioner)exe;
+                if (exeRole.TargetVotedOut) return;
+            }
+            foreach (var doom in GetRoles(RoleEnum.Doomsayer))
+            {
+                var doomRole = (Doomsayer)doom;
+                if (doomRole.WonByGuessing) return;
+            }
+
+            VampireWins = true;
+
+            Utils.Rpc(CustomRPC.VampireWin);
+        }
 
         internal static bool NobodyEndCriteria(LogicGameFlowNormal __instance)
         {
@@ -179,7 +214,7 @@ namespace TownOfUs.Roles
                 {
                     var role = GetRole(x);
                     if (role == null) return false;
-                    var flag2 = role.Faction == Faction.NeutralOther;
+                    var flag2 = role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign;
 
                     return flag2;
                 });
@@ -204,9 +239,7 @@ namespace TownOfUs.Roles
             {
                 if (SurvOnly())
                 {
-                    var messageWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.SurvivorOnlyWin, SendOption.Reliable, -1);
-                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                    Utils.Rpc(CustomRPC.SurvivorOnlyWin);
 
                     SurvOnlyWin();
                     Utils.EndGame();
@@ -214,9 +247,7 @@ namespace TownOfUs.Roles
                 }
                 else
                 {
-                    var messageWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.NobodyWins, SendOption.Reliable, -1);
-                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                    Utils.Rpc(CustomRPC.NobodyWins);
 
                     NobodyWinsFunc();
                     Utils.EndGame();
@@ -327,50 +358,39 @@ namespace TownOfUs.Roles
         {
             var role = (T)Activator.CreateInstance(type, new object[] { player });
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)rpc, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.Rpc(rpc, player.PlayerId);
             return role;
         }
 
-        public static T GenRole<T>(Type type, PlayerControl player, int id)
+        public static T GenRole<T>(Type type, PlayerControl player)
         {
             var role = (T)Activator.CreateInstance(type, new object[] { player });
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.SetRole, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(id);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.Rpc(CustomRPC.SetRole, player.PlayerId, (string)type.FullName);
             return role;
         }
 
-        public static T GenModifier<T>(Type type, PlayerControl player, int id)
+        public static T GenModifier<T>(Type type, PlayerControl player)
         {
             var modifier = (T)Activator.CreateInstance(type, new object[] { player });
 
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.SetModifier, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(id);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.Rpc(CustomRPC.SetModifier, player.PlayerId, (string)type.FullName);
             return modifier;
         }
 
-        public static T GenRole<T>(Type type, List<PlayerControl> players, int id)
+        public static T GenRole<T>(Type type, List<PlayerControl> players)
         {
             var player = players[Random.RandomRangeInt(0, players.Count)];
 
-            var role = GenRole<T>(type, player, id);
+            var role = GenRole<T>(type, player);
             players.Remove(player);
             return role;
         }
-        public static T GenModifier<T>(Type type, List<PlayerControl> players, int id)
+        public static T GenModifier<T>(Type type, List<PlayerControl> players)
         {
             var player = players[Random.RandomRangeInt(0, players.Count)];
 
-            var modifier = GenModifier<T>(type, player, id);
+            var modifier = GenModifier<T>(type, player);
             players.Remove(player);
             return modifier;
         }
@@ -449,7 +469,7 @@ namespace TownOfUs.Roles
                     // var alpha = __instance.__4__this.RoleText.color.a;
                     if (role != null && !role.Hidden)
                     {
-                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralOther)
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
                         {
                             __instance.__4__this.TeamTitle.text = "Neutral";
                             __instance.__4__this.TeamTitle.color = Color.white;
@@ -496,7 +516,7 @@ namespace TownOfUs.Roles
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
                     {
-                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralOther)
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
                         {
                             __instance.__4__this.TeamTitle.text = "Neutral";
                             __instance.__4__this.TeamTitle.color = Color.white;
@@ -538,7 +558,7 @@ namespace TownOfUs.Roles
                     var role = GetRole(PlayerControl.LocalPlayer);
                     if (role != null && !role.Hidden)
                     {
-                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralOther)
+                        if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
                         {
                             __instance.__4__this.TeamTitle.text = "Neutral";
                             __instance.__4__this.TeamTitle.color = Color.white;
@@ -631,7 +651,7 @@ namespace TownOfUs.Roles
                 }
 
                 if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks) return true;
-
+                
                 var result = true;
                 foreach (var role in AllRoles)
                 {
@@ -701,15 +721,29 @@ namespace TownOfUs.Roles
         {
             public static void Postfix(ref string __result, [HarmonyArgument(0)] StringNames name)
             {
-                if (ExileController.Instance == null || ExileController.Instance.exiled == null) return;
-
+                if (ExileController.Instance == null) return;
                 switch (name)
                 {
+                    case StringNames.NoExileTie:
+                        if (ExileController.Instance.exiled == null)
+                        {
+                            foreach (var oracle in GetRoles(RoleEnum.Oracle))
+                            {
+                                var oracleRole = (Oracle)oracle;
+                                if (oracleRole.SavedConfessor)
+                                {
+                                    oracleRole.SavedConfessor = false;
+                                    __result = $"{oracleRole.Confessor.GetDefaultOutfit().PlayerName} was blessed by an Oracle!";
+                                }
+                            }
+                        }
+                        return;
                     case StringNames.ExileTextPN:
                     case StringNames.ExileTextSN:
                     case StringNames.ExileTextPP:
                     case StringNames.ExileTextSP:
                         {
+                            if (ExileController.Instance.exiled == null) return;
                             var info = ExileController.Instance.exiled;
                             var role = GetRole(info.Object);
                             if (role == null) return;
@@ -739,12 +773,13 @@ namespace TownOfUs.Roles
                         bool selfFlag = role.SelfCriteria();
                         bool deadFlag = role.DeadCriteria();
                         bool impostorFlag = role.ImpostorCriteria();
+                        bool vampireFlag = role.VampireCriteria();
                         bool loverFlag = role.LoverCriteria();
                         bool roleFlag = role.RoleCriteria();
                         bool gaFlag = role.GuardianAngelCriteria();
                         player.NameText.text = role.NameText(
                             selfFlag || deadFlag || role.Local,
-                            selfFlag || deadFlag || impostorFlag || roleFlag || gaFlag,
+                            selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag,
                             selfFlag || deadFlag,
                             loverFlag,
                             player
@@ -790,12 +825,13 @@ namespace TownOfUs.Roles
                             bool selfFlag = role.SelfCriteria();
                             bool deadFlag = role.DeadCriteria();
                             bool impostorFlag = role.ImpostorCriteria();
+                            bool vampireFlag = role.VampireCriteria();
                             bool loverFlag = role.LoverCriteria();
                             bool roleFlag = role.RoleCriteria();
                             bool gaFlag = role.GuardianAngelCriteria();
                             player.nameText().text = role.NameText(
                                 selfFlag || deadFlag || role.Local,
-                                selfFlag || deadFlag || impostorFlag || roleFlag || gaFlag,
+                                selfFlag || deadFlag || impostorFlag || vampireFlag || roleFlag || gaFlag,
                                 selfFlag || deadFlag,
                                 loverFlag
                              );

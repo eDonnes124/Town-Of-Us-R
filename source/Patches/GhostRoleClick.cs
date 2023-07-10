@@ -23,10 +23,7 @@ namespace TownOfUs
                     var role = Role.GetRole<Phantom>(__instance);
                     role.Caught = true;
                     role.Player.Exiled();
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.CatchPhantom, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.CatchPhantom, role.Player.PlayerId);
                 }
             }
             else if (__instance.Is(RoleEnum.Haunter))
@@ -38,10 +35,7 @@ namespace TownOfUs
                     var role = Role.GetRole<Haunter>(__instance);
                     role.Caught = true;
                     role.Player.Exiled();
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.CatchHaunter, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.CatchHaunter, role.Player.PlayerId);
                 }
             }
             return;

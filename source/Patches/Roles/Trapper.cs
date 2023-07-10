@@ -10,8 +10,7 @@ namespace TownOfUs.Roles
 {
     public class Trapper : Role
     {
-        public static AssetBundle bundle = loadBundle();
-        public static Material trapMaterial = bundle.LoadAsset<Material>("trap").DontUnload();
+        public static Material trapMaterial = TownOfUs.bundledAssets.Get<Material>("trap");
 
         public List<Trap> traps = new List<Trap>();
         public DateTime LastTrapped { get; set; }
@@ -43,15 +42,6 @@ namespace TownOfUs.Roles
             var flag2 = num - (float)timeSpan.TotalMilliseconds < 0f;
             if (flag2) return 0;
             return (num - (float)timeSpan.TotalMilliseconds) / 1000f;
-        }
-
-
-        public static AssetBundle loadBundle()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var stream = assembly.GetManifestResourceStream("TownOfUs.Resources.trappershader");
-            var assets = stream.ReadFully();
-            return AssetBundle.LoadFromMemory(assets);
         }
     }
 }

@@ -8,16 +8,19 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or want to find people to play with!
 
 **Crewmate Roles**
+- [Aurial](#aurial)
 - [Detective](#detective)
 - [Haunter](#haunter)
 - [Investigator](#investigator)
 - [Mystic](#mystic)
+- [Oracle](#oracle)
 - [Seer](#seer)
 - [Snitch](#snitch)
 - [Spy](#spy)
 - [Tracker](#tracker)
 - [Trapper](#trapper)
 - [Sheriff](#sheriff)
+- [Vampire Hunter](#vampire-hunter)
 - [Veteran](#veteran)
 - [Vigilante](#vigilante)
 - [Altruist](#altruist)
@@ -26,6 +29,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 - [Imitator](#imitator)
 - [Mayor](#mayor)
 - [Medium](#medium)
+- [Prosecutor](#prosecutor)
 - [Swapper](#swapper)
 - [Transporter](#transporter)
 
@@ -33,6 +37,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 - [Amnesiac](#amnesiac)
 - [Guardian Angel](#guardian-angel)
 - [Survivor](#survivor)
+- [Doomsayer](#doomsayer)
 - [Executioner](#executioner)
 - [Jester](#jester)
 - [Phantom](#phantom)
@@ -40,6 +45,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 - [Juggernaut](#juggernaut)
 - [Plaguebearer](#plaguebearer)
 - [The Glitch](#the-glitch)
+- [Vampire](#vampire)
 - [Werewolf](#werewolf)
 
 **Impostor Roles**
@@ -47,17 +53,20 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 - [Grenadier](#grenadier)
 - [Morphling](#morphling)
 - [Swooper](#swooper)
+- [Venerer](#venerer)
 - [Bomber](#bomber)
 - [Traitor](#traitor)
+- [Warlock](#warlock)
 - [Blackmailer](#blackmailer)
 - [Janitor](#janitor)
 - [Miner](#miner)
 - [Undertaker](#undertaker)
 
 **Modifiers**
+- [Aftermath](#aftermath)
 - [Bait](#bait)
-- [Blind](#blind)
 - [Diseased](#diseased)
+- [Frosty](#frosty)
 - [Multitasker](#multitasker)
 - [Torch](#torch)
 - [Button Barry](#button-barry)
@@ -75,6 +84,8 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2023.6.13s & 2023.6.13e | v5.0.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.1/ToU.v5.0.1.zip) |
+| 2023.6.13s & 2023.6.13e | v5.0.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.0/ToU.v5.0.0.zip) |
 | 2023.3.28s & 2023.3.28e | v4.0.6 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.6/ToU.v4.0.6.zip) |
 | 2023.3.28s & 2023.3.28e | v4.0.5 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.5/ToU.v4.0.5.zip) |
 | 2023.3.28s & 2023.3.28e | v4.0.4 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.4/ToU.v4.0.4.zip) |
@@ -134,8 +145,35 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 <details>
   <summary> Changelog </summary>
   <details>
+  <summary> v5.0.1 </summary>
+  <ul> <li>Bug Fix: Airship Ladders work again</li> </ul>
+  </details>
+  <details>
+  <summary> v5.0.0 </summary>
+  <ul> <li>New Role: Doomsayer</li> </ul>
+  <ul> <li>New Role: Vampire</li> </ul>
+  <ul> <li>New Role: Vampire Hunter</li> </ul>
+  <ul> <li>New Role: Prosecutor</li> </ul>
+  <ul> <li>New Role: Warlock</li> </ul>
+  <ul> <li>New Role: Oracle</li> </ul>
+  <ul> <li>New Role: Venerer</li> </ul>
+  <ul> <li>New Role: Aurial</li> </ul>
+  <ul> <li>Reworked Detective</li> </ul>
+  <ul> <li>Reworked Mayor</li> </ul>
+  <ul> <li>New Modifier: Frosty</li> </ul>
+  <ul> <li>New Modifier: Aftermath</li> </ul>
+  <ul> <li>Removed Blind</li> </ul>
+  <ul> <li>Neutral Non-Killing settings split into Neutral Benign and Neutral Evil</li> </ul>
+  <ul> <li>New Setting: First round shield for first death in prior game</li> </ul>
+  <ul> <li>New Setting: Guardian Angel target evil percentage</li> </ul>
+  <ul> <li>Removed Settings for disabling name plates and level numbers</li> </ul>
+  <ul> <li>Guardian Angel targets can now be a Neutral Killer</li> </ul>
+  <ul> <li>Bug Fix: Plaguebearer no longer turns into Pestilence early</li> </ul>
+  <ul> <li>Added a new version of Snitch to Cultist</li> </ul>
+  </details>
+  <details>
   <summary> v4.0.6 </summary>
-  <ul> <li>Bug Fix: Reverted alot of the changes from the last few patches...</li> </ul>
+  <ul> <li>Bug Fixes: Reverted alot of the changes from the last few patches...</li> </ul>
   </details>
   <details>
   <summary> v4.0.5 </summary>
@@ -717,37 +755,42 @@ If you have issues installing Town of Us, you can join our [Discord](https://dis
 -----------------------
 # Roles
 # Crewmate Roles
+## Aurial
+### **Team: Crewmates**
+The Aurial is a Crewmate that can see the Auras of other players.\
+At the beginning of the game all players are white, once radiated enough the Aurial can see their alignment.\
+Green is Crewmate, Grey is Neutral and Red is Impostor.\
+However, as a consequence the Aurial cannot see who is who.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Aurial | The percentage probability of the Aurial appearing | Percentage | 0% |
+| Radiate Range | The range of the Aurial's radiation | Multiplier | 1x |
+| Radiate Cooldown | The cooldown of the Aurial's Radiate button | Time | 25s |
+| Radiate See Delay | The duration of time after meetings where the Aurial can't see players | Time | 10s |
+| Radiate Uses To See | The number of times required to radiate to see a player's aura | Number | 3 |
+| Radiate Succeed Chance | The percentage probability of the Aurial successfully radiating someone | Percentage | 100% |
+
+-----------------------
 ## Detective
 ### **Team: Crewmates**
-The Detective is a Crewmate that can examine other players for suspicious behaviour.\
-If the player the Detective examines has killed recently the Detective will be alerted about it.
-### Role Info
-- Your target has an unusual obsession with dead bodies (Altruist/Amnesiac/Janitor/Medium/Undertaker)
-- Your target tries to protect themselves or others by any means necessary (Grenadier/Guardian Angel/Medic/Survivor/Veteran)
-- Your target is a causer of chaos (Bomber/Executioner/Jester/Swapper/Transporter)
-- Your target is concealing information (Blackmailer/Mayor/Snitch/Swooper/Trapper)
-- Your target started innocent but gained the capability to kill (Juggernaut/Sheriff/Traitor/Vigilante/Werewolf)
-- Your target likes to interact with others (Arsonist/Detective/Plaguebearer/Seer/Tracker)
-- Your target likes exploring (Engineer/Escapist/Investigator/Miner/Mystic)
-- Your target views the world through a different lens (Glitch/Imitator/Morphling/Spy)
-- Your target appears to be roleless (Crewmate/Impostor)
-
+The Detective is a Crewmate that can inspect bodies and then examine players.\
+The Detective must first find a body and inspect it.\
+During the same or following rounds the Detective can then examine players to see if they were the killer.\
+If the examined player is the killer they will receive a red flash, else the flash will be green.\
+If the killer of the inspected player dies, the following round the examine button will disable indicating to the Detective the killer is dead.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Detective | The percentage probability of the Detective appearing | Percentage | 0% |
-| Initial Examine Cooldown | The initial cooldown of the Detective's Examine button | Time | 25s |
-| Examine Cooldown | The cooldown of the Detective's Examine button | Time | 10s |
-| Bloody Duration | How long players remain bloody after a kill | Time | 25s |
+| Examine Cooldown | The cooldown of the Detective's Examine button | Time | 25s |
 | Show Detective Reports | Whether the Detective should get information when reporting a body | Toggle | True |
 | Time Where Detective Reports Will Have Role | If a body has been dead for shorter than this amount, the Detective's report will contain the killer's role | Time | 15s |
 | Time Where Detective Reports Will Have Faction | If a body has been dead for shorter than this amount, the Detective's report will contain the killer's faction | Time | 30s |
-| Show Examine Reports | Whether the Detective should get information about their last exmaine target | Toggle | True |
 
 -----------------------
 ## Haunter
 ### **Team: Crewmates**
-
 The Haunter is a dead Crewmate that can reveal Impostors if they finish all their tasks.\
 Upon finishing all of their tasks, Impostors are revealed to alive crewmates after a meeting is called.\
 However, if the Haunter is clicked they lose their ability to reveal Impostors and are once again a normal ghost.
@@ -788,20 +831,37 @@ On top of this, the Mystic briefly gets an arrow pointing in the direction of th
 | Arrow Duration | The duration of the arrows pointing to the bodies | Time | 0.1s |
 
 -----------------------
+## Oracle
+### **Team: Crewmates**
+The Oracle is a Crewmate that can get another player to confess information to them.\
+The Oracle has 3 abilities, the first is that when they die, the person confessin to them will reveal their alignment.\
+The second, is that every meeting the Oracle receives a confession about who might be evil.\
+The final ability is giving a blessing to the person confessing to them, with this the confessing player gains vote immunity!
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Oracle | The percentage probability of the Oracle appearing | Percentage | 0% |
+| Confess Cooldown | The Cooldown of the Oracle's Confess button | Time | 25s |
+| Reveal Accuracy | The percentage probability of the Oracle's confessed player telling the truth | Percentage | 80% |
+| Neutral Benign show up as Evil | Neutral Benign roles show up as Evil | Toggle | False |
+| Neutral Evil show up as Evil | Neutral Evil roles show up as Evil | Toggle | False |
+| Neutral Killing show up as Evil | Neutral Killing roles show up as Evil | Toggle | True |
+
+-----------------------
 ## Seer
 ### **Team: Crewmates**
 The Seer is a Crewmate that can reveal the alliance of other players.\
 Based on settings, the Seer can find out whether a player is a Good or an Evil role.\
-A player's name will change color to their team.
+A player's name will change color depending on faction and role.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Seer | The percentage probability of the Seer appearing | Percentage | 0% |
 | Seer Cooldown | The Cooldown of the Seer's Reveal button | Time | 25s |
-| Crewmate Killing show up as Evil | Crewmate Killing roles show up as Red | Toggle | False |
-| Neutral Benign show up as Evil | Neutral Benign roles show up as Red | Toggle | False |
-| Neutral Evil show up as Evil | Neutral Evil roles show up as Red | Toggle | False |
-| Neutral Killing show up as Evil | Neutral Killing roles show up as Red | Toggle | False |
+| Crewmate Killing Roles Are Red | Crewmate Killing roles show up as Red | Toggle | False |
+| Neutral Benign Roles Are Red | Neutral Benign roles show up as Red | Toggle | False |
+| Neutral Evil Roles Are Red | Neutral Evil roles show up as Red | Toggle | False |
+| Neutral Killing Roles Are Red | Neutral Killing roles show up as Red | Toggle | True |
 | Traitor does not swap Colours | The Traitor remains their original colour | Toggle | False |
 
 -----------------------
@@ -824,9 +884,8 @@ However, when they only have a single task left, the Impostors get an arrow poin
 ## Spy
 ### **Team: Crewmates**
 
-The Spy is a Crewmate that gains more information when on Admin Table and Vitals.\
-On Admin Table, the Spy can see the colors of every person on the map.\
-On Vitals, the Spy can see how long killed bodies have been dead for.
+The Spy is a Crewmate that gains more information when on the Admin Table.\
+On Admin Table, the Spy can see the colors of every person on the map.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
@@ -878,14 +937,34 @@ However, if they kill a Crewmate or a Neutral player they can't kill, they inste
 |----------|:-------------:|:------:|:------:|
 | Sheriff | The percentage probability of the Sheriff appearing | Percentage | 0% |
 | Sheriff Miskill Kills Crewmate | Whether the other player is killed if the Sheriff Misfires | Toggle | False |
-| Sheriff Kills Jester | Whether the Sheriff is able to kill the Jester | Toggle | False |
-| Sheriff Kills The Glitch | Whether the Sheriff is able to kill The Glitch | Toggle | False |
+| Sheriff Kills Doomsayer | Whether the Sheriff is able to kill the Doomsayer | Toggle | False |
 | Sheriff Kills Executioner | Whether the Sheriff is able to kill the Executioner | Toggle | False |
+| Sheriff Kills Jester | Whether the Sheriff is able to kill the Jester | Toggle | False |
 | Sheriff Kills Arsonist | Whether the Sheriff is able to kill the Arsonist | Toggle | False |
-| Sheriff Kills Werewolf | Whether the Sheriff is able to kill the Werewolf | Toggle | False |
+| Sheriff Kills The Glitch | Whether the Sheriff is able to kill The Glitch | Toggle | False |
+| Sheriff Kills Juggernaut | Whether the Sheriff is able to kill the Juggernaut | Toggle | False |
 | Sheriff Kills Plaguebearer | Whether the Sheriff is able to kill the Plaguebearer | Toggle | False |
+| Sheriff Kills Vampire | Whether the Sheriff is able to kill the Vampire | Toggle | False |
+| Sheriff Kills Werewolf | Whether the Sheriff is able to kill the Werewolf | Toggle | False |
 | Sheriff Kill Cooldown | The cooldown on the Sheriff's kill button | Time | 25s |
 | Sheriff can report who they've killed | Whether the Sheriff is able to report their own kills | Toggle | True |
+
+-----------------------
+## Vampire Hunter
+### **Team: Crewmates**
+The Vampire Hunter is a Crewmate role which can hunt Vampires.\
+Their job is to kill all Vampires.\
+Once all Vampires are dead they turn into a different Crewmate role after the following meeting.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Vampire Hunter | The percentage probability of the Vampire Hunter appearing | Percentage | 0% |
+| Stake Cooldown | The cooldown of the Vampire Hunter's Stake button | Time | 25s |
+| Max Failed Stakes Per Game | The amount of times the Stake ability can be used per game incorrectly | Number | 5 |
+| Can Stake Round One | If the Vampire Hunter can stake players on the first round | Toggle | False |
+| Self Kill On Failure To Kill A Vamp With All Stakes | Whether the Vampire Hunter will die if they fail to stake any Vampires | Toggle | False |
+| Vampire Hunter becomes on Vampire Death | Which role the Vampire Hunter becomes when all Vampires die | Crewmate / Sheriff / Veteran / Vigilante | Crewmate |
 
 -----------------------
 ## Veteran
@@ -939,7 +1018,7 @@ After a set period of time, the player will be resurrected, if the revival isn't
 ## Medic
 ### **Team: Crewmates**
 The Medic is a Crewmate that can give any player a shield that will make them immortal until the Medic dies.\
-A Shielded player cannot be Shifted into, Hacked or Killed by anyone, unless by suicide.\
+A Shielded player cannot be killed by anyone, unless by suicide.\
 If the Medic reports a dead body, they can get a report containing clues to the Killer's identity.\
 A report can contain the name of the killer or the color type (Darker/Lighter)
 ### Colors
@@ -1018,17 +1097,14 @@ It should be noted the Imitator can not imitate all crew roles.
 -----------------------
 ## Mayor
 ### **Team: Crewmates**
-The Mayor is a Crewmate that can vote multiple times.\
-The Mayor has a Vote Bank, which is the number of times they can vote.\
-They have the option to abstain their vote during a meeting, adding that vote to the Vote Bank.\
-As long as not everyone has voted, the Mayor can use as many votes from their Vote Bank as they please.
+The Mayor is a Crewmate that can reveal themself to everyone.\
+Once revealed the Mayor cannot be assassinated, gains an additional 2 votes and everyone can see that they are the Mayor.\
+As a consequence of revealing, they have half vision when lights are on.
 
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Mayor | The percentage probability of the Mayor appearing | Percentage | 0% |
-| Initial Mayor Vote Bank | The number of votes in the Vote Bank at the start of a game | Number | 1 |
-| Mayor Votes Show Anonymous | Whether the Mayor's extra votes will show up anonymously | Toggle | False |
 
 -----------------------
 ## Medium
@@ -1046,6 +1122,18 @@ However, if someone is dead, the Medium and the dead player will be able to see 
 | Reveal Appearance of Mediate Target | Whether the Ghosts will show as themselves, or camouflaged | Toggle | True |
 | Reveal the Medium to the Mediate Target | Whether the ghosts can see that the Medium is the Medium | Toggle | True |
 | Who is Revealed | Which players are revealed to the Medium | Oldest Dead / Newest Dead / All Dead | Oldest Dead |
+
+-----------------------
+## Prosecutor
+### **Team: Crewmates**
+The Prosecutor is a Crewmate that can once per game prosecute a player which results in them being exiled that meeting.\
+The Prosecutor can also see votes non-anonymously.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Prosecutor | The percentage probability of the Prosecutor appearing | Percentage | 0% |
+| Prosecutor Dies When They Exile A Crewmate | Whether the Prosecutor also gets exiled when they exile a Crewmate | Toggle | False |
 
 -----------------------
 ## Swapper
@@ -1108,6 +1196,7 @@ If their target loses, they lose.
 | Guardian Angel becomes on Target Dead | Which role the Guardian Angel becomes when their target dies | Crewmate / Amnesiac / Survivor / Jester | Crewmate |
 | Target Knows GA Exists | Whether the GA's Target knows they have a GA | Toggle | False |
 | GA Knows Targets Role | Whether the GA knows their target's role | Toggle | False |
+| Odds Of Target Being Evil | The chances of the Guardian Angel's target being evil | Percentage | 20% |
 
 -----------------------
 ## Survivor
@@ -1123,6 +1212,25 @@ However, if Lovers, or a Neutral Evil role wins the game, the survivor loses.
 | Vest Duration | How long The Survivor's Vest lasts | Time | 10s |
 | Kill Cooldown Reset on Attack | The attackers kill cooldown after they attacked the veste Survivor | Time | 2.5s |
 | Max Uses | The amount of times the Vest ability can be used | Number | 5 |
+
+-----------------------
+## Doomsayer
+### **Team: Neutral**
+The Doomsayer is a Neutral role with its own win condition.\
+Their goal is to assassinate a certain number of players.\
+Once done so they win the game.\
+They have an additional observe ability that hints towards certain player's roles.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Doomsayer | The percentage probability of the Doomsayer appearing | Percentage | 0% |
+| Observe Cooldown | The Cooldown of the Doomsayer's Observe button | Time | 25s |
+| Doomsayer Guess Neutral Benign  | Whether the Doomsayer can Guess Neutral Benign roles | Toggle | False |
+| Doomsayer Guess Neutral Evil  | Whether the Doomsayer can Guess Neutral Evil roles | Toggle | False |
+| Doomsayer Guess Neutral Killing  | Whether the Doomsayer can Guess Neutral Killing roles | Toggle | False |
+| Doomsayer Guess Impostors  | Whether the Doomsayer can Guess Impostor roles | Toggle | False |
+| Doomsayer Can Guess After Voting  | Whether the Doomsayer can Guess after voting | Toggle | False |
+| Number Of Doomsayer Kills To Win | The amount of kills in order for the Doomsayer to win | Number | 3 |
 
 -----------------------
 ## Executioner
@@ -1239,6 +1347,26 @@ The Glitch can Mimic someone, which results in them looking exactly like the oth
 | Glitch can Vent | Whether the Glitch can Vent | Toggle | False |
 
 -----------------------
+## Vampire
+### **Team: Neutral**
+
+The Vampire is a Neutral role with its own win condition.\
+The Vampire can convert or kill other players by biting them.\
+If the bitten player was a Crewmate they will turn into a Vampire (unless there are 2 Vampires alive)\
+Else they will kill the bitten player.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Vampire | The percentage probability of the Vampire appearing | Percentage | 0% |
+| Bite Cooldown | The cooldown of the Vampire's Bite button | Time | 25s |
+| Vampire Has Impostor Vision | Whether the Vampire Has Impostor Vision | Toggle | False |
+| Vampire Can Vent | Whether the Vampire Can Vent | Toggle | False |
+| New Vampire Can Assassinated | Whether the new Vampire can assassinate | Toggle | False |
+| Maximum Vampires Per Game | The maximum amount of players that can be Vampires | Number | 2 |
+| Can Convert Neutral Benign Roles | Whether Neutral Benign Roles can be turned into Vampires | Toggle | False |
+| Can Convert Neutral Evil Roles | Whether Neutral Evil Roles can be turned into Vampires | Toggle | False |
+
+-----------------------
 ## Werewolf
 ### **Team: Neutral**
 
@@ -1319,6 +1447,24 @@ The Swooper is an Impostor that can temporarily turn invisible.
 | Swooper can Vent | Whether the Swooper can Vent | Toggle | False |
 
 -----------------------
+## Venerer
+### **Team: Impostors**
+
+The Venerer is an Impostor that gains abilities through killing.\
+After their first kill, the Venerer can camouflage themself.\
+After their second kill, the Venerer can sprint.\
+After their third kill, every other player is slowed while their ability is activated.\
+All abilities are activated by the one button and have the same duration.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Venerer | The percentage probability of the Venerer appearing | Percentage | 0% |
+| Ability Cooldown | The cooldown of the Venerer's Ability button | Time | 25s |
+| Ability Duration | How long the Venerer's ability lasts for | Time | 10s |
+| Sprint Speed | How fast the speed increase of the Venerer is when sprinting | Multiplier | 1.25x |
+| Freeze Speed | How slow the speed decrease of other players is when the Venerer's ability is active | Multiplier | 0.75x |
+-----------------------
 ## Bomber
 ### **Team: Impostors**
 
@@ -1349,6 +1495,21 @@ Once this player has turned into the Traitor their alliance sits with the Impost
 | Traitor | The percentage probability of the Traitor appearing | Percentage | 0% |
 | Latest Spawn | The minimum number of people alive when a Traitor can spawn | Number | 5 |
 | Traitor Won't Spawn if Neutral Killing are Alive | Whether the Traitor won't spawn if any Neutral Killing roles are alive | Toggle | False |
+
+-----------------------
+## Warlock
+### **Team: Impostors**
+
+The Warlock is an Impostor that can charge up their kill button.\
+Once activated the Warlock can use their kill button infinitely until they run out of charge.\
+However, they do not need to fully charge their kill button to use it.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Warlock | The percentage probability of the Warlock appearing | Percentage | 0% |
+| Time It Takes To Fully Charge | The time it takes to fully charge the Warlock's Kill Button | Time | 25s |
+| Time It Takes To Use Full Charge | The maximum duration a charge of the Warlock's Kill Button lasts | Time | 1s |
 
 -----------------------
 ## Blackmailer
@@ -1406,6 +1567,15 @@ The Undertaker is an Impostor that can drag and drop bodies.
 
 # Modifiers
 Modifiers are added on top of players' roles.
+## Aftermath
+### **Applied to: Crewmates**
+Killing the Aftermath forces their killer to use their ability (if they have one and it's not in use).
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Aftermath | The percentage probability of the Aftermath appearing | Percentage | 0% |
+
+-----------------------
 ## Bait
 ### **Applied to: Crewmates**
 Killing the Bait makes the killer auto self-report.
@@ -1417,23 +1587,25 @@ Killing the Bait makes the killer auto self-report.
 | Bait Maximum Delay | The maximum time the killer of the Bait reports the body | Time | 1s |
 
 -----------------------
-## Blind
-### **Applied to: Crewmates**
-The Blind's report button does not light up.
-### Game Options
-| Name | Description | Type | Default |
-|----------|:-------------:|:------:|:------:|
-| Blind | The percentage probability of the Blind appearing | Percentage | 0% |
-
------------------------
 ## Diseased
 ### **Applied to: Crewmates**
-Killing the Diseased triples the killer's Kill cooldown.
+Killing the Diseased increases the killer's kill cooldown.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Diseased | The percentage probability of the Diseased appearing | Percentage | 0% |
 | Kill Multiplier | How much the Kill Cooldown of the Impostor is increased by | Multiplier | 3x |
+
+-----------------------
+## Frosty
+### **Applied to: Crewmates**
+Killing the Frosty slows the killer for a short duration.
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Frosty | The percentage probability of the Frosty appearing | Percentage | 0% |
+| Chill Duration | The duration of the chill after killing the Frosty | Time | 10s |
+| Chill Start Speed | The start speed of the chill after killing the Frosty | Multiplier | 0.75x |
 
 -----------------------
 ## Multitasker
@@ -1466,7 +1638,7 @@ They have the same amount of meetings as a regular player.
 -----------------------
 ## Flash
 ### **Applied to: All**
-The Flash travels at twice the speed of a normal player.
+The Flash travels at a faster speed in comparison to a normal player.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
@@ -1524,8 +1696,7 @@ During meetings the Sleuth can see the roles of all players in which they've rep
 ## Tiebreaker
 ### **Applied to: All**
 If any vote is a draw, the Tiebreaker's vote will go through.\
-If they voted another player, they will get voted out.\
-If the Tiebreaker is the Mayor, it applies to the Mayor's __first__ vote.
+If they voted another player, they will get voted out.
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
@@ -1577,10 +1748,12 @@ When they are the only remaining Impostor, they will have their kill cooldown sh
 # Classic Game Mode Settings
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
-| Min Neutral Non-Killing Roles | The minimum number of Neutral non-killing roles a game can have | Number | 1 |
-| Max Neutral Non-Killing Roles | The maximum number of Neutral non-killing roles a game can have | Number | 1 |
-| Min Neutral Killing Roles | The minimum number of Neutral killing roles a game can have | Number | 1 |
-| Max Neutral Killing Roles | The maximum number of Neutral killing roles a game can have | Number | 1 |
+| Min Neutral Benign Roles | The minimum number of Neutral Benign roles a game can have | Number | 1 |
+| Max Neutral Benign Roles | The maximum number of Neutral Benign roles a game can have | Number | 1 |
+| Min Neutral Evil Roles | The minimum number of Neutral Evil roles a game can have | Number | 1 |
+| Max Neutral Evil Roles | The maximum number of Neutral Evil roles a game can have | Number | 1 |
+| Min Neutral Killing Roles | The minimum number of Neutral Killing roles a game can have | Number | 1 |
+| Max Neutral Killing Roles | The maximum number of Neutral Killing roles a game can have | Number | 1 |
 
 -----------------------
 # All Any Settings
@@ -1611,6 +1784,7 @@ When they are the only remaining Impostor, they will have their kill cooldown sh
 | Max Engineers | The maximum number of Engineers that can spawn | Number | 3 |
 | Max Investigators | The maximum number of Investigators that can spawn | Number | 3 |
 | Max Mystics | The maximum number of Mystics that can spawn | Number | 3 |
+| Max Snitches | The maximum number of Snitches that can spawn | Number | 3 |
 | Max Spies | The maximum number of Spies that can spawn | Number | 3 |
 | Max Transporters | The maximum number of Transporters that can spawn | Number | 3 |
 | Max Vigilantes | The maximum number of Vigilantes that can spawn | Number | 3 |
@@ -1661,9 +1835,8 @@ When they are the only remaining Impostor, they will have their kill cooldown sh
 | Game Start Cooldowns | The cooldown for all roles at the start of the game | Time | 10s |
 | Parallel Medbay Scans | Whether players have to wait for others to scan | Toggle | False |
 | Disable Meeting Skip Button | Whether the meeting button is disabled | No / Emergency / Always | No |
-| Disable Level Icons | Whether all level icons are removed in meetings | Toggle | False |
-| Disable Player Nameplates | Whether all decorative nameplates are disabled in meetings | Toggle | False |
 | Enable Hidden Roles | Whether hidden roles are added to the role selections | Toggle | True |
+| First Death Shield Next Game | Whether the first player to die gets a shield for the first round next game | Toggle | False |
 
 -----------------------
 # Task Tracking Settings
@@ -1727,7 +1900,7 @@ If you have any bugs or any need to contact me, join the [Discord Server](https:
 [TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For the inspiration of the Vigilante, Tracker and Spy roles, as well as the Bait modifier.\
 [5up](https://www.twitch.tv/5uppp) and the Submarine Team - For the inspiration of the Grenadier role.\
 [Guus](https://github.com/OhMyGuus) - For support for the old Among Us versions (v2021.11.9.5 and v2021.12.15).\
-[MyDragonBreath](https://github.com/MyDragonBreath) - For Submerged Compatibility, the Trapper role and support for the new Among Us version (v2022.6.21).\
+[MyDragonBreath](https://github.com/MyDragonBreath) - For Submerged Compatibility, the Trapper and Aurial roles, the Aftermath modifier and support for the new Among Us versions (v2022.6.21 & v2023.6.13).\
 [ItsTheNumberH](https://github.com/itsTheNumberH/Town-Of-H) - For the code used for Blind, Bait, Poisoner and partially for Tracker, as well as other bug fixes.\
 [Ruiner](https://github.com/ruiner189/Town-Of-Us-Redux) - For lovers changed into a modifier and Task Tracking.\
 [Term](https://www.twitch.tv/termboii) - For creating Transporter, Medium, Blackmailer, Plaguebearer, Sleuth, Multitasker and porting v2.5.0 to the new Among Us version (v2021.12.15).\
