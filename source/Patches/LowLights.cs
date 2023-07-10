@@ -37,14 +37,15 @@ namespace TownOfUs
             if (player.IsImpostor() || player._object.Is(RoleEnum.Glitch) ||
                 player._object.Is(RoleEnum.Juggernaut) || player._object.Is(RoleEnum.Pestilence) ||
                 (player._object.Is(RoleEnum.Jester) && CustomGameOptions.JesterImpVision) ||
-                (player._object.Is(RoleEnum.Arsonist) && CustomGameOptions.ArsoImpVision))
+                (player._object.Is(RoleEnum.Arsonist) && CustomGameOptions.ArsoImpVision) ||
+                (player._object.Is(RoleEnum.Vampire) && CustomGameOptions.VampImpVision))
             {
                 __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod;
                 return false;
             }
             else if (player._object.Is(RoleEnum.Werewolf))
             {
-                var role = Role.GetRole<Werewolf>(PlayerControl.LocalPlayer);
+                var role = Role.GetRole<Werewolf>(player._object);
                 if (role.Rampaged)
                 {
                     __result = __instance.MaxLightRadius * GameOptionsManager.Instance.currentNormalGameOptions.ImpostorLightMod;
@@ -61,6 +62,18 @@ namespace TownOfUs
             var t = switchSystem.Value / 255f;
 
             if (player._object.Is(ModifierEnum.Torch)) t = 1;
+
+            if (player._object.Is(RoleEnum.Mayor))
+            {
+                var role = Role.GetRole<Mayor>(player._object);
+                if (role.Revealed)
+                {
+                    __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius/2, t) *
+                       GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod;
+                    return false;
+                }
+            }
+
             __result = Mathf.Lerp(__instance.MinLightRadius, __instance.MaxLightRadius, t) *
                        GameOptionsManager.Instance.currentNormalGameOptions.CrewLightMod;
             return false;

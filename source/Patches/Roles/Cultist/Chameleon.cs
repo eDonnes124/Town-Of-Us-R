@@ -52,7 +52,8 @@ namespace TownOfUs.Roles.Cultist
                     HatId = "",
                     SkinId = "",
                     VisorId = "",
-                    PlayerName = " "
+                    PlayerName = " ",
+                    PetId = ""
                 });
                 Player.myRend().color = color;
                 Player.nameText().color = Color.clear;

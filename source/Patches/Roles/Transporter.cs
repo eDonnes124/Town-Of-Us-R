@@ -212,11 +212,7 @@ namespace TownOfUs.Roles
                                                         {
                                                             if (Player.IsShielded())
                                                             {
-                                                                var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                                                    (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                                                                writer2.Write(Player.GetMedic().Player.PlayerId);
-                                                                writer2.Write(Player.PlayerId);
-                                                                AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                                                                Utils.Rpc(CustomRPC.AttemptSound, Player.GetMedic().Player.PlayerId, Player.PlayerId);
 
                                                                 System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
                                                                 if (CustomGameOptions.ShieldBreaks)
@@ -228,12 +224,7 @@ namespace TownOfUs.Roles
                                                             {
                                                                 Coroutines.Start(TransportPlayers(TransportPlayer1.PlayerId, Player.PlayerId, true));
 
-                                                                var write2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                                                    (byte)CustomRPC.Transport, SendOption.Reliable, -1);
-                                                                write2.Write(TransportPlayer1.PlayerId);
-                                                                write2.Write(Player.PlayerId);
-                                                                write2.Write(true);
-                                                                AmongUsClient.Instance.FinishRpcImmediately(write2);
+                                                                Utils.Rpc(CustomRPC.Transport, TransportPlayer1.PlayerId, Player.PlayerId, true);
                                                                 return;
                                                             }
                                                             transRole.LastTransported = DateTime.UtcNow;
@@ -243,11 +234,7 @@ namespace TownOfUs.Roles
                                                         {
                                                             if (Player.IsShielded())
                                                             {
-                                                                var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                                                    (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                                                                writer2.Write(Player.GetMedic().Player.PlayerId);
-                                                                writer2.Write(Player.PlayerId);
-                                                                AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                                                                Utils.Rpc(CustomRPC.AttemptSound, Player.GetMedic().Player.PlayerId, Player.PlayerId);
 
                                                                 System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
                                                                 if (CustomGameOptions.ShieldBreaks)
@@ -259,12 +246,7 @@ namespace TownOfUs.Roles
                                                             {
                                                                 Coroutines.Start(TransportPlayers(TransportPlayer2.PlayerId, Player.PlayerId, true));
 
-                                                                var write2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                                                    (byte)CustomRPC.Transport, SendOption.Reliable, -1);
-                                                                write2.Write(TransportPlayer2.PlayerId);
-                                                                write2.Write(Player.PlayerId);
-                                                                write2.Write(true);
-                                                                AmongUsClient.Instance.FinishRpcImmediately(write2);
+                                                                Utils.Rpc(CustomRPC.Transport, TransportPlayer2.PlayerId, Player.PlayerId, true);
                                                                 return;
                                                             }
                                                             transRole.LastTransported = DateTime.UtcNow;
@@ -275,12 +257,7 @@ namespace TownOfUs.Roles
 
                                                         Coroutines.Start(TransportPlayers(TransportPlayer1.PlayerId, TransportPlayer2.PlayerId, false));
 
-                                                        var write = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                                                            (byte)CustomRPC.Transport, SendOption.Reliable, -1);
-                                                        write.Write(TransportPlayer1.PlayerId);
-                                                        write.Write(TransportPlayer2.PlayerId);
-                                                        write.Write(false);
-                                                        AmongUsClient.Instance.FinishRpcImmediately(write);
+                                                        Utils.Rpc(CustomRPC.Transport, TransportPlayer1.PlayerId, TransportPlayer2.PlayerId, false);
                                                     }
                                                     else
                                                     {

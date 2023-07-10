@@ -48,11 +48,7 @@ namespace TownOfUs.CultistRoles.NecromancerMod
                 role.ReviveCount += 1;
                 role.LastRevived = DateTime.UtcNow;
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Revive, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(playerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.Revive, PlayerControl.LocalPlayer.PlayerId, playerId);
 
                 Revive(role.CurrentTarget, role);
                 return false;

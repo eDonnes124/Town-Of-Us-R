@@ -1,6 +1,4 @@
 using Il2CppSystem.Collections.Generic;
-using TownOfUs.Extensions;
-using UnityEngine;
 
 namespace TownOfUs.Roles
 {
@@ -18,7 +16,7 @@ namespace TownOfUs.Roles
             Color = Patches.Colors.Jester;
             RoleType = RoleEnum.Jester;
             AddToRoleHistory(RoleType);
-            Faction = Faction.NeutralOther;
+            Faction = Faction.NeutralEvil;
         }
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
@@ -39,11 +37,6 @@ namespace TownOfUs.Roles
         {
             //System.Console.WriteLine("Reached Here - Jester edition");
             VotedOut = true;
-        }
-
-        public void Loses()
-        {
-            LostByRPC = true;
         }
     }
 }

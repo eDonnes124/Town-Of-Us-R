@@ -11,6 +11,7 @@ using System.Text.Json;
 using Twitch;
 using Reactor.Utilities;
 using System.Text.Json.Serialization;
+using Rewired.ComponentControls;
 
 namespace TownOfUs {
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
@@ -28,11 +29,19 @@ namespace TownOfUs {
                     var touButton = UnityEngine.Object.Instantiate(template, null);
                     touButton.transform.localPosition = new Vector3(touButton.transform.localPosition.x, touButton.transform.localPosition.y + 0.6f, touButton.transform.localPosition.z);
 
+                    touButton.transform.localScale = new Vector3(0.44f, 0.84f, 1f);
+
                     PassiveButton passiveTOUButton = touButton.GetComponent<PassiveButton>();
-                    SpriteRenderer touButtonSprite = touButton.GetComponent<SpriteRenderer>();
+                    SpriteRenderer touButtonSprite = touButton.transform.GetChild(1).GetComponent<SpriteRenderer>();
                     passiveTOUButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
 
                     touButtonSprite.sprite = TOUUpdateSprite;
+                    touButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = TOUUpdateSprite;
+
+                    touButton.transform.SetParent(GameObject.Find("RightPanel").transform);
+                    var pos = touButton.GetComponent<AspectPosition>();
+                    pos.Alignment = AspectPosition.EdgeAlignments.LeftBottom;
+                    pos.DistanceFromEdge = new Vector3(1.5f,1f,0f);
 
                     //Add onClick event to run the update on button click
                     passiveTOUButton.OnClick.AddListener((Action) (() =>
@@ -42,9 +51,10 @@ namespace TownOfUs {
                     }));
                     
                     //Set button text
-                    var text = touButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+                    var text = touButton.transform.GetChild(2).GetChild(0).GetComponent<TMPro.TMP_Text>();
                     __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) => {
                         text.SetText("");
+                        pos.AdjustPosition();
                     })));
 
                     //Set popup stuff
@@ -62,11 +72,19 @@ namespace TownOfUs {
                     var submergedButton = UnityEngine.Object.Instantiate(template, null);
                     submergedButton.transform.localPosition = new Vector3(submergedButton.transform.localPosition.x, submergedButton.transform.localPosition.y + 1.2f, submergedButton.transform.localPosition.z);
 
+                    submergedButton.transform.localScale = new Vector3(0.44f, 0.84f, 1f);
+
                     PassiveButton passiveSubmergedButton = submergedButton.GetComponent<PassiveButton>();
-                    SpriteRenderer submergedButtonSprite = submergedButton.GetComponent<SpriteRenderer>();
+                    SpriteRenderer submergedButtonSprite = submergedButton.transform.GetChild(1).GetComponent<SpriteRenderer>();
                     passiveSubmergedButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
 
                     submergedButtonSprite.sprite = SubmergedUpdateSprite;
+                    submergedButton.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = SubmergedUpdateSprite;
+
+                    submergedButton.transform.SetParent(GameObject.Find("RightPanel").transform);
+                    var pos = submergedButton.GetComponent<AspectPosition>();
+                    pos.Alignment = AspectPosition.EdgeAlignments.LeftBottom;
+                    pos.DistanceFromEdge = new Vector3(1.5f, 1.5f, 0f);
 
                     //Add onClick event to run the update on button click
                     passiveSubmergedButton.OnClick.AddListener((Action) (() =>
@@ -76,9 +94,10 @@ namespace TownOfUs {
                     }));
                     
                     //Set button text
-                    var text = submergedButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+                    var text = submergedButton.transform.GetChild(2).GetChild(0).GetComponent<TMPro.TMP_Text>();
                     __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) => {
                         text.SetText("");
+                        pos.AdjustPosition();
                     })));
 
                     //Set popup stuff

@@ -32,8 +32,13 @@ namespace TownOfUs
         private static Sprite Protect => TownOfUs.ProtectSprite;
         private static Sprite Infect => TownOfUs.InfectSprite;
         private static Sprite Trap => TownOfUs.TrapSprite;
-        private static Sprite Examine => TownOfUs.ExamineSprite;
+        private static Sprite Inspect => TownOfUs.InspectSprite;
         private static Sprite Swoop => TownOfUs.SwoopSprite;
+        private static Sprite Observe => TownOfUs.ObserveSprite;
+        private static Sprite Bite => TownOfUs.BiteSprite;
+        private static Sprite Stake => TownOfUs.StakeSprite;
+        private static Sprite Confess => TownOfUs.ConfessSprite;
+        private static Sprite Radiate => TownOfUs.RadiateSprite;
 
         private static Sprite Kill;
 
@@ -117,12 +122,37 @@ namespace TownOfUs
             }
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
             {
-                __instance.KillButton.graphic.sprite = Examine;
+                __instance.KillButton.graphic.sprite = Inspect;
                 flag = true;
             }
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Chameleon))
             {
                 __instance.KillButton.graphic.sprite = Swoop;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer))
+            {
+                __instance.KillButton.graphic.sprite = Observe;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Vampire))
+            {
+                __instance.KillButton.graphic.sprite = Bite;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.VampireHunter))
+            {
+                __instance.KillButton.graphic.sprite = Stake;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Oracle))
+            {
+                __instance.KillButton.graphic.sprite = Confess;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial))
+            {
+                __instance.KillButton.graphic.sprite = Radiate;
                 flag = true;
             }
             else
@@ -139,7 +169,8 @@ namespace TownOfUs
                 __instance.KillButton.transform.localPosition = new Vector3(0f, 1f, 0f);
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Engineer) || PlayerControl.LocalPlayer.Is(RoleEnum.Glitch)
-                 || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut))
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut)
+                 || PlayerControl.LocalPlayer.Is(RoleEnum.Vampire))
             {
                 __instance.ImpostorVentButton.transform.localPosition = new Vector3(-2f, 0f, 0f);
             }
