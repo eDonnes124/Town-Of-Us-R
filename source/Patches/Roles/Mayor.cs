@@ -1,29 +1,32 @@
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace TownOfUs.Roles
 {
     public class Mayor : Role
     {
-        public List<byte> ExtraVotes = new List<byte>();
-
         public Mayor(PlayerControl player) : base(player)
         {
             Name = "Mayor";
-            ImpostorText = () => "Save Your Votes To Mayor Dump Someone";
-            TaskText = () => "Save your votes to vote multiple times";
+            ImpostorText = () => "Reveal Yourself To Save The Town";
+            TaskText = () => "Reveal yourself when the time is right";
             Color = Patches.Colors.Mayor;
             RoleType = RoleEnum.Mayor;
             AddToRoleHistory(RoleType);
-            VoteBank = CustomGameOptions.MayorVoteBank;
+            Revealed = false;
+        }
+        public bool Revealed { get; set; }
+
+        public GameObject RevealButton = new GameObject();
+
+        internal override bool Criteria()
+        {
+            return Revealed && !Player.Data.IsDead || base.Criteria();
         }
 
-        public int VoteBank { get; set; }
-        public bool SelfVote { get; set; }
-
-        public bool VotedOnce { get; set; }
-
-        public PlayerVoteArea Abstain { get; set; }
-
-        public bool CanVote => VoteBank > 0 && !SelfVote;
+        internal override bool RoleCriteria()
+        {
+            if (!Player.Data.IsDead) return Revealed || base.RoleCriteria();
+            return false || base.RoleCriteria();
+        }
     }
 }

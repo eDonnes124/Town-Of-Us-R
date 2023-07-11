@@ -1,6 +1,5 @@
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.PhantomMod
@@ -22,10 +21,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 role.CompletedTasks = true;
                 if (AmongUsClient.Instance.AmHost)
                 {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.PhantomWin, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.PhantomWin, role.Player.PlayerId);
                     Utils.EndGame();
                 }
             }

@@ -9,7 +9,7 @@ namespace TownOfUs.Roles
     {
         public KillButton _escapeButton;
         public DateTime LastEscape;
-        public Vector3 EscapePoint;
+        public Vector3 EscapePoint = new();
 
         public Escapist(PlayerControl player) : base(player)
         {
@@ -46,6 +46,7 @@ namespace TownOfUs.Roles
         {
             escapist.MyPhysics.ResetMoveState();
             var escapistRole = Role.GetRole<Escapist>(escapist);
+            if (escapistRole.EscapePoint == Vector3.zero) return;
             var position = escapistRole.EscapePoint;
             escapist.NetTransform.SnapTo(new Vector2(position.x, position.y));
 

@@ -62,10 +62,7 @@ namespace TownOfUs.CultistRoles.WhispererMod
                     role.WhisperConversion -= CustomGameOptions.DecreasedPercentagePerConversion;
                     if (role.WhisperConversion < 5) role.WhisperConversion = 5;
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.Convert, SendOption.Reliable, -1);
-                    writer.Write(playerConversion.Item1.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.Convert, playerConversion.Item1.PlayerId);
                     removals.Add(playerConversion);
                 }
             }

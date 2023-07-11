@@ -35,11 +35,7 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
                         foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
                     }
 
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte) CustomRPC.Drag, SendOption.Reliable, -1);
-                    writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                    writer.Write(playerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.Drag, PlayerControl.LocalPlayer.PlayerId, playerId);
 
                     role.CurrentlyDragging = role.CurrentTarget;
 
@@ -50,9 +46,6 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
                 else
                 {
                     if (!__instance.enabled) return false;
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte) CustomRPC.Drop, SendOption.Reliable, -1);
-                    writer.Write(PlayerControl.LocalPlayer.PlayerId);
                     Vector3 position = PlayerControl.LocalPlayer.transform.position;
 
                     if (Patches.SubmergedCompatibility.isSubmerged())
@@ -69,9 +62,7 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
 
                     position.y -= 0.3636f;
 
-                    writer.Write(position);
-                    writer.Write(position.z);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.Drop, PlayerControl.LocalPlayer.PlayerId, position, position.z);
 
                     var body = role.CurrentlyDragging;
                     foreach (var body2 in role.CurrentlyDragging.bodyRenderers) body2.material.SetFloat("_Outline", 0f);

@@ -17,15 +17,10 @@ namespace TownOfUs.Roles
             Color = Patches.Colors.Amnesiac;
             RoleType = RoleEnum.Amnesiac;
             AddToRoleHistory(RoleType);
-            Faction = Faction.NeutralOther;
+            Faction = Faction.NeutralBenign;
         }
 
         public DeadBody CurrentTarget;
-
-        public void Loses()
-        {
-            LostByRPC = true;
-        }
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {

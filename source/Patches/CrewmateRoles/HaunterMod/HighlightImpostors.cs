@@ -1,6 +1,5 @@
 using HarmonyLib;
 using TownOfUs.Roles;
-using Hazel;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod
 {
@@ -24,16 +23,11 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
         }
         public static void Postfix(HudManager __instance)
         {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Haunter)) return;
-            var role = Role.GetRole<Haunter>(PlayerControl.LocalPlayer);
-            if (!role.CompletedTasks || role.Caught) return;
-            if (MeetingHud.Instance)
+            foreach (var haunter in Role.GetRoles(RoleEnum.Haunter))
             {
-                UpdateMeeting(MeetingHud.Instance);
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.HaunterFinished, SendOption.Reliable, -1);
-                writer.Write(role.Player.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                var role = (Haunter)haunter;
+                if (!role.CompletedTasks || role.Caught) return;
+                if (MeetingHud.Instance) UpdateMeeting(MeetingHud.Instance);
             }
         }
     }

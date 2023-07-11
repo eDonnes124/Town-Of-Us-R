@@ -20,11 +20,7 @@ namespace TownOfUs.ImpostorRoles.SwooperMod
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.SwoopTimer() != 0) return false;
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.Swoop, SendOption.Reliable, -1);
-                var position = PlayerControl.LocalPlayer.transform.position;
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.Swoop, PlayerControl.LocalPlayer.PlayerId);
                 role.TimeRemaining = CustomGameOptions.SwoopDuration;
                 role.Swoop();
                 return false;

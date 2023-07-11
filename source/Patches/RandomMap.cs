@@ -37,10 +37,7 @@ namespace TownOfUs
                 GameOptionsManager.Instance.currentNormalGameOptions.RoleOptions.SetRoleRate(RoleTypes.Engineer, 0, 0);
                 GameOptionsManager.Instance.currentNormalGameOptions.RoleOptions.SetRoleRate(RoleTypes.GuardianAngel, 0, 0);
                 GameOptionsManager.Instance.currentNormalGameOptions.RoleOptions.SetRoleRate(RoleTypes.Shapeshifter, 0, 0);
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetSettings, SendOption.Reliable, -1);
-                writer.Write(map);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.SetSettings, map);
                 if (CustomGameOptions.AutoAdjustSettings) AdjustSettings(map);
             }
             return true;
@@ -114,7 +111,7 @@ namespace TownOfUs
 
         public static void AdjustCooldowns(float change)
         {
-            Generate.InitialExamineCooldown.Set((float)Generate.InitialExamineCooldown.Value + change, false);
+            Generate.ExamineCooldown.Set((float)Generate.ExamineCooldown.Value + change, false);
             Generate.SeerCooldown.Set((float)Generate.SeerCooldown.Value + change, false);
             Generate.TrackCooldown.Set((float)Generate.TrackCooldown.Value + change, false);
             Generate.TrapCooldown.Set((float)Generate.TrapCooldown.Value + change, false);
@@ -137,6 +134,13 @@ namespace TownOfUs
             Generate.DragCooldown.Set((float)Generate.DragCooldown.Value + change, false);
             Generate.EscapeCooldown.Set((float)Generate.EscapeCooldown.Value + change, false);
             Generate.JuggKillCooldown.Set((float)Generate.JuggKillCooldown.Value + change, false);
+            Generate.ObserveCooldown.Set((float)Generate.ObserveCooldown.Value + change, false);
+            Generate.BiteCooldown.Set((float)Generate.BiteCooldown.Value + change, false);
+            Generate.StakeCooldown.Set((float)Generate.StakeCooldown.Value + change, false);
+            Generate.ConfessCooldown.Set((float)Generate.ConfessCooldown.Value + change, false);
+            Generate.ChargeUpDuration.Set((float)Generate.ChargeUpDuration.Value + change, false);
+            Generate.AbilityCooldown.Set((float)Generate.AbilityCooldown.Value + change, false);
+            Generate.RadiateCooldown.Set((float)Generate.RadiateCooldown.Value + change, false);
             Generate.ReviveCooldown.Set((float)Generate.ReviveCooldown.Value + change, false);
             Generate.WhisperCooldown.Set((float)Generate.WhisperCooldown.Value + change, false);
             GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown += change;

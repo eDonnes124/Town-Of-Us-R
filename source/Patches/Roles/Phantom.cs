@@ -5,6 +5,7 @@ namespace TownOfUs.Roles
 {
     public class Phantom : Role
     {
+        public RoleEnum formerRole = new RoleEnum();
         public bool Caught;
         public bool CompletedTasks;
         public bool Faded;
@@ -17,12 +18,7 @@ namespace TownOfUs.Roles
             Color = Patches.Colors.Phantom;
             RoleType = RoleEnum.Phantom;
             AddToRoleHistory(RoleType);
-            Faction = Faction.NeutralOther;
-        }
-
-        public void Loses()
-        {
-            LostByRPC = true;
+            Faction = Faction.NeutralEvil;
         }
 
         public void Fade()
@@ -45,7 +41,6 @@ namespace TownOfUs.Roles
             color.a = 0.07f + velocity / Player.MyPhysics.GhostSpeed * 0.13f;
             color.a = Mathf.Lerp(color.a, 0, distPercent);
 
-
             if (Player.GetCustomOutfitType() != CustomPlayerOutfitType.PlayerNameOnly)
             {
                 Player.SetOutfit(CustomPlayerOutfitType.PlayerNameOnly, new GameData.PlayerOutfit()
@@ -54,12 +49,14 @@ namespace TownOfUs.Roles
                     HatId = "",
                     SkinId = "",
                     VisorId = "",
-                    PlayerName = ""
+                    PlayerName = " ",
+                    PetId = " "
                 });
             }
             Player.myRend().color = color;
             Player.nameText().color = Color.clear;
             Player.cosmetics.colorBlindText.color = Color.clear;
+            Player.cosmetics.SetBodyCosmeticsVisible(false);
         }
     }
 }

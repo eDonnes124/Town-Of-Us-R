@@ -25,7 +25,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
         {
             if (WillBePhantom == null) return;
             var exiled = __instance.exiled?.Object;
-            if (!WillBePhantom.Data.IsDead && (exiled.Is(Faction.NeutralKilling) || exiled.Is(Faction.NeutralOther)) && !exiled.IsLover()) WillBePhantom = exiled;
+            if (!WillBePhantom.Data.IsDead && (exiled.Is(Faction.NeutralKilling) || exiled.Is(Faction.NeutralEvil) || exiled.Is(Faction.NeutralBenign)) && !exiled.IsLover()) WillBePhantom = exiled;
             if (exiled == WillBePhantom && exiled.Is(RoleEnum.Jester)) return;
             if (WillBePhantom.Data.Disconnected) return;
             if (!WillBePhantom.Data.IsDead && WillBePhantom != exiled) return;
@@ -38,6 +38,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 if (PlayerControl.LocalPlayer == WillBePhantom)
                 {
                     var role = new Phantom(PlayerControl.LocalPlayer);
+                    role.formerRole = oldRole.RoleType;
                     role.Kills = killsList.Kills;
                     role.CorrectAssassinKills = killsList.CorrectAssassinKills;
                     role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
@@ -46,6 +47,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 else
                 {
                     var role = new Phantom(WillBePhantom);
+                    role.formerRole = oldRole.RoleType;
                     role.Kills = killsList.Kills;
                     role.CorrectAssassinKills = killsList.CorrectAssassinKills;
                     role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
@@ -63,12 +65,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
             var startingVent =
                 ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
 
-            var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
-            writer2.Write(PlayerControl.LocalPlayer.PlayerId);
-            writer2.Write(startingVent.transform.position.x);
-            writer2.Write(startingVent.transform.position.y + 0.3636f);
-            AmongUsClient.Instance.FinishRpcImmediately(writer2);
+            Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
             PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
@@ -79,8 +76,8 @@ namespace TownOfUs.NeutralRoles.PhantomMod
         [HarmonyPatch(typeof(Object), nameof(Object.Destroy), new Type[] { typeof(GameObject) })]
         public static void Prefix(GameObject obj)
         {
-            if (!SubmergedCompatibility.Loaded || GameOptionsManager.Instance.currentNormalGameOptions.MapId != 5) return;
-            if (obj.name.Contains("ExileCutscene")) ExileControllerPostfix(ExileControllerPatch.lastExiled);
+            if (!SubmergedCompatibility.Loaded || GameOptionsManager.Instance?.currentNormalGameOptions?.MapId != 5) return;
+            if (obj.name?.Contains("ExileCutscene") == true) ExileControllerPostfix(ExileControllerPatch.lastExiled);
         }
     }
 }

@@ -49,10 +49,7 @@ namespace TownOfUs.Patches
 
                         SetTraitor.WillBeTraitor = pc;
 
-                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                            (byte)CustomRPC.SetTraitor, SendOption.Reliable, -1);
-                        writer.Write(pc.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.Rpc(CustomRPC.SetTraitor, pc.PlayerId);
                     }
                 }
             }
