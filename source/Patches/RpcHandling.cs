@@ -75,38 +75,26 @@ namespace TownOfUs
 
         private static void SortRoles(List<(Type, int, bool)> roles, int numRoles)
         {
-            roles.Shuffle();
             if (roles.Count < numRoles) numRoles = roles.Count;
-            roles.Sort((a, b) =>
-            {
-                var a_ = a.Item2 == 100 ? 0 : 100;
-                var b_ = b.Item2 == 100 ? 0 : 100;
-                return a_.CompareTo(b_);
-            });
+            roles.Sort((a, b) =>{ return a.CompareTo(b); });
             var certainRoles = 0;
             var odds = 0;
-            foreach (var role in roles)
-                if (role.Item2 == 100) certainRoles += 1;
-                else odds += role.Item2;
-            while (certainRoles < numRoles)
-            {
-                var num = certainRoles;
-                var random = Random.RandomRangeInt(0, odds);
-                var rolePicked = false;
-                while (num < roles.Count && rolePicked == false)
-                {
-                    random -= roles[num].Item2;
-                    if (random < 0)
-                    {
-                        odds -= roles[num].Item2;
-                        var role = roles[num];
-                        roles.Remove(role);
-                        roles.Insert(0, role);
-                        certainRoles += 1;
-                        rolePicked = true;
-                    }
-                    num += 1;
+            List<int> roleSelectTable = new List<int>();
+            foreach(var role in roles) {
+                if(role.Item2 == 100) certainRoles += 1;
+                else if(role.Item2 > 0) {
+                    odds += role.Item2;
+                    roleSelectTable.Add(odds);
                 }
+            }
+            while(certainRoles < numRoles) {
+                var random = Random.RandomRangeInt(0, odds);
+                var index = roleSelectTable.FindIndex(x => random < x);
+                var role = roles[certainRoles + index];
+                odds -= role.Item2;
+                roles.Remove(role);
+                roles.Insert(0, role);
+                certainRoles += 1;
             }
             while (roles.Count > numRoles) roles.RemoveAt(roles.Count - 1);
         }
