@@ -57,7 +57,7 @@ namespace TownOfUs.Patches
                     cam.orthographicSize = size;
             }
 
-            /*  ResolutionManager.ResolutionChanged.Invoke(Screen.width / Screen.height, Screen.width, Screen.height, Screen.fullScreen); */
+            /* ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height); */
         }
 
         public static void ZoomStart()
