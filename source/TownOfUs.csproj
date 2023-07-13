@@ -8,8 +8,8 @@
 
 	<PropertyGroup>
 		<GamePlatform Condition="'$(GamePlatform)' == ''">Steam</GamePlatform>
-		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2023.6.13</GameVersion>
-		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2023.6.13</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2023.7.11</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2023.7.11</GameVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -102,7 +102,7 @@ namespace TownOfUs.Roles
                         player.NameText.color = Color;
 
             if (HudManager.Instance != null && HudManager.Instance.Chat != null)
-                foreach (var bubble in HudManager.Instance.Chat.chatBubPool.activeChildren)
+                foreach (var bubble in HudManager.Instance.Chat.chatBubblePool.activeChildren)
                     if (bubble.Cast<ChatBubble>().NameText != null &&
                         Player.Data.PlayerName == bubble.Cast<ChatBubble>().NameText.text)
                         bubble.Cast<ChatBubble>().NameText.color = Color;
@@ -132,7 +132,7 @@ namespace TownOfUs.Roles
                 if (Minigame.Instance)
                     Minigame.Instance.Close();
 
-                if (!MimicList.IsOpen || MeetingHud.Instance)
+                if (!MimicList.IsOpenOrOpening || MeetingHud.Instance)
                 {
                     MimicList.Toggle();
                     MimicList.SetVisible(false);
@@ -140,7 +140,7 @@ namespace TownOfUs.Roles
                 }
                 else
                 {
-                    foreach (var bubble in MimicList.chatBubPool.activeChildren)
+                    foreach (var bubble in MimicList.chatBubblePool.activeChildren)
                         if (!IsUsingMimic && MimicList != null)
                         {
                             Vector2 ScreenMin =
@@ -618,28 +618,28 @@ namespace TownOfUs.Roles
                     __gInstance.MimicList.SetVisible(true);
                     __gInstance.MimicList.Toggle();
 
-                    __gInstance.MimicList.TextBubble.enabled = false;
-                    __gInstance.MimicList.TextBubble.gameObject.SetActive(false);
+                    __gInstance.MimicList.GetPooledBubble().enabled = false;
+                    __gInstance.MimicList.GetPooledBubble().gameObject.SetActive(false);
 
-                    __gInstance.MimicList.TextArea.enabled = false;
-                    __gInstance.MimicList.TextArea.gameObject.SetActive(false);
+                    __gInstance.MimicList.freeChatField.textArea.enabled = false;
+                    __gInstance.MimicList.freeChatField.textArea.gameObject.SetActive(false);
 
-                    __gInstance.MimicList.BanButton.enabled = false;
-                    __gInstance.MimicList.BanButton.gameObject.SetActive(false);
+                    __gInstance.MimicList.banButton.enabled = false;
+                    __gInstance.MimicList.banButton.gameObject.SetActive(false);
 
-                    __gInstance.MimicList.CharCount.enabled = false;
-                    __gInstance.MimicList.CharCount.gameObject.SetActive(false);
+                    __gInstance.MimicList.freeChatField.charCountText.enabled = false;
+                    __gInstance.MimicList.freeChatField.charCountText.gameObject.SetActive(false);
 
-                    __gInstance.MimicList.OpenKeyboardButton.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                    __gInstance.MimicList.OpenKeyboardButton.Destroy();
+                    __gInstance.MimicList.openKeyboardButton.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    __gInstance.MimicList.openKeyboardButton.Destroy();
 
                     __gInstance.MimicList.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>()
                         .enabled = false;
                     __gInstance.MimicList.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
-                    __gInstance.MimicList.BackgroundImage.enabled = false;
+                    __gInstance.MimicList.backgroundImage.enabled = false;
 
-                    foreach (var rend in __gInstance.MimicList.Content
+                    foreach (var rend in __gInstance.MimicList.chatScreen
                         .GetComponentsInChildren<SpriteRenderer>())
                         if (rend.name == "SendButton" || rend.name == "QuickChatButton")
                         {
@@ -647,13 +647,13 @@ namespace TownOfUs.Roles
                             rend.gameObject.SetActive(false);
                         }
 
-                    foreach (var bubble in __gInstance.MimicList.chatBubPool.activeChildren)
+                    foreach (var bubble in __gInstance.MimicList.chatBubblePool.activeChildren)
                     {
                         bubble.enabled = false;
                         bubble.gameObject.SetActive(false);
                     }
 
-                    __gInstance.MimicList.chatBubPool.activeChildren.Clear();
+                    __gInstance.MimicList.chatBubblePool.activeChildren.Clear();
 
                     foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x =>
                         x != null &&
