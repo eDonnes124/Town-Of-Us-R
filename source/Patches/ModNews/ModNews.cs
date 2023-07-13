@@ -18,7 +18,7 @@ namespace TownOfUs.Patches.ModNews
 {
     public class ModNews
     {
-        public int Number;
+    public int Number;
     public uint Lang;
     public int BeforeNumber;
     public string Title;
