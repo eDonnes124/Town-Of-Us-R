@@ -1,25 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AmongUs.Data;
 using AmongUs.Data.Player;
 using Assets.InnerNet;
-using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Reactor.Utilities;
 
-namespace TownOfUs.Patches.ModNews
+namespace TownOfUs.Patches.ModNews;
+
+// ##https://github.com/Yumenopai/TownOfHost_Y
+public class ModNews
 {
-    public class ModNews
-    {
     public int Number;
-    public uint Lang;
     public int BeforeNumber;
     public string Title;
     public string SubTitle;
@@ -32,102 +25,93 @@ namespace TownOfUs.Patches.ModNews
         var result = new Announcement
         {
             Number = Number,
-            Language = Lang,
             Title = Title,
             SubTitle = SubTitle,
             ShortTitle = ShortTitle,
             Text = Text,
+            Language = (uint)DataManager.Settings.Language.CurrentLanguage,
             Date = Date,
-            Id = "TOU-ModNews"
+            Id = "ModNews"
         };
 
         return result;
     }
 }
-
 [HarmonyPatch]
 public class ModNewsHistory
 {
     public static List<ModNews> AllModNews = new();
 
-    [HarmonyPatch(typeof(AnnouncementPopUp), nameof(AnnouncementPopUp.Init)), HarmonyPostfix]
-    public static void Initialize(ref Il2CppSystem.Collections.IEnumerator __result)
+    // 
+    public static void Init()
     {
-        static IEnumerator GetEnumerator()
         {
-            while (AnnouncementPopUp.UpdateState == AnnouncementPopUp.AnnounceState.Fetching) yield return null;
-            if (AnnouncementPopUp.UpdateState > AnnouncementPopUp.AnnounceState.Fetching && DataManager.Player.Announcements.AllAnnouncements.Count > 0) yield break;
-
-            AnnouncementPopUp.UpdateState = AnnouncementPopUp.AnnounceState.Fetching;
-            AllModNews.Clear();
-
-            var lang = DataManager.Settings.Language.CurrentLanguage.ToString();
-            if (!Assembly.GetExecutingAssembly().GetManifestResourceNames().Any(x => x.StartsWith($"TownOfUs.Resources.ModNews.{lang}.")))
-                lang = SupportedLangs.English.ToString();
-
-            var fileNames = Assembly.GetExecutingAssembly().GetManifestResourceNames().Where(x => x.StartsWith($"TownOfUs.Resources.ModNews.{lang}."));
-            foreach (var file in fileNames)
-                AllModNews.Add(GetContentFromRes(file));
-
-            AnnouncementPopUp.UpdateState = AnnouncementPopUp.AnnounceState.NotStarted;
-        }
-
-        __result = Effects.Sequence(GetEnumerator().WrapToIl2Cpp(), __result);
-    }
-
-    public static ModNews GetContentFromRes(string path)
-    {
-        ModNews mn = new();
-        var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
-        stream.Position = 0;
-        using StreamReader reader = new(stream, Encoding.UTF8);
-        string text = "";
-        uint langId = (uint)DataManager.Settings.Language.CurrentLanguage;
-        //uint langId = (uint)SupportedLangs.SChinese;
-        while (!reader.EndOfStream)
-        {
-            string line = reader.ReadLine();
-            if (line.StartsWith("#Number:")) mn.Number = int.Parse(line.Replace("#Number:", string.Empty));
-            else if (line.StartsWith("#LangId:")) langId = uint.Parse(line.Replace("#LangId:", string.Empty));
-            else if (line.StartsWith("#Title:")) mn.Title = line.Replace("#Title:", string.Empty);
-            else if (line.StartsWith("#SubTitle:")) mn.SubTitle = line.Replace("#SubTitle:", string.Empty);
-            else if (line.StartsWith("#ShortTitle:")) mn.ShortTitle = line.Replace("#ShortTitle:", string.Empty);
-            else if (line.StartsWith("#Date:")) mn.Date = line.Replace("#Date:", string.Empty);
-            else if (line.StartsWith("#---")) continue;
-            else
+            // TOU 5.0.1
+            var news = new ModNews
             {
-                if (line.StartsWith("## ")) line = line.Replace("## ", "<b>") + "</b>";
-                else if (line.StartsWith("- ")) line = line.Replace("- ", "・");
-                text += $"\n{line}";
-            }
+                Number = 100001, // 100001
+                Title = "TownOfUs v5.0.1",
+                SubTitle = "★★★★Another Fix update?★★★★",
+                ShortTitle = "★TOU v5.0.1",
+                Text = "<size=150%>Welcome to TOU v5.0.1.</size>\n\n<size=125%>Support for Among Us v2023.6.13/2023.6.27.</size>\n"
+                    + "\n【Fixes】\n - Bug Fix: Airship Ladders work again\n\r",
+                Date = "2023-7-9T00:00:00Z"
+
+            };
+            AllModNews.Add(news);
+        }   
+
+        {
+            // When creating new news, you can not delete old news
+            // TOU v5.0.0
+            var news = new ModNews
+            {
+                Number = 100000,
+                Title = "TownOfUs v5.0.0",
+                SubTitle = "★★★★Ooooh bigger update With Many Roles!!★★★★",
+                ShortTitle = "★TOU v5.0.0",
+                Text = "Added Support AU 2023.6.13\n"
+
+                    + "\n【Fixes】\n - Plaguebearer no longer turns into Pestilence early\r\n"
+                    + "\n 【New Roles】\n - Doomsayer, Vampire, Vampire Haunter, Prosecutor, Oracle, Venerer\r\n
+                    + "\n 【Reworked】\n - Detective, Mayor\r\n
+                    + "\n 【New Modifiers】\n - AfterMath, Frosty\r\n
+                    + "\n 【Remove】\n - Blind, And Settings for disabling name plates and level numbers\r\n
+
+                    + "\n 【Changes】\n - Neutral Non-Killing settings split into Neutral Benign and Neutral Evil\r\n 
+                    + "\n 【Changes】\n - New Setting: First round shield for first death in prior game\r\n
+                    + "\n 【Changes】\n - New Setting: Guardian Angel target evil percentage\r\n
+                    + "\n 【Changes】\n - Guardian Angel targets can now be a Neutral Killer\r\n
+                    + "\n 【Changes】\n - Added a new version of Snitch to Cultist\r\n,                  
+                Date = "2023-7-5T00:00:00Z"
+
+            };
+            AllModNews.Add(news);
         }
-        mn.Lang = langId;
-        mn.Text = text;
-        PluginSingleton<TownOfUs>.Instance.Log.LogInfo($"Number:{mn.Number}");
-        PluginSingleton<TownOfUs>.Instance.Log.LogInfo($"Title:{mn.Title}");
-        PluginSingleton<TownOfUs>.Instance.Log.LogInfo($"SubTitle:{mn.SubTitle}");
-        PluginSingleton<TownOfUs>.Instance.Log.LogInfo($"ShortTitle:{mn.ShortTitle}");
-        PluginSingleton<TownOfUs>.Instance.Log.LogInfo($"Date:{mn.Date}");
-        return mn;
     }
 
     [HarmonyPatch(typeof(PlayerAnnouncementData), nameof(PlayerAnnouncementData.SetAnnouncements)), HarmonyPrefix]
-    public static bool SetModAnnouncements(PlayerAnnouncementData __instance, [HarmonyArgument(0)] Il2CppReferenceArray<Announcement> aRange)
+    public static bool SetModAnnouncements(PlayerAnnouncementData __instance, [HarmonyArgument(0)] ref Il2CppReferenceArray<Announcement> aRange)
     {
-        List<Announcement> list = new();
-        foreach (var a in aRange) list.Add(a);
-        foreach (var m in AllModNews) list.Add(m.ToAnnouncement());
-        list.Sort((a1, a2) => { return DateTime.Compare(DateTime.Parse(a2.Date), DateTime.Parse(a1.Date)); });
+        if (AllModNews.Count < 1)
+        {
+            Init();
+            AllModNews.Sort((a1, a2) => { return DateTime.Compare(DateTime.Parse(a2.Date), DateTime.Parse(a1.Date)); });
+        }
 
-        __instance.allAnnouncements = new Il2CppSystem.Collections.Generic.List<Announcement>();
-        foreach (var a in list) __instance.allAnnouncements.Add(a);
+        List<Announcement> FinalAllNews = new();
+        AllModNews.Do(n => FinalAllNews.Add(n.ToAnnouncement()));
+        foreach (var news in aRange)
+        {
+            if (!AllModNews.Any(x => x.Number == news.Number))
+                FinalAllNews.Add(news);
+        }
+        FinalAllNews.Sort((a1, a2) => { return DateTime.Compare(DateTime.Parse(a2.Date), DateTime.Parse(a1.Date)); });
 
+        aRange = new(FinalAllNews.Count);
+        for (int i = 0; i < FinalAllNews.Count; i++)
+            aRange[i] = FinalAllNews[i];
 
-        __instance.HandleChange();
-        __instance.OnAddAnnouncement?.Invoke();
-
-        return false;
+        return true;
     }
-}
-
 }
