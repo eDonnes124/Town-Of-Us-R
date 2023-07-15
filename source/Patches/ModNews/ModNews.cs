@@ -70,19 +70,16 @@ public class ModNewsHistory
                 Title = "TownOfUs v5.0.0",
                 SubTitle = "★★★★Ooooh bigger update With Many Roles!!★★★★",
                 ShortTitle = "★TOU v5.0.0",
-                Text = "Added Support AU 2023.6.13\n"
-
-                    + "\n【Fixes】\n - Plaguebearer no longer turns into Pestilence early\r\n"
-                    + "\n 【New Roles】\n - Doomsayer, Vampire, Vampire Haunter, Prosecutor, Oracle, Venerer\r\n
-                    + "\n 【Reworked】\n - Detective, Mayor\r\n
-                    + "\n 【New Modifiers】\n - AfterMath, Frosty\r\n
-                    + "\n 【Remove】\n - Blind, And Settings for disabling name plates and level numbers\r\n
-
-                    + "\n 【Changes】\n - Neutral Non-Killing settings split into Neutral Benign and Neutral Evil\r\n 
-                    + "\n 【Changes】\n - New Setting: First round shield for first death in prior game\r\n
-                    + "\n 【Changes】\n - New Setting: Guardian Angel target evil percentage\r\n
-                    + "\n 【Changes】\n - Guardian Angel targets can now be a Neutral Killer\r\n
-                    + "\n 【Changes】\n - Added a new version of Snitch to Cultist\r\n,                  
+                Text = "Added Support AU 2023.6.13\n" 
+                    + "\n【Fixes】\n - Plaguebearer no longer turns into Pestilence early\n\r"
+                    + "\n 【New Roles】\n - Doomsayer, Vampire, Vampire Haunter, Prosecutor, Oracle, Venerer\n\r"
+                    + "\n 【Reworked】\n - Detective, Mayor\r\n,"
+                    + "\n 【New Modifiers】\n - AfterMath, Frosty\r\n,"
+                    + "\n 【Remove】\n - Blind, And Settings for disabling name plates and level numbers\r\n,"
+                    + "\n 【Changes】\n - New Setting: First round shield for first death in prior game\r\n,"
+                    + "\n 【Changes】\n - New Setting: Guardian Angel target evil percentage\r\n,"
+                    + "\n 【Changes】\n - Guardian Angel targets can now be a Neutral Killer\r\n,"
+                    + "\n 【Changes】\n - Added a new version of Snitch to Cultist\r\n",                  
                 Date = "2023-7-5T00:00:00Z"
 
             };
