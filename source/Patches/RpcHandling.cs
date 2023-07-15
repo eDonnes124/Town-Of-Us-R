@@ -76,7 +76,7 @@ namespace TownOfUs
         private static void SortRoles(List<(Type, int, bool)> roles, int numRoles)
         {
             if (roles.Count < numRoles) numRoles = roles.Count;
-            roles.Sort((a, b) =>{ return a.CompareTo(b); });
+            roles.Sort((a, b) =>{ return a.Item2.CompareTo(b.Item2); });
             var certainRoles = 0;
             var odds = 0;
             List<int> roleSelectTable = new List<int>();
