@@ -275,7 +275,7 @@ namespace TownOfUs
                 var surv = (Survivor)role;
                 if (!surv.Player.Data.IsDead && !surv.Player.Data.Disconnected)
                 {
-                    var isImp = TempData.winners[0].IsImpostor;
+                    var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
                     var survWinData = new WinningPlayerData(surv.Player.Data);
                     if (isImp) survWinData.IsImpostor = true;
                     if (PlayerControl.LocalPlayer != surv.Player) survWinData.IsYou = false;
