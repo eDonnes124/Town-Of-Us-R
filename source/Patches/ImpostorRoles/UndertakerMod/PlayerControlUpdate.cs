@@ -64,7 +64,7 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
                 }
 
 
-                KillButtonTarget.SetTarget(killButton, closestBody, role);
+                (role as ITargetsDeadBody).SetTarget(killButton, closestBody, role);
             }
 
             if (role.DragDropButton.graphic.sprite == TownOfUs.DragSprite)

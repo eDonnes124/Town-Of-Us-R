@@ -2,12 +2,12 @@ using System;
 
 namespace TownOfUs.Roles
 {
-    public class Detective : Role
+    public class Detective : Role, ITargetsDeadBody
     {
         private KillButton _examineButton;
         public PlayerControl ClosestPlayer;
         public DateTime LastExamined { get; set; }
-        public DeadBody CurrentTarget;
+        public DeadBody CurrentTarget { get; set; }
         public bool ExamineMode = false;
         public PlayerControl DetectedKiller;
 

@@ -1055,7 +1055,7 @@ namespace TownOfUs
       
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.StartMeeting))]
         class StartMeetingPatch {
-            public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)]GameData.PlayerInfo meetingTarget) {
+            public static void Prefix([HarmonyArgument(0)]GameData.PlayerInfo meetingTarget) {
                 voteTarget = meetingTarget;
             }
         }
@@ -1075,7 +1075,7 @@ namespace TownOfUs
         {
             return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type).Invoke(self, Array.Empty<object>());
         }
-        public static IList createList(Type myType)
+        public static IList CreateList(Type myType)
         {
             Type genericListType = typeof(List<>).MakeGenericType(myType);
             return (IList)Activator.CreateInstance(genericListType);
@@ -1160,8 +1160,10 @@ namespace TownOfUs
                     {
                         Role.RoleDictionary.Remove(vhPlayer.PlayerId);
                         var kills = ((VampireHunter)vh).CorrectKills;
-                        var sheriff = new Sheriff(vhPlayer);
-                        sheriff.CorrectKills = kills;
+                        var sheriff = new Sheriff(vhPlayer)
+                        {
+                            CorrectKills = kills
+                        };
                         sheriff.RegenTask();
                     }
                     else if (CustomGameOptions.BecomeOnVampDeaths == BecomeEnum.Veteran)
@@ -1169,8 +1171,10 @@ namespace TownOfUs
                         if (PlayerControl.LocalPlayer == vhPlayer) Object.Destroy(((VampireHunter)vh).UsesText);
                         Role.RoleDictionary.Remove(vhPlayer.PlayerId);
                         var kills = ((VampireHunter)vh).CorrectKills;
-                        var vet = new Veteran(vhPlayer);
-                        vet.CorrectKills = kills;
+                        var vet = new Veteran(vhPlayer)
+                        {
+                            CorrectKills = kills
+                        };
                         vet.RegenTask();
                         vet.LastAlerted = DateTime.UtcNow;
                     }
@@ -1178,16 +1182,20 @@ namespace TownOfUs
                     {
                         Role.RoleDictionary.Remove(vhPlayer.PlayerId);
                         var kills = ((VampireHunter)vh).CorrectKills;
-                        var vigi = new Vigilante(vhPlayer);
-                        vigi.CorrectKills = kills;
+                        var vigi = new Vigilante(vhPlayer)
+                        {
+                            CorrectKills = kills
+                        };
                         vigi.RegenTask();
                     }
                     else
                     {
                         Role.RoleDictionary.Remove(vhPlayer.PlayerId);
                         var kills = ((VampireHunter)vh).CorrectKills;
-                        var crew = new Crewmate(vhPlayer);
-                        crew.CorrectKills = kills;
+                        var crew = new Crewmate(vhPlayer)
+                        {
+                            CorrectKills = kills
+                        };
                     }
                 }
             }

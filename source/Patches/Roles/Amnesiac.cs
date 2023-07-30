@@ -4,9 +4,9 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles
 {
-    public class Amnesiac : Role
+    public class Amnesiac : Role, ITargetsDeadBody
     {
-        public Dictionary<byte, ArrowBehaviour> BodyArrows = new Dictionary<byte, ArrowBehaviour>();
+        public Dictionary<byte, ArrowBehaviour> BodyArrows = new();
         public bool SpawnedAs = true;
 
         public Amnesiac(PlayerControl player) : base(player)
@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
             Faction = Faction.NeutralBenign;
         }
 
-        public DeadBody CurrentTarget;
+        public DeadBody CurrentTarget { get; set; }
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
         {

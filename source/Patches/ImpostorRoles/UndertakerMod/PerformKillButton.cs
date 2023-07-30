@@ -39,7 +39,7 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
 
                     role.CurrentlyDragging = role.CurrentTarget;
 
-                    KillButtonTarget.SetTarget(__instance, null, role);
+                    (role as ITargetsDeadBody).SetTarget(__instance, null , role);
                     __instance.graphic.sprite = TownOfUs.DropSprite;
                     return false;
                 }

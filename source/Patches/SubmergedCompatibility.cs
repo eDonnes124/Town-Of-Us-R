@@ -253,7 +253,7 @@ namespace TownOfUs.Patches
         public static Tuple<bool, object> GetPlayerElevator(PlayerControl player)
         {
             if (!isSubmerged()) return Tuple.Create(false, (object)null);
-            IList elevatorlist = Utils.createList(SubmarineElevator);
+            IList elevatorlist = Utils.CreateList(SubmarineElevator);
             elevatorlist = (IList)SubmergedElevators.GetValue(SubmergedInstance.GetValue(null));
             foreach (object elevator in elevatorlist)
             {

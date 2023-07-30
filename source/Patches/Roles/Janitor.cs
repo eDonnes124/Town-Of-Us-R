@@ -1,6 +1,6 @@
 namespace TownOfUs.Roles
 {
-    public class Janitor : Role
+    public class Janitor : Role, ITargetsDeadBody
     {
         public KillButton _cleanButton;
 

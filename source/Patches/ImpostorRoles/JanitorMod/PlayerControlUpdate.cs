@@ -55,7 +55,7 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
                 closestDistance = distance;
             }
 
-            KillButtonTarget.SetTarget(killButton, closestBody, role);
+            (role as ITargetsDeadBody).SetTarget(killButton, closestBody, role);
             role.CleanButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer, GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
         }
     }

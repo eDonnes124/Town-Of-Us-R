@@ -468,18 +468,19 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
             }
 
-            var killsList = (newRole.Kills, newRole.CorrectKills, newRole.IncorrectKills, newRole.CorrectAssassinKills, newRole.IncorrectAssassinKills);
+            var (Kills, CorrectKills, IncorrectKills, CorrectAssassinKills, IncorrectAssassinKills) 
+                = (newRole.Kills, newRole.CorrectKills, newRole.IncorrectKills, newRole.CorrectAssassinKills, newRole.IncorrectAssassinKills);
             var otherRole = Role.GetRole(other);
             newRole.Kills = otherRole.Kills;
             newRole.CorrectKills = otherRole.CorrectKills;
             newRole.IncorrectKills = otherRole.IncorrectKills;
             newRole.CorrectAssassinKills = otherRole.CorrectAssassinKills;
             newRole.IncorrectAssassinKills = otherRole.IncorrectAssassinKills;
-            otherRole.Kills = killsList.Kills;
-            otherRole.CorrectKills = killsList.CorrectKills;
-            otherRole.IncorrectKills = killsList.IncorrectKills;
-            otherRole.CorrectAssassinKills = killsList.CorrectAssassinKills;
-            otherRole.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+            otherRole.Kills = Kills;
+            otherRole.CorrectKills = CorrectKills;
+            otherRole.IncorrectKills = IncorrectKills;
+            otherRole.CorrectAssassinKills = CorrectAssassinKills;
+            otherRole.IncorrectAssassinKills = IncorrectAssassinKills;
 
             if (amnesiac.Is(Faction.Impostors) && (!amnesiac.Is(RoleEnum.Traitor) || CustomGameOptions.SnitchSeesTraitor))
             {

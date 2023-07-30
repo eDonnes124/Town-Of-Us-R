@@ -96,7 +96,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 closestDistance = distance;
             }
 
-            KillButtonTarget.SetTarget(killButton, closestBody, role);
+            (role as ITargetsDeadBody).SetTarget(killButton, closestBody, role);
             killButton.SetCoolDown(0f, 1f);
         }
     }

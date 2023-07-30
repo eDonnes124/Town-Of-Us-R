@@ -142,7 +142,7 @@ namespace TownOfUs.Roles.Modifiers
 
                 Utils.Rpc(CustomRPC.Drag, PlayerControl.LocalPlayer.PlayerId, db.ParentId);
                 undertaker.CurrentlyDragging = db;
-                ImpostorRoles.UndertakerMod.KillButtonTarget.SetTarget(undertaker._dragDropButton, null, undertaker);
+                (undertaker as ITargetsDeadBody).SetTarget(undertaker._dragDropButton, null, undertaker);
                 undertaker._dragDropButton.graphic.sprite = TownOfUs.DropSprite;
 
             }

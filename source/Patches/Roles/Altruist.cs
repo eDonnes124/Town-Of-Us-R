@@ -1,9 +1,9 @@
 namespace TownOfUs.Roles
 {
-    public class Altruist : Role
+    public class Altruist : Role, ITargetsDeadBody
     {
         public bool CurrentlyReviving;
-        public DeadBody CurrentTarget;
+        public DeadBody CurrentTarget { get; set;}
 
         public bool ReviveUsed;
         

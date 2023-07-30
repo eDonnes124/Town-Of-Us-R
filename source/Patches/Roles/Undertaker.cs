@@ -2,7 +2,7 @@ using System;
 
 namespace TownOfUs.Roles
 {
-    public class Undertaker : Role
+    public class Undertaker : Role, ITargetsDeadBody
     {
         public KillButton _dragDropButton;
 
