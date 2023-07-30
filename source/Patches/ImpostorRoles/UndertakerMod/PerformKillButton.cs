@@ -1,9 +1,7 @@
 using System;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 using UnityEngine;
-using Reactor.Networking.Extensions;
 using AmongUs.GameOptions;
 
 namespace TownOfUs.ImpostorRoles.UndertakerMod
