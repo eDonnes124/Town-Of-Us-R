@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Reactor.Networking.Extensions;
 
 namespace TownOfUs.ImpostorRoles.MinerMod
 {
@@ -20,7 +18,7 @@ namespace TownOfUs.ImpostorRoles.MinerMod
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Miner>(PlayerControl.LocalPlayer);
-            if (__instance == role.MineButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;

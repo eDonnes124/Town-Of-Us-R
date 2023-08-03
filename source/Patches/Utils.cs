@@ -26,7 +26,6 @@ using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.CrewmateRoles.AurialMod;
 using Reactor.Networking;
 using Reactor.Networking.Extensions;
-using Unity.Services.Core.Telemetry.Internal;
 
 namespace TownOfUs
 {
@@ -370,18 +369,20 @@ namespace TownOfUs
                 abilityUsed = true;
                 fullCooldownReset = true;
             }
-            var reset = new List<bool>();
-            reset.Add(fullCooldownReset);
-            reset.Add(gaReset);
-            reset.Add(survReset);
-            reset.Add(zeroSecReset);
-            reset.Add(abilityUsed);
+            var reset = new List<bool>
+            {
+                fullCooldownReset,
+                gaReset,
+                survReset,
+                zeroSecReset,
+                abilityUsed
+            };
             return reset;
         }
 
         public static Il2CppSystem.Collections.Generic.List<PlayerControl> GetClosestPlayers(Vector2 truePosition, float radius, bool includeDead)
         {
-            Il2CppSystem.Collections.Generic.List<PlayerControl> playerControlList = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+            Il2CppSystem.Collections.Generic.List<PlayerControl> playerControlList = new();
             float lightRadius = radius * ShipStatus.Instance.MaxLightRadius;
             Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> allPlayers = GameData.Instance.AllPlayers;
             for (int index = 0; index < allPlayers.Count; ++index)
@@ -389,8 +390,8 @@ namespace TownOfUs
                 GameData.PlayerInfo playerInfo = allPlayers[index];
                 if (!playerInfo.Disconnected && (!playerInfo.Object.Data.IsDead || includeDead))
                 {
-                    Vector2 vector2 = new Vector2(playerInfo.Object.GetTruePosition().x - truePosition.x, playerInfo.Object.GetTruePosition().y - truePosition.y);
-                    float magnitude = ((Vector2)vector2).magnitude;
+                    Vector2 vector2 = new(playerInfo.Object.GetTruePosition().x - truePosition.x, playerInfo.Object.GetTruePosition().y - truePosition.y);
+                    float magnitude = vector2.magnitude;
                     if (magnitude <= lightRadius)
                     {
                         PlayerControl playerControl = playerInfo.Object;
@@ -1295,7 +1296,7 @@ namespace TownOfUs
             {
                 var escapist = Role.GetRole<Escapist>(PlayerControl.LocalPlayer);
                 escapist.LastEscape = DateTime.UtcNow;
-                escapist.EscapeButton.graphic.sprite = TownOfUs.MarkSprite;
+                escapist.RoleAbilityButton.graphic.sprite = TownOfUs.MarkSprite;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Blackmailer))
             {
@@ -1314,7 +1315,7 @@ namespace TownOfUs
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Bomber))
             {
                 var bomber = Role.GetRole<Bomber>(PlayerControl.LocalPlayer);
-                bomber.PlantButton.graphic.sprite = TownOfUs.PlantSprite;
+                bomber.RoleAbilityButton.graphic.sprite = TownOfUs.PlantSprite;
                 bomber.Bomb.ClearBomb();
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Grenadier))
@@ -1331,7 +1332,7 @@ namespace TownOfUs
             {
                 var morphling = Role.GetRole<Morphling>(PlayerControl.LocalPlayer);
                 morphling.LastMorphed = DateTime.UtcNow;
-                morphling.MorphButton.graphic.sprite = TownOfUs.SampleSprite;
+                morphling.RoleAbilityButton.graphic.sprite = TownOfUs.SampleSprite;
                 morphling.SampledPlayer = null;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Swooper))
@@ -1348,7 +1349,7 @@ namespace TownOfUs
             {
                 var undertaker = Role.GetRole<Undertaker>(PlayerControl.LocalPlayer);
                 undertaker.LastDragged = DateTime.UtcNow;
-                undertaker.DragDropButton.graphic.sprite = TownOfUs.DragSprite;
+                undertaker.RoleAbilityButton.graphic.sprite = TownOfUs.DragSprite;
                 undertaker.CurrentlyDragging = null;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Necromancer))

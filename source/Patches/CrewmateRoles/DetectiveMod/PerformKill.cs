@@ -20,7 +20,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
             if (!__instance.enabled) return false;
             var maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
 
-            if (__instance == role.ExamineButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 var flag2 = role.ExamineTimer() == 0f;
                 if (!flag2) return false;
@@ -57,7 +57,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                     PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
                 var playerId = role.CurrentTarget.ParentId;
                 var player = Utils.PlayerById(playerId);
-                if ((player.IsInfected() || role.Player.IsInfected()))
+                if (player.IsInfected() || role.Player.IsInfected())
                 {
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
                 }

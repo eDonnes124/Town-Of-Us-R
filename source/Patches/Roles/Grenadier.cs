@@ -5,18 +5,18 @@ using TownOfUs.Extensions;
 
 namespace TownOfUs.Roles
 {
-    public class Grenadier : Role
+    public class Grenadier : Role, IExtraButton
     {
-        public KillButton _flashButton;
+        public KillButton RoleAbilityButton { get; set; }
         public bool Enabled;
         public DateTime LastFlashed;
         public float TimeRemaining;
         public static Il2CppSystem.Collections.Generic.List<PlayerControl> closestPlayers = null;
 
-        static readonly Color normalVision = new Color(0.6f, 0.6f, 0.6f, 0f);
-        static readonly Color dimVision = new Color(0.6f, 0.6f, 0.6f, 0.2f);
-        static readonly Color blindVision = new Color(0.6f, 0.6f, 0.6f, 1f);
-        public Il2CppSystem.Collections.Generic.List<PlayerControl> flashedPlayers = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+        static readonly Color normalVision = new(0.6f, 0.6f, 0.6f, 0f);
+        static readonly Color dimVision = new(0.6f, 0.6f, 0.6f, 0.2f);
+        static readonly Color blindVision = new(0.6f, 0.6f, 0.6f, 1f);
+        public Il2CppSystem.Collections.Generic.List<PlayerControl> flashedPlayers = new();
 
         public Grenadier(PlayerControl player) : base(player)
         {
@@ -31,19 +31,6 @@ namespace TownOfUs.Roles
         }
 
         public bool Flashed => TimeRemaining > 0f;
-
-
-        public KillButton FlashButton
-        {
-            get => _flashButton;
-            set
-            {
-                _flashButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
-
         public float FlashTimer()
         {
             var utcNow = DateTime.UtcNow;
@@ -79,14 +66,14 @@ namespace TownOfUs.Roles
                         float fade = (TimeRemaining - CustomGameOptions.GrenadeDuration) * -2.0f;
                         if (ShouldPlayerBeBlinded(player))
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(normalVision, blindVision, fade);
                         }
                         else if (ShouldPlayerBeDimmed(player))
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(normalVision, dimVision, fade);
                             if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
                             {
@@ -95,23 +82,23 @@ namespace TownOfUs.Roles
                         }
                         else
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
-                            DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
+                            HudManager.Instance.FullScreen.color = normalVision;
                         }
                     }
                     else if (TimeRemaining <= (CustomGameOptions.GrenadeDuration - 0.5f) && TimeRemaining >= 0.5f && (!sabActive | dummyActive))
                     {
                         if (ShouldPlayerBeBlinded(player))
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = blindVision;
                         }
                         else if (ShouldPlayerBeDimmed(player))
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = dimVision;
                             if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
                             {
@@ -120,8 +107,8 @@ namespace TownOfUs.Roles
                         }
                         else
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         }
                     }
@@ -130,14 +117,14 @@ namespace TownOfUs.Roles
                         float fade2 = (TimeRemaining * -2.0f) + 1.0f;
                         if (ShouldPlayerBeBlinded(player))
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(blindVision, normalVision, fade2);
                         }
                         else if (ShouldPlayerBeDimmed(player))
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(dimVision, normalVision, fade2);
                             if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
                             {
@@ -146,15 +133,15 @@ namespace TownOfUs.Roles
                         }
                         else
                         {
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                            HudManager.Instance.FullScreen.enabled = true;
+                            HudManager.Instance.FullScreen.gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         }
                     }
                     else
                     {
-                        ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
-                        ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
+                        HudManager.Instance.FullScreen.enabled = true;
+                        HudManager.Instance.FullScreen.gameObject.active = true;
                         DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         TimeRemaining = 0.0f;
                     }
@@ -182,7 +169,7 @@ namespace TownOfUs.Roles
         {
             Enabled = false;
             LastFlashed = DateTime.UtcNow;
-            ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
+            HudManager.Instance.FullScreen.enabled = true;
             DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
             flashedPlayers.Clear();
         }

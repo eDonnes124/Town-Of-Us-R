@@ -16,7 +16,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Blackmailer>(PlayerControl.LocalPlayer);
             var target = role.ClosestPlayer;
-            if (__instance == role.BlackmailButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (!__instance.isActiveAndEnabled || role.ClosestPlayer == null) return false;
                 if (__instance.isCoolingDown) return false;
@@ -37,7 +37,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                     role.Blackmailed = target;
                     Utils.Rpc(CustomRPC.Blackmail, PlayerControl.LocalPlayer.PlayerId, target.PlayerId);
                 }
-                role.BlackmailButton.SetCoolDown(0.01f, 1f);
+                role.RoleAbilityButton.SetCoolDown(0.01f, 1f);
                 return false;
             }
             return true;

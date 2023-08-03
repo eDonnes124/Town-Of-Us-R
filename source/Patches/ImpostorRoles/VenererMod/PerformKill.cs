@@ -14,7 +14,7 @@ namespace TownOfUs.ImpostorRoles.VenererMod
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Venerer>(PlayerControl.LocalPlayer);
-            if (__instance == role.AbilityButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;

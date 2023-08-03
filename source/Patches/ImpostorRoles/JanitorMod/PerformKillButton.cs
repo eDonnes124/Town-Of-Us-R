@@ -18,7 +18,7 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Janitor>(PlayerControl.LocalPlayer);
 
-            if (__instance == role.CleanButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 var flag2 = __instance.isCoolingDown;
                 if (flag2) return false;

@@ -16,17 +16,8 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Janitor)) return;
 
             var role = Role.GetRole<Janitor>(PlayerControl.LocalPlayer);
-            if (role.CleanButton == null)
-            {
-                role.CleanButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.CleanButton.graphic.enabled = true;
-                role.CleanButton.gameObject.SetActive(false);
-            }
 
-            role.CleanButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-            role.CleanButton.graphic.sprite = TownOfUs.JanitorClean;
+            role.RoleAbilityButton.graphic.sprite = TownOfUs.JanitorClean;
 
 
             var data = PlayerControl.LocalPlayer.Data;
@@ -38,7 +29,7 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
                        PlayerControl.LocalPlayer.CanMove;
             var allocs = Physics2D.OverlapCircleAll(truePosition, maxDistance,
                 LayerMask.GetMask(new[] { "Players", "Ghost" }));
-            var killButton = role.CleanButton;
+            var killButton = role.RoleAbilityButton;
             DeadBody closestBody = null;
             var closestDistance = float.MaxValue;
 
@@ -56,7 +47,7 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
             }
 
             (role as ITargetsDeadBody).SetTarget(killButton, closestBody, role);
-            role.CleanButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer, GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
+            role.RoleAbilityButton.SetCoolDown(PlayerControl.LocalPlayer.killTimer, GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
         }
     }
 }

@@ -9,16 +9,16 @@ using TownOfUs.Patches;
 
 namespace TownOfUs.Roles
 {
-    public class Bomber : Role
+    public class Bomber : Role, IExtraButton
 
     {
-        public KillButton _plantButton;
+        public KillButton RoleAbilityButton { get; set; }
         public float TimeRemaining;
         public bool Enabled = false;
         public bool Detonated = true;
         public Vector3 DetonatePoint;
-        public Bomb Bomb = new Bomb();
-        public static Material bombMaterial = TownOfUs.bundledAssets.Get<Material>("bomb");
+        public Bomb Bomb = new();
+        public static readonly Material bombMaterial = TownOfUs.bundledAssets.Get<Material>("bomb");
         public DateTime StartingCooldown { get; set; }
 
         public Bomber(PlayerControl player) : base(player)
@@ -31,16 +31,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Bomber;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
-        }
-        public KillButton PlantButton
-        {
-            get => _plantButton;
-            set
-            {
-                _plantButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
         public float StartTimer()
         {
@@ -69,7 +59,7 @@ namespace TownOfUs.Roles
             Detonated = true;
             var playersToDie = Utils.GetClosestPlayers(DetonatePoint, CustomGameOptions.DetonateRadius, false);
             playersToDie = Shuffle(playersToDie);
-            while (playersToDie.Count > CustomGameOptions.MaxKillsInDetonation) playersToDie.Remove(playersToDie[playersToDie.Count - 1]);
+            while (playersToDie.Count > CustomGameOptions.MaxKillsInDetonation) playersToDie.Remove(playersToDie[^1]);
             foreach (var player in playersToDie)
             {
                 if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
@@ -91,9 +81,7 @@ namespace TownOfUs.Roles
             for (var i = 0; i < last; ++i)
             {
                 var r = UnityEngine.Random.Range(i, count);
-                var tmp = playersToDie[i];
-                playersToDie[i] = playersToDie[r];
-                playersToDie[r] = tmp;
+                (playersToDie[r], playersToDie[i]) = (playersToDie[i], playersToDie[r]);
             }
             return playersToDie;
         }

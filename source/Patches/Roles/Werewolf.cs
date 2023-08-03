@@ -6,9 +6,9 @@ using TownOfUs.Extensions;
 
 namespace TownOfUs.Roles
 {
-    public class Werewolf : Role
+    public class Werewolf : Role, IExtraButton
     {
-        private KillButton _rampageButton;
+        public KillButton RoleAbilityButton { get; set; }
         public bool Enabled;
         public bool WerewolfWins;
         public PlayerControl ClosestPlayer;
@@ -28,17 +28,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Werewolf;
             AddToRoleHistory(RoleType);
             Faction = Faction.NeutralKilling;
-        }
-
-        public KillButton RampageButton
-        {
-            get => _rampageButton;
-            set
-            {
-                _rampageButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         internal override bool NeutralWin(LogicGameFlowNormal __instance)

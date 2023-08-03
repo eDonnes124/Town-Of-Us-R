@@ -181,7 +181,7 @@ namespace TownOfUs.NeutralRoles.VampireMod
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
                 {
                     var detecRole = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
-                    detecRole.ExamineButton.gameObject.SetActive(false);
+                    detecRole.RoleAbilityButton.gameObject.SetActive(false);
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial))
@@ -209,20 +209,24 @@ namespace TownOfUs.NeutralRoles.VampireMod
 
             if (PlayerControl.LocalPlayer == newVamp)
             {
-                var role = new Vampire(PlayerControl.LocalPlayer);
-                role.CorrectKills = killsList.CorrectKills;
-                role.IncorrectKills = killsList.IncorrectKills;
-                role.CorrectAssassinKills = killsList.CorrectAssassinKills;
-                role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+                var role = new Vampire(PlayerControl.LocalPlayer)
+                {
+                    CorrectKills = killsList.CorrectKills,
+                    IncorrectKills = killsList.IncorrectKills,
+                    CorrectAssassinKills = killsList.CorrectAssassinKills,
+                    IncorrectAssassinKills = killsList.IncorrectAssassinKills
+                };
                 role.RegenTask();
             }
             else
             {
-                var role = new Vampire(newVamp);
-                role.CorrectKills = killsList.CorrectKills;
-                role.IncorrectKills = killsList.IncorrectKills;
-                role.CorrectAssassinKills = killsList.CorrectAssassinKills;
-                role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+                var role = new Vampire(newVamp)
+                {
+                    CorrectKills = killsList.CorrectKills,
+                    IncorrectKills = killsList.IncorrectKills,
+                    CorrectAssassinKills = killsList.CorrectAssassinKills,
+                    IncorrectAssassinKills = killsList.IncorrectAssassinKills
+                };
             }
 
             if (CustomGameOptions.NewVampCanAssassin) new Assassin(newVamp);

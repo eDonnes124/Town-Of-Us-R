@@ -8,7 +8,7 @@ namespace TownOfUs.ImpostorRoles.VenererMod
     public class Ability
     {
         [HarmonyPriority(Priority.Last)]
-        public static void Postfix(HudManager __instance)
+        public static void Postfix()
         {
             foreach (var role in Role.GetRoles(RoleEnum.Venerer))
             {

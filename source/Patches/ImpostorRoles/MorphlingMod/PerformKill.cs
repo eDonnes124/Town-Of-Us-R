@@ -20,15 +20,15 @@ namespace TownOfUs.ImpostorRoles.MorphlingMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Morphling>(PlayerControl.LocalPlayer);
             var target = role.ClosestPlayer;
-            if (__instance == role.MorphButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (!__instance.isActiveAndEnabled) return false;
-                if (role.MorphButton.graphic.sprite == SampleSprite)
+                if (role.RoleAbilityButton.graphic.sprite == SampleSprite)
                 {
                     if (target == null) return false;
                     role.SampledPlayer = target;
-                    role.MorphButton.graphic.sprite = MorphSprite;
-                    role.MorphButton.SetTarget(null);
+                    role.RoleAbilityButton.graphic.sprite = MorphSprite;
+                    role.RoleAbilityButton.SetTarget(null);
                     DestroyableSingleton<HudManager>.Instance.KillButton.SetTarget(null);
                     if (role.MorphTimer() < 5f)
                         role.LastMorphed = DateTime.UtcNow.AddSeconds(5 - CustomGameOptions.MorphlingCd);

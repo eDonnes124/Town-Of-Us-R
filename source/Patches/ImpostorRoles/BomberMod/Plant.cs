@@ -19,21 +19,21 @@ namespace TownOfUs.ImpostorRoles.BomberMod
             var role = Role.GetRole<Bomber>(PlayerControl.LocalPlayer);
             if (role.StartTimer() > 0) return false;
 
-            if (__instance == role.PlantButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 var flag2 = __instance.isCoolingDown;
                 if (flag2) return false;
                 if (role.Player.inVent) return false;
                 if (!__instance.isActiveAndEnabled) return false;
-                if (role.PlantButton.graphic.sprite == PlantSprite)
+                if (role.RoleAbilityButton.graphic.sprite == PlantSprite)
                 {
                     role.Detonated = false;
                     var pos = PlayerControl.LocalPlayer.transform.position;
                     pos.z += 0.001f;
                     role.DetonatePoint = pos;
-                    role.PlantButton.graphic.sprite = DetonateSprite;
+                    role.RoleAbilityButton.graphic.sprite = DetonateSprite;
                     role.TimeRemaining = CustomGameOptions.DetonateDelay;
-                    role.PlantButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
+                    role.RoleAbilityButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.DetonateDelay);
                     if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
                     {
                         var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus + CustomGameOptions.DetonateDelay;

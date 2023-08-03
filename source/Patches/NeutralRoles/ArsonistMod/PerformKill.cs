@@ -18,7 +18,7 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
             var role = Role.GetRole<Arsonist>(PlayerControl.LocalPlayer);
             if (!__instance.isActiveAndEnabled || __instance.isCoolingDown) return false;
 
-            if (__instance == role.IgniteButton && role.DousedAlive > 0)
+            if (__instance == role.RoleAbilityButton && role.DousedAlive > 0)
             {
                 if (role.DouseTimer() == 0 || (role.LastKiller && CustomGameOptions.IgniteCdRemoved))
                 {

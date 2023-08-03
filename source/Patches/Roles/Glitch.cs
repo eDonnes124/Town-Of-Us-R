@@ -215,7 +215,7 @@ namespace TownOfUs.Roles
 
         public static class AbilityCoroutine
         {
-            public static Dictionary<byte, DateTime> tickDictionary = new Dictionary<byte, DateTime>();
+            public static Dictionary<byte, DateTime> tickDictionary = new();
 
             public static IEnumerator Hack(Glitch __instance, PlayerControl hackPlayer)
             {
@@ -278,7 +278,7 @@ namespace TownOfUs.Roles
                             }
                             else
                             {
-                                lockImg[1].transform.position = 
+                                lockImg[1].transform.position =
                                     new Vector3(HudManager.Instance.PetButton.transform.position.x,
                                     HudManager.Instance.PetButton.transform.position.y, -50f);
                                 lockImg[1].layer = 5;
@@ -306,24 +306,23 @@ namespace TownOfUs.Roles
                         }
 
                         var role = GetRole(PlayerControl.LocalPlayer);
-                        if (role != null)
-                            if (role.ExtraButtons.Count > 0)
+                        if (role != null && role is IExtraButton hasbutton)
+                        {
+                            if (lockImg[3] == null)
                             {
-                                if (lockImg[3] == null)
-                                {
-                                    lockImg[3] = new GameObject();
-                                    var lockImgR = lockImg[3].AddComponent<SpriteRenderer>();
-                                    lockImgR.sprite = LockSprite;
-                                }
-
-                                lockImg[3].transform.position = new Vector3(
-                                    role.ExtraButtons[0].transform.position.x,
-                                    role.ExtraButtons[0].transform.position.y, -50f);
-                                lockImg[3].layer = 5;
-                                role.ExtraButtons[0].enabled = false;
-                                role.ExtraButtons[0].graphic.color = Palette.DisabledClear;
-                                role.ExtraButtons[0].graphic.material.SetFloat("_Desat", 1f);
+                                lockImg[3] = new GameObject();
+                                var lockImgR = lockImg[3].AddComponent<SpriteRenderer>();
+                                lockImgR.sprite = LockSprite;
                             }
+
+                            lockImg[3].transform.position = new Vector3(
+                                hasbutton.RoleAbilityButton.transform.position.x,
+                                hasbutton.RoleAbilityButton.transform.position.y, -50f);
+                            lockImg[3].layer = 5;
+                            hasbutton.RoleAbilityButton.enabled = false;
+                            hasbutton.RoleAbilityButton.graphic.color = Palette.DisabledClear;
+                            hasbutton.RoleAbilityButton.graphic.material.SetFloat("_Desat", 1f);
+                        }
 
                         if (Minigame.Instance)
                         {
@@ -346,8 +345,7 @@ namespace TownOfUs.Roles
                         hackPlayer.Data.IsDead)
                     {
                         foreach (var obj in lockImg)
-                            if (obj != null)
-                                obj.SetActive(false);
+                            obj?.SetActive(false);
 
                         if (PlayerControl.LocalPlayer == hackPlayer)
                         {
@@ -366,13 +364,12 @@ namespace TownOfUs.Roles
                             HudManager.Instance.ReportButton.enabled = true;
                             HudManager.Instance.KillButton.enabled = true;
                             var role = GetRole(PlayerControl.LocalPlayer);
-                            if (role != null)
-                                if (role.ExtraButtons.Count > 0)
-                                {
-                                    role.ExtraButtons[0].enabled = true;
-                                    role.ExtraButtons[0].graphic.color = Palette.EnabledColor;
-                                    role.ExtraButtons[0].graphic.material.SetFloat("_Desat", 0f);
-                                }
+                            if (role != null && role is IExtraButton hasbutton)
+                            {
+                                hasbutton.RoleAbilityButton.enabled = true;
+                                hasbutton.RoleAbilityButton.graphic.color = Palette.EnabledColor;
+                                hasbutton.RoleAbilityButton.graphic.material.SetFloat("_Desat", 0f);
+                            }
                         }
 
                         tickDictionary.Remove(hackPlayer.PlayerId);
@@ -523,7 +520,7 @@ namespace TownOfUs.Roles
                         __gInstance.HackButton,
                         GameOptionsData.KillDistances[CustomGameOptions.GlitchHackDistance]
                     );
-                    __gInstance.HackTarget = closestPlayer; 
+                    __gInstance.HackTarget = closestPlayer;
                 }
 
                 if (__gInstance.HackTarget != null)
@@ -549,7 +546,7 @@ namespace TownOfUs.Roles
                     else if (interact[1] == true)
                     {
                         __gInstance.LastHack = DateTime.UtcNow;
-                        __gInstance.LastHack.AddSeconds(CustomGameOptions.ProtectKCReset  - CustomGameOptions.HackCooldown);
+                        __gInstance.LastHack.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.HackCooldown);
                         return;
                     }
                     else if (interact[3] == true) return;

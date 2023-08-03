@@ -34,10 +34,10 @@ namespace TownOfUs.Roles.Modifiers
                 {
                 }
             }
-            Coroutines.Start(delay(player, corpse, db));
+            Coroutines.Start(Delay(player, corpse, db));
         }
 
-        private static IEnumerator delay(PlayerControl player, PlayerControl corpse, DeadBody db)
+        private static IEnumerator Delay(PlayerControl player, PlayerControl corpse, DeadBody db)
         {
             yield return new WaitForSecondsRealtime(0.2f);
             var role = Role.GetRole(player);
@@ -98,7 +98,7 @@ namespace TownOfUs.Roles.Modifiers
                 {
                     Utils.Rpc(CustomRPC.Morph, PlayerControl.LocalPlayer.PlayerId, corpse.PlayerId);
                     morphling.TimeRemaining = CustomGameOptions.MorphlingDuration;
-                    if (morphling.SampledPlayer == null) morphling._morphButton.graphic.sprite = TownOfUs.MorphSprite;
+                    if (morphling.SampledPlayer == null) morphling.RoleAbilityButton.graphic.sprite = TownOfUs.MorphSprite;
                     morphling.SampledPlayer = corpse;
                     morphling.MorphedPlayer = corpse;
                     Utils.Morph(morphling.Player, corpse, true);
@@ -142,8 +142,8 @@ namespace TownOfUs.Roles.Modifiers
 
                 Utils.Rpc(CustomRPC.Drag, PlayerControl.LocalPlayer.PlayerId, db.ParentId);
                 undertaker.CurrentlyDragging = db;
-                (undertaker as ITargetsDeadBody).SetTarget(undertaker._dragDropButton, null, undertaker);
-                undertaker._dragDropButton.graphic.sprite = TownOfUs.DropSprite;
+                (undertaker as ITargetsDeadBody).SetTarget(undertaker.RoleAbilityButton, null, undertaker);
+                undertaker.RoleAbilityButton.graphic.sprite = TownOfUs.DropSprite;
 
             }
             else if (role is Venerer venerer)
@@ -162,9 +162,9 @@ namespace TownOfUs.Roles.Modifiers
                 var pos = PlayerControl.LocalPlayer.transform.position;
                 pos.z += 0.001f;
                 bomber.DetonatePoint = pos;
-                bomber.PlantButton.graphic.sprite = TownOfUs.DetonateSprite;
+                bomber.RoleAbilityButton.graphic.sprite = TownOfUs.DetonateSprite;
                 bomber.TimeRemaining = CustomGameOptions.DetonateDelay;
-                bomber.PlantButton.SetCoolDown(bomber.TimeRemaining, CustomGameOptions.DetonateDelay);
+                bomber.RoleAbilityButton.SetCoolDown(bomber.TimeRemaining, CustomGameOptions.DetonateDelay);
                 if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
                 {
                     var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus + CustomGameOptions.DetonateDelay;

@@ -23,13 +23,13 @@ namespace TownOfUs.CultistRoles.NecromancerMod
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Necromancer>(PlayerControl.LocalPlayer);
-            if (__instance == role.ReviveButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.ReviveTimer() != 0) return false;
 
-                var flag2 = role.ReviveButton.isCoolingDown;
+                var flag2 = role.RoleAbilityButton.isCoolingDown;
                 if (flag2) return false;
                 if (!__instance.enabled) return false;
                 var maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
@@ -67,7 +67,7 @@ namespace TownOfUs.CultistRoles.NecromancerMod
 
             if (target != null)
             {
-                foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                foreach (DeadBody deadBody in Object.FindObjectsOfType<DeadBody>())
                 {
                     if (deadBody.ParentId == target.ParentId) deadBody.gameObject.Destroy();
                 }

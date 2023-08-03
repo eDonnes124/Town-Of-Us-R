@@ -6,7 +6,7 @@ namespace TownOfUs.ImpostorRoles.MorphlingMod
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class MorphUnmorph
     {
-        public static void Postfix(HudManager __instance)
+        public static void Postfix()
         {
             foreach (var role in Role.GetRoles(RoleEnum.Morphling))
             {

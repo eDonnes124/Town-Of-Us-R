@@ -25,30 +25,18 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
 
             var role = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
 
-            if (role.ExamineButton == null)
-            {
-                role.ExamineButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.ExamineButton.graphic.enabled = true;
-                role.ExamineButton.gameObject.SetActive(false);
-            }
-
-            role.ExamineButton.graphic.sprite = ExamineSprite;
-            role.ExamineButton.transform.localPosition = new Vector3(-2f, 0f, 0f);
+            role.RoleAbilityButton.graphic.sprite = ExamineSprite;
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            role.ExamineButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-
             if (role.ExamineMode)
             {
-                role.ExamineButton.SetCoolDown(role.ExamineTimer(), CustomGameOptions.ExamineCd);
-                Utils.SetTarget(ref role.ClosestPlayer, role.ExamineButton, float.NaN);
+                role.RoleAbilityButton.SetCoolDown(role.ExamineTimer(), CustomGameOptions.ExamineCd);
+                Utils.SetTarget(ref role.ClosestPlayer, role.RoleAbilityButton);
 
-                var renderer = role.ExamineButton.graphic;
+                var renderer = role.RoleAbilityButton.graphic;
                 if (role.ClosestPlayer != null)
                 {
                     renderer.color = Palette.EnabledColor;
@@ -62,8 +50,8 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
             }
             else
             {
-                role.ExamineButton.SetCoolDown(0f, 1f);
-                var renderer = role.ExamineButton.graphic;
+                role.RoleAbilityButton.SetCoolDown(0f, 1f);
+                var renderer = role.RoleAbilityButton.graphic;
                 renderer.color = Palette.DisabledClear;
                 renderer.material.SetFloat("_Desat", 1f);
             }

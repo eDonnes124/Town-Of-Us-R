@@ -13,7 +13,7 @@ namespace TownOfUs.Modifiers.ButtonBarryMod
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch)) return true;
 
             var role = Modifier.GetModifier<ButtonBarry>(PlayerControl.LocalPlayer);
-            if (__instance != role.ButtonButton) return true;
+            if (__instance != role.RoleAbilityButton) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (role.ButtonUsed) return false;

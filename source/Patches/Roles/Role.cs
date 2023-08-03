@@ -18,14 +18,12 @@ namespace TownOfUs.Roles
 {
     public abstract class Role
     {
-        public static readonly Dictionary<byte, Role> RoleDictionary = new Dictionary<byte, Role>();
-        public static readonly List<KeyValuePair<byte, RoleEnum>> RoleHistory = new List<KeyValuePair<byte, RoleEnum>>();
+        public static readonly Dictionary<byte, Role> RoleDictionary = new();
+        public static readonly List<KeyValuePair<byte, RoleEnum>> RoleHistory = new();
 
         public static bool NobodyWins;
         public static bool SurvOnlyWins;
         public static bool VampireWins;
-
-        public List<KillButton> ExtraButtons = new List<KillButton>();
 
         public Func<string> ImpostorText;
         public Func<string> TaskText;
@@ -34,8 +32,6 @@ namespace TownOfUs.Roles
         {
             Player = player;
             RoleDictionary.Add(player.PlayerId, this);
-            //TotalTasks = player.Data.Tasks.Count;
-            //TasksLeft = TotalTasks;
         }
 
         public static IEnumerable<Role> AllRoles => RoleDictionary.Values.ToList();
@@ -801,7 +797,7 @@ namespace TownOfUs.Roles
             }
 
             [HarmonyPriority(Priority.First)]
-            private static void Postfix(HudManager __instance)
+            private static void Postfix()
             {
                 if (MeetingHud.Instance != null) UpdateMeeting(MeetingHud.Instance);
 
@@ -843,6 +839,9 @@ namespace TownOfUs.Roles
 
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;
                 }
+
+                if (GetRole(PlayerControl.LocalPlayer) is IExtraButton localrole) localrole.SetupAndActive(localrole);
+                if (Modifier.GetModifier(PlayerControl.LocalPlayer) is IExtraButton localmod) localmod.SetupAndActive(localmod);
             }
         }
     }

@@ -18,13 +18,13 @@ namespace TownOfUs.CultistRoles.WhispererMod
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Whisperer>(PlayerControl.LocalPlayer);
-            if (__instance == role.WhisperButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;
                 if (role.WhisperTimer() != 0) return false;
 
-                var flag2 = role.WhisperButton.isCoolingDown;
+                var flag2 = role.RoleAbilityButton.isCoolingDown;
                 if (flag2) return false;
                 if (!__instance.enabled) return false;
                 Vector2 truePosition = role.Player.GetTruePosition();

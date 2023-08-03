@@ -17,33 +17,24 @@ namespace TownOfUs.ImpostorRoles.MinerMod
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Miner)) return;
             var role = Role.GetRole<Miner>(PlayerControl.LocalPlayer);
-            if (role.MineButton == null)
-            {
-                role.MineButton = Object.Instantiate(__instance.KillButton, __instance.KillButton.transform.parent);
-                role.MineButton.graphic.enabled = true;
-                role.MineButton.gameObject.SetActive(false);
-            }
 
-            role.MineButton.graphic.sprite = MineSprite;
-            role.MineButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+            role.RoleAbilityButton.graphic.sprite = MineSprite;
 
-            role.MineButton.SetCoolDown(role.MineTimer(), CustomGameOptions.MineCd);
+            role.RoleAbilityButton.SetCoolDown(role.MineTimer(), CustomGameOptions.MineCd);
             var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, role.VentSize, 0);
             hits = hits.ToArray().Where(c =>
                     (c.name.Contains("Vent") || !c.isTrigger) && c.gameObject.layer != 8 && c.gameObject.layer != 5)
                 .ToArray();
             if (hits.Count == 0 && PlayerControl.LocalPlayer.moveable == true)
             {
-                role.MineButton.graphic.color = Palette.EnabledColor;
-                role.MineButton.graphic.material.SetFloat("_Desat", 0f);
+                role.RoleAbilityButton.graphic.color = Palette.EnabledColor;
+                role.RoleAbilityButton.graphic.material.SetFloat("_Desat", 0f);
                 role.CanPlace = true;
             }
             else
             {
-                role.MineButton.graphic.color = Palette.DisabledClear;
-                role.MineButton.graphic.material.SetFloat("_Desat", 1f);
+                role.RoleAbilityButton.graphic.color = Palette.DisabledClear;
+                role.RoleAbilityButton.graphic.material.SetFloat("_Desat", 1f);
                 role.CanPlace = false;
             }
         }

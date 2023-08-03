@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace TownOfUs.Roles
 {
-    public class Venerer : Role
+    public class Venerer : Role, IExtraButton
     {
-        public KillButton _abilityButton;
+        public KillButton RoleAbilityButton { get; set; }
         public bool Enabled;
         public DateTime LastCamouflaged;
         public float TimeRemaining;
@@ -25,17 +25,6 @@ namespace TownOfUs.Roles
         }
 
         public bool IsCamouflaged => TimeRemaining > 0f;
-
-        public KillButton AbilityButton
-        {
-            get => _abilityButton;
-            set
-            {
-                _abilityButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
 
         public float AbilityTimer()
         {
@@ -56,7 +45,7 @@ namespace TownOfUs.Roles
                 TimeRemaining = 0f;
             }
 
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !Role.GetRole<Aurial>(PlayerControl.LocalPlayer).NormalVision) return;
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !GetRole<Aurial>(PlayerControl.LocalPlayer).NormalVision) return;
             if (Player.GetCustomOutfitType() != CustomPlayerOutfitType.Camouflage)
             {
                 Player.SetOutfit(CustomPlayerOutfitType.Camouflage, new GameData.PlayerOutfit()

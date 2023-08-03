@@ -17,7 +17,7 @@ namespace TownOfUs.NeutralRoles.WerewolfMod
             var role = Role.GetRole<Werewolf>(PlayerControl.LocalPlayer);
             if (role.Player.inVent) return false;
 
-            if (__instance == role.RampageButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (role.RampageTimer() != 0) return false;
                 if (!__instance.isActiveAndEnabled || __instance.isCoolingDown) return false;

@@ -98,7 +98,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
         [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
         public class StopChatting
         {
-            public static bool Prefix(TextBoxTMP __instance)
+            public static bool Prefix()
             {
                 var blackmailers = Role.AllRoles.Where(x => x.RoleType == RoleEnum.Blackmailer && x.Player != null).Cast<Blackmailer>();
                 foreach (var role in blackmailers)

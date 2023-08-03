@@ -15,7 +15,6 @@ namespace TownOfUs.ImpostorRoles.BomberMod
         public static void ClearBomb(this Bomb b)
         {
             Object.Destroy(b.transform.gameObject);
-            b = null;
         }
 
         public static Bomb CreateBomb(this Vector3 location)
@@ -27,8 +26,10 @@ namespace TownOfUs.ImpostorRoles.BomberMod
             GameObject.Destroy(BombPref.GetComponent<SphereCollider>());
             BombPref.GetComponent<MeshRenderer>().material = Roles.Bomber.bombMaterial;
             BombPref.transform.position = location;
-            var BombScript = new Bomb();
-            BombScript.transform = BombPref.transform;
+            var BombScript = new Bomb
+            {
+                transform = BombPref.transform
+            };
             return BombScript;
         }
     }

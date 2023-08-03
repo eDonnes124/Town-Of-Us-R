@@ -14,7 +14,7 @@ namespace TownOfUs.ImpostorRoles.SwooperMod
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Swooper>(PlayerControl.LocalPlayer);
-            if (__instance == role.SwoopButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (__instance.isCoolingDown) return false;
                 if (!__instance.isActiveAndEnabled) return false;

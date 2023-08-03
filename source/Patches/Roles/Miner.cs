@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace TownOfUs.Roles
 {
-    public class Miner : Role
+    public class Miner : Role, IExtraButton
     {
-        public readonly List<Vent> Vents = new List<Vent>();
+        public readonly List<Vent> Vents = new();
 
-        public KillButton _mineButton;
+        public KillButton RoleAbilityButton { get; set; }
         public DateTime LastMined;
 
 
@@ -26,17 +26,6 @@ namespace TownOfUs.Roles
 
         public bool CanPlace { get; set; }
         public Vector2 VentSize { get; set; }
-
-        public KillButton MineButton
-        {
-            get => _mineButton;
-            set
-            {
-                _mineButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
 
         public float MineTimer()
         {

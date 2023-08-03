@@ -2,9 +2,9 @@ using System;
 
 namespace TownOfUs.Roles
 {
-    public class Undertaker : Role, ITargetsDeadBody
+    public class Undertaker : Role, ITargetsDeadBody, IExtraButton
     {
-        public KillButton _dragDropButton;
+        public KillButton RoleAbilityButton { get; set; }
 
         public Undertaker(PlayerControl player) : base(player)
         {
@@ -21,17 +21,6 @@ namespace TownOfUs.Roles
         public DateTime LastDragged { get; set; }
         public DeadBody CurrentTarget { get; set; }
         public DeadBody CurrentlyDragging { get; set; }
-
-        public KillButton DragDropButton
-        {
-            get => _dragDropButton;
-            set
-            {
-                _dragDropButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
 
         public float DragTimer()
         {

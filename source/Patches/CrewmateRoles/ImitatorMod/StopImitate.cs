@@ -93,7 +93,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                     {
                         var detecRole = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
                         detecRole.ClosestPlayer = null;
-                        detecRole.ExamineButton.gameObject.SetActive(false);
+                        detecRole.RoleAbilityButton.gameObject.SetActive(false);
                     }
 
                     if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial))

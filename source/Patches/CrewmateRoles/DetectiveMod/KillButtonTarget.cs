@@ -12,7 +12,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
             else
             {
                 var detective = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
-                if (__instance == detective.ExamineButton) return true;
+                if (__instance == detective.RoleAbilityButton) return true;
                 else return false;
             }
         }

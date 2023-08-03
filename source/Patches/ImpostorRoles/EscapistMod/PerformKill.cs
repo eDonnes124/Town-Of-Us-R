@@ -1,9 +1,7 @@
 ﻿using System;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 using UnityEngine;
-using Reactor.Networking.Extensions;
 
 namespace TownOfUs.ImpostorRoles.EscapistMod
 {
@@ -20,14 +18,14 @@ namespace TownOfUs.ImpostorRoles.EscapistMod
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             var role = Role.GetRole<Escapist>(PlayerControl.LocalPlayer);
-            if (__instance == role.EscapeButton)
+            if (__instance == role.RoleAbilityButton)
             {
                 if (role.Player.inVent) return false;
                 if (!__instance.isActiveAndEnabled) return false;
-                if (role.EscapeButton.graphic.sprite == MarkSprite)
+                if (role.RoleAbilityButton.graphic.sprite == MarkSprite)
                 {
                     role.EscapePoint = PlayerControl.LocalPlayer.transform.position;
-                    role.EscapeButton.graphic.sprite = EscapeSprite;
+                    role.RoleAbilityButton.graphic.sprite = EscapeSprite;
                     DestroyableSingleton<HudManager>.Instance.KillButton.SetTarget(null);
                     if (role.EscapeTimer() < 5f)
                         role.LastEscape = DateTime.UtcNow.AddSeconds(5 - CustomGameOptions.EscapeCd);

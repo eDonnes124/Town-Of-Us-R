@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace TownOfUs.Roles
 {
-    public class Escapist : Role
+    public class Escapist : Role, IExtraButton
     {
-        public KillButton _escapeButton;
+        public KillButton RoleAbilityButton { get; set; }
         public DateTime LastEscape;
         public Vector3 EscapePoint = new();
 
@@ -22,17 +22,6 @@ namespace TownOfUs.Roles
             Faction = Faction.Impostors;
         }
 
-        public KillButton EscapeButton
-        {
-            get => _escapeButton;
-            set
-            {
-                _escapeButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
-
         public float EscapeTimer()
         {
             var utcNow = DateTime.UtcNow;
@@ -45,7 +34,7 @@ namespace TownOfUs.Roles
         public static void Escape(PlayerControl escapist)
         {
             escapist.MyPhysics.ResetMoveState();
-            var escapistRole = Role.GetRole<Escapist>(escapist);
+            var escapistRole = GetRole<Escapist>(escapist);
             if (escapistRole.EscapePoint == Vector3.zero) return;
             var position = escapistRole.EscapePoint;
             escapist.NetTransform.SnapTo(new Vector2(position.x, position.y));

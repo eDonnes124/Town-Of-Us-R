@@ -8,13 +8,13 @@ using TownOfUs.Patches;
 
 namespace TownOfUs.Roles
 {
-    public class Arsonist : Role
+    public class Arsonist : Role, IExtraButton
     {
-        private KillButton _igniteButton;
+        public KillButton RoleAbilityButton { get; set; }
         public bool ArsonistWins;
         public PlayerControl ClosestPlayerDouse;
         public PlayerControl ClosestPlayerIgnite;
-        public List<byte> DousedPlayers = new List<byte>();
+        public List<byte> DousedPlayers = new();
         public DateTime LastDoused;
         public bool LastKiller = false;
 
@@ -31,17 +31,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Arsonist;
             AddToRoleHistory(RoleType);
             Faction = Faction.NeutralKilling;
-        }
-
-        public KillButton IgniteButton
-        {
-            get => _igniteButton;
-            set
-            {
-                _igniteButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         internal override bool NeutralWin(LogicGameFlowNormal __instance)

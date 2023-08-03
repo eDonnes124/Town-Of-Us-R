@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace TownOfUs.Roles.Cultist
 {
-    public class Whisperer : Role
+    public class Whisperer : Role, IExtraButton
     {
 
-        public KillButton _whisperButton;
+        public KillButton RoleAbilityButton { get; set; }
         public DateTime LastWhispered;
         public int WhisperCount;
         public int ConversionCount;
@@ -25,17 +25,6 @@ namespace TownOfUs.Roles.Cultist
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;
             WhisperConversion = CustomGameOptions.ConversionPercentage;
-        }
-
-        public KillButton WhisperButton
-        {
-            get => _whisperButton;
-            set
-            {
-                _whisperButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
         }
 
         public float WhisperTimer()

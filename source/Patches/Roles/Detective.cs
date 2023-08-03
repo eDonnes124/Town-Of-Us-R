@@ -2,9 +2,9 @@ using System;
 
 namespace TownOfUs.Roles
 {
-    public class Detective : Role, ITargetsDeadBody
+    public class Detective : Role, ITargetsDeadBody, IExtraButton
     {
-        private KillButton _examineButton;
+        public KillButton RoleAbilityButton { get; set; }
         public PlayerControl ClosestPlayer;
         public DateTime LastExamined { get; set; }
         public DeadBody CurrentTarget { get; set; }
@@ -21,18 +21,6 @@ namespace TownOfUs.Roles
             RoleType = RoleEnum.Detective;
             AddToRoleHistory(RoleType);
         }
-
-        public KillButton ExamineButton
-        {
-            get => _examineButton;
-            set
-            {
-                _examineButton = value;
-                ExtraButtons.Clear();
-                ExtraButtons.Add(value);
-            }
-        }
-
         public float ExamineTimer()
         {
             var utcNow = DateTime.UtcNow;
