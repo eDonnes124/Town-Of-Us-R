@@ -16,7 +16,10 @@ namespace TownOfUs.Roles
                 role.RoleAbilityButton.gameObject.SetActive(false);
             }
 
-            if (((Role)role).Faction == Faction.NeutralKilling) role.RoleAbilityButton.transform.localPosition = new(-2f, 0f, 0f);
+            if (((Role)role).Faction == Faction.NeutralKilling || ((Role)role).RoleType == RoleEnum.Detective)
+            {
+                role.RoleAbilityButton.transform.localPosition = new(-2f, 0f, 0f);
+            }
 
             role.RoleAbilityButton.gameObject.SetActive((HudManager.Instance?.UseButton.isActiveAndEnabled == true || 
                                                          HudManager.Instance?.PetButton.isActiveAndEnabled == true)
