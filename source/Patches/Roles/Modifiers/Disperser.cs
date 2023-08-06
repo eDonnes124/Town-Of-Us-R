@@ -119,7 +119,6 @@ namespace TownOfUs.Roles.Modifiers
                 role.RoleAbilityButton.GetComponentsInChildren<TextMeshPro>()[0].text = string.Empty;
                 role.RoleAbilityButton.graphic.enabled = true;
             }
-            role.RoleAbilityButton.graphic.sprite = TownOfUs.ButtonSprite;
 
             role.RoleAbilityButton.gameObject.SetActive((HudManager.Instance.UseButton.isActiveAndEnabled || HudManager.Instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
