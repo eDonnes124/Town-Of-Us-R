@@ -37,6 +37,5 @@ namespace TownOfUs.Patches
             __instance.HostIcon.gameObject.SetActive(true);
             __instance.ProceedButton.gameObject.SetActive(true);
         }
-
     }
 }
