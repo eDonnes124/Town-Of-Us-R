@@ -24,35 +24,23 @@ namespace TownOfUs.Modifiers.DisperserMod
 
             var role = Modifier.GetModifier<Disperser>(PlayerControl.LocalPlayer);
 
-            if (role.DisperseButton == null)
-            {
-                role.DisperseButton = Object.Instantiate(__instance.KillButton, __instance.transform.parent);
-                role.DisperseButton.GetComponentsInChildren<TextMeshPro>()[0].text = "";
-                role.DisperseButton.graphic.enabled = true;
-                role.DisperseButton.graphic.sprite = DisperseButton;
-            }
+            role.RoleAbilityButton.graphic.sprite = DisperseButton;
 
-            role.DisperseButton.graphic.sprite = DisperseButton;
-
-            role.DisperseButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
-                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
-
-            role.DisperseButton.SetCoolDown(role.StartTimer(), 10f);
-            var renderer = role.DisperseButton.graphic;
+            role.RoleAbilityButton.SetCoolDown(role.StartTimer(), 10f);
+            var renderer = role.RoleAbilityButton.graphic;
 
 
             if (__instance.UseButton != null)
             {
                 var position1 = __instance.UseButton.transform.position;
-                role.DisperseButton.transform.position = new Vector3(
+                role.RoleAbilityButton.transform.position = new Vector3(
                     Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).x + 0.75f, position1.y,
                     position1.z);
             }
             else
             {
                 var position1 = __instance.PetButton.transform.position;
-                role.DisperseButton.transform.position = new Vector3(
+                role.RoleAbilityButton.transform.position = new Vector3(
                     Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).x + 0.75f, position1.y,
                     position1.z);
             }

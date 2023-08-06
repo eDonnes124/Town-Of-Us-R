@@ -11,7 +11,7 @@ namespace TownOfUs.Modifiers.DisperserMod
             if (!PlayerControl.LocalPlayer.Is(ModifierEnum.Disperser)) return true;
 
             var role = Modifier.GetModifier<Disperser>(PlayerControl.LocalPlayer);
-            if (__instance != role.DisperseButton) return true;
+            if (__instance != role.RoleAbilityButton) return true;
             if (!PlayerControl.LocalPlayer.CanMove) return false;
             if (PlayerControl.LocalPlayer.Data.IsDead) return false;
             if (role.ButtonUsed) return false;

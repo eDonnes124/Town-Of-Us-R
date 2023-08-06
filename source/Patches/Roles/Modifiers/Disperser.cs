@@ -7,12 +7,13 @@ using Reactor.Utilities.Extensions;
 using Object = UnityEngine.Object;
 using Reactor.Networking.Extensions;
 using System;
+using TMPro;
 
 namespace TownOfUs.Roles.Modifiers
 {
-    public class Disperser : Modifier
+    public class Disperser : Modifier, IExtraButton
     {
-        public KillButton DisperseButton;
+        public KillButton RoleAbilityButton { get; set; }
 
         public bool ButtonUsed;
         public DateTime StartingCooldown { get; set; }
@@ -108,6 +109,21 @@ namespace TownOfUs.Roles.Modifiers
             Vector3 destination = vent.transform.position;
             destination.y += 0.3636f;
             return destination;
+        }
+
+        void IExtraButton.SetupAndActive(IExtraButton role)
+        {
+            if (role.RoleAbilityButton == null)
+            {
+                role.RoleAbilityButton = Object.Instantiate(HudManager.Instance.KillButton, HudManager.Instance.transform.parent);
+                role.RoleAbilityButton.GetComponentsInChildren<TextMeshPro>()[0].text = string.Empty;
+                role.RoleAbilityButton.graphic.enabled = true;
+            }
+            role.RoleAbilityButton.graphic.sprite = TownOfUs.ButtonSprite;
+
+            role.RoleAbilityButton.gameObject.SetActive((HudManager.Instance.UseButton.isActiveAndEnabled || HudManager.Instance.PetButton.isActiveAndEnabled)
+                    && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
+                    && GameManager.Instance.GameHasStarted);
         }
     }
 }
