@@ -109,6 +109,7 @@ namespace TownOfUs
                 }
             }
             while (roles.Count > numRoles) roles.RemoveAt(roles.Count - 1);
+            roles.Shuffle();
         }
 
         private static void SortModifiers(List<(Type, int)> roles, int max)
