@@ -5,18 +5,22 @@ using TownOfUs.Patches;
 using UnityEngine;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
+using System;
+using TownOfUs.Extensions;
+using TownOfUs.Roles.Modifiers;
+using TownOfUs.CrewmateRoles.VigilanteMod;
 
 namespace TownOfUs.Roles
 {
-    public class Vigilante : Role
+    public class Vigilante : Role, IRoleGuesser<Vigilante>
     {
-        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)>();
+        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons { get; set; } = new();
 
-        private Dictionary<string, Color> ColorMapping = new Dictionary<string, Color>();
+        public Dictionary<string, Color> ColorMapping { get; set; } = new();
 
-        public Dictionary<string, Color> SortedColorMapping;
+        public Dictionary<string, Color> SortedColorMapping { get; set; }
 
-        public Dictionary<byte, string> Guesses = new Dictionary<byte, string>();
+        public Dictionary<byte, string> Guesses { get; set; } = new();
 
         public Vigilante(PlayerControl player) : base(player)
         {
@@ -110,5 +114,83 @@ namespace TownOfUs.Roles
         public int RemainingKills { get; set; }
 
         public List<string> PossibleGuesses => SortedColorMapping.Keys.ToList();
+
+        private void HideSingle(IGuesser role, byte targetId, bool killedSelf)
+        {
+            if (killedSelf || RemainingKills == 0 || (!CustomGameOptions.VigilanteMultiKill))
+            {
+                role.HideAllButtons(role);
+                GuessedThisMeeting = true;
+            } 
+            else role.HideTarget(role, targetId);
+        }
+
+        public Action Guess(IGuesser role, PlayerVoteArea voteArea)
+        {
+            void Listener()
+            {
+                if (
+                    MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion ||
+                    IsUnGuessable(voteArea) || PlayerControl.LocalPlayer.Data.IsDead
+                ) return;
+                var targetId = voteArea.TargetPlayerId;
+                var currentGuess = role.Guesses[targetId];
+                if (currentGuess == "None") return;
+
+                var playerRole = GetRole(voteArea);
+                var playerModifier = Modifier.GetModifier(voteArea);
+
+                var toDie = playerRole.Name == currentGuess ? playerRole.Player : Player;
+                if (playerModifier != null)
+                    toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : Player;
+                
+                if (toDie.Is(RoleEnum.Necromancer) || toDie.Is(RoleEnum.Whisperer))
+                {
+                    foreach (var player in PlayerControl.AllPlayerControls)
+                    {
+                        if (player.Data.IsImpostor()) Utils.RpcMurderPlayer(player, player);
+                    }
+                }
+
+                if (!toDie.Is(RoleEnum.Pestilence))
+                {
+                    VigilanteKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
+                    RemainingKills--;
+                    HideSingle(this, targetId, toDie == Player);
+                    if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
+                    {
+                        var lover = ((Lover)playerModifier).OtherLover.Player;
+                        if (!lover.Is(RoleEnum.Pestilence)) HideSingle(this, lover.PlayerId, false);
+                    }
+                }
+            }
+
+            return Listener;
+        }
+
+        public bool IsUnGuessable(PlayerVoteArea voteArea)
+        {
+            if (voteArea.AmDead) return true;
+            var player = Utils.PlayerById(voteArea.TargetPlayerId);
+            if (!PlayerControl.LocalPlayer.Is(Faction.Impostors))
+            {
+                if (
+                    player == null ||
+                    player.Data.IsDead ||
+                    player.Data.Disconnected
+                ) return true;
+            }
+            else
+            {
+                if (
+                    player == null ||
+                    player.Data.IsImpostor() ||
+                    player.Data.IsDead ||
+                    player.Data.Disconnected
+                ) return true;
+            }
+            var role = GetRole(player);
+            return role != null && role.Criteria();
+        }
     }
 }

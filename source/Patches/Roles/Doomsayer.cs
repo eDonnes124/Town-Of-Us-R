@@ -7,18 +7,21 @@ using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
 using System;
 using TownOfUs.CrewmateRoles.VampireHunterMod;
+using TownOfUs.NeutralRoles.DoomsayerMod;
+using Reactor.Utilities;
+using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs.Roles
 {
-    public class Doomsayer : Role
+    public class Doomsayer : Role, IRoleGuesser<Doomsayer>
     {
-        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons = new();
+        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons { get; set; } = new();
 
-        private Dictionary<string, Color> ColorMapping = new();
+        public Dictionary<string, Color> ColorMapping { get; set; } = new();
 
-        public Dictionary<string, Color> SortedColorMapping;
+        public Dictionary<string, Color> SortedColorMapping { get; set; }
 
-        public Dictionary<byte, string> Guesses = new();
+        public Dictionary<byte, string> Guesses { get; set; } = new();
         public DateTime LastObserved;
         public PlayerControl ClosestPlayer;
         public PlayerControl LastObservedPlayer;
@@ -28,7 +31,7 @@ namespace TownOfUs.Roles
             Name = "Doomsayer";
             ImpostorText = () => "Guess People's Roles To Win!";
             TaskText = () => "Win by guessing player's roles\nFake Tasks:";
-            Color = Patches.Colors.Doomsayer;
+            Color = Colors.Doomsayer;
             RoleType = RoleEnum.Doomsayer;
             LastObserved = DateTime.UtcNow;
             AddToRoleHistory(RoleType);
@@ -132,6 +135,62 @@ namespace TownOfUs.Roles
             if (!WonByGuessing) return true;
             Utils.EndGame();
             return false;
+        }
+
+        private static void HideSingle(IGuesser role, byte targetId, bool killedSelf)
+        {
+            if (killedSelf) role.HideAllButtons(role);
+            else role.HideTarget(role, targetId);
+        }
+
+        public Action Guess(IGuesser role, PlayerVoteArea voteArea)
+        {
+            void Listener()
+            {
+                if (
+                    MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion ||
+                    IsUnGuessable(voteArea) || PlayerControl.LocalPlayer.Data.IsDead
+                ) return;
+                var targetId = voteArea.TargetPlayerId;
+                var currentGuess = role.Guesses[targetId];
+                if (currentGuess == "None") return;
+
+                var playerRole = GetRole(voteArea);
+                var playerModifier = Modifier.GetModifier(voteArea);
+
+                var toDie = playerRole.Name == currentGuess ? playerRole.Player : Player;
+
+                if (toDie == playerRole.Player)
+                {
+                    DoomsayerKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
+                    HideSingle(role, targetId, toDie == Player);
+                    if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
+                    {
+                        var lover = ((Lover)playerModifier).OtherLover.Player;
+                        if (!lover.Is(RoleEnum.Pestilence)) HideSingle(this, lover.PlayerId, false);
+                    }
+                }
+                else
+                {
+                    role.HideAllButtons(role);
+                    Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                }
+            }
+
+            return Listener;
+        }
+
+        public bool IsUnGuessable(PlayerVoteArea voteArea)
+        {
+            if (voteArea.AmDead) return true;
+            var player = Utils.PlayerById(voteArea.TargetPlayerId);
+            if (
+                    player == null ||
+                    player.Data.IsDead ||
+                    player.Data.Disconnected
+                ) return true;
+            var role = GetRole(player);
+            return role != null && role.Criteria();
         }
     }
 }

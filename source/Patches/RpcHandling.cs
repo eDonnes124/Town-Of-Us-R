@@ -40,17 +40,17 @@ namespace TownOfUs
 {
     public static class RpcHandling
     {
-        private static readonly List<(Type, int, bool)> CrewmateRoles = new();
-        private static readonly List<(Type, int, bool)> NeutralBenignRoles = new();
-        private static readonly List<(Type, int, bool)> NeutralEvilRoles = new();
-        private static readonly List<(Type, int, bool)> NeutralKillingRoles = new();
-        private static readonly List<(Type, int, bool)> ImpostorRoles = new();
-        private static readonly List<(Type, int)> CrewmateModifiers = new();
-        private static readonly List<(Type, int)> GlobalModifiers = new();
-        private static readonly List<(Type, int)> ImpostorModifiers = new();
-        private static readonly List<(Type, int)> ButtonModifiers = new();
-        private static readonly List<(Type, int)> AssassinModifiers = new();
-        private static readonly List<(Type, CustomRPC, int)> AssassinAbility = new();
+        private static readonly List<(Type role , int chance, bool unique)> CrewmateRoles = new();
+        private static readonly List<(Type role , int chance, bool unique)> NeutralBenignRoles = new();
+        private static readonly List<(Type role , int chance, bool unique)> NeutralEvilRoles = new();
+        private static readonly List<(Type role , int chance, bool unique)> NeutralKillingRoles = new();
+        private static readonly List<(Type role , int chance, bool unique)> ImpostorRoles = new();
+        private static readonly List<(Type modifer , int chance)> CrewmateModifiers = new();
+        private static readonly List<(Type modifer , int chance)> GlobalModifiers = new();
+        private static readonly List<(Type modifer , int chance)> ImpostorModifiers = new();
+        private static readonly List<(Type modifer , int chance)> ButtonModifiers = new();
+        private static readonly List<(Type modifer , int chance)> AssassinModifiers = new();
+        private static readonly List<(Type ability, CustomRPC rpc, int chance)> AssassinAbility = new();
         private static bool PhantomOn;
         private static bool HaunterOn;
         private static bool TraitorOn;
@@ -73,21 +73,21 @@ namespace TownOfUs
             roleCount = Random.RandomRangeInt(min, max + 1);
         }
 
-        private static void SortRoles(List<(Type, int, bool)> roles, int numRoles)
+        private static void SortRoles(List<(Type role, int chance, bool unique)> roles, int numRoles)
         {
             roles.Shuffle();
             if (roles.Count < numRoles) numRoles = roles.Count;
             roles.Sort((a, b) =>
             {
-                var a_ = a.Item2 == 100 ? 0 : 100;
-                var b_ = b.Item2 == 100 ? 0 : 100;
+                var a_ = a.chance == 100 ? 0 : 100;
+                var b_ = b.chance == 100 ? 0 : 100;
                 return a_.CompareTo(b_);
             });
             var certainRoles = 0;
             var odds = 0;
             foreach (var role in roles)
-                if (role.Item2 == 100) certainRoles += 1;
-                else odds += role.Item2;
+                if (role.chance == 100) certainRoles += 1;
+                else odds += role.chance;
             while (certainRoles < numRoles)
             {
                 var num = certainRoles;
@@ -95,10 +95,10 @@ namespace TownOfUs
                 var rolePicked = false;
                 while (num < roles.Count && rolePicked == false)
                 {
-                    random -= roles[num].Item2;
+                    random -= roles[num].chance;
                     if (random < 0)
                     {
-                        odds -= roles[num].Item2;
+                        odds -= roles[num].chance;
                         var role = roles[num];
                         roles.Remove(role);
                         roles.Insert(0, role);
@@ -111,13 +111,13 @@ namespace TownOfUs
             while (roles.Count > numRoles) roles.RemoveAt(roles.Count - 1);
         }
 
-        private static void SortModifiers(List<(Type, int)> roles, int max)
+        private static void SortModifiers(List<(Type modifier, int chance)> roles, int max)
         {
             roles.Shuffle();
             roles.Sort((a, b) =>
             {
-                var a_ = a.Item2 == 100 ? 0 : 100;
-                var b_ = b.Item2 == 100 ? 0 : 100;
+                var a_ = a.chance == 100 ? 0 : 100;
+                var b_ = b.chance == 100 ? 0 : 100;
                 return a_.CompareTo(b_);
             });
             while (roles.Count > max) roles.RemoveAt(roles.Count - 1);
@@ -250,7 +250,7 @@ namespace TownOfUs
                 SortRoles(ImpostorRoles, impostors.Count);
             }
 
-            var crewAndNeutralRoles = new List<(Type, int, bool)>();
+            var crewAndNeutralRoles = new List<(Type role, int chance, bool unique)>();
             if (CustomGameOptions.GameMode == GameMode.Classic) crewAndNeutralRoles.AddRange(CrewmateRoles);
             crewAndNeutralRoles.AddRange(NeutralBenignRoles);
             crewAndNeutralRoles.AddRange(NeutralEvilRoles);
@@ -265,13 +265,13 @@ namespace TownOfUs
                 if (crewAndNeutralRoles.Count > 0)
                 {
                     crewRoles.Add(crewAndNeutralRoles[0]);
-                    if (crewAndNeutralRoles[0].Item3 == true) crewAndNeutralRoles.Remove(crewAndNeutralRoles[0]);
+                    if (crewAndNeutralRoles[0].unique == true) crewAndNeutralRoles.Remove(crewAndNeutralRoles[0]);
                 }
                 if (CrewmateRoles.Count > 0)
                 {
                     CrewmateRoles.Shuffle();
                     crewRoles.Add(CrewmateRoles[0]);
-                    if (CrewmateRoles[0].Item3 == true) CrewmateRoles.Remove(CrewmateRoles[0]);
+                    if (CrewmateRoles[0].unique == true) CrewmateRoles.Remove(CrewmateRoles[0]);
                 }
                 else
                 {
@@ -282,7 +282,7 @@ namespace TownOfUs
                 {
                     crewAndNeutralRoles.Shuffle();
                     crewRoles.Add(crewAndNeutralRoles[0]);
-                    if (crewAndNeutralRoles[0].Item3 == true)
+                    if (crewAndNeutralRoles[0].unique == true)
                     {
                         if (CrewmateRoles.Contains(crewAndNeutralRoles[0])) CrewmateRoles.Remove(crewAndNeutralRoles[0]);
                         crewAndNeutralRoles.Remove(crewAndNeutralRoles[0]);
@@ -292,7 +292,7 @@ namespace TownOfUs
                 {
                     ImpostorRoles.Shuffle();
                     impRoles.Add(ImpostorRoles[0]);
-                    if (ImpostorRoles[0].Item3 == true) ImpostorRoles.Remove(ImpostorRoles[0]);
+                    if (ImpostorRoles[0].unique == true) ImpostorRoles.Remove(ImpostorRoles[0]);
                 }
             }
             crewRoles.Shuffle();
@@ -838,21 +838,21 @@ namespace TownOfUs
                         break;
                     case CustomRPC.AssassinKill:
                         var toDie = Utils.PlayerById(reader.ReadByte());
-                        var assassin = Utils.PlayerById(reader.ReadByte());
-                        AssassinKill.MurderPlayer(toDie);
-                        AssassinKill.AssassinKillCount(toDie, assassin);
+                        var assassin = Ability.GetAbility<Assassin>(Utils.PlayerById(reader.ReadByte()));
+                        (assassin as IGuesser).MurderPlayer(toDie);
+                        AssassinKill.AssassinKillCount(toDie, assassin.Player);
                         break;
                     case CustomRPC.VigilanteKill:
                         var toDie2 = Utils.PlayerById(reader.ReadByte());
-                        var vigi = Utils.PlayerById(reader.ReadByte());
-                        VigilanteKill.MurderPlayer(toDie2);
-                        VigilanteKill.VigiKillCount(toDie2, vigi);
+                        var vigi = Role.GetRole<Vigilante>(Utils.PlayerById(reader.ReadByte()));
+                        (vigi as IGuesser).MurderPlayer(toDie2);
+                        VigilanteKill.VigiKillCount(toDie2, vigi.Player);
                         break;
                     case CustomRPC.DoomsayerKill:
                         var toDie3 = Utils.PlayerById(reader.ReadByte());
-                        var doom = Utils.PlayerById(reader.ReadByte());
-                        DoomsayerKill.DoomKillCount(toDie3, doom);
-                        DoomsayerKill.MurderPlayer(toDie3);
+                        var doom = Role.GetRole<Doomsayer>(Utils.PlayerById(reader.ReadByte()));
+                        DoomsayerKill.DoomKillCount(doom.Player);
+                        (doom as IGuesser).MurderPlayer(toDie3);
                         break;
                     case CustomRPC.SetMimic:
                         var glitchPlayer = Utils.PlayerById(reader.ReadByte());

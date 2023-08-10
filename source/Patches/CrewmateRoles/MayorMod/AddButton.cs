@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
@@ -56,7 +54,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
             if (PlayerControl.LocalPlayer.Is(AbilityEnum.Assassin))
             {
                 var assassin = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
-                ShowHideButtons.HideTarget(assassin, voteArea.TargetPlayerId);
+                (assassin as IGuesser).HideTarget(assassin, voteArea.TargetPlayerId);
                 voteArea.NameText.transform.localPosition += new Vector3(-0.2f, -0.1f, 0f);
             }
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer))

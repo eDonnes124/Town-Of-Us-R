@@ -6,26 +6,29 @@ using UnityEngine;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
 using TownOfUs.CrewmateRoles.VampireHunterMod;
+using System;
+using TownOfUs.Extensions;
+using Reactor.Utilities;
+using TownOfUs.Modifiers.AssassinMod;
 
 namespace TownOfUs.Roles.Modifiers
 {
-    public class Assassin : Ability
+    public class Assassin : Ability, IAbilityGuesser<Assassin>
     {
-        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)>();
+        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons { get; set; } = new();
+        
+        public Dictionary<string, Color> ColorMapping { get; set; } = new();
+        
+        public Dictionary<string, Color> SortedColorMapping { get; set; }
 
-
-        private Dictionary<string, Color> ColorMapping = new Dictionary<string, Color>();
-
-        public Dictionary<string, Color> SortedColorMapping;
-
-        public Dictionary<byte, string> Guesses = new Dictionary<byte, string>();
+        public Dictionary<byte, string> Guesses { get; set; } = new();
 
 
         public Assassin(PlayerControl player) : base(player)
         {
             Name = "Assassin";
             TaskText = () => "Guess the roles of the people and kill them mid-meeting";
-            Color = Patches.Colors.Impostor;
+            Color = Colors.Impostor;
             AbilityType = AbilityEnum.Assassin;
 
             RemainingKills = CustomGameOptions.AssassinKills;
@@ -114,5 +117,108 @@ namespace TownOfUs.Roles.Modifiers
         public int RemainingKills { get; set; }
 
         public List<string> PossibleGuesses => SortedColorMapping.Keys.ToList();
+
+        private void HideSingle(IGuesser role, byte targetId, bool killedSelf, bool doubleshot = false)
+        {
+            if ((killedSelf || RemainingKills == 0 || (!CustomGameOptions.AssassinMultiKill)) && doubleshot == false)
+            {
+                role.HideAllButtons(role);
+                GuessedThisMeeting = true;
+            }
+            else role.HideTarget(role, targetId);
+        }
+
+        public Action Guess(IGuesser role, PlayerVoteArea voteArea)
+        {
+            void Listener()
+            {
+                if (
+                    MeetingHud.Instance.state == MeetingHud.VoteStates.Discussion ||
+                    IsUnGuessable(voteArea) || PlayerControl.LocalPlayer.Data.IsDead
+                ) return;
+                var targetId = voteArea.TargetPlayerId;
+                var currentGuess = role.Guesses[targetId];
+                if (currentGuess == "None") return;
+
+                var playerRole = Role.GetRole(voteArea);
+                var playerModifier = Modifier.GetModifier(voteArea);
+
+                var toDie = playerRole.Name == currentGuess ? playerRole.Player : Player;
+                if (playerModifier != null)
+                    toDie = (playerRole.Name == currentGuess || playerModifier.Name == currentGuess) ? playerRole.Player : Player;
+
+                if (!toDie.Is(RoleEnum.Pestilence) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence))
+                {
+                    if (PlayerControl.LocalPlayer.Is(ModifierEnum.DoubleShot) && toDie == PlayerControl.LocalPlayer)
+                    {
+                        var modifier = Modifier.GetModifier<DoubleShot>(PlayerControl.LocalPlayer);
+                        if (modifier.LifeUsed == false)
+                        {
+                            modifier.LifeUsed = true;
+                            Coroutines.Start(Utils.FlashCoroutine(Color.red, 1f));
+                            HideSingle(this, targetId, false, true);
+                        }
+                        else
+                        {
+                            AssassinKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
+                            RemainingKills--;
+                            HideSingle(this, targetId, toDie == Player);
+                            if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
+                            {
+                                var lover = ((Lover)playerModifier).OtherLover.Player;
+                                if (!lover.Is(RoleEnum.Pestilence)) HideSingle(this, lover.PlayerId, false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AssassinKill.RpcMurderPlayer(toDie, PlayerControl.LocalPlayer);
+                        RemainingKills--;
+                        HideSingle(this, targetId, toDie == Player);
+                        if (toDie.IsLover() && CustomGameOptions.BothLoversDie)
+                        {
+                            var lover = ((Lover)playerModifier).OtherLover.Player;
+                            if (!lover.Is(RoleEnum.Pestilence)) HideSingle(this, lover.PlayerId, false);
+                        }
+                    }
+                }
+            }
+
+            return Listener;
+        }
+
+        public bool IsUnGuessable(PlayerVoteArea voteArea)
+        {
+            if (voteArea.AmDead) return true;
+            var player = Utils.PlayerById(voteArea.TargetPlayerId);
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Vampire))
+            {
+                if (
+                    player == null ||
+                    player.Is(RoleEnum.Vampire) ||
+                    player.Data.IsDead ||
+                    player.Data.Disconnected
+                ) return true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling))
+            {
+                if (
+                    player == null ||
+                    player.Data.IsDead ||
+                    player.Data.Disconnected
+                ) return true;
+            }
+            else
+            {
+                if (
+                    player == null ||
+                    player.Data.IsImpostor() ||
+                    player.Data.IsDead ||
+                    player.Data.Disconnected
+                ) return true;
+            }
+            var role = Role.GetRole(player);
+            return role != null && role.Criteria();
+        }
     }
 }
