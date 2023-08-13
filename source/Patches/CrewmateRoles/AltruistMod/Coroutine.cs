@@ -15,8 +15,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 {
     public class Coroutine
     {
-        public static ArrowBehaviour Arrow;
-        public static PlayerControl Target;
+        public static Dictionary<PlayerControl, ArrowBehaviour> Revived = new();
         public static Sprite Sprite => TownOfUs.Arrow;
 
         public static IEnumerator AltruistRevive(DeadBody target, Altruist role)
@@ -31,7 +30,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
             if (CustomGameOptions.AltruistTargetBody)
                 if (target != null)
                 {
-                    foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                    foreach (DeadBody deadBody in Object.FindObjectsOfType<DeadBody>())
                     {
                         if (deadBody.ParentId == target.ParentId) deadBody.gameObject.Destroy();
                     }
@@ -49,7 +48,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
                 if (MeetingHud.Instance) yield break;
             }
 
-            foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+            foreach (DeadBody deadBody in Object.FindObjectsOfType<DeadBody>())
             {
                 if (deadBody.ParentId == role.Player.PlayerId) deadBody.gameObject.Destroy();
             }
@@ -103,13 +102,13 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
             if (PlayerControl.LocalPlayer.Data.IsImpostor() || PlayerControl.LocalPlayer.Is(Faction.NeutralKilling))
             {
                 var gameObj = new GameObject();
-                Arrow = gameObj.AddComponent<ArrowBehaviour>();
+                var Arrow = gameObj.AddComponent<ArrowBehaviour>();
                 gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
                 var renderer = gameObj.AddComponent<SpriteRenderer>();
                 renderer.sprite = Sprite;
                 Arrow.image = renderer;
                 gameObj.layer = 5;
-                Target = player;
+                Revived.Add(player, Arrow);
                 yield return Utils.FlashCoroutine(role.Color, 1f, 0.5f);
             }
         }

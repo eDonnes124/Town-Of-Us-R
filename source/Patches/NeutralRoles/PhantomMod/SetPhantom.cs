@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
-using Hazel;
+using System.Linq;
+using System.Collections.Generic;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -37,20 +38,24 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 Role.RoleDictionary.Remove(WillBePhantom.PlayerId);
                 if (PlayerControl.LocalPlayer == WillBePhantom)
                 {
-                    var role = new Phantom(PlayerControl.LocalPlayer);
-                    role.formerRole = oldRole.RoleType;
-                    role.Kills = killsList.Kills;
-                    role.CorrectAssassinKills = killsList.CorrectAssassinKills;
-                    role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+                    var role = new Phantom(PlayerControl.LocalPlayer)
+                    {
+                        formerRole = oldRole.RoleType,
+                        Kills = killsList.Kills,
+                        CorrectAssassinKills = killsList.CorrectAssassinKills,
+                        IncorrectAssassinKills = killsList.IncorrectAssassinKills
+                    };
                     role.RegenTask();
                 }
                 else
                 {
-                    var role = new Phantom(WillBePhantom);
-                    role.formerRole = oldRole.RoleType;
-                    role.Kills = killsList.Kills;
-                    role.CorrectAssassinKills = killsList.CorrectAssassinKills;
-                    role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
+                    var role = new Phantom(WillBePhantom)
+                    {
+                        formerRole = oldRole.RoleType,
+                        Kills = killsList.Kills,
+                        CorrectAssassinKills = killsList.CorrectAssassinKills,
+                        IncorrectAssassinKills = killsList.IncorrectAssassinKills
+                    };
                 }
 
                 Utils.RemoveTasks(WillBePhantom);
@@ -62,8 +67,19 @@ namespace TownOfUs.NeutralRoles.PhantomMod
             if (PlayerControl.LocalPlayer != WillBePhantom) return;
 
             if (Role.GetRole<Phantom>(PlayerControl.LocalPlayer).Caught) return;
-            var startingVent =
-                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+            List<Vent> vents = new();
+            var CleanVentTasks = PlayerControl.LocalPlayer.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+            if (CleanVentTasks != null)
+            {
+                var ids = CleanVentTasks.Where(x => !x.IsComplete)
+                                        .ToList()
+                                        .ConvertAll(x => x.FindConsoles()[0].ConsoleId);
+                
+                vents = ShipStatus.Instance.AllVents.Where(x => !ids.Contains(x.Id)).ToList();
+            }
+            else vents = ShipStatus.Instance.AllVents.ToList();
+            
+            var startingVent = vents[Random.RandomRangeInt(0, vents.Count)];
 
             Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
