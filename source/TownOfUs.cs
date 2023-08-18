@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
@@ -20,6 +21,9 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TownOfUs.Patches.ScreenEffects;
+using TownOfUs.Patches.Features;
+using Reactor.Utilities;
+using System.Security.Cryptography;
 
 namespace TownOfUs
 {
@@ -30,8 +34,11 @@ namespace TownOfUs
     public class TownOfUs : BasePlugin
     {
         public const string Id = "com.slushiegoose.townofus";
-        public const string VersionString = "5.0.1";
+        public const string VersionString = "5.0.2";
         public static System.Version Version = System.Version.Parse(VersionString);
+
+       
+
 
         public static AssetLoader bundledAssets;
 
@@ -113,13 +120,14 @@ namespace TownOfUs
         public static Vector3 ButtonPosition { get; private set; } = new Vector3(2.6f, 0.7f, -9f);
 
         private static DLoadImage _iCallLoadImage;
-
-
+    
         private Harmony _harmony;
 
         public ConfigEntry<string> Ip { get; set; }
 
-        public ConfigEntry<ushort> Port { get; set; }
+        public ConfigEntry<ushort> Port { get; set; }   
+        public static ConfigEntry<bool> FastBoot {get; private set;}
+        public ConfigEntry<bool> CustomCursor {get; private set;}
 
         public override void Load()
         {
@@ -191,7 +199,6 @@ namespace TownOfUs
             CamoSprintFreezeSprite = CreateSprite("TownOfUs.Resources.CamoSprintFreeze.png");
             RadiateSprite = CreateSprite("TownOfUs.Resources.Radiate.png");
             HackSprite = CreateSprite("TownOfUs.Resources.Hack.png");
-            MimicSprite = CreateSprite("TownOfUs.Resources.Mimic.png");
             LockSprite = CreateSprite("TownOfUs.Resources.Lock.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");
@@ -208,12 +215,19 @@ namespace TownOfUs
 
             PalettePatch.Load();
             ClassInjector.RegisterTypeInIl2Cpp<RainbowBehaviour>();
+           
+
+
+
+            Port = Config.Bind("Custom", "Port", (ushort)22023);
+            FastBoot = Config.Bind("Custom", "FastBoot", true);
+            CustomCursor = Config.Bind("Custom", "Enable Custom Cursor", true);
+            var defaultRegions = ServerManager.DefaultRegions.ToList();
+           
 
             // RegisterInIl2CppAttribute.Register();
 
             Ip = Config.Bind("Custom", "Ipv4 or Hostname", "127.0.0.1");
-            Port = Config.Bind("Custom", "Port", (ushort) 22023);
-            var defaultRegions = ServerManager.DefaultRegions.ToList();
             var ip = Ip.Value;
             if (Uri.CheckHostName(Ip.Value).ToString() == "Dns")
                 foreach (var address in Dns.GetHostAddresses(Ip.Value))
@@ -235,6 +249,24 @@ namespace TownOfUs
             _harmony.PatchAll();
             SubmergedCompatibility.Initialize();
         }
+
+        
+          
+        
+
+        public static void LoadAssets() 
+        {
+                var assembly = Assembly.GetExecutingAssembly();
+
+                var resourceStreamLobby = assembly.GetManifestResourceStream("TownOfUs.Resources.jeanaucustomlobby");
+                var assetBundleLobby = AssetBundle.LoadFromMemory(resourceStreamLobby.ReadFully());
+
+              TownOfUs.CustomAssets.customLobby = assetBundleLobby.LoadAsset<GameObject>("allul_customLobby.prefab").DontDestroy();
+
+                assetBundleLobby.Unload(false);
+
+            }
+        
 
         public static Sprite CreateSprite(string name)
         {
@@ -258,6 +290,17 @@ namespace TownOfUs
             var il2CPPArray = (Il2CppStructArray<byte>) data;
             _iCallLoadImage.Invoke(tex.Pointer, il2CPPArray.Pointer, markNonReadable);
         }
+
+          public  class CustomMain
+        {
+          public  CustomAssets customAssets = new CustomAssets();
+        }
+
+         public  class CustomAssets
+         {
+           public static   GameObject customLobby;
+         }
+
 
         private delegate bool DLoadImage(IntPtr tex, IntPtr data, bool markNonReadable);
     }

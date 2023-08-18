@@ -21,7 +21,7 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
                 role.MenuClick = true;
             }
 
-            return false;
+            return false;      
         }
     }
 }

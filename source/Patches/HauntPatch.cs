@@ -21,6 +21,7 @@ namespace TownOfUs
             __instance.FilterText.text = modifier != null ? $"{role.Name} - {modifier.Name}"
                                                           : $"{role.Name}";
             return false;
+            
         }
     }
 }

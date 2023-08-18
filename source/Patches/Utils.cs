@@ -3,6 +3,7 @@ using Hazel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Linq;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
@@ -27,6 +28,7 @@ using TownOfUs.CrewmateRoles.AurialMod;
 using Reactor.Networking;
 using Reactor.Networking.Extensions;
 using Unity.Services.Core.Telemetry.Internal;
+using System.IO;
 
 namespace TownOfUs
 {
@@ -905,6 +907,8 @@ namespace TownOfUs
                 fullscreen.gameObject.active = true;
                 fullscreen.color = color;
             }
+        
+        
 
             yield return new WaitForSeconds(waitfor);
 
@@ -922,6 +926,25 @@ namespace TownOfUs
         public static IEnumerable<(T1, T2)> Zip<T1, T2>(List<T1> first, List<T2> second)
         {
             return first.Zip(second, (x, y) => (x, y));
+        }
+
+          public static Sprite LoadSprite(string path, float pixelsPerUnit = 1f)
+        {
+        Sprite sprite = null;
+        try
+        {
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
+            var texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
+            using MemoryStream ms = new();
+            stream.CopyTo(ms);
+            ImageConversion.LoadImage(texture, ms.ToArray());
+            sprite = Sprite.Create(texture, new(0, 0, texture.width, texture.height), new(0.5f, 0.5f), pixelsPerUnit);
+        }
+        catch
+        {
+            PluginSingleton<TownOfUs>.Instance.Log.LogError($"\"{path}\"Failed To Load");
+        }
+          return sprite;
         }
 
         public static void RemoveTasks(PlayerControl player)

@@ -1,28 +1,43 @@
-using HarmonyLib;
 using UnityEngine;
+using HarmonyLib;
 
-namespace TownOfUs
+namespace TownOfUs.Patches
 {
-    //[HarmonyPriority(Priority.VeryHigh)] // to show this message first, or be overrided if any plugins do
     [HarmonyPatch(typeof(PingTracker), nameof(PingTracker.Update))]
     public static class PingTracker_Update
     {
+        private static float deltaTime;
 
-        [HarmonyPostfix]
+        public static bool Started => AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started;
         public static void Postfix(PingTracker __instance)
         {
-            var position = __instance.GetComponent<AspectPosition>();
-            position.DistanceFromEdge = new Vector3(3.6f, 0.1f, 0);
-            position.AdjustPosition();
+            deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+            var fps = Mathf.Ceil(1.0f / deltaTime);
+            var host = GameData.Instance.GetHost();
+            
+          
+            __instance.text.text = $"<size=80%>Ping: {AmongUsClient.Instance.Ping}ms FPS: {fps}\n" +
+               $"<b><color=#00FF00FF>TownOfUs</color><color=#FF00FFFF>v{TownOfUs.VersionString}</color></b>\n" +
+                $"{(!MeetingHud.Instance ? $"<color=#0000FFFF>{TownOfUs.VersionString}</color>\n" : "")}" +
+                $"{(!Started ? "<color=#C50000FF>By: eDonners & MyDragonBreath</color>\n" : "</size>")}" +
+                "<color=#ff0000>FormerlyFrom</color> : <color=#ffc0cb>Polus.gg</color> Slushiegoose\n" + 
+                // Idea from wichtwix see  pr/168
+                $"HostedLobby : {host.PlayerName}";
 
-            __instance.text.text =
-                "<color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>\n" +
-                $"Ping: {AmongUsClient.Instance.Ping}ms\n" +
-                (!MeetingHud.Instance
-                    ? "<color=#00FF00FF>Modded By: Donners &</color>\n" +
-                    "<color=#00FF00FF>MyDragonBreath</color>\n" : "") +
-                (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
-                    ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>" : "");
+        }
+
+        // code from TOUReworked
+
+        public static void Prefix(PingTracker __instance)
+        {
+            if (!__instance.GetComponentInChildren<SpriteRenderer>())
+            {
+                var logo = new GameObject("Logo") { layer = 5 };
+                logo.AddComponent<SpriteRenderer>().sprite = TownOfUs.SettingsButtonSprite;
+                logo.transform.SetParent(__instance.transform);
+                logo.transform.localPosition = new(-1f, -0.5f, -1);
+                logo.transform.localScale *= 0.5f;
+            }
         }
     }
 }

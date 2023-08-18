@@ -64,7 +64,7 @@ namespace TownOfUs.Patches
         public readonly static Color Tiebreaker = new Color(0.6f, 0.9f, 0.6f, 1f);
         public readonly static Color Radar = new Color(1f, 0f, 0.5f, 1f);
         public readonly static Color Multitasker = new Color(1f, 0.5f, 0.3f, 1f);
-        public readonly static Color Frosty = new Color(0.6f, 1f, 1f, 1f);
+        public readonly static Color Frosty = new (0.6f, 1f, 1f, 1f);
 
     }
 }

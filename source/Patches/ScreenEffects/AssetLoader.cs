@@ -32,7 +32,7 @@ namespace TownOfUs.Patches.ScreenEffects
             });
         }
 
-        private static AssetBundle loadBundle(string bundlename)
+        public static AssetBundle loadBundle(string bundlename)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream($"TownOfUs.Resources.{bundlename}");

@@ -21,6 +21,7 @@ namespace TownOfUs
             public static IEnumerable<MethodBase> TargetMethods()
             {
                 return typeof(GameOptionsData).GetMethods(typeof(string), typeof(int));
+                
             }
 
             private static void Postfix(ref string __result)
@@ -74,7 +75,7 @@ namespace TownOfUs
                 {
                     if (SettingsPage > 3)
                         SettingsPage = -1;
-                    else
+                    else 
                         SettingsPage++;
                 }
             }

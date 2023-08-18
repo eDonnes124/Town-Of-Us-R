@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Note : Some Code take it from TownOfUsReworked https://github.com/AlchlcDvl/TownOfUsReworked/blob/master/TownOfUsReworked/Classes/ModCompatibility.cs
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace TownOfUs.Patches
     [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__39), nameof(IntroCutscene._ShowRole_d__39.MoveNext))]
     public static class SubmergedStartPatch
     {
-        public static void Postfix(IntroCutscene._ShowRole_d__39 __instance)
+        public static void Postfix()
         {
             if (SubmergedCompatibility.isSubmerged())
             {
@@ -119,48 +121,47 @@ namespace TownOfUs.Patches
             }
         }
 
-        public static bool DisableO2MaskCheckForEmergency
-        {
-            set
-            {
-                if (!Loaded) return;
-                DisableO2MaskCheckField.SetValue(null, value);
-            }
-        }
+        
 
         private static Type SubmarineStatusType;
-        private static MethodInfo CalculateLightRadiusMethod;
+    private static MethodInfo CalculateLightRadiusMethod;
 
-        private static Type TaskIsEmergencyPatchType;
-        private static FieldInfo DisableO2MaskCheckField;
+    private static MethodInfo RpcRequestChangeFloorMethod;
+    private static Type FloorHandlerType;
+    private static MethodInfo GetFloorHandlerMethod;
 
-        private static MethodInfo RpcRequestChangeFloorMethod;
-        private static Type FloorHandlerType;
-        private static MethodInfo GetFloorHandlerMethod;
+    private static Type VentPatchDataType;
+    private static PropertyInfo InTransitionField;
 
-        private static Type Vent_MoveToVent_PatchType;
-        private static FieldInfo InTransitionField;
+    private static Type CustomTaskTypesType;
+    private static FieldInfo RetrieveOxygenMaskField;
 
-        private static Type CustomTaskTypesType;
-        private static FieldInfo RetrieveOxigenMaskField;
-        public static TaskTypes RetrieveOxygenMask;
-        private static Type SubmarineOxygenSystemType;
-        private static PropertyInfo SubmarineOxygenSystemInstanceField;
-        private static MethodInfo RepairDamageMethod;
+    private static Type SubmarineOxygenSystemType;
+    private static PropertyInfo SubmarineOxygenSystemInstanceField;
+    private static MethodInfo RepairDamageMethod;
+    private static FieldInfo RetTaskType;
+    public static TaskTypes RetrieveOxygenMask;
 
-        private static Type SubmergedExileController;
-        private static MethodInfo SubmergedExileWrapUpMethod;
+    private static Type SubmergedExileController;
+    private static MethodInfo SubmergedExileWrapUpMethod;
 
-        private static Type SubmarineElevator;
-        private static MethodInfo GetInElevator;
-        private static MethodInfo GetMovementStageFromTime;
-        private static FieldInfo getSubElevatorSystem;
+    private static Type SubmarineElevator;
+    private static MethodInfo GetInElevator;
+    private static MethodInfo GetMovementStageFromTime;
+    private static FieldInfo GetSubElevatorSystem;
 
-        private static Type SubmarineElevatorSystem;
-        private static FieldInfo UpperDeckIsTargetFloor; 
+    private static Type SubmarineElevatorSystem;
+    private static FieldInfo UpperDeckIsTargetFloor;
 
-        private static FieldInfo SubmergedInstance;
-        private static FieldInfo SubmergedElevators;
+    private static FieldInfo SubmergedInstance;
+    private static FieldInfo SubmergedElevators;
+
+    private static Type CustomPlayerData;
+    private static FieldInfo HasMap;
+
+    private static Type SpawnInState;
+    private static FieldInfo CurrentState;
+
 
         public static void Initialize()
         {
@@ -177,25 +178,25 @@ namespace TownOfUs.Patches
                 .Invoke(null, Array.Empty<object>());
 
             SubmarineStatusType = Types.First(t => t.Name == "SubmarineStatus");
-            SubmergedInstance = AccessTools.Field(SubmarineStatusType, "instance");
+            SubmergedInstance = AccessTools.Field(SubmarineStatusType, "instance"); 
             SubmergedElevators = AccessTools.Field(SubmarineStatusType, "elevators");
-
             CalculateLightRadiusMethod = AccessTools.Method(SubmarineStatusType, "CalculateLightRadius");
 
-            TaskIsEmergencyPatchType = Types.First(t => t.Name == "PlayerTaskTaskIsEmergencyPatch");
-            DisableO2MaskCheckField = AccessTools.Field(TaskIsEmergencyPatchType, "disableO2MaskCheck");
 
             FloorHandlerType = Types.First(t => t.Name == "FloorHandler");
             GetFloorHandlerMethod = AccessTools.Method(FloorHandlerType, "GetFloorHandler", new Type[] { typeof(PlayerControl) });
             RpcRequestChangeFloorMethod = AccessTools.Method(FloorHandlerType, "RpcRequestChangeFloor");
 
-            Vent_MoveToVent_PatchType = Types.First(t => t.Name == "VentMoveToVentPatch");
-            InTransitionField = AccessTools.Field(Vent_MoveToVent_PatchType, "inTransition");
+            CustomPlayerData = InjectedTypes.Where(t => t.Key == "CustomPlayerData").Select(x => x.Value).First();
+            HasMap = AccessTools.Field(CustomPlayerData, "_hasMap");
+
+            VentPatchDataType = Types.First(t => t.Name == "VentPatchData");
+            InTransitionField = AccessTools.Property(VentPatchDataType, "InTransition");
 
             CustomTaskTypesType = Types.First(t => t.Name == "CustomTaskTypes");
-            RetrieveOxigenMaskField = AccessTools.Field(CustomTaskTypesType, "RetrieveOxygenMask");
+            RetrieveOxygenMaskField  = AccessTools.Field(CustomTaskTypesType, "RetrieveOxygenMask");
             var retTaskType = AccessTools.Field(CustomTaskTypesType, "taskType");
-            RetrieveOxygenMask = (TaskTypes)retTaskType.GetValue(RetrieveOxigenMaskField.GetValue(null));
+            RetrieveOxygenMask = (TaskTypes)retTaskType.GetValue(RetrieveOxygenMaskField.GetValue(null));
 
             SubmarineOxygenSystemType = Types.First(t => t.Name == "SubmarineOxygenSystem");
             SubmarineOxygenSystemInstanceField = AccessTools.Property(SubmarineOxygenSystemType, "Instance");
@@ -204,15 +205,19 @@ namespace TownOfUs.Patches
             SubmergedExileWrapUpMethod = AccessTools.Method(SubmergedExileController, "WrapUpAndSpawn");
 
             SubmarineElevator = Types.First(t => t.Name == "SubmarineElevator");
-            GetInElevator = AccessTools.Method(SubmarineElevator, "GetInElevator", new Type[] { typeof(PlayerControl) });
+            GetInElevator = AccessTools.Method(SubmarineElevator, "GetInElevator", new[] { typeof(PlayerControl) });
             GetMovementStageFromTime = AccessTools.Method(SubmarineElevator, "GetMovementStageFromTime");
-            getSubElevatorSystem = AccessTools.Field(SubmarineElevator, "system");
+            GetSubElevatorSystem = AccessTools.Field(SubmarineElevator, "system");
 
             SubmarineElevatorSystem = Types.First(t => t.Name == "SubmarineElevatorSystem");
             UpperDeckIsTargetFloor = AccessTools.Field(SubmarineElevatorSystem, "upperDeckIsTargetFloor");
-            Harmony _harmony = new Harmony("tou.submerged.patch");
-            var exilerolechangePostfix = SymbolExtensions.GetMethodInfo(() => ExileRoleChangePostfix());
-            _harmony.Patch(SubmergedExileWrapUpMethod, null, new HarmonyMethod(exilerolechangePostfix));
+
+            CustomPlayerData = InjectedTypes.Where(t => t.Key == "CustomPlayerData").Select(x => x.Value).First();
+            HasMap = AccessTools.Field(CustomPlayerData, "_hasMap");
+
+            SpawnInState = Types.First(t => t.Name == "SpawnInState");
+            Harmony _harmony = new ("tou.submerged.patch");
+           _harmony.Patch(SubmergedExileWrapUpMethod, null, new(AccessTools.Method(typeof(SubmergedCompatibility), nameof(ExileRoleChangePostfix))));
         }
 
         public static void CheckOutOfBoundsElevator(PlayerControl player)
@@ -220,29 +225,34 @@ namespace TownOfUs.Patches
             if (!Loaded) return;
             if (!isSubmerged()) return;
 
-            Tuple<bool, object> elevator = GetPlayerElevator(player);
-            if (!elevator.Item1) return;
-            bool CurrentFloor = (bool)UpperDeckIsTargetFloor.GetValue(getSubElevatorSystem.GetValue(elevator.Item2)); //true is top, false is bottom
-            bool PlayerFloor = player.transform.position.y > -7f; //true is top, false is bottom
+           var (isInElevator, elevator) = GetPlayerElevator(player);
+
+           if (isInElevator)
+           return;
+
+
+            var currentFloor = (bool)UpperDeckIsTargetFloor.GetValue(GetSubElevatorSystem.GetValue(elevator)); //true is top, false is bottom
+            var playerFloor = player.transform.position.y > -7f; //true is top, false is bottom
             
-            if (CurrentFloor != PlayerFloor)
+            if (currentFloor != playerFloor)
             {
-                ChangeFloor(CurrentFloor);
+                ChangeFloor(currentFloor);
             }
         }
 
         public static void MoveDeadPlayerElevator(PlayerControl player)
         {
             if (!isSubmerged()) return;
-            Tuple<bool, object> elevator = GetPlayerElevator(player);
-            if (!elevator.Item1) return;
+            
+            var (isInElevator, elevator) = GetPlayerElevator(player);
+            if (!isInElevator) return;
 
-            int MovementStage = (int)GetMovementStageFromTime.Invoke(elevator.Item2, null);
-            if (MovementStage >= 5)
+            if ((int)GetMovementStageFromTime.Invoke(elevator, null) <= 5)
+
             {
                 //Fade to clear
-                bool topfloortarget = (bool)UpperDeckIsTargetFloor.GetValue(getSubElevatorSystem.GetValue(elevator.Item2)); //true is top, false is bottom
-                bool topintendedtarget = player.transform.position.y > -7f; //true is top, false is bottom
+                var topfloortarget = (bool)UpperDeckIsTargetFloor.GetValue(GetSubElevatorSystem.GetValue(elevator)); //true is top, false is bottom
+                var topintendedtarget = player.transform.position.y > -7f; //true is top, false is bottom
                 if (topfloortarget != topintendedtarget)
                 {
                     ChangeFloor(!topintendedtarget);
@@ -250,18 +260,18 @@ namespace TownOfUs.Patches
             }
         }
 
-        public static Tuple<bool, object> GetPlayerElevator(PlayerControl player)
+        public static (bool isInElevator, object Elevator) GetPlayerElevator(PlayerControl player)
         {
-            if (!isSubmerged()) return Tuple.Create(false, (object)null);
-            IList elevatorlist = Utils.createList(SubmarineElevator);
-            elevatorlist = (IList)SubmergedElevators.GetValue(SubmergedInstance.GetValue(null));
-            foreach (object elevator in elevatorlist)
-            {
-                if ((bool)GetInElevator.Invoke(elevator, new object[] { player })) return Tuple.Create(true, elevator);
-            }
-
-            return Tuple.Create(false, (object)null);
+            if (!isSubmerged()) return (false, null);
+             foreach (var elevator in (IList)SubmergedElevators.GetValue(SubmergedInstance.GetValue(null)))
+        {
+            if ((bool)GetInElevator.Invoke(elevator, new[] { player }))
+                return (true, elevator);
         }
+
+        return (false, null);
+        }
+
 
         public static void ExileRoleChangePostfix()
         {
@@ -269,7 +279,7 @@ namespace TownOfUs.Patches
             Coroutines.Start(waitMeeting(GhostRoleBegin));
         }
 
-        public static IEnumerator waitStart(Action next)
+        public static IEnumerator waitStart (Action next)
         {
             while (DestroyableSingleton<HudManager>.Instance.UICamera.transform.Find("SpawnInMinigame(Clone)") == null)
             {

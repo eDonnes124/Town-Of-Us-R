@@ -1,5 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
+using TownOfUs.Roles;
 
 namespace TownOfUs.Patches
 {
@@ -15,6 +16,8 @@ namespace TownOfUs.Patches
                 Object.Destroy(__instance.gameObject);
                 return false;
             }
+
+           
 
             return true;
         }

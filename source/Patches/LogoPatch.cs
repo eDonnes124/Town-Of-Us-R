@@ -7,7 +7,7 @@ namespace TownOfUs {
     public static class LogoPatch
     {
         private static Sprite Sprite => TownOfUs.ToUBanner;
-        static void Postfix(PingTracker __instance) {
+        static void Postfix(MainMenuManager __instance) {
             var touLogo = new GameObject("bannerLogo_TownOfUs");
             touLogo.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
 
