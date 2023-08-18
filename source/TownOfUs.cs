@@ -199,6 +199,7 @@ namespace TownOfUs
             CamoSprintFreezeSprite = CreateSprite("TownOfUs.Resources.CamoSprintFreeze.png");
             RadiateSprite = CreateSprite("TownOfUs.Resources.Radiate.png");
             HackSprite = CreateSprite("TownOfUs.Resources.Hack.png");
+            MimicSprite = CreateSprite("TownOfUs.Resources.Mimic.png");
             LockSprite = CreateSprite("TownOfUs.Resources.Lock.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");
@@ -250,24 +251,6 @@ namespace TownOfUs
             SubmergedCompatibility.Initialize();
         }
 
-        
-          
-        
-
-        public static void LoadAssets() 
-        {
-                var assembly = Assembly.GetExecutingAssembly();
-
-                var resourceStreamLobby = assembly.GetManifestResourceStream("TownOfUs.Resources.jeanaucustomlobby");
-                var assetBundleLobby = AssetBundle.LoadFromMemory(resourceStreamLobby.ReadFully());
-
-              TownOfUs.CustomAssets.customLobby = assetBundleLobby.LoadAsset<GameObject>("allul_customLobby.prefab").DontDestroy();
-
-                assetBundleLobby.Unload(false);
-
-            }
-        
-
         public static Sprite CreateSprite(string name)
         {
             var pixelsPerUnit = 100f;
@@ -290,18 +273,6 @@ namespace TownOfUs
             var il2CPPArray = (Il2CppStructArray<byte>) data;
             _iCallLoadImage.Invoke(tex.Pointer, il2CPPArray.Pointer, markNonReadable);
         }
-
-          public  class CustomMain
-        {
-          public  CustomAssets customAssets = new CustomAssets();
-        }
-
-         public  class CustomAssets
-         {
-           public static   GameObject customLobby;
-         }
-
-
         private delegate bool DLoadImage(IntPtr tex, IntPtr data, bool markNonReadable);
     }
 }
