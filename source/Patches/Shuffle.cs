@@ -7,15 +7,10 @@ namespace TownOfUs
     {
         public static void Shuffle<T>(this List<T> list)
         {
-            if (list.Count is 1 or 0)
-                return;
-
-            var count = list.Count;
-
-            for (var i = 0; i <= count - 1; ++i)
+            for (var i = list.Count-1; i > 0; --i)
             {
-                var r = Random.Range(i, count);
-                (list[r], list[i]) = (list[i], list[r]);
+                var j = Random.Range(0, i+1);
+                (list[i], list[j]) = (list[j], list[i]);
             }
         }
 
