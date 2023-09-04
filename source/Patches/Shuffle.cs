@@ -16,9 +16,16 @@ namespace TownOfUs
 
         public static T TakeFirst<T>(this List<T> list)
         {
-            var item = list[0];
-            list.RemoveAt(0);
-            return item;
+            try
+            {
+                var item = list[0];
+                list.RemoveAt(0);
+                return item;
+            }
+            catch
+            {
+                return default;
+            }
         }
 
         public static T Ability<T>(this List<T> list)
