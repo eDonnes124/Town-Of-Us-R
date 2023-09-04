@@ -80,6 +80,7 @@ namespace TownOfUs
                 roles.Clear();
                 return;
             }
+
             var chosenRoles = roles.Where(x => x.Item2 == 100).ToList();
             // Shuffle to ensure that the same 100% roles do not appear in
             // every game if there are more than the maximum.
@@ -94,7 +95,7 @@ namespace TownOfUs
                 // Determine which roles appear in this game.
                 var optionalRoles = potentialRoles.Where(x => Check(x.Item2)).ToList();
                 potentialRoles = potentialRoles.Where(x => !optionalRoles.Contains(x)).ToList();
-                
+
                 optionalRoles.Shuffle();
                 chosenRoles.AddRange(optionalRoles.GetRange(0, Math.Min(max - chosenRoles.Count, optionalRoles.Count)));
 
@@ -122,15 +123,7 @@ namespace TownOfUs
 
             var roles2 = roles.Where(x => x.Item2 < 100).ToList();
             roles2.Shuffle();
-
-            foreach (var item in roles2)
-            {
-                if (newList.Count >= max)
-                    break;
-
-                if (Check(item.Item2))
-                    newList.Add(item);
-            }
+            newList.AddRange(roles2.Where(x => Check(x.Item2)));
 
             while (newList.Count > max)
             {
@@ -161,11 +154,8 @@ namespace TownOfUs
                 var killing = PickRoleCount(CustomGameOptions.MinNeutralKillingRoles, Math.Min(CustomGameOptions.MaxNeutralKillingRoles, NeutralKillingRoles.Count));
 
                 var canSubtract = (int faction, int minFaction) => { return faction > minFaction; };
-                List<string> factions = new List<string>()
-                {
-                    "Benign", "Evil", "Killing"
-                };
-                
+                var factions = new List<string>() { "Benign", "Evil", "Killing" };
+
                 // Crew must always start out outnumbering neutrals, so subtract roles until that can be guaranteed.
                 while (Math.Ceiling((double)crewmates.Count/2) <= benign + evil + killing)
                 {

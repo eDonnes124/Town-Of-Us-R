@@ -7,19 +7,17 @@ namespace TownOfUs
     {
         public static void Shuffle<T>(this List<T> list)
         {
-            for (var i = list.Count-1; i > 0; --i)
+            for (var i = list.Count - 1; i > 0; --i)
             {
-                var j = Random.Range(0, i+1);
+                var j = Random.Range(0, i + 1);
                 (list[i], list[j]) = (list[j], list[i]);
             }
         }
 
         public static T TakeFirst<T>(this List<T> list)
         {
-            list.Shuffle();
             var item = list[0];
             list.RemoveAt(0);
-            list.Shuffle();
             return item;
         }
 
