@@ -7,19 +7,29 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.Extensions;
 using AmongUs.GameOptions;
+using TownOfUs.Patches.ScreenEffects;
 
 namespace TownOfUs.Patches {
 
     static class AdditionalTempData {
         public static List<PlayerRoleInfo> playerRoles = new List<PlayerRoleInfo>();
+        public static List<Winners> otherWinners = new List<Winners>();
 
         public static void clear() {
             playerRoles.Clear();
+            otherWinners.Clear();
         }
 
-        internal class PlayerRoleInfo {
+        internal class PlayerRoleInfo
+        {
             public string PlayerName { get; set; }
-            public string Role {get;set;}
+            public string Role { get; set; }
+        }
+
+        internal class Winners
+        {
+            public string PlayerName { get; set; }
+            public RoleEnum Role { get; set; }
         }
     }
 
@@ -29,6 +39,7 @@ namespace TownOfUs.Patches {
 
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] EndGameResult endGameResult)
         {
+            if (CameraEffect.singleton) CameraEffect.singleton.materials.Clear();
             AdditionalTempData.clear();
             var playerRole = "";
             // Theres a better way of doing this e.g. switch statement or dictionary. But this works for now.
@@ -47,7 +58,7 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.Sheriff) { playerRole += "<color=#" + Patches.Colors.Sheriff.ToHtmlStringRGBA() + ">Sheriff</color> > "; }
                     else if (role.Value == RoleEnum.Swapper) { playerRole += "<color=#" + Patches.Colors.Swapper.ToHtmlStringRGBA() + ">Swapper</color> > "; }
                     else if (role.Value == RoleEnum.Seer || role.Value == RoleEnum.CultistSeer) { playerRole += "<color=#" + Patches.Colors.Seer.ToHtmlStringRGBA() + ">Seer</color> > "; }
-                    else if (role.Value == RoleEnum.Snitch) { playerRole += "<color=#" + Patches.Colors.Snitch.ToHtmlStringRGBA() + ">Snitch</color> > "; }
+                    else if (role.Value == RoleEnum.Snitch || role.Value == RoleEnum.CultistSnitch) { playerRole += "<color=#" + Patches.Colors.Snitch.ToHtmlStringRGBA() + ">Snitch</color> > "; }
                     else if (role.Value == RoleEnum.Spy) { playerRole += "<color=#" + Patches.Colors.Spy.ToHtmlStringRGBA() + ">Spy</color> > "; }
                     else if (role.Value == RoleEnum.Vigilante) { playerRole += "<color=#" + Patches.Colors.Vigilante.ToHtmlStringRGBA() + ">Vigilante</color> > "; }
                     else if (role.Value == RoleEnum.Arsonist) { playerRole += "<color=#" + Patches.Colors.Arsonist.ToHtmlStringRGBA() + ">Arsonist</color> > "; }
@@ -84,11 +95,20 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.Chameleon) { playerRole += "<color=#" + Patches.Colors.Chameleon.ToHtmlStringRGBA() + ">Chameleon</color> > "; }
                     else if (role.Value == RoleEnum.Imitator) { playerRole += "<color=#" + Patches.Colors.Imitator.ToHtmlStringRGBA() + ">Imitator</color> > "; }
                     else if (role.Value == RoleEnum.Bomber) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Bomber</color> > "; }
+                    else if (role.Value == RoleEnum.Doomsayer) { playerRole += "<color=#" + Patches.Colors.Doomsayer.ToHtmlStringRGBA() + ">Doomsayer</color> > "; }
+                    else if (role.Value == RoleEnum.Vampire) { playerRole += "<color=#" + Patches.Colors.Vampire.ToHtmlStringRGBA() + ">Vampire</color> > "; }
+                    else if (role.Value == RoleEnum.VampireHunter) { playerRole += "<color=#" + Patches.Colors.VampireHunter.ToHtmlStringRGBA() + ">Vampire Hunter</color> > "; }
+                    else if (role.Value == RoleEnum.Prosecutor) { playerRole += "<color=#" + Patches.Colors.Prosecutor.ToHtmlStringRGBA() + ">Prosecutor</color> > "; }
+                    else if (role.Value == RoleEnum.Warlock) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Warlock</color> > "; }
+                    else if (role.Value == RoleEnum.Oracle) { playerRole += "<color=#" + Patches.Colors.Oracle.ToHtmlStringRGBA() + ">Oracle</color> > "; }
+                    else if (role.Value == RoleEnum.Venerer) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Venerer</color> > "; }
+                    else if (role.Value == RoleEnum.Aurial) { playerRole += "<color=#" + Patches.Colors.Aurial.ToHtmlStringRGBA() + ">Aurial</color> > "; }
                     if (CustomGameOptions.GameMode == GameMode.Cultist && playerControl.Data.IsImpostor())
                     {
                         if (role.Value == RoleEnum.Engineer) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Demolitionist</color> > "; }
                         else if (role.Value == RoleEnum.Investigator) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Consigliere</color> > "; }
                         else if (role.Value == RoleEnum.CultistMystic) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Clairvoyant</color> > "; }
+                        else if (role.Value == RoleEnum.CultistSnitch) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Informant</color> > "; }
                         else if (role.Value == RoleEnum.Spy) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Rogue Agent</color> > "; }
                         else if (role.Value == RoleEnum.Vigilante) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Assassin</color> > "; }
                     }
@@ -103,9 +123,9 @@ namespace TownOfUs.Patches {
                 {
                     playerRole += " (<color=#" + Patches.Colors.ButtonBarry.ToHtmlStringRGBA() + ">Button Barry</color>)";
                 }
-                else if (playerControl.Is(ModifierEnum.Blind))
+                else if (playerControl.Is(ModifierEnum.Aftermath))
                 {
-                    playerRole += " (<color=#" + Patches.Colors.Blind.ToHtmlStringRGBA() + ">Blind</color>)";
+                    playerRole += " (<color=#" + Patches.Colors.Aftermath.ToHtmlStringRGBA() + ">Aftermath</color>)";
                 }
                 else if (playerControl.Is(ModifierEnum.Bait))
                 {
@@ -155,6 +175,10 @@ namespace TownOfUs.Patches {
                 {
                     playerRole += " (<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Underdog</color>)";
                 }
+                else if (playerControl.Is(ModifierEnum.Frosty))
+                {
+                    playerRole += " (<color=#" + Patches.Colors.Frosty.ToHtmlStringRGBA() + ">Frosty</color>)";
+                }
                 var player = Role.GetRole(playerControl);
                 if (playerControl.Is(RoleEnum.Phantom) || playerControl.Is(Faction.Crewmates))
                 {
@@ -183,6 +207,30 @@ namespace TownOfUs.Patches {
                 }
                 AdditionalTempData.playerRoles.Add(new AdditionalTempData.PlayerRoleInfo() { PlayerName = playerControl.Data.PlayerName, Role = playerRole });
             }
+
+            if (!CustomGameOptions.NeutralEvilWinEndsGame)
+            {
+                foreach (var doomsayer in Role.GetRoles(RoleEnum.Doomsayer))
+                {
+                    var doom = (Doomsayer)doomsayer;
+                    if (doom.WonByGuessing) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = doom.Player.Data.PlayerName, Role = RoleEnum.Doomsayer });
+                }
+                foreach (var executioner in Role.GetRoles(RoleEnum.Executioner))
+                {
+                    var exe = (Executioner)executioner;
+                    if (exe.TargetVotedOut) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = exe.Player.Data.PlayerName, Role = RoleEnum.Executioner });
+                }
+                foreach (var jester in Role.GetRoles(RoleEnum.Jester))
+                {
+                    var jest = (Jester)jester;
+                    if (jest.VotedOut) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = jest.Player.Data.PlayerName, Role = RoleEnum.Jester });
+                }
+                foreach (var phantom in Role.GetRoles(RoleEnum.Phantom))
+                {
+                    var phan = (Phantom)phantom;
+                    if (phan.CompletedTasks) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = phan.Player.Data.PlayerName, Role = RoleEnum.Phantom });
+                }
+            }
         }
     }
 
@@ -209,6 +257,19 @@ namespace TownOfUs.Patches {
                 var role = string.Join(" ", data.Role);
                 roleSummaryText.AppendLine($"{data.PlayerName} - {role}");
             }
+
+            if (AdditionalTempData.otherWinners.Count != 0)
+            {
+                roleSummaryText.AppendLine("\n\n\nOther Winners:");
+                foreach (var data in AdditionalTempData.otherWinners)
+                {
+                    if (data.Role == RoleEnum.Doomsayer) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Doomsayer.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                    else if (data.Role == RoleEnum.Executioner) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Executioner.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                    else if (data.Role == RoleEnum.Jester) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Jester.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                    else if (data.Role == RoleEnum.Phantom) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Phantom.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                }
+            }
+
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
             roleSummaryTextMesh.color = Color.white;
@@ -219,6 +280,7 @@ namespace TownOfUs.Patches {
             var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
             roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
             roleSummaryTextMesh.text = roleSummaryText.ToString();
+
             AdditionalTempData.clear();
         }
     }

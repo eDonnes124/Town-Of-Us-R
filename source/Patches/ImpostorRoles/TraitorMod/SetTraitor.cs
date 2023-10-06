@@ -10,6 +10,9 @@ using Reactor.Utilities;
 using TownOfUs.Patches;
 using AmongUs.GameOptions;
 using TownOfUs.CrewmateRoles.ImitatorMod;
+using TownOfUs.Roles.Modifiers;
+using TownOfUs.CrewmateRoles.AurialMod;
+using TownOfUs.Patches.ScreenEffects;
 
 namespace TownOfUs.ImpostorRoles.TraitorMod
 {
@@ -32,9 +35,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                     .Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
             foreach (var player in alives)
             {
-                if (player.Data.IsImpostor() || ((player.Is(RoleEnum.Glitch) || player.Is(RoleEnum.Juggernaut)
-                    || player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Plaguebearer) || player.Is(RoleEnum.Pestilence)
-                    || player.Is(RoleEnum.Werewolf)) && CustomGameOptions.NeutralKillingStopsTraitor))
+                if (player.Data.IsImpostor() || (player.Is(Faction.NeutralKilling) && CustomGameOptions.NeutralKillingStopsTraitor))
                 {
                     return;
                 }
@@ -95,6 +96,14 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                     Object.Destroy(trapperRole.UsesText);
                 }
 
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial))
+                {
+                    var aurial = Role.GetRole<Aurial>(PlayerControl.LocalPlayer);
+                    aurial.NormalVision = true;
+                    SeeAll.AllToNormal();
+                    CameraEffect.singleton.materials.Clear();
+                }
+
                 if (PlayerControl.LocalPlayer == StartImitate.ImitatingPlayer) StartImitate.ImitatingPlayer = null;
 
                 var oldRole = Role.GetRole(PlayerControl.LocalPlayer);
@@ -108,9 +117,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                 role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                 role.RegenTask();
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.TraitorSpawn, SendOption.Reliable, -1);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.TraitorSpawn);
 
                 TurnImp(PlayerControl.LocalPlayer);
             }
@@ -132,13 +139,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                 }
             }
 
-            if (CustomGameOptions.TraitorCanAssassin)
-            {
-                var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetAssassin, SendOption.Reliable, -1);
-                writer2.Write(player.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer2);
-            }
+            if (CustomGameOptions.TraitorCanAssassin) new Assassin(player);
 
             if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
             {
@@ -195,8 +196,8 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
         [HarmonyPatch(typeof(Object), nameof(Object.Destroy), new System.Type[] { typeof(GameObject) })]
         public static void Prefix(GameObject obj)
         {
-            if (!SubmergedCompatibility.Loaded || GameOptionsManager.Instance.currentNormalGameOptions.MapId != 5) return;
-            if (obj.name.Contains("ExileCutscene")) ExileControllerPostfix(ExileControllerPatch.lastExiled);
+            if (!SubmergedCompatibility.Loaded || GameOptionsManager.Instance?.currentNormalGameOptions?.MapId != 5) return;
+            if (obj.name?.Contains("ExileCutscene") == true) ExileControllerPostfix(ExileControllerPatch.lastExiled);
         }
     }
 }

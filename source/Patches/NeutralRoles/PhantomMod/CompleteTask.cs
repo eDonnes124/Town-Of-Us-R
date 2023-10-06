@@ -1,6 +1,7 @@
 using System.Linq;
 using HarmonyLib;
-using Hazel;
+using Reactor.Utilities;
+using TownOfUs.Patches.NeutralRoles;
 using TownOfUs.Roles;
 
 namespace TownOfUs.NeutralRoles.PhantomMod
@@ -22,11 +23,22 @@ namespace TownOfUs.NeutralRoles.PhantomMod
                 role.CompletedTasks = true;
                 if (AmongUsClient.Instance.AmHost)
                 {
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.PhantomWin, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    Utils.EndGame();
+                    Utils.Rpc(CustomRPC.PhantomWin, role.Player.PlayerId);
+                    if (CustomGameOptions.NeutralEvilWinEndsGame) Utils.EndGame();
+                    else
+                    {
+                        role.Caught = true;
+                        if (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) || !CustomGameOptions.PhantomSpook) return;
+                        byte[] toKill = MeetingHud.Instance.playerStates.Where(x => !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Pestilence)).Select(x => x.TargetPlayerId).ToArray();
+                        role.PauseEndCrit = true;
+                        var pk = new PunishmentKill((x) => {
+                            Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, x);
+                            role.PauseEndCrit = false;
+                        }, (y) => {
+                            return toKill.Contains(y.PlayerId);
+                        });
+                        Coroutines.Start(pk.Open(1f));
+                    }
                 }
             }
         }

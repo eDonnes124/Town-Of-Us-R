@@ -48,7 +48,6 @@ namespace TownOfUs.Roles
             color.a = 0.07f + velocity / Player.MyPhysics.GhostSpeed * 0.13f;
             color.a = Mathf.Lerp(color.a, 0, distPercent);
 
-
             if (Player.GetCustomOutfitType() != CustomPlayerOutfitType.PlayerNameOnly)
             {
                 Player.SetOutfit(CustomPlayerOutfitType.PlayerNameOnly, new GameData.PlayerOutfit()
@@ -57,12 +56,14 @@ namespace TownOfUs.Roles
                     HatId = "",
                     SkinId = "",
                     VisorId = "",
-                    PlayerName = ""
+                    PlayerName = " ",
+                    PetId = ""
                 });
             }
             Player.myRend().color = color;
             Player.nameText().color = Color.clear;
             Player.cosmetics.colorBlindText.color = Color.clear;
+            Player.cosmetics.SetBodyCosmeticsVisible(false);
         }
     }
 }

@@ -24,10 +24,7 @@ namespace TownOfUs.NeutralRoles.GuardianAngelMod
                 role.TimeRemaining = CustomGameOptions.ProtectDuration;
                 role.UsesLeft--;
                 role.Protect();
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.GAProtect, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.GAProtect, PlayerControl.LocalPlayer.PlayerId);
                 return false;
             }
 

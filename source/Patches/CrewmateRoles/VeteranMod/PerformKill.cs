@@ -24,10 +24,7 @@ namespace TownOfUs.CrewmateRoles.VeteranMod
                 role.TimeRemaining = CustomGameOptions.AlertDuration;
                 role.UsesLeft--;
                 role.Alert();
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.Alert, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.Alert, PlayerControl.LocalPlayer.PlayerId);
                 return false;
             }
 

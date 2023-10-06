@@ -1,6 +1,4 @@
 using Il2CppSystem.Collections.Generic;
-using TownOfUs.Extensions;
-using UnityEngine;
 
 namespace TownOfUs.Roles
 {
@@ -21,7 +19,7 @@ namespace TownOfUs.Roles
             Color = Patches.Colors.Executioner;
             RoleType = RoleEnum.Executioner;
             AddToRoleHistory(RoleType);
-            Faction = Faction.NeutralOther;
+            Faction = Faction.NeutralEvil;
             Scale = 1.4f;
         }
 
@@ -35,6 +33,7 @@ namespace TownOfUs.Roles
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
             if (Player.Data.IsDead) return true;
+            if (!CustomGameOptions.NeutralEvilWinEndsGame) return true;
             if (!TargetVotedOut || !target.Data.IsDead) return true;
             Utils.EndGame();
             return false;
@@ -44,11 +43,6 @@ namespace TownOfUs.Roles
         {
             if (Player.Data.IsDead || Player.Data.Disconnected) return;
             TargetVotedOut = true;
-        }
-
-        public void Loses()
-        {
-            LostByRPC = true;
         }
     }
 }

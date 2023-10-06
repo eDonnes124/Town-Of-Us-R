@@ -63,18 +63,10 @@ namespace TownOfUs.Roles
 
             if (PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected) <= 2 &&
                     PlayerControl.AllPlayerControls.ToArray().Count(x => !x.Data.IsDead && !x.Data.Disconnected &&
-                    (x.Data.IsImpostor() || x.Is(RoleEnum.Arsonist) || x.Is(RoleEnum.Juggernaut) ||
-                    x.Is(RoleEnum.Werewolf) || x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence))) == 0)
+                    (x.Data.IsImpostor() || x.Is(Faction.NeutralKilling))) == 1)
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(
-                    PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.GlitchWin,
-                    SendOption.Reliable,
-                    -1
-                );
-                writer.Write(Player.PlayerId);
+                Utils.Rpc(CustomRPC.GlitchWin, Player.PlayerId);
                 Wins();
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
                 Utils.EndGame();
                 return false;
             }
@@ -86,11 +78,6 @@ namespace TownOfUs.Roles
         {
             //System.Console.WriteLine("Reached Here - Glitch Edition");
             GlitchWins = true;
-        }
-
-        public void Loses()
-        {
-            LostByRPC = true;
         }
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
@@ -115,7 +102,7 @@ namespace TownOfUs.Roles
                         player.NameText.color = Color;
 
             if (HudManager.Instance != null && HudManager.Instance.Chat != null)
-                foreach (var bubble in HudManager.Instance.Chat.chatBubPool.activeChildren)
+                foreach (var bubble in HudManager.Instance.Chat.chatBubblePool.activeChildren)
                     if (bubble.Cast<ChatBubble>().NameText != null &&
                         Player.Data.PlayerName == bubble.Cast<ChatBubble>().NameText.text)
                         bubble.Cast<ChatBubble>().NameText.color = Color;
@@ -145,15 +132,15 @@ namespace TownOfUs.Roles
                 if (Minigame.Instance)
                     Minigame.Instance.Close();
 
-                if (!MimicList.IsOpen || MeetingHud.Instance)
+                if (!MimicList.IsOpenOrOpening || MeetingHud.Instance)
                 {
                     MimicList.Toggle();
-                    MimicList.SetVisible(false);
+                    MimicList.gameObject.SetActive(false);
                     MimicList = null;
                 }
                 else
                 {
-                    foreach (var bubble in MimicList.chatBubPool.activeChildren)
+                    foreach (var bubble in MimicList.chatBubblePool.activeChildren)
                         if (!IsUsingMimic && MimicList != null)
                         {
                             Vector2 ScreenMin =
@@ -196,10 +183,7 @@ namespace TownOfUs.Roles
 
         public void RpcSetHacked(PlayerControl hacked)
         {
-            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte)CustomRPC.SetHacked, SendOption.Reliable, -1);
-            writer.Write(hacked.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            Utils.Rpc(CustomRPC.SetHacked, hacked.PlayerId);
             SetHacked(hacked);
         }
 
@@ -402,11 +386,7 @@ namespace TownOfUs.Roles
 
             public static IEnumerator Mimic(Glitch __instance, PlayerControl mimicPlayer)
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetMimic, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                writer.Write(mimicPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.SetMimic, PlayerControl.LocalPlayer.PlayerId, mimicPlayer.PlayerId);
 
                 Utils.Morph(__instance.Player, mimicPlayer, true);
 
@@ -439,12 +419,7 @@ namespace TownOfUs.Roles
                         __instance.MimicTarget = null;
                         Utils.Unmorph(__instance.Player);
 
-                        var writer2 = AmongUsClient.Instance.StartRpcImmediately(
-                            PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcResetAnim, SendOption.Reliable,
-                            -1);
-                        writer2.Write(PlayerControl.LocalPlayer.PlayerId);
-                        writer2.Write(mimicPlayer.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                        Utils.Rpc(CustomRPC.RpcResetAnim, PlayerControl.LocalPlayer.PlayerId, mimicPlayer.PlayerId);
                         yield break;
                     }
 
@@ -643,28 +618,32 @@ namespace TownOfUs.Roles
                     __gInstance.MimicList.SetVisible(true);
                     __gInstance.MimicList.Toggle();
 
-                    __gInstance.MimicList.TextBubble.enabled = false;
-                    __gInstance.MimicList.TextBubble.gameObject.SetActive(false);
+                    var aspect = __gInstance.MimicList.gameObject.AddComponent<AspectPosition>();
+                    aspect.Alignment = AspectPosition.EdgeAlignments.Center;
+                    aspect.AdjustPosition();
 
-                    __gInstance.MimicList.TextArea.enabled = false;
-                    __gInstance.MimicList.TextArea.gameObject.SetActive(false);
+                    __gInstance.MimicList.GetPooledBubble().enabled = false;
+                    __gInstance.MimicList.GetPooledBubble().gameObject.SetActive(false);
 
-                    __gInstance.MimicList.BanButton.enabled = false;
-                    __gInstance.MimicList.BanButton.gameObject.SetActive(false);
+                    __gInstance.MimicList.freeChatField.enabled = false;
+                    __gInstance.MimicList.freeChatField.gameObject.SetActive(false);
 
-                    __gInstance.MimicList.CharCount.enabled = false;
-                    __gInstance.MimicList.CharCount.gameObject.SetActive(false);
+                    __gInstance.MimicList.banButton.MenuButton.enabled = false;
+                    __gInstance.MimicList.banButton.MenuButton.gameObject.SetActive(false);
 
-                    __gInstance.MimicList.OpenKeyboardButton.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                    __gInstance.MimicList.OpenKeyboardButton.Destroy();
+                    __gInstance.MimicList.freeChatField.charCountText.enabled = false;
+                    __gInstance.MimicList.freeChatField.charCountText.gameObject.SetActive(false);
+
+                    __gInstance.MimicList.openKeyboardButton.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    __gInstance.MimicList.openKeyboardButton.Destroy();
 
                     __gInstance.MimicList.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>()
                         .enabled = false;
                     __gInstance.MimicList.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
-                    __gInstance.MimicList.BackgroundImage.enabled = false;
+                    __gInstance.MimicList.backgroundImage.enabled = false;
 
-                    foreach (var rend in __gInstance.MimicList.Content
+                    foreach (var rend in __gInstance.MimicList.chatScreen
                         .GetComponentsInChildren<SpriteRenderer>())
                         if (rend.name == "SendButton" || rend.name == "QuickChatButton")
                         {
@@ -672,13 +651,13 @@ namespace TownOfUs.Roles
                             rend.gameObject.SetActive(false);
                         }
 
-                    foreach (var bubble in __gInstance.MimicList.chatBubPool.activeChildren)
+                    foreach (var bubble in __gInstance.MimicList.chatBubblePool.activeChildren)
                     {
                         bubble.enabled = false;
                         bubble.gameObject.SetActive(false);
                     }
 
-                    __gInstance.MimicList.chatBubPool.activeChildren.Clear();
+                    __gInstance.MimicList.chatBubblePool.activeChildren.Clear();
 
                     foreach (var player in PlayerControl.AllPlayerControls.ToArray().Where(x =>
                         x != null &&
@@ -703,7 +682,7 @@ namespace TownOfUs.Roles
                 else
                 {
                     __gInstance.MimicList.Toggle();
-                    __gInstance.MimicList.SetVisible(false);
+                    __gInstance.MimicList.gameObject.SetActive(false);
                     __gInstance.MimicList = null;
                 }
             }

@@ -14,6 +14,7 @@ namespace TownOfUs
         {
             if (MeetingHud.Instance) return;
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
+            if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null || PlayerControl.LocalPlayer.Data.Tasks == null) return;
             var taskinfos = __instance.Data.Tasks.ToArray();
             var tasksLeft = taskinfos.Count(x => !x.Complete);
             if (__instance.Is(RoleEnum.Phantom))
@@ -23,10 +24,7 @@ namespace TownOfUs
                     var role = Role.GetRole<Phantom>(__instance);
                     role.Caught = true;
                     role.Player.Exiled();
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.CatchPhantom, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.CatchPhantom, role.Player.PlayerId);
                 }
             }
             else if (__instance.Is(RoleEnum.Haunter))
@@ -38,10 +36,7 @@ namespace TownOfUs
                     var role = Role.GetRole<Haunter>(__instance);
                     role.Caught = true;
                     role.Player.Exiled();
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.CatchHaunter, SendOption.Reliable, -1);
-                    writer.Write(role.Player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.CatchHaunter, role.Player.PlayerId);
                 }
             }
             return;

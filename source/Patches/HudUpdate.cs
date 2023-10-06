@@ -57,7 +57,21 @@ namespace TownOfUs.Patches
                     cam.orthographicSize = size;
             }
 
-            ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height);
+            ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height, Screen.fullScreen);
+        }
+
+        public static void ZoomStart()
+        {
+            var size = Zooming ? 12f : 3f;
+            Camera.main.orthographicSize = size;
+
+            foreach (var cam in Camera.allCameras)
+            {
+                if (cam?.gameObject.name == "UI Camera")
+                    cam.orthographicSize = size;
+            }
+
+            ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height, Screen.fullScreen);
         }
     }
 }

@@ -79,19 +79,11 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
 
                 if (SwapVotes.Swap1 == null || SwapVotes.Swap2 == null)
                 {
-                    var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte) CustomRPC.SetSwaps, SendOption.Reliable, -1);
-                    writer2.Write(sbyte.MaxValue);
-                    writer2.Write(sbyte.MaxValue);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    Utils.Rpc(CustomRPC.SetSwaps, sbyte.MaxValue, sbyte.MaxValue);
                     return;
                 }
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.SetSwaps, SendOption.Reliable, -1);
-                writer.Write(SwapVotes.Swap1.TargetPlayerId);
-                writer.Write(SwapVotes.Swap2.TargetPlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.SetSwaps, SwapVotes.Swap1.TargetPlayerId, SwapVotes.Swap2.TargetPlayerId);
             }
 
             return Listener;

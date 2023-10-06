@@ -26,10 +26,7 @@ namespace TownOfUs.ImpostorRoles.GrenadierMod
                 if (sabActive) return false;
                 if (role.FlashTimer() != 0) return false;
 
-                var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.FlashGrenade, SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Utils.Rpc(CustomRPC.FlashGrenade, PlayerControl.LocalPlayer.PlayerId);
                 role.TimeRemaining = CustomGameOptions.GrenadeDuration;
                 role.Flash();
                 return false;

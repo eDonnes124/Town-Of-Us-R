@@ -33,6 +33,7 @@ namespace TownOfUs.Patches
     {
         public static void Postfix(HudManager __instance)
         {
+            if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null) return;
             if (SubmergedCompatibility.isSubmerged())
             {
                 if (PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(RoleEnum.Haunter))
@@ -119,33 +120,21 @@ namespace TownOfUs.Patches
             }
         }
 
-        public static bool DisableO2MaskCheckForEmergency
-        {
-            set
-            {
-                if (!Loaded) return;
-                DisableO2MaskCheckField.SetValue(null, value);
-            }
-        }
-
         private static Type SubmarineStatusType;
         private static MethodInfo CalculateLightRadiusMethod;
-
-        private static Type TaskIsEmergencyPatchType;
-        private static FieldInfo DisableO2MaskCheckField;
 
         private static MethodInfo RpcRequestChangeFloorMethod;
         private static Type FloorHandlerType;
         private static MethodInfo GetFloorHandlerMethod;
 
-        private static Type Vent_MoveToVent_PatchType;
-        private static FieldInfo InTransitionField;
+        private static Type VentPatchDataType;
+        private static PropertyInfo InTransitionField;
 
         private static Type CustomTaskTypesType;
         private static FieldInfo RetrieveOxigenMaskField;
         public static TaskTypes RetrieveOxygenMask;
         private static Type SubmarineOxygenSystemType;
-        private static FieldInfo SubmarineOxygenSystemInstanceField;
+        private static PropertyInfo SubmarineOxygenSystemInstanceField;
         private static MethodInfo RepairDamageMethod;
 
         private static Type SubmergedExileController;
@@ -177,27 +166,25 @@ namespace TownOfUs.Patches
                 .Invoke(null, Array.Empty<object>());
 
             SubmarineStatusType = Types.First(t => t.Name == "SubmarineStatus");
-            SubmergedInstance = AccessTools.Field(SubmarineStatusType, "Instance");
-            SubmergedElevators = AccessTools.Field(SubmarineStatusType, "Elevators");
+            SubmergedInstance = AccessTools.Field(SubmarineStatusType, "instance");
+            SubmergedElevators = AccessTools.Field(SubmarineStatusType, "elevators");
 
             CalculateLightRadiusMethod = AccessTools.Method(SubmarineStatusType, "CalculateLightRadius");
-
-            TaskIsEmergencyPatchType = Types.First(t => t.Name == "PlayerTask_TaskIsEmergency_Patch");
-            DisableO2MaskCheckField = AccessTools.Field(TaskIsEmergencyPatchType, "DisableO2MaskCheck");
 
             FloorHandlerType = Types.First(t => t.Name == "FloorHandler");
             GetFloorHandlerMethod = AccessTools.Method(FloorHandlerType, "GetFloorHandler", new Type[] { typeof(PlayerControl) });
             RpcRequestChangeFloorMethod = AccessTools.Method(FloorHandlerType, "RpcRequestChangeFloor");
 
-            Vent_MoveToVent_PatchType = Types.First(t => t.Name == "Vent_MoveToVent_Patch");
-            InTransitionField = AccessTools.Field(Vent_MoveToVent_PatchType, "InTransition");
+            VentPatchDataType = Types.First(t => t.Name == "VentPatchData");
+            InTransitionField = AccessTools.Property(VentPatchDataType, "InTransition");
 
             CustomTaskTypesType = Types.First(t => t.Name == "CustomTaskTypes");
             RetrieveOxigenMaskField = AccessTools.Field(CustomTaskTypesType, "RetrieveOxygenMask");
-            RetrieveOxygenMask = (TaskTypes)RetrieveOxigenMaskField.GetValue(null);
+            var retTaskType = AccessTools.Field(CustomTaskTypesType, "taskType");
+            RetrieveOxygenMask = (TaskTypes)retTaskType.GetValue(RetrieveOxigenMaskField.GetValue(null));
 
             SubmarineOxygenSystemType = Types.First(t => t.Name == "SubmarineOxygenSystem");
-            SubmarineOxygenSystemInstanceField = AccessTools.Field(SubmarineOxygenSystemType, "Instance");
+            SubmarineOxygenSystemInstanceField = AccessTools.Property(SubmarineOxygenSystemType, "Instance");
             RepairDamageMethod = AccessTools.Method(SubmarineOxygenSystemType, "RepairDamage");
             SubmergedExileController = Types.First(t => t.Name == "SubmergedExileController");
             SubmergedExileWrapUpMethod = AccessTools.Method(SubmergedExileController, "WrapUpAndSpawn");
@@ -205,11 +192,10 @@ namespace TownOfUs.Patches
             SubmarineElevator = Types.First(t => t.Name == "SubmarineElevator");
             GetInElevator = AccessTools.Method(SubmarineElevator, "GetInElevator", new Type[] { typeof(PlayerControl) });
             GetMovementStageFromTime = AccessTools.Method(SubmarineElevator, "GetMovementStageFromTime");
-            getSubElevatorSystem = AccessTools.Field(SubmarineElevator, "System");
+            getSubElevatorSystem = AccessTools.Field(SubmarineElevator, "system");
 
             SubmarineElevatorSystem = Types.First(t => t.Name == "SubmarineElevatorSystem");
-            UpperDeckIsTargetFloor = AccessTools.Field(SubmarineElevatorSystem, "UpperDeckIsTargetFloor");
-            //I tried patching normally but it would never work
+            UpperDeckIsTargetFloor = AccessTools.Field(SubmarineElevatorSystem, "upperDeckIsTargetFloor");
             Harmony _harmony = new Harmony("tou.submerged.patch");
             var exilerolechangePostfix = SymbolExtensions.GetMethodInfo(() => ExileRoleChangePostfix());
             _harmony.Patch(SubmergedExileWrapUpMethod, null, new HarmonyMethod(exilerolechangePostfix));
@@ -319,12 +305,7 @@ namespace TownOfUs.Patches
                     }
                     ChangeFloor(startingVent.transform.position.y > -7f);
 
-                    var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
-                    writer2.Write(PlayerControl.LocalPlayer.PlayerId);
-                    writer2.Write(startingVent.transform.position.x);
-                    writer2.Write(startingVent.transform.position.y + 0.3636f);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                     PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
@@ -343,12 +324,7 @@ namespace TownOfUs.Patches
                     }
                     ChangeFloor(startingVent.transform.position.y > -7f);
 
-                    var writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                    (byte)CustomRPC.SetPos, SendOption.Reliable, -1);
-                    writer2.Write(PlayerControl.LocalPlayer.PlayerId);
-                    writer2.Write(startingVent.transform.position.x);
-                    writer2.Write(startingVent.transform.position.y + 0.3636f);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
                     PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);

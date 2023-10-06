@@ -5,6 +5,7 @@ using TownOfUs.ImpostorRoles.BomberMod;
 using System.Reflection;
 using Hazel;
 using TownOfUs.CrewmateRoles.MedicMod;
+using TownOfUs.Patches;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Roles
@@ -18,8 +19,7 @@ namespace TownOfUs.Roles
         public bool Detonated = true;
         public Vector3 DetonatePoint;
         public Bomb Bomb = new Bomb();
-        public static AssetBundle bundle = loadBundle();
-        public static Material bombMaterial = bundle.LoadAsset<Material>("bomb").DontUnload();
+        public static Material bombMaterial = TownOfUs.bundledAssets.Get<Material>("bomb");
         public DateTime StartingCooldown { get; set; }
 
         public Bomber(PlayerControl player) : base(player)
@@ -73,18 +73,14 @@ namespace TownOfUs.Roles
             while (playersToDie.Count > CustomGameOptions.MaxKillsInDetonation) playersToDie.Remove(playersToDie[playersToDie.Count - 1]);
             foreach (var player in playersToDie)
             {
-                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected())
+                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
                 {
                     Utils.RpcMultiMurderPlayer(Player, player);
                 }
                 else if (player.IsShielded())
                 {
                     var medic = player.GetMedic().Player.PlayerId;
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                    writer.Write(medic);
-                    writer.Write(player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
                     StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
             }
@@ -101,14 +97,6 @@ namespace TownOfUs.Roles
                 playersToDie[r] = tmp;
             }
             return playersToDie;
-        }
-
-        public static AssetBundle loadBundle()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var stream = assembly.GetManifestResourceStream("TownOfUs.Resources.bombershader");
-            var assets = stream.ReadFully();
-            return AssetBundle.LoadFromMemory(assets);
         }
 
         protected override void HudManagerUpdate(HudManager __instance)

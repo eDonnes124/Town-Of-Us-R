@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
 using TownOfUs.Roles;
-using TownOfUs.CrewmateRoles.DetectiveMod;
 using System;
 using System.Linq;
+using TownOfUs.CrewmateRoles.OracleMod;
 
 namespace TownOfUs.CrewmateRoles.ImitatorMod
 {
@@ -14,18 +14,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Imitator)) return;
             var imitatorRole = Role.GetRole<Imitator>(PlayerControl.LocalPlayer);
-            if (imitatorRole.LastExaminedPlayer != null)
-            {
-                if (CustomGameOptions.ExamineReportOn)
-                {
-                    var playerResults = BodyReport.PlayerReportFeedback(imitatorRole.LastExaminedPlayer);
-
-                    if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);
-                }
-
-                imitatorRole.LastExaminedPlayer = null;
-            }
-            else if (imitatorRole.trappedPlayers != null)
+            if (imitatorRole.trappedPlayers != null)
             {
                 if (imitatorRole.trappedPlayers.Count == 0)
                 {
@@ -47,6 +36,12 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                         DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, message);
                 }
                 imitatorRole.trappedPlayers.Clear();
+            }
+            else if (imitatorRole.confessingPlayer != null)
+            {
+                var playerResults = MeetingStartOracle.PlayerReportFeedback(imitatorRole.confessingPlayer);
+
+                if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);
             }
         }
     }

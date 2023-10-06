@@ -33,6 +33,7 @@ namespace TownOfUs.Patches.CustomHats
 
         internal static IEnumerator LoadHats()
         {
+            
             try
             {
                 var hatJson = LoadJson();
@@ -79,12 +80,13 @@ namespace TownOfUs.Patches.CustomHats
                     var stream = Assembly.GetManifestResourceStream($"{HAT_RESOURCE_NAMESPACE}.{hatCredit.Id}.png");
                     if (stream != null)
                     {
-                        var hatBehaviour = GenerateHatBehaviour(stream.ReadFully());
+                        var hatBehaviour = GenerateHatBehaviour(hatCredit.Id, stream.ReadFully());
                         hatBehaviour.StoreName = hatCredit.Artist;
                         hatBehaviour.ProductId = hatCredit.Id;
                         hatBehaviour.name = hatCredit.Name;
                         hatBehaviour.Free = true;
                         hatBehaviours.Add(hatBehaviour);
+                        
                     }
                 }
                 catch (Exception e)
@@ -98,23 +100,27 @@ namespace TownOfUs.Patches.CustomHats
             return hatBehaviours;
         }
 
-        private static HatData GenerateHatBehaviour(byte[] mainImg)
+        private static HatData GenerateHatBehaviour(string s, byte[] mainImg)
         {
-            
+
             //TODO: Move to Graphics Utils class
-            var tex2D = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-            TownOfUs.LoadImage(tex2D, mainImg, false);
-            var sprite = Sprite.Create(tex2D, new Rect(0.0f, 0.0f, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f), 100);
+            Sprite sprite;
+            if (HatCache.hatViewDatas.ContainsKey(s))
+            {
+                sprite = HatCache.hatViewDatas[s];
+            }
+            else
+            {
+                var tex2D = new Texture2D(1, 1, TextureFormat.ARGB32, false);
+                TownOfUs.LoadImage(tex2D, mainImg, false);
+                sprite = Sprite.Create(tex2D, new Rect(0.0f, 0.0f, tex2D.width, tex2D.height), new Vector2(0.5f, 0.5f), 100);
+                HatCache.hatViewDatas.Add(s, sprite);
+            }
 
+            var hat = ScriptableObject.CreateInstance<HatData>();   
 
-            var hat = ScriptableObject.CreateInstance<HatData>();
-            var a = new HatViewData();
-            var b = new AddressableLoadWrapper<HatViewData>();
-            b.viewData = a;
-            a.MainImage = sprite;
-            hat.hatViewData = b;
             hat.ChipOffset = new Vector2(-0.1f, 0.35f);
-
+            hat.SpritePreview = sprite;
             hat.InFront = true;
             hat.NoBounce = true;
 

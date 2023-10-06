@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
-using Hazel;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Extensions;
+using TownOfUs.Patches;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using TMPro;
 
 namespace TownOfUs.Roles
 {
@@ -55,15 +56,8 @@ namespace TownOfUs.Roles
                     (x.Data.IsImpostor() || x.Is(RoleEnum.Glitch) || x.Is(RoleEnum.Juggernaut) ||
                     x.Is(RoleEnum.Werewolf) || x.Is(RoleEnum.Plaguebearer) || x.Is(RoleEnum.Pestilence))))
             {
-                var writer = AmongUsClient.Instance.StartRpcImmediately(
-                    PlayerControl.LocalPlayer.NetId,
-                    (byte) CustomRPC.ArsonistWin,
-                    SendOption.Reliable,
-                    -1
-                );
-                writer.Write(Player.PlayerId);
+                Utils.Rpc(CustomRPC.ArsonistWin, Player.PlayerId);
                 Wins();
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
                 Utils.EndGame();
             }
 
@@ -74,11 +68,6 @@ namespace TownOfUs.Roles
         public void Wins()
         {
             ArsonistWins = true;
-        }
-
-        public void Loses()
-        {
-            LostByRPC = true;
         }
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
@@ -103,18 +92,14 @@ namespace TownOfUs.Roles
             foreach (var playerId in DousedPlayers)
             {
                 var player = Utils.PlayerById(playerId);
-                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected())
+                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
                 {
                     Utils.RpcMultiMurderPlayer(Player, player);
                 }
                 else if (player.IsShielded())
                 {
                     var medic = player.GetMedic().Player.PlayerId;
-                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte)CustomRPC.AttemptSound, SendOption.Reliable, -1);
-                    writer.Write(medic);
-                    writer.Write(player.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    Utils.Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
                     StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
             }

@@ -32,7 +32,7 @@ namespace TownOfUs.Roles
             LastProtected = DateTime.UtcNow;
             RoleType = RoleEnum.GuardianAngel;
             AddToRoleHistory(RoleType);
-            Faction = Faction.NeutralOther;
+            Faction = Faction.NeutralBenign;
             Scale = 1.4f;
 
             UsesLeft = CustomGameOptions.MaxProtects;
@@ -67,18 +67,6 @@ namespace TownOfUs.Roles
             }
             Enabled = false;
             LastProtected = DateTime.UtcNow;
-        }
-
-        public void ImpTargetWin()
-        {
-            Player.Data.Role.TeamType = RoleTeamTypes.Impostor;
-            if (Player.Data.IsDead) RoleManager.Instance.SetRole(Player, RoleTypes.ImpostorGhost);
-            else RoleManager.Instance.SetRole(Player, RoleTypes.Impostor);
-        }
-
-        public void ImpTargetLose()
-        {
-            LostByRPC = true;
         }
 
         protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
