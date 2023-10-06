@@ -20,4 +20,14 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
                         Role.GetRole<Transporter>(PlayerControl.LocalPlayer).Update(__instance);
         }
     }
+
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.UpdateChatMode))]
+    class chatModeUpdate
+    {
+        private static bool Prefix(ChatController __instance)
+        {
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Transporter)) return true;
+            return (__instance != Role.GetRole<Transporter>(PlayerControl.LocalPlayer).TransportList);
+        }
+    }
 }

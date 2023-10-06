@@ -1,11 +1,12 @@
 using System;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using TownOfUs.Patches;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace TownOfUs.NeutralRoles.PhantomMod
 {
@@ -27,6 +28,12 @@ namespace TownOfUs.NeutralRoles.PhantomMod
             var exiled = __instance.exiled?.Object;
             if (!WillBePhantom.Data.IsDead && (exiled.Is(Faction.NeutralKilling) || exiled.Is(Faction.NeutralEvil) || exiled.Is(Faction.NeutralBenign)) && !exiled.IsLover()) WillBePhantom = exiled;
             if (exiled == WillBePhantom && exiled.Is(RoleEnum.Jester)) return;
+            var doomRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Doomsayer && ((Doomsayer)x).WonByGuessing && ((Doomsayer)x).Player == WillBePhantom);
+            if (doomRole != null) return;
+            var exeRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Executioner && ((Executioner)x).TargetVotedOut && ((Executioner)x).Player == WillBePhantom);
+            if (exeRole != null) return;
+            var jestRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Jester && ((Jester)x).VotedOut && ((Jester)x).Player == WillBePhantom);
+            if (jestRole != null) return;
             if (WillBePhantom.Data.Disconnected) return;
             if (!WillBePhantom.Data.IsDead && WillBePhantom != exiled) return;
 
@@ -62,8 +69,20 @@ namespace TownOfUs.NeutralRoles.PhantomMod
             if (PlayerControl.LocalPlayer != WillBePhantom) return;
 
             if (Role.GetRole<Phantom>(PlayerControl.LocalPlayer).Caught) return;
-            var startingVent =
-                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+
+            List<Vent> vents = new();
+            var CleanVentTasks = PlayerControl.LocalPlayer.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+            if (CleanVentTasks != null)
+            {
+                var ids = CleanVentTasks.Where(x => !x.IsComplete)
+                                        .ToList()
+                                        .ConvertAll(x => x.FindConsoles()[0].ConsoleId);
+
+                vents = ShipStatus.Instance.AllVents.Where(x => !ids.Contains(x.Id)).ToList();
+            }
+            else vents = ShipStatus.Instance.AllVents.ToList();
+
+            var startingVent = vents[Random.RandomRangeInt(0, vents.Count)];
 
             Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 

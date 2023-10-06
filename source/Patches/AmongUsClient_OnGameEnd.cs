@@ -109,57 +109,60 @@ namespace TownOfUs
                 return;
             }
 
-            foreach (var role in Role.AllRoles)
+            if (CustomGameOptions.NeutralEvilWinEndsGame)
             {
-                var type = role.RoleType;
+                foreach (var role in Role.AllRoles)
+                {
+                    var type = role.RoleType;
 
-                if (type == RoleEnum.Jester)
-                {
-                    var jester = (Jester)role;
-                    if (jester.VotedOut)
+                    if (type == RoleEnum.Jester)
                     {
-                        TempData.winners = new List<WinningPlayerData>();
-                        var jestData = new WinningPlayerData(jester.Player.Data);
-                        jestData.IsDead = false;
-                        if (PlayerControl.LocalPlayer != jester.Player) jestData.IsYou = false;
-                        TempData.winners.Add(jestData);
-                        return;
+                        var jester = (Jester)role;
+                        if (jester.VotedOut)
+                        {
+                            TempData.winners = new List<WinningPlayerData>();
+                            var jestData = new WinningPlayerData(jester.Player.Data);
+                            jestData.IsDead = false;
+                            if (PlayerControl.LocalPlayer != jester.Player) jestData.IsYou = false;
+                            TempData.winners.Add(jestData);
+                            return;
+                        }
                     }
-                }
-                else if (type == RoleEnum.Executioner)
-                {
-                    var executioner = (Executioner)role;
-                    if (executioner.TargetVotedOut)
+                    else if (type == RoleEnum.Executioner)
                     {
-                        TempData.winners = new List<WinningPlayerData>();
-                        var exeData = new WinningPlayerData(executioner.Player.Data);
-                        if (PlayerControl.LocalPlayer != executioner.Player) exeData.IsYou = false;
-                        TempData.winners.Add(exeData);
-                        return;
+                        var executioner = (Executioner)role;
+                        if (executioner.TargetVotedOut)
+                        {
+                            TempData.winners = new List<WinningPlayerData>();
+                            var exeData = new WinningPlayerData(executioner.Player.Data);
+                            if (PlayerControl.LocalPlayer != executioner.Player) exeData.IsYou = false;
+                            TempData.winners.Add(exeData);
+                            return;
+                        }
                     }
-                }
-                else if (type == RoleEnum.Doomsayer)
-                {
-                    var doom = (Doomsayer)role;
-                    if (doom.WonByGuessing)
+                    else if (type == RoleEnum.Doomsayer)
                     {
-                        TempData.winners = new List<WinningPlayerData>();
-                        var doomData = new WinningPlayerData(doom.Player.Data);
-                        if (PlayerControl.LocalPlayer != doom.Player) doomData.IsYou = false;
-                        TempData.winners.Add(doomData);
-                        return;
+                        var doom = (Doomsayer)role;
+                        if (doom.WonByGuessing)
+                        {
+                            TempData.winners = new List<WinningPlayerData>();
+                            var doomData = new WinningPlayerData(doom.Player.Data);
+                            if (PlayerControl.LocalPlayer != doom.Player) doomData.IsYou = false;
+                            TempData.winners.Add(doomData);
+                            return;
+                        }
                     }
-                }
-                else if (type == RoleEnum.Phantom)
-                {
-                    var phantom = (Phantom)role;
-                    if (phantom.CompletedTasks)
+                    else if (type == RoleEnum.Phantom)
                     {
-                        TempData.winners = new List<WinningPlayerData>();
-                        var phantomData = new WinningPlayerData(phantom.Player.Data);
-                        if (PlayerControl.LocalPlayer != phantom.Player) phantomData.IsYou = false;
-                        TempData.winners.Add(phantomData);
-                        return;
+                        var phantom = (Phantom)role;
+                        if (phantom.CompletedTasks)
+                        {
+                            TempData.winners = new List<WinningPlayerData>();
+                            var phantomData = new WinningPlayerData(phantom.Player.Data);
+                            if (PlayerControl.LocalPlayer != phantom.Player) phantomData.IsYou = false;
+                            TempData.winners.Add(phantomData);
+                            return;
+                        }
                     }
                 }
             }
@@ -275,7 +278,7 @@ namespace TownOfUs
                 var surv = (Survivor)role;
                 if (!surv.Player.Data.IsDead && !surv.Player.Data.Disconnected)
                 {
-                    var isImp = TempData.winners[0].IsImpostor;
+                    var isImp = TempData.winners.Count != 0 && TempData.winners[0].IsImpostor;
                     var survWinData = new WinningPlayerData(surv.Player.Data);
                     if (isImp) survWinData.IsImpostor = true;
                     if (PlayerControl.LocalPlayer != surv.Player) survWinData.IsYou = false;

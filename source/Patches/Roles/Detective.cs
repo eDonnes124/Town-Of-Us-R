@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TownOfUs.Roles
 {
@@ -8,8 +9,8 @@ namespace TownOfUs.Roles
         public PlayerControl ClosestPlayer;
         public DateTime LastExamined { get; set; }
         public DeadBody CurrentTarget;
-        public bool ExamineMode = false;
-        public PlayerControl DetectedKiller;
+        public List<byte> DetectedKillers = new List<byte>();
+        public PlayerControl LastKiller;
 
         public Detective(PlayerControl player) : base(player)
         {

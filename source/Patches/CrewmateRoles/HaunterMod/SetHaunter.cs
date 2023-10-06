@@ -1,6 +1,5 @@
 using System;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -8,6 +7,8 @@ using Random = UnityEngine.Random;
 using TownOfUs.Patches;
 using TownOfUs.CrewmateRoles.AurialMod;
 using TownOfUs.Patches.ScreenEffects;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod
 {
@@ -75,8 +76,20 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
             if (PlayerControl.LocalPlayer != WillBeHaunter) return;
 
             if (Role.GetRole<Haunter>(PlayerControl.LocalPlayer).Caught) return;
-            var startingVent =
-                ShipStatus.Instance.AllVents[Random.RandomRangeInt(0, ShipStatus.Instance.AllVents.Count)];
+
+            List<Vent> vents = new();
+            var CleanVentTasks = PlayerControl.LocalPlayer.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
+            if (CleanVentTasks != null)
+            {
+                var ids = CleanVentTasks.Where(x => !x.IsComplete)
+                                        .ToList()
+                                        .ConvertAll(x => x.FindConsoles()[0].ConsoleId);
+
+                vents = ShipStatus.Instance.AllVents.Where(x => !ids.Contains(x.Id)).ToList();
+            }
+            else vents = ShipStatus.Instance.AllVents.ToList();
+
+            var startingVent = vents[Random.RandomRangeInt(0, vents.Count)];
 
 
             Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);

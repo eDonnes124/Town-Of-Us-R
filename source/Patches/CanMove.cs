@@ -13,7 +13,7 @@ namespace TownOfUs.Patches
                            && !Minigame.Instance
                            && !__instance.shapeshifting
                            && (!DestroyableSingleton<HudManager>.InstanceExists
-                               || !DestroyableSingleton<HudManager>.Instance.Chat.IsOpen
+                               || !DestroyableSingleton<HudManager>.Instance.Chat.IsOpenOrOpening
                                && !DestroyableSingleton<HudManager>.Instance.KillOverlay.IsOpen
                                && !DestroyableSingleton<HudManager>.Instance.GameMenu.IsOpen)
                            /*&& (!ControllerManager.Instance || !ControllerManager.Instance.IsUiControllerActive)*/

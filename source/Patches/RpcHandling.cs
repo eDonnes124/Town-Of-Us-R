@@ -35,6 +35,7 @@ using AmongUs.GameOptions;
 using TownOfUs.NeutralRoles.VampireMod;
 using TownOfUs.CrewmateRoles.MayorMod;
 using System.Reflection;
+using TownOfUs.Patches.NeutralRoles;
 
 namespace TownOfUs
 {
@@ -1123,7 +1124,22 @@ namespace TownOfUs
                         phantomPlayer.Exiled();
                         break;
                     case CustomRPC.PhantomWin:
-                        Role.GetRole<Phantom>(Utils.PlayerById(reader.ReadByte())).CompletedTasks = true;
+                        var phantomWinner = Role.GetRole<Phantom>(Utils.PlayerById(reader.ReadByte()));
+                        phantomWinner.CompletedTasks = true;
+                        if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                        {
+                            phantomWinner.Caught = true;
+                            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) || !CustomGameOptions.PhantomSpook || MeetingHud.Instance) return;
+                            byte[] toKill = MeetingHud.Instance.playerStates.Where(x => !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Pestilence)).Select(x => x.TargetPlayerId).ToArray();
+                            Role.GetRole(PlayerControl.LocalPlayer).PauseEndCrit = true;
+                            var pk = new PunishmentKill((x) => {
+                                Utils.RpcMultiMurderPlayer(PlayerControl.LocalPlayer, x);
+                                Role.GetRole(PlayerControl.LocalPlayer).PauseEndCrit = false;
+                            }, (y) => {
+                                return toKill.Contains(y.PlayerId);
+                            });
+                            Coroutines.Start(pk.Open(1f));
+                        }
                         break;
                     case CustomRPC.SetHaunter:
                         readByte = reader.ReadByte();
