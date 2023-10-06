@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TownOfUs.CustomOption
 {
     public class CustomStringOption : CustomOption
@@ -14,10 +12,7 @@ namespace TownOfUs.CustomOption
 
         protected string[] Values { get; set; }
 
-        protected internal int Get()
-        {
-            return (int) Value;
-        }
+        protected internal int Get() => (int)Value;
 
         protected internal void Increase()
         {
@@ -37,8 +32,8 @@ namespace TownOfUs.CustomOption
 
         public override void OptionCreated()
         {
+            base.OptionCreated();
             var str = Setting.Cast<StringOption>();
-
             str.TitleText.text = Name;
             str.Value = str.oldValue = Get();
             str.ValueText.text = ToString();

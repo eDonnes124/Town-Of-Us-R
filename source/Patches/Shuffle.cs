@@ -30,5 +30,14 @@ namespace TownOfUs
             var item = list[0];
             return item;
         }
+
+        public static void RemoveRange<T>(this List<T> list1, List<T> list2)
+        {
+            foreach (var item in list2)
+            {
+                if (list1.Contains(item))
+                    list1.Remove(item);
+            }
+        }
     }
 }

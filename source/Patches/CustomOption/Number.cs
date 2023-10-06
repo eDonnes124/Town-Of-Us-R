@@ -17,14 +17,11 @@ namespace TownOfUs.CustomOption
         protected float Max { get; set; }
         protected float Increment { get; set; }
 
-        protected internal float Get()
-        {
-            return (float) Value;
-        }
+        protected internal float Get() => (float)Value;
        
         protected internal void Increase()
         {
-            var increment = Increment > 5 && Input.GetKeyInt(KeyCode.LeftShift) ? 5 : Increment;
+            var increment = Increment > 1 && Input.GetKeyInt(KeyCode.LeftShift) ? Increment / 2 : Increment;
 
             if (Get() + increment > Max + 0.001f) // the slight increase is because of the stupid float rounding errors in the Giant speed
                 Set(Min);
@@ -46,7 +43,6 @@ namespace TownOfUs.CustomOption
         {
             base.OptionCreated();
             var number = Setting.Cast<NumberOption>();
-
             number.TitleText.text = Name;
             number.ValidRange = new FloatRange(Min, Max);
             number.Increment = Increment;

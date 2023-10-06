@@ -1,23 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Reflection;
+using System.IO;
 
 namespace TownOfUs.CustomOption
 {
-    public class Import : CustomButtonOption
+    public class Presets : CustomButtonOption
     {
         public CustomButtonOption Loading;
-        public List<OptionBehaviour> OldButtons = new();
+        public List<OptionBehaviour> OldButtons;
         public List<CustomButtonOption> SlotButtons = new();
 
-        protected internal Import(int id) : base(id, MultiMenu.main, "Load Custom Settings") => Do = ToDo;
+        protected internal Presets(int id) : base(id, MultiMenu.main, "Load Presets") => Do = ToDo;
 
         private List<OptionBehaviour> CreateOptions()
         {
@@ -33,7 +34,7 @@ namespace TownOfUs.CustomOption
                 }
                 else
                 {
-                    var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent).DontDestroy();
+                    var toggle = Object.Instantiate(togglePrefab, togglePrefab.transform.parent);
                     toggle.transform.GetChild(2).gameObject.SetActive(false);
                     toggle.transform.GetChild(0).localPosition += new Vector3(1f, 0f, 0f);
                     button.Setting = toggle;
@@ -57,7 +58,7 @@ namespace TownOfUs.CustomOption
             Loading = SlotButtons[0];
             Loading.Do = () => { };
             Loading.Setting.Cast<ToggleOption>().TitleText.text = "Loading...";
-            __instance.Children = new[] {Loading.Setting};
+            __instance.Children = new[] { Loading.Setting };
             yield return new WaitForSeconds(0.5f);
             Loading.Setting.gameObject.Destroy();
 
@@ -72,10 +73,8 @@ namespace TownOfUs.CustomOption
         protected internal void ToDo()
         {
             SlotButtons.Clear();
-
-            for (var j = 1; j < 11; j++)
-                SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, $"Slot {j}", delegate { ImportSlot(j); }));
-
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Default", delegate { LoadPreset("Default", true); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Last Used", delegate { LoadPreset("LastUsed", true); }));
             SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Cancel", delegate { Cancel(FlashWhite); }));
 
             var options = CreateOptions();
@@ -95,17 +94,21 @@ namespace TownOfUs.CustomOption
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
 
-        private void ImportSlot(int slotId)
+        private void LoadPreset(string presetName, bool data)
         {
-            System.Console.WriteLine(slotId);
-            string text;
+            System.Console.WriteLine($"Loading - {presetName}");
+            string text = null;
 
             try
             {
-                var path = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}");
-                text = File.ReadAllText(path);
+                text = data ? File.ReadAllText(Path.Combine(Application.persistentDataPath, $"{presetName}Settings")) : CreatePresetText(presetName);
             }
             catch
+            {
+                text = "";
+            }
+
+            if (string.IsNullOrEmpty(text))
             {
                 Cancel(FlashRed);
                 return;
@@ -164,9 +167,18 @@ namespace TownOfUs.CustomOption
             Setting.Cast<ToggleOption>().TitleText.color = Color.white;
         }
 
-        private IEnumerator FlashWhite()
+        private IEnumerator FlashWhite() => null;
+
+        private static string CreatePresetText(string itemName)
         {
-            yield return null;
+            if (itemName == null || itemName.Length == 0)
+                return "";
+
+            var path = $"TownOfUs.Resources.Presets.{itemName}";
+            var assembly = Assembly.GetExecutingAssembly();
+            var stream = assembly.GetManifestResourceStream(path);
+            var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
     }
 }

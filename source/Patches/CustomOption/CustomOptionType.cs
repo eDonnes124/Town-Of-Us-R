@@ -6,8 +6,10 @@ namespace TownOfUs.CustomOption
         Toggle,
         Number,
         String,
-        Button
+        Button,
+        Nested
     }
+
     public enum MultiMenu
     {
         main,

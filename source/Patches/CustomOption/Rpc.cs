@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Hazel;
 using Reactor.Utilities;
 
@@ -40,7 +39,7 @@ namespace TownOfUs.CustomOption
             {
                 var id = reader.ReadInt32();
                 var customOption =
-                    CustomOption.AllOptions.FirstOrDefault(option =>
+                    CustomOption.AllOptions.Find(option =>
                         option.ID == id); // Works but may need to change to gameObject.name check
                 var type = customOption?.Type;
                 object value = null;

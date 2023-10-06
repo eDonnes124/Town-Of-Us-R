@@ -28,5 +28,6 @@
 	<ItemGroup>
 		<EmbeddedResource Include="Resources\*" />
 		<EmbeddedResource Include="Resources\Hats\**" />
+		<EmbeddedResource Include="Resources\Presets\**" />
 	</ItemGroup>
 </Project>
