@@ -14,6 +14,7 @@ namespace TownOfUs
         {
             if (MeetingHud.Instance) return;
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
+            if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null || PlayerControl.LocalPlayer.Data.Tasks == null) return;
             var taskinfos = __instance.Data.Tasks.ToArray();
             var tasksLeft = taskinfos.Count(x => !x.Complete);
             if (__instance.Is(RoleEnum.Phantom))
