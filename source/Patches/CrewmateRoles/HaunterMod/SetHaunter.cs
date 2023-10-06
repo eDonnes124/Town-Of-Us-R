@@ -1,6 +1,5 @@
 using System;
 using HarmonyLib;
-using System.Linq;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -8,6 +7,7 @@ using Random = UnityEngine.Random;
 using TownOfUs.Patches;
 using TownOfUs.CrewmateRoles.AurialMod;
 using TownOfUs.Patches.ScreenEffects;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod
@@ -49,26 +49,22 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 Role.RoleDictionary.Remove(WillBeHaunter.PlayerId);
                 if (PlayerControl.LocalPlayer == WillBeHaunter)
                 {
-                    var role = new Haunter(PlayerControl.LocalPlayer)
-                    {
-                        formerRole = oldRole.RoleType,
-                        CorrectKills = killsList.CorrectKills,
-                        IncorrectKills = killsList.IncorrectKills,
-                        CorrectAssassinKills = killsList.CorrectAssassinKills,
-                        IncorrectAssassinKills = killsList.IncorrectAssassinKills
-                    };
+                    var role = new Haunter(PlayerControl.LocalPlayer);
+                    role.formerRole = oldRole.RoleType;
+                    role.CorrectKills = killsList.CorrectKills;
+                    role.IncorrectKills = killsList.IncorrectKills;
+                    role.CorrectAssassinKills = killsList.CorrectAssassinKills;
+                    role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                     role.RegenTask();
                 }
                 else
                 {
-                    var role = new Haunter(WillBeHaunter)
-                    {
-                        formerRole = oldRole.RoleType,
-                        CorrectKills = killsList.CorrectKills,
-                        IncorrectKills = killsList.IncorrectKills,
-                        CorrectAssassinKills = killsList.CorrectAssassinKills,
-                        IncorrectAssassinKills = killsList.IncorrectAssassinKills
-                    };
+                    var role = new Haunter(WillBeHaunter);
+                    role.formerRole = oldRole.RoleType;
+                    role.CorrectKills = killsList.CorrectKills;
+                    role.IncorrectKills = killsList.IncorrectKills;
+                    role.CorrectAssassinKills = killsList.CorrectAssassinKills;
+                    role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
                 }
 
                 Utils.RemoveTasks(WillBeHaunter);
@@ -80,6 +76,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
             if (PlayerControl.LocalPlayer != WillBeHaunter) return;
 
             if (Role.GetRole<Haunter>(PlayerControl.LocalPlayer).Caught) return;
+
             List<Vent> vents = new();
             var CleanVentTasks = PlayerControl.LocalPlayer.myTasks.ToArray().Where(x => x.TaskType == TaskTypes.VentCleaning).ToList();
             if (CleanVentTasks != null)
@@ -91,8 +88,9 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 vents = ShipStatus.Instance.AllVents.Where(x => !ids.Contains(x.Id)).ToList();
             }
             else vents = ShipStatus.Instance.AllVents.ToList();
-                       
+
             var startingVent = vents[Random.RandomRangeInt(0, vents.Count)];
+
 
             Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 

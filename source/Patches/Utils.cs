@@ -408,7 +408,7 @@ namespace TownOfUs
             PlayerControl result = null;
             foreach (var player in AllPlayers)
             {
-                if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled) continue;
+                if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled || player.inVent) continue;
                 var playerPosition = player.GetTruePosition();
                 var distBetweenPlayers = Vector2.Distance(refPosition, playerPosition);
                 var isClosest = distBetweenPlayers < num;
@@ -479,7 +479,7 @@ namespace TownOfUs
             var data = target.Data;
             if (data != null && !data.IsDead)
             {
-                if (ShowRoundOneShield.DiedFirst == "") ShowRoundOneShield.DiedFirst = target.name;
+                if (ShowRoundOneShield.DiedFirst == "") ShowRoundOneShield.DiedFirst = target.GetDefaultOutfit().PlayerName;
 
                 if (killer == PlayerControl.LocalPlayer)
                     SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
@@ -523,6 +523,12 @@ namespace TownOfUs
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
+                {
+                    var detective = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
+                    detective.LastKiller = killer;
                 }
 
                 if (target.AmOwner)
@@ -1212,13 +1218,9 @@ namespace TownOfUs
             {
                 var detective = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
                 detective.LastExamined = DateTime.UtcNow;
-                if (detective.DetectedKiller != null && (detective.DetectedKiller.Data.IsDead || detective.DetectedKiller.Data.Disconnected))
-                {
-                    detective.DetectedKiller = null;
-                    detective.ExamineMode = false;
-                    detective.ClosestPlayer = null;
-                }
+                detective.ClosestPlayer = null;
                 detective.CurrentTarget = null;
+                detective.LastKiller = null;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Chameleon))
             {

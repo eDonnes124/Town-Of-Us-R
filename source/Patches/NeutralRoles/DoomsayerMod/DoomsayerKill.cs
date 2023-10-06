@@ -33,28 +33,33 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             Utils.Rpc(CustomRPC.DoomsayerKill, player.PlayerId, doomsayer.PlayerId);
         }
 
-        public static void MurderPlayer(PlayerControl player, bool checkLover = true)
+        public static void MurderPlayer(PlayerControl player, bool checkLover = true, bool showKillAnim = true)
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == player.PlayerId
             );
-            MurderPlayer(voteArea, player, checkLover);
+            MurderPlayer(voteArea, player, checkLover, showKillAnim);
         }
         public static void DoomKillCount(PlayerControl player, PlayerControl doomsayer)
         {
             var doom = Role.GetRole<Doomsayer>(doomsayer);
             doom.CorrectAssassinKills += 1;
             doom.GuessedCorrectly += 1;
-            if (doom.GuessedCorrectly == CustomGameOptions.DoomsayerGuessesToWin) doom.WonByGuessing = true;
+            if (doom.GuessedCorrectly == CustomGameOptions.DoomsayerGuessesToWin)
+            {
+                doom.WonByGuessing = true;
+                if (!CustomGameOptions.NeutralEvilWinEndsGame) MurderPlayer(doom.Player, true, false);
+            }
         }
         public static void MurderPlayer(
             PlayerVoteArea voteArea,
             PlayerControl player,
-            bool checkLover = true
+            bool checkLover = true,
+            bool showKillAnim = true
         )
         {
             var hudManager = DestroyableSingleton<HudManager>.Instance;
-            if (checkLover)
+            if (showKillAnim)
             {
                 SoundManager.Instance.PlaySound(player.KillSfx, false, 0.8f);
                 hudManager.KillOverlay.ShowKillAnimation(player.Data, player.Data);
@@ -150,7 +155,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             if (checkLover && player.IsLover() && CustomGameOptions.BothLoversDie)
             {
                 var otherLover = Modifier.GetModifier<Lover>(player).OtherLover.Player;
-                if (!otherLover.Is(RoleEnum.Pestilence)) MurderPlayer(otherLover, false);
+                if (!otherLover.Is(RoleEnum.Pestilence)) MurderPlayer(otherLover, false, false);
             }
 
             var deadPlayer = new DeadPlayer

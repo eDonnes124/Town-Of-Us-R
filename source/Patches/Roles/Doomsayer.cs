@@ -129,6 +129,7 @@ namespace TownOfUs.Roles
         internal override bool NeutralWin(LogicGameFlowNormal __instance)
         {
             if (Player.Data.IsDead) return true;
+            if (!CustomGameOptions.NeutralEvilWinEndsGame) return true;
             if (!WonByGuessing) return true;
             Utils.EndGame();
             return false;

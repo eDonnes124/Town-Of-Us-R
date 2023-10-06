@@ -43,30 +43,21 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            if (role.ExamineMode)
-            {
-                role.ExamineButton.SetCoolDown(role.ExamineTimer(), CustomGameOptions.ExamineCd);
-                Utils.SetTarget(ref role.ClosestPlayer, role.ExamineButton, float.NaN);
+            role.ExamineButton.SetCoolDown(role.ExamineTimer(), CustomGameOptions.ExamineCd);
+            Utils.SetTarget(ref role.ClosestPlayer, role.ExamineButton, float.NaN);
 
-                var renderer = role.ExamineButton.graphic;
-                if (role.ClosestPlayer != null)
-                {
-                    renderer.color = Palette.EnabledColor;
-                    renderer.material.SetFloat("_Desat", 0f);
-                }
-                else
-                {
-                    renderer.color = Palette.DisabledClear;
-                    renderer.material.SetFloat("_Desat", 1f);
-                }
+            var renderer = role.ExamineButton.graphic;
+            if (role.ClosestPlayer != null)
+            {
+                renderer.color = Palette.EnabledColor;
+                renderer.material.SetFloat("_Desat", 0f);
             }
             else
             {
-                role.ExamineButton.SetCoolDown(0f, 1f);
-                var renderer = role.ExamineButton.graphic;
                 renderer.color = Palette.DisabledClear;
                 renderer.material.SetFloat("_Desat", 1f);
             }
+
             var data = PlayerControl.LocalPlayer.Data;
             var isDead = data.IsDead;
             var truePosition = PlayerControl.LocalPlayer.GetTruePosition();
