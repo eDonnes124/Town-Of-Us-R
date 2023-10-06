@@ -271,7 +271,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 var detectiveRole = Role.GetRole<Detective>(amnesiac);
                 detectiveRole.LastExamined = DateTime.UtcNow;
                 detectiveRole.CurrentTarget = null;
-                detectiveRole.ExamineMode = false;
+                detectiveRole.LastKiller = null;
             }
 
             else if (role == RoleEnum.Mystic)

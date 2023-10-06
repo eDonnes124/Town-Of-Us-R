@@ -262,6 +262,8 @@ namespace TownOfUs.Roles
             return true;
         }
 
+        internal bool PauseEndCrit = false;
+
         protected virtual string NameText(bool revealTasks, bool revealRole, bool revealModifier, bool revealLover, PlayerVoteArea player = null)
         {
             if (CamouflageUnCamouflage.IsCamoed && player == null) return "";
@@ -667,7 +669,7 @@ namespace TownOfUs.Roles
                     }
                     if (modifier != null)
                         modifierIsEnd = modifier.ModifierWin(__instance);
-                    if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd) result = false;
+                    if (!roleIsEnd || !modifierIsEnd || !traitorIsEnd || role.PauseEndCrit) result = false;
                 }
 
                 if (!NobodyEndCriteria(__instance)) result = false;

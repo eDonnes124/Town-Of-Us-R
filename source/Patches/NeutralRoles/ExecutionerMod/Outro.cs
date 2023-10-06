@@ -11,6 +11,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
     {
         public static void Postfix(EndGameManager __instance)
         {
+            if (!CustomGameOptions.NeutralEvilWinEndsGame) return;
             var role = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.Executioner && ((Executioner) x).TargetVotedOut);
             if (role == null) return;

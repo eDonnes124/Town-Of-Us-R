@@ -11,6 +11,7 @@ namespace TownOfUs.NeutralRoles.PhantomMod
     {
         public static void Postfix(EndGameManager __instance)
         {
+            if (!CustomGameOptions.NeutralEvilWinEndsGame) return;
             var role = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.Phantom && ((Phantom)x).CompletedTasks);
             if (role == null) return;
