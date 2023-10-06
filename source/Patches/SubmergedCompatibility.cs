@@ -33,6 +33,7 @@ namespace TownOfUs.Patches
     {
         public static void Postfix(HudManager __instance)
         {
+            if (PlayerControl.LocalPlayer == null || PlayerControl.LocalPlayer.Data == null) return;
             if (SubmergedCompatibility.isSubmerged())
             {
                 if (PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(RoleEnum.Haunter))
@@ -119,27 +120,15 @@ namespace TownOfUs.Patches
             }
         }
 
-        public static bool DisableO2MaskCheckForEmergency
-        {
-            set
-            {
-                if (!Loaded) return;
-                DisableO2MaskCheckField.SetValue(null, value);
-            }
-        }
-
         private static Type SubmarineStatusType;
         private static MethodInfo CalculateLightRadiusMethod;
-
-        private static Type TaskIsEmergencyPatchType;
-        private static FieldInfo DisableO2MaskCheckField;
 
         private static MethodInfo RpcRequestChangeFloorMethod;
         private static Type FloorHandlerType;
         private static MethodInfo GetFloorHandlerMethod;
 
-        private static Type Vent_MoveToVent_PatchType;
-        private static FieldInfo InTransitionField;
+        private static Type VentPatchDataType;
+        private static PropertyInfo InTransitionField;
 
         private static Type CustomTaskTypesType;
         private static FieldInfo RetrieveOxigenMaskField;
@@ -182,15 +171,12 @@ namespace TownOfUs.Patches
 
             CalculateLightRadiusMethod = AccessTools.Method(SubmarineStatusType, "CalculateLightRadius");
 
-            TaskIsEmergencyPatchType = Types.First(t => t.Name == "PlayerTaskTaskIsEmergencyPatch");
-            DisableO2MaskCheckField = AccessTools.Field(TaskIsEmergencyPatchType, "disableO2MaskCheck");
-
             FloorHandlerType = Types.First(t => t.Name == "FloorHandler");
             GetFloorHandlerMethod = AccessTools.Method(FloorHandlerType, "GetFloorHandler", new Type[] { typeof(PlayerControl) });
             RpcRequestChangeFloorMethod = AccessTools.Method(FloorHandlerType, "RpcRequestChangeFloor");
 
-            Vent_MoveToVent_PatchType = Types.First(t => t.Name == "VentMoveToVentPatch");
-            InTransitionField = AccessTools.Field(Vent_MoveToVent_PatchType, "inTransition");
+            VentPatchDataType = Types.First(t => t.Name == "VentPatchData");
+            InTransitionField = AccessTools.Property(VentPatchDataType, "InTransition");
 
             CustomTaskTypesType = Types.First(t => t.Name == "CustomTaskTypes");
             RetrieveOxigenMaskField = AccessTools.Field(CustomTaskTypesType, "RetrieveOxygenMask");

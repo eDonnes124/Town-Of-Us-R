@@ -119,6 +119,7 @@ namespace TownOfUs.CustomOption
         public static CustomStringOption SkipButtonDisable;
         public static CustomToggleOption HiddenRoles;
         public static CustomToggleOption FirstDeathShield;
+        public static CustomToggleOption NeutralEvilWinEndsGame;
 
         public static CustomHeaderOption BetterPolusSettings;
         public static CustomToggleOption VentImprovements;
@@ -230,6 +231,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption JesterButton;
         public static CustomToggleOption JesterVent;
         public static CustomToggleOption JesterImpVision;
+        public static CustomToggleOption JesterHaunt;
 
         public static CustomHeaderOption TheGlitch;
         public static CustomNumberOption MimicCooldownOption;
@@ -253,9 +255,11 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Executioner;
         public static CustomStringOption OnTargetDead;
         public static CustomToggleOption ExecutionerButton;
+        public static CustomToggleOption ExecutionerTorment;
 
         public static CustomHeaderOption Phantom;
         public static CustomNumberOption PhantomTasksRemaining;
+        public static CustomToggleOption PhantomSpook;
 
         public static CustomHeaderOption Snitch;
         public static CustomToggleOption SnitchSeesNeutrals;
@@ -403,6 +407,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption DetectiveReportOn;
         public static CustomNumberOption DetectiveRoleDuration;
         public static CustomNumberOption DetectiveFactionDuration;
+        public static CustomToggleOption CanDetectLastKiller;
 
         public static CustomHeaderOption Escapist;
         public static CustomNumberOption EscapeCooldown;
@@ -775,6 +780,7 @@ namespace TownOfUs.CustomOption
             SkipButtonDisable = new CustomStringOption(num++, MultiMenu.main, "Disable Meeting Skip Button", new[] { "No", "Emergency", "Always" });
             HiddenRoles = new CustomToggleOption(num++, MultiMenu.main, "Enable Hidden Roles", true);
             FirstDeathShield = new CustomToggleOption(num++, MultiMenu.main, "First Death Shield Next Game", false);
+            NeutralEvilWinEndsGame = new CustomToggleOption(num++, MultiMenu.main, "Neutral Evil Win Ends Game", true);
 
             TaskTrackingSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Task Tracking Settings");
@@ -823,6 +829,7 @@ namespace TownOfUs.CustomOption
             DetectiveFactionDuration =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Time Where Detective Will Have Faction", 30f, 0f, 60f, 2.5f,
                     CooldownFormat);
+            CanDetectLastKiller = new CustomToggleOption(num++, MultiMenu.crewmate, "Can Detect Last Killer", false);
 
             Haunter =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#d3d3d3FF>Haunter</color>");
@@ -1079,6 +1086,8 @@ namespace TownOfUs.CustomOption
                 new[] { "Crew", "Amnesiac", "Survivor", "Jester" });
             ExecutionerButton =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Executioner Can Button", true);
+            ExecutionerTorment =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Executioner Torments Player On Victory", true);
 
             Jester =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#FFBFCCFF>Jester</color>");
@@ -1088,11 +1097,15 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.neutral, "Jester Can Hide In Vents", false);
             JesterImpVision =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Jester Has Impostor Vision", false);
+            JesterHaunt =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Jester Haunts Player On Victory", true);
 
             Phantom =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#662962FF>Phantom</color>");
             PhantomTasksRemaining =
                  new CustomNumberOption(num++, MultiMenu.neutral, "Tasks Remaining When Phantom Can Be Clicked", 5, 1, 15, 1);
+            PhantomSpook =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Phantom Spooks Player On Victory", true);
 
             Arsonist = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#FF4D00FF>Arsonist</color>");
             DouseCooldown =

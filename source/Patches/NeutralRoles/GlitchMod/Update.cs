@@ -17,4 +17,14 @@ namespace TownOfUs.NeutralRoles.GlitchMod
                         Role.GetRole<Glitch>(PlayerControl.LocalPlayer).Update(__instance);
         }
     }
+
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.UpdateChatMode))]
+    class chatModeUpdate
+    {
+        private static bool Prefix(ChatController __instance)
+        {
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Glitch)) return true;
+            return (__instance != Role.GetRole<Glitch>(PlayerControl.LocalPlayer).MimicList);
+        }
+    }
 }

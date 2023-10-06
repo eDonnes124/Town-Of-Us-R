@@ -13,14 +13,23 @@ namespace TownOfUs.Patches {
 
     static class AdditionalTempData {
         public static List<PlayerRoleInfo> playerRoles = new List<PlayerRoleInfo>();
+        public static List<Winners> otherWinners = new List<Winners>();
 
         public static void clear() {
             playerRoles.Clear();
+            otherWinners.Clear();
         }
 
-        internal class PlayerRoleInfo {
+        internal class PlayerRoleInfo
+        {
             public string PlayerName { get; set; }
-            public string Role {get;set;}
+            public string Role { get; set; }
+        }
+
+        internal class Winners
+        {
+            public string PlayerName { get; set; }
+            public RoleEnum Role { get; set; }
         }
     }
 
@@ -198,6 +207,30 @@ namespace TownOfUs.Patches {
                 }
                 AdditionalTempData.playerRoles.Add(new AdditionalTempData.PlayerRoleInfo() { PlayerName = playerControl.Data.PlayerName, Role = playerRole });
             }
+
+            if (!CustomGameOptions.NeutralEvilWinEndsGame)
+            {
+                foreach (var doomsayer in Role.GetRoles(RoleEnum.Doomsayer))
+                {
+                    var doom = (Doomsayer)doomsayer;
+                    if (doom.WonByGuessing) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = doom.Player.Data.PlayerName, Role = RoleEnum.Doomsayer });
+                }
+                foreach (var executioner in Role.GetRoles(RoleEnum.Executioner))
+                {
+                    var exe = (Executioner)executioner;
+                    if (exe.TargetVotedOut) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = exe.Player.Data.PlayerName, Role = RoleEnum.Executioner });
+                }
+                foreach (var jester in Role.GetRoles(RoleEnum.Jester))
+                {
+                    var jest = (Jester)jester;
+                    if (jest.VotedOut) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = jest.Player.Data.PlayerName, Role = RoleEnum.Jester });
+                }
+                foreach (var phantom in Role.GetRoles(RoleEnum.Phantom))
+                {
+                    var phan = (Phantom)phantom;
+                    if (phan.CompletedTasks) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = phan.Player.Data.PlayerName, Role = RoleEnum.Phantom });
+                }
+            }
         }
     }
 
@@ -224,6 +257,19 @@ namespace TownOfUs.Patches {
                 var role = string.Join(" ", data.Role);
                 roleSummaryText.AppendLine($"{data.PlayerName} - {role}");
             }
+
+            if (AdditionalTempData.otherWinners.Count != 0)
+            {
+                roleSummaryText.AppendLine("\n\n\nOther Winners:");
+                foreach (var data in AdditionalTempData.otherWinners)
+                {
+                    if (data.Role == RoleEnum.Doomsayer) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Doomsayer.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                    else if (data.Role == RoleEnum.Executioner) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Executioner.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                    else if (data.Role == RoleEnum.Jester) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Jester.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                    else if (data.Role == RoleEnum.Phantom) roleSummaryText.AppendLine("<color=#" + Patches.Colors.Phantom.ToHtmlStringRGBA() + $">{data.PlayerName}</color>");
+                }
+            }
+
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
             roleSummaryTextMesh.color = Color.white;
@@ -234,6 +280,7 @@ namespace TownOfUs.Patches {
             var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
             roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
             roleSummaryTextMesh.text = roleSummaryText.ToString();
+
             AdditionalTempData.clear();
         }
     }

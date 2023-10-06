@@ -24,7 +24,13 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             var doom = Role.GetRole<Doomsayer>(doomsayer);
             doom.CorrectAssassinKills += 1;
             doom.GuessedCorrectly += 1;
-            if (doom.GuessedCorrectly == CustomGameOptions.DoomsayerGuessesToWin) doom.WonByGuessing = true;
+            if (doom.GuessedCorrectly == CustomGameOptions.DoomsayerGuessesToWin)
+            {
+                doom.WonByGuessing = true;
+                PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                x => x.TargetPlayerId == doom.Player.PlayerId);
+                if (!CustomGameOptions.NeutralEvilWinEndsGame) (doom as IGuesser).MurderPlayer(voteArea, doom.Player, true, false);
+            }
         }
     }
 }

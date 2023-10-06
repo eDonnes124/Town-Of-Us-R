@@ -11,6 +11,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
     {
         public static void Postfix(EndGameManager __instance)
         {
+            if (!CustomGameOptions.NeutralEvilWinEndsGame) return;
             var role = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.Doomsayer && ((Doomsayer) x).WonByGuessing);
             if (role == null) return;

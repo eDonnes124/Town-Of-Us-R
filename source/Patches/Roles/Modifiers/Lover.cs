@@ -121,7 +121,7 @@ namespace TownOfUs.Roles.Modifiers
 
         public void Win()
         {
-            if (Role.AllRoles.Where(x => x.RoleType == RoleEnum.Jester).Any(x => ((Jester) x).VotedOut)) return;
+            if (CustomGameOptions.NeutralEvilWinEndsGame && Role.AllRoles.Where(x => x.RoleType == RoleEnum.Jester).Any(x => ((Jester) x).VotedOut)) return;
             LoveCoupleWins = true;
             OtherLover.LoveCoupleWins = true;
         }

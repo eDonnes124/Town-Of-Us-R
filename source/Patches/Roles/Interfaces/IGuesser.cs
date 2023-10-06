@@ -174,10 +174,15 @@ namespace TownOfUs.Roles
             MurderPlayer(voteArea, player, checkLover);
         }
 
-        virtual void MurderPlayer(PlayerVoteArea voteArea, PlayerControl player, bool checkLover = true)
+        virtual void MurderPlayer(PlayerVoteArea voteArea, PlayerControl player, bool checkLover = true, bool showKillAnim = true)
         {
             var hudManager = DestroyableSingleton<HudManager>.Instance;
             if (checkLover)
+            {
+                SoundManager.Instance.PlaySound(player.KillSfx, false, 0.8f);
+                hudManager.KillOverlay.ShowKillAnimation(player.Data, player.Data);
+            }
+            if (showKillAnim)
             {
                 SoundManager.Instance.PlaySound(player.KillSfx, false, 0.8f);
                 hudManager.KillOverlay.ShowKillAnimation(player.Data, player.Data);

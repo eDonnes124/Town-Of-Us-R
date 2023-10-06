@@ -25,36 +25,28 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
 
             var role = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
 
+
             role.RoleAbilityButton.graphic.sprite = ExamineSprite;
 
             __instance.KillButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
 
-            if (role.ExamineMode)
-            {
-                role.RoleAbilityButton.SetCoolDown(role.ExamineTimer(), CustomGameOptions.ExamineCd);
-                Utils.SetTarget(ref role.ClosestPlayer, role.RoleAbilityButton);
+            role.RoleAbilityButton.SetCoolDown(role.ExamineTimer(), CustomGameOptions.ExamineCd);
+            Utils.SetTarget(ref role.ClosestPlayer, role.RoleAbilityButton, float.NaN);
 
-                var renderer = role.RoleAbilityButton.graphic;
-                if (role.ClosestPlayer != null)
-                {
-                    renderer.color = Palette.EnabledColor;
-                    renderer.material.SetFloat("_Desat", 0f);
-                }
-                else
-                {
-                    renderer.color = Palette.DisabledClear;
-                    renderer.material.SetFloat("_Desat", 1f);
-                }
+            var renderer = role.RoleAbilityButton.graphic;
+            if (role.ClosestPlayer != null)
+            {
+                renderer.color = Palette.EnabledColor;
+                renderer.material.SetFloat("_Desat", 0f);
             }
             else
             {
-                role.RoleAbilityButton.SetCoolDown(0f, 1f);
-                var renderer = role.RoleAbilityButton.graphic;
                 renderer.color = Palette.DisabledClear;
                 renderer.material.SetFloat("_Desat", 1f);
             }
+
             var data = PlayerControl.LocalPlayer.Data;
             var isDead = data.IsDead;
             var truePosition = PlayerControl.LocalPlayer.GetTruePosition();

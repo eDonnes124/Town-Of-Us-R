@@ -24,7 +24,6 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
             {
                 var flag2 = role.ExamineTimer() == 0f;
                 if (!flag2) return false;
-                if (!role.ExamineMode) return false;
                 if (role.ClosestPlayer == null) return false;
                 if (Vector2.Distance(role.ClosestPlayer.GetTruePosition(),
                     PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
@@ -32,7 +31,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 if (interact[4] == true)
                 {
-                    if (role.ClosestPlayer == role.DetectedKiller) Coroutines.Start(Utils.FlashCoroutine(Color.red));
+                    if (role.DetectedKillers.Contains(role.ClosestPlayer.PlayerId) || (CustomGameOptions.CanDetectLastKiller && role.LastKiller == role.ClosestPlayer)) Coroutines.Start(Utils.FlashCoroutine(Color.red));
                     else Coroutines.Start(Utils.FlashCoroutine(Color.green));
                 }
                 if (interact[0] == true)
@@ -63,11 +62,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 }
                 foreach (var deadPlayer in Murder.KilledPlayers)
                 {
-                    if (deadPlayer.PlayerId == playerId)
-                    {
-                        role.DetectedKiller = Utils.PlayerById(deadPlayer.KillerId);
-                        role.ExamineMode = true;
-                    }
+                    if (deadPlayer.PlayerId == playerId) role.DetectedKillers.Add(deadPlayer.KillerId);
                 }
                 return false;
             }

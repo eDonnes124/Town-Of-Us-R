@@ -84,6 +84,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2023.7.12s & 2023.7.12e | v5.0.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.2/ToU.v5.0.2.zip) |
 | 2023.6.13s & 2023.6.13e | v5.0.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.1/ToU.v5.0.1.zip) |
 | 2023.6.13s & 2023.6.13e | v5.0.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.0/ToU.v5.0.0.zip) |
 | 2023.3.28s & 2023.3.28e | v4.0.6 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v4.0.6/ToU.v4.0.6.zip) |
@@ -145,11 +146,19 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 <details>
   <summary> Changelog </summary>
   <details>
+  <summary> v5.0.2 </summary>
+  <ul> <li>Compatibility with the new Among Us version v2023.7.12</li> </ul>
+  <ul> <li>New Setting: Detective can detect last killer</li> </ul>
+  <ul> <li>New Setting: Neutral Evil Win Ends Game</li> </ul>
+  <ul> <li>New Settings: Neutral Evils can kill players on victory</li> </ul>
+  </details>
+  <details>
   <summary> v5.0.1 </summary>
   <ul> <li>Bug Fix: Airship Ladders work again</li> </ul>
   </details>
   <details>
   <summary> v5.0.0 </summary>
+  <ul> <li>Compatibility with the new Among Us version v2023.6.13</li> </ul>
   <ul> <li>New Role: Doomsayer</li> </ul>
   <ul> <li>New Role: Vampire</li> </ul>
   <ul> <li>New Role: Vampire Hunter</li> </ul>
@@ -787,6 +796,7 @@ If the killer of the inspected player dies, the following round the examine butt
 | Show Detective Reports | Whether the Detective should get information when reporting a body | Toggle | True |
 | Time Where Detective Reports Will Have Role | If a body has been dead for shorter than this amount, the Detective's report will contain the killer's role | Time | 15s |
 | Time Where Detective Reports Will Have Faction | If a body has been dead for shorter than this amount, the Detective's report will contain the killer's faction | Time | 30s |
+| Can Detect Last Killer | Whether the Detective can also detect the last player who killed (resets on round start) | Toggle | False |
 
 -----------------------
 ## Haunter
@@ -1245,6 +1255,7 @@ If that player gets voted out, they win the game.
 | Executioner | The percentage probability of the Executioner appearing | Percentage | 0% |
 | Executioner becomes on Target Dead | Which role the Executioner becomes when their target dies | Crewmate / Amnesiac / Survivor / Jester | Crewmate |
 | Executioner Can Button | Whether the Executioner Can Press the Button | Toggle | True |
+| Executioner Torment On Victory | Whether the Executioner can torment someone when they win | Toggle | True |
 
 -----------------------
 ## Jester
@@ -1260,6 +1271,7 @@ However, the Jester does not win if the Crewmates, Impostors or another Neutral 
 | Jester Can Button | Whether the Jester Can Press the Button | Toggle | True |
 | Jester Can Vent | Whether the Jester Can Vent | Toggle | False |
 | Jester Has Impostor Vision | Whether the Jester Has Impostor Vision | Toggle | False |
+| Jester Haunt On Victory | Whether the Jester can haunt someone when they win | Toggle | True |
 
 -----------------------
 ## Phantom
@@ -1272,6 +1284,7 @@ They become half-invisible when they die and has to complete all their tasks wit
 |----------|:-------------:|:------:|:------:|
 | Phantom | The percentage probability of the Phantom appearing | Percentage | 0% |
 | When Phantom Can Be Clicked | The amount of tasks remaining when the Phantom Can Be Clicked | Number | 5 |
+| Phantom Spook On Victory | Whether the Phantom can spook someone when they win | Toggle | True |
 
 -----------------------
 ## Arsonist
@@ -1837,6 +1850,7 @@ When they are the only remaining Impostor, they will have their kill cooldown sh
 | Disable Meeting Skip Button | Whether the meeting button is disabled | No / Emergency / Always | No |
 | Enable Hidden Roles | Whether hidden roles are added to the role selections | Toggle | True |
 | First Death Shield Next Game | Whether the first player to die gets a shield for the first round next game | Toggle | False |
+| Neutral Evils Win Ends Game | Whether a Neutral Evil role winning ends the game | Toggle | True |
 
 -----------------------
 # Task Tracking Settings
@@ -1900,7 +1914,7 @@ If you have any bugs or any need to contact me, join the [Discord Server](https:
 [TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) - For the inspiration of the Vigilante, Tracker and Spy roles, as well as the Bait modifier.\
 [5up](https://www.twitch.tv/5uppp) and the Submarine Team - For the inspiration of the Grenadier role.\
 [Guus](https://github.com/OhMyGuus) - For support for the old Among Us versions (v2021.11.9.5 and v2021.12.15).\
-[MyDragonBreath](https://github.com/MyDragonBreath) - For Submerged Compatibility, the Trapper and Aurial roles, the Aftermath modifier and support for the new Among Us versions (v2022.6.21 & v2023.6.13).\
+[MyDragonBreath](https://github.com/MyDragonBreath) - For Submerged Compatibility, the Trapper and Aurial roles, the Aftermath modifier and support for the new Among Us versions (v2022.6.21, v2023.6.13 & v2023.7.12).\
 [ItsTheNumberH](https://github.com/itsTheNumberH/Town-Of-H) - For the code used for Blind, Bait, Poisoner and partially for Tracker, as well as other bug fixes.\
 [Ruiner](https://github.com/ruiner189/Town-Of-Us-Redux) - For lovers changed into a modifier and Task Tracking.\
 [Term](https://www.twitch.tv/termboii) - For creating Transporter, Medium, Blackmailer, Plaguebearer, Sleuth, Multitasker and porting v2.5.0 to the new Among Us version (v2021.12.15).\
