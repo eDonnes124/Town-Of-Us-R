@@ -881,9 +881,7 @@ namespace TownOfUs.Roles
         {
             var player = PlayerControl.LocalPlayer;
             var role = Role.GetRole(player);
-            {
-                __instance.cosmetics.currentBodySprite.BodySprite.material.SetColor("_OutlineColor", role.Color);
-            }
+            __instance.cosmetics.currentBodySprite.BodySprite.material.SetColor("_OutlineColor", role.Color);
         }
     }
 }
