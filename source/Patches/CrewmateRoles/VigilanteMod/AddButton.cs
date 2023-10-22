@@ -134,7 +134,8 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 }
 
                 var newGuess = role.Guesses[voteArea.TargetPlayerId] = role.PossibleGuesses[guessIndex];
-
+                // @todo
+                // To test Not sure what's inside the variable to translate it
                 nameText.text = newGuess == "None"
                     ? "Guess"
                     : $"<color=#{role.SortedColorMapping[newGuess].ToHtmlStringRGBA()}>{newGuess}</color>";

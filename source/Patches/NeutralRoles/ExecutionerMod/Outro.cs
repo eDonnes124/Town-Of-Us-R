@@ -1,6 +1,7 @@
 using System.Linq;
 using HarmonyLib;
 using TownOfUs.Extensions;
+using TownOfUs.Patches.Localization;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
             array[0].NameText().text = role.ColorString + array[0].NameText().text + "</color>";
             __instance.BackgroundBar.material.color = role.Color;
             var text = Object.Instantiate(__instance.WinText);
-            text.text = "Executioner Wins!";
+            text.text = LocalizationManager.Instance.GetString("ExecutionerWins");
             text.color = role.Color;
             var pos = __instance.WinText.transform.localPosition;
             pos.y = 1.5f;

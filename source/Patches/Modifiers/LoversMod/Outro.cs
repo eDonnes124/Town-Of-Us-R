@@ -3,6 +3,7 @@ using HarmonyLib;
 using Reactor.Utilities;
 using TMPro;
 using TownOfUs.Extensions;
+using TownOfUs.Patches.Localization;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace TownOfUs.Modifiers.LoversMod
                 var color = __instance.WinText.color;
                 color.a = 1f;
                 text.color = color;
-                text.text = "Only Neutral Roles Were Left";
+                text.text = LocalizationManager.Instance.GetString("OnlyNeutralRolesWereLeftTranslation");
                 pos = __instance.WinText.transform.localPosition;
                 pos.y = 1.5f;
                 text.transform.position = pos;
@@ -63,7 +64,7 @@ namespace TownOfUs.Modifiers.LoversMod
             __instance.BackgroundBar.material.color = new Color(1f, 0.4f, 0.8f, 1f);
 
             text = Object.Instantiate(__instance.WinText);
-            text.text = "Love Couple Wins!";
+            text.text = LocalizationManager.Instance.GetString("LoveCoupleWins");
             text.color = new Color(1f, 0.4f, 0.8f, 1f);
             pos = __instance.WinText.transform.localPosition;
             pos.y = 1.5f;
