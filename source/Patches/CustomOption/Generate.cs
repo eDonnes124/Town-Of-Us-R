@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using TownOfUs.Patches.Localization;
 
 namespace TownOfUs.CustomOption
 {
@@ -493,6 +495,8 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption ChillDuration;
         public static CustomNumberOption ChillStartSpeed;
 
+        public static CustomStringOption Language;
+
         public static Func<object, string> PercentFormat { get; } = value => $"{value:0}%";
         private static Func<object, string> CooldownFormat { get; } = value => $"{value:0.0#}s";
         private static Func<object, string> MultiplierFormat { get; } = value => $"{value:0.0#}x";
@@ -505,783 +509,799 @@ namespace TownOfUs.CustomOption
             Patches.ExportButton = new Export(num++);
             Patches.ImportButton = new Import(num++);
 
-            CrewInvestigativeRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Investigative Roles");
-            AurialOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#B34D99FF>Aurial</color>", 0f, 0f, 100f, 10f,
+            CrewInvestigativeRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("CrewmateInvestigativeRoles"));
+            AurialOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#B34D99FF>{LocalizationManager.Instance.GetString("Aurial")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            DetectiveOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>", 0f, 0f, 100f, 10f,
+            DetectiveOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#4D4DFFFF>{LocalizationManager.Instance.GetString("Detective")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            HaunterOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#D3D3D3FF>Haunter</color>", 0f, 0f, 100f, 10f,
+            HaunterOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#D3D3D3FF>{LocalizationManager.Instance.GetString("Haunter")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            InvestigatorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#00B3B3FF>Investigator</color>", 0f, 0f, 100f, 10f,
+            InvestigatorOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#00B3B3FF>{LocalizationManager.Instance.GetString("Investigator")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            MysticOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#4D99E6FF>Mystic</color>", 0f, 0f, 100f, 10f,
+            MysticOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#4D99E6FF>{LocalizationManager.Instance.GetString("Mystic")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            OracleOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#BF00BFFF>Oracle</color>", 0f, 0f, 100f, 10f,
+            OracleOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#BF00BFFF>{LocalizationManager.Instance.GetString("Oracle")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            SeerOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#FFCC80FF>Seer</color>", 0f, 0f, 100f, 10f,
+            SeerOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#FFCC80FF>{LocalizationManager.Instance.GetString("Seer")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            SnitchOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#D4AF37FF>Snitch</color>", 0f, 0f, 100f, 10f,
+            SnitchOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#D4AF37FF>{LocalizationManager.Instance.GetString("Snitch")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            SpyOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#CCA3CCFF>Spy</color>", 0f, 0f, 100f, 10f,
+            SpyOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#CCA3CCFF>{LocalizationManager.Instance.GetString("Spy")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            TrackerOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#009900FF>Tracker</color>", 0f, 0f, 100f, 10f,
+            TrackerOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#009900FF>{LocalizationManager.Instance.GetString("Tracker")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            TrapperOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#A7D1B3FF>Trapper</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-
-            CrewKillingRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Killing Roles");
-            SheriffOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#FFFF00FF>Sheriff</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            VampireHunterOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#B3B3E6FF>Vampire Hunter</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            VeteranOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#998040FF>Veteran</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            VigilanteOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#FFFF99FF>Vigilante</color>", 0f, 0f, 100f, 10f,
+            TrapperOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#A7D1B3FF>{LocalizationManager.Instance.GetString("Trapper")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-            CrewProtectiveRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Protective Roles");
-            AltruistOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#660000FF>Altruist</color>", 0f, 0f, 100f, 10f,
+            CrewKillingRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("CrewmateKillingRoles"));
+            SheriffOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#FFFF00FF>{LocalizationManager.Instance.GetString("Sheriff")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            MedicOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#006600FF>Medic</color>", 0f, 0f, 100f, 10f,
+            VampireHunterOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#B3B3E6FF>{LocalizationManager.Instance.GetString("VampireHunter")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-
-            CrewSupportRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, "Crewmate Support Roles");
-            EngineerOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#FFA60AFF>Engineer</color>", 0f, 0f, 100f, 10f,
+            VeteranOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#998040FF>{LocalizationManager.Instance.GetString("Veteran")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            ImitatorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#B3D94DFF>Imitator</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            MayorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#704FA8FF>Mayor</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            MediumOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#A680FFFF>Medium</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            ProsecutorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#B38000FF>Prosecutor</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            SwapperOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#66E666FF>Swapper</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            TransporterOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#00EEFFFF>Transporter</color>", 0f, 0f, 100f, 10f,
+            VigilanteOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#FFFF99FF>{LocalizationManager.Instance.GetString("Vigilante")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-
-            NeutralBenignRoles = new CustomHeaderOption(num++, MultiMenu.neutral, "Neutral Benign Roles");
-            AmnesiacOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#80B2FFFF>Amnesiac</color>", 0f, 0f, 100f, 10f,
+            CrewProtectiveRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("CrewmateProtectiveRoles"));
+            AltruistOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#660000FF>{LocalizationManager.Instance.GetString("Altruist")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            GuardianAngelOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#B3FFFFFF>Guardian Angel</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            SurvivorOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FFE64DFF>Survivor</color>", 0f, 0f, 100f, 10f,
+            MedicOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#006600FF>{LocalizationManager.Instance.GetString("Medic")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-            NeutralEvilRoles = new CustomHeaderOption(num++, MultiMenu.neutral, "Neutral Evil Roles");
-            DoomsayerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>", 0f, 0f, 100f, 10f,
+            CrewSupportRoles = new CustomHeaderOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("CrewmateSupportRoles"));
+            EngineerOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#FFA60AFF>{LocalizationManager.Instance.GetString("Engineer")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            ExecutionerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#8C4005FF>Executioner</color>", 0f, 0f, 100f, 10f,
+            ImitatorOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#B3D94DFF>{LocalizationManager.Instance.GetString("Imitator")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            JesterOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FFBFCCFF>Jester</color>", 0f, 0f, 100f, 10f,
+            MayorOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#704FA8FF>{LocalizationManager.Instance.GetString("Mayor")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            PhantomOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#662962FF>Phantom</color>", 0f, 0f, 100f, 10f,
+            MediumOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#A680FFFF>{LocalizationManager.Instance.GetString("Medium")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-
-            NeutralKillingRoles = new CustomHeaderOption(num++, MultiMenu.neutral, "Neutral Killing Roles");
-            ArsonistOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FF4D00FF>Arsonist</color>", 0f, 0f, 100f, 10f,
+            ProsecutorOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#B38000FF>{LocalizationManager.Instance.GetString("Prosecutor")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            PlaguebearerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#E6FFB3FF>Plaguebearer</color>", 0f, 0f, 100f, 10f,
+            SwapperOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#66E666FF>{LocalizationManager.Instance.GetString("Swapper")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            GlitchOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#00FF00FF>The Glitch</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            VampireOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#262626FF>Vampire</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            WerewolfOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#A86629FF>Werewolf</color>", 0f, 0f, 100f, 10f,
+            TransporterOn = new CustomNumberOption(num++, MultiMenu.crewmate, $"<color=#00EEFFFF>{LocalizationManager.Instance.GetString("Transporter")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-            ImpostorConcealingRoles = new CustomHeaderOption(num++, MultiMenu.imposter, "Impostor Concealing Roles");
-            EscapistOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Escapist</color>", 0f, 0f, 100f, 10f,
+
+            NeutralBenignRoles = new CustomHeaderOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("NeutralBenignRoles"));
+            AmnesiacOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#80B2FFFF>{LocalizationManager.Instance.GetString("Amnesiac")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            GrenadierOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Grenadier</color>", 0f, 0f, 100f, 10f,
+            GuardianAngelOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#B3FFFFFF>{LocalizationManager.Instance.GetString("GuardianAngel")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            MorphlingOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Morphling</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            SwooperOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Swooper</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            VenererOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Venerer</color>", 0f, 0f, 100f, 10f,
+            SurvivorOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#FFE64DFF>{LocalizationManager.Instance.GetString("Survivor")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-            ImpostorKillingRoles = new CustomHeaderOption(num++, MultiMenu.imposter, "Impostor Killing Roles");
-            BomberOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Bomber</color>", 0f, 0f, 100f, 10f,
+            NeutralEvilRoles = new CustomHeaderOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("NeutralEvilRoles"));
+            DoomsayerOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#00FF80FF>{LocalizationManager.Instance.GetString("Doomsayer")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            TraitorOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Traitor</color>", 0f, 0f, 100f, 10f,
+            ExecutionerOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#8C4005FF>{LocalizationManager.Instance.GetString("Executioner")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            WarlockOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Warlock</color>", 0f, 0f, 100f, 10f,
+            JesterOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#FFBFCCFF>{LocalizationManager.Instance.GetString("Jester")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-
-            ImpostorSupportRoles = new CustomHeaderOption(num++, MultiMenu.imposter, "Impostor Support Roles");
-            BlackmailerOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Blackmailer</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            JanitorOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Janitor</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            MinerOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Miner</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            UndertakerOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Undertaker</color>", 0f, 0f, 100f, 10f,
+            PhantomOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#662962FF>{LocalizationManager.Instance.GetString("Phantom")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-            CrewmateModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, "Crewmate Modifiers");
-            AftermathOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#A6FFA6FF>Aftermath</color>", 0f, 0f, 100f, 10f,
+            NeutralKillingRoles = new CustomHeaderOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("NeutralKillingRoles"));
+            ArsonistOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#FF4D00FF>{LocalizationManager.Instance.GetString("Arsonist")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            BaitOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#00B3B3FF>Bait</color>", 0f, 0f, 100f, 10f,
+            PlaguebearerOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#E6FFB3FF>{LocalizationManager.Instance.GetString("Plaguebearer")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            DiseasedOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#808080FF>Diseased</color>", 0f, 0f, 100f, 10f,
+            GlitchOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#00FF00FF>{LocalizationManager.Instance.GetString("TheGlitch")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            FrostyOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#99FFFFFF>Frosty</color>", 0f, 0f, 100f, 10f,
+            VampireOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#262626FF>{LocalizationManager.Instance.GetString("Vampire")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            MultitaskerOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF804DFF>Multitasker</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            TorchOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FFFF99FF>Torch</color>", 0f, 0f, 100f, 10f,
+            WerewolfOn = new CustomNumberOption(num++, MultiMenu.neutral, $"<color=#A86629FF>{LocalizationManager.Instance.GetString("Werewolf")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-            GlobalModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, "Global Modifiers");
-            ButtonBarryOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#E600FFFF>Button Barry</color>", 0f, 0f, 100f, 10f,
+            ImpostorConcealingRoles = new CustomHeaderOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("ImpostorConcealingRoles"));
+            EscapistOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Escapist")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            FlashOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF8080FF>Flash</color>", 0f, 0f, 100f, 10f,
+            GrenadierOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Grenadier")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            GiantOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FFB34DFF>Giant</color>", 0f, 0f, 100f, 10f,
+            MorphlingOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Morphling")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            LoversOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>", 0f, 0f, 100f, 10f,
+            SwooperOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Swooper")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            RadarOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0080FF>Radar</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            SleuthOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#803333FF>Sleuth</color>", 0f, 0f, 100f, 10f,
-                PercentFormat);
-            TiebreakerOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#99E699FF>Tiebreaker</color>", 0f, 0f, 100f, 10f,
+            VenererOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Venerer")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
-            ImpostorModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, "Impostor Modifiers");
-            DisperserOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Disperser</color>", 0f, 0f, 100f, 10f,
+            ImpostorKillingRoles = new CustomHeaderOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("ImpostorKillingRoles"));
+            BomberOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Bomber")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            DoubleShotOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Double Shot</color>", 0f, 0f, 100f, 10f,
+            TraitorOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Traitor")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            UnderdogOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>", 0f, 0f, 100f, 10f,
+            WarlockOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Warlock")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+
+            ImpostorSupportRoles = new CustomHeaderOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("ImpostorSupportRoles"));
+            BlackmailerOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Blackmailer")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            JanitorOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Janitor")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            MinerOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Miner")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            UndertakerOn = new CustomNumberOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Undertaker")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+
+            CrewmateModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("CrewmateModifiers"));
+            AftermathOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#A6FFA6FF>{LocalizationManager.Instance.GetString("Aftermath")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            BaitOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#00B3B3FF>{LocalizationManager.Instance.GetString("Bait")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            DiseasedOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#808080FF>{LocalizationManager.Instance.GetString("Diseased")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            FrostyOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#99FFFFFF>{LocalizationManager.Instance.GetString("Frosty")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            MultitaskerOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FF804DFF>{LocalizationManager.Instance.GetString("Multitasker")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            TorchOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FFFF99FF>{LocalizationManager.Instance.GetString("Torch")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+
+            GlobalModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("GlobalModifiers"));
+            ButtonBarryOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#E600FFFF>{LocalizationManager.Instance.GetString("ButtonBarry")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            FlashOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FF8080FF>{LocalizationManager.Instance.GetString("Flash")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            GiantOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FFB34DFF>{LocalizationManager.Instance.GetString("Giant")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            LoversOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FF66CCFF>{LocalizationManager.Instance.GetString("Lovers")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            RadarOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FF0080FF>{LocalizationManager.Instance.GetString("Radar")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            SleuthOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#803333FF>{LocalizationManager.Instance.GetString("Sleuth")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            TiebreakerOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#99E699FF>{LocalizationManager.Instance.GetString("Tiebreaker")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+
+            ImpostorModifiers = new CustomHeaderOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("ImpostorModifiers"));
+            DisperserOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Disperser")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            DoubleShotOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("DoubleShot")}</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            UnderdogOn = new CustomNumberOption(num++, MultiMenu.modifiers, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Underdog")}</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
             GameModeSettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "Game Mode Settings");
-            GameMode = new CustomStringOption(num++, MultiMenu.main, "Game Mode", new[] {"Classic", "All Any", "Killing Only", "Cultist" });
+                new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("GameModeSettings"));
+            GameMode = new CustomStringOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("GameMode"),
+                new[] { LocalizationManager.Instance.GetString("Classic"), LocalizationManager.Instance.GetString("All Any"), LocalizationManager.Instance.GetString("Killing Only"), LocalizationManager.Instance.GetString("Cultist") });
 
             ClassicSettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "Classic Game Mode Settings");
+                new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("ClassicGameModeSettings"));
             MinNeutralBenignRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Min Neutral Benign Roles", 1, 0, 3, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MinNeutralBenignRoles"), 1, 0, 3, 1);
             MaxNeutralBenignRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Neutral Benign Roles", 1, 0, 3, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxNeutralBenignRoles"), 1, 0, 3, 1);
             MinNeutralEvilRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Min Neutral Evil Roles", 1, 0, 3, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MinNeutralEvilRoles"), 1, 0, 3, 1);
             MaxNeutralEvilRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Neutral Evil Roles", 1, 0, 3, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxNeutralEvilRoles"), 1, 0, 3, 1);
             MinNeutralKillingRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Min Neutral Killing Roles", 1, 0, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MinNeutralKillingRoles"), 1, 0, 5, 1);
             MaxNeutralKillingRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Neutral Killing Roles", 1, 0, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxNeutralKillingRoles"), 1, 0, 5, 1);
 
             AllAnySettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "All Any Settings");
-            RandomNumberImps = new CustomToggleOption(num++, MultiMenu.main, "Random Number Of Impostors", true);
+                new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AllAnySettings"));
+            RandomNumberImps = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("RandomNumberOfImpostors"), true);
 
             KillingOnlySettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "Killing Only Settings");
+                new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("KillingOnlySettings"));
             NeutralRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Neutral Roles", 1, 0, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("NeutralRoles"), 1, 0, 5, 1);
             VeteranCount =
-                new CustomNumberOption(num++, MultiMenu.main, "Veteran Count", 1, 0, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("VeteranCount"), 1, 0, 5, 1);
             VigilanteCount =
-                new CustomNumberOption(num++, MultiMenu.main, "Vigilante Count", 1, 0, 5, 1);
-            AddArsonist = new CustomToggleOption(num++, MultiMenu.main, "Add Arsonist", true);
-            AddPlaguebearer = new CustomToggleOption(num++, MultiMenu.main, "Add Plaguebearer", true);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("VigilanteCount"), 1, 0, 5, 1);
+            AddArsonist = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AddArsonist"), true);
+            AddPlaguebearer = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AddPlaguebearer"), true);
 
             CultistSettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "Cultist Settings");
-            MayorCultistOn = new CustomNumberOption(num++, MultiMenu.main, "<color=#704FA8FF>Mayor</color> (Cultist Mode)", 100f, 0f, 100f, 10f,
+                new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("CultistSettings"));
+            MayorCultistOn = new CustomNumberOption(num++, MultiMenu.main, $"<color=#704FA8FF>{LocalizationManager.Instance.GetString("Mayor")}</color> ({LocalizationManager.Instance.GetString("CultistMode")})", 100f, 0f, 100f, 10f,
                 PercentFormat);
-            SeerCultistOn = new CustomNumberOption(num++, MultiMenu.main, "<color=#FFCC80FF>Seer</color> (Cultist Mode)", 100f, 0f, 100f, 10f,
+            SeerCultistOn = new CustomNumberOption(num++, MultiMenu.main, $"<color=#FFCC80FF>{LocalizationManager.Instance.GetString("Seer")}</color> ({LocalizationManager.Instance.GetString("CultistMode")})", 100f, 0f, 100f, 10f,
                 PercentFormat);
-            SheriffCultistOn = new CustomNumberOption(num++, MultiMenu.main, "<color=#FFFF00FF>Sheriff</color> (Cultist Mode)", 100f, 0f, 100f, 10f,
+            SheriffCultistOn = new CustomNumberOption(num++, MultiMenu.main, $"<color=#FFFF00FF>{LocalizationManager.Instance.GetString("Sheriff")}</color> ({LocalizationManager.Instance.GetString("CultistMode")})", 100f, 0f, 100f, 10f,
                 PercentFormat);
-            SurvivorCultistOn = new CustomNumberOption(num++, MultiMenu.main, "<color=#FFE64DFF>Survivor</color> (Cultist Mode)", 100f, 0f, 100f, 10f,
+            SurvivorCultistOn = new CustomNumberOption(num++, MultiMenu.main, $"<color=#FFE64DFF>{LocalizationManager.Instance.GetString("Survivor")}</color> ({LocalizationManager.Instance.GetString("CultistMode")})", 100f, 0f, 100f, 10f,
                 PercentFormat);
             NumberOfSpecialRoles =
-                new CustomNumberOption(num++, MultiMenu.main, "Number Of Special Roles", 4, 0, 4, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("NumberOfSpecialRoles"), 4, 0, 4, 1);
             MaxChameleons =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Chameleons", 3, 0, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxChameleons"), 3, 0, 5, 1);
             MaxEngineers =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Engineers", 3, 0, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxEngineers"), 3, 0, 5, 1);
             MaxInvestigators =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Investigators", 3, 0, 5, 1);
-            MaxMystics =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Mystics", 3, 0, 5, 1);
-            MaxSnitches =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Snitches", 3, 0, 5, 1);
-            MaxSpies =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Spies", 3, 0, 5, 1);
-            MaxTransporters =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Transporters", 3, 0, 5, 1);
-            MaxVigilantes =
-                new CustomNumberOption(num++, MultiMenu.main, "Max Vigilantes", 3, 0, 5, 1);
-            WhisperCooldown =
-                new CustomNumberOption(num++, MultiMenu.main, "Initial Whisper Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            IncreasedCooldownPerWhisper =
-                new CustomNumberOption(num++, MultiMenu.main, "Increased Cooldown Per Whisper", 5f, 0f, 15f, 0.5f, CooldownFormat);
-            WhisperRadius =
-                new CustomNumberOption(num++, MultiMenu.main, "Whisper Radius", 1f, 0.25f, 5f, 0.25f, MultiplierFormat);
-            ConversionPercentage = new CustomNumberOption(num++, MultiMenu.main, "Conversion Percentage", 25f, 0f, 100f, 5f,
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxInvestigators"), 3, 0, 5, 1);
+            MaxMystics = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxMystics"), 3, 0, 5, 1);
+            MaxSnitches = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxSnitches"), 3, 0, 5, 1);
+            MaxSpies = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxSpies"), 3, 0, 5, 1);
+            MaxTransporters = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxTransporters"), 3, 0, 5, 1);
+            MaxVigilantes = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaxVigilantes"), 3, 0, 5, 1);
+            WhisperCooldown = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("InitialWhisperCooldown"), 25f, 10f, 60f, 2.5f, 
+                CooldownFormat);
+            IncreasedCooldownPerWhisper = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("IncreasedCooldownPerWhisper"), 5f, 0f, 15f, 0.5f, 
+                CooldownFormat);
+            WhisperRadius = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("WhisperRadius"), 1f, 0.25f, 5f, 0.25f, 
+                MultiplierFormat);
+            ConversionPercentage = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("ConversionPercentage"), 25f, 0f, 100f, 5f, 
                 PercentFormat);
-            DecreasedPercentagePerConversion = new CustomNumberOption(num++, MultiMenu.main, "Decreased Conversion Percentage Per Conversion", 5f, 0f, 15f, 1f,
+            DecreasedPercentagePerConversion = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("DecreasedConversionPercentagePerConversion"), 5f, 0f, 15f, 1f, 
                 PercentFormat);
-            ReviveCooldown =
-                new CustomNumberOption(num++, MultiMenu.main, "Initial Revive Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            IncreasedCooldownPerRevive =
-                new CustomNumberOption(num++, MultiMenu.main, "Increased Cooldown Per Revive", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            MaxReveals = new CustomNumberOption(num++, MultiMenu.main, "Maximum Number Of Reveals", 5, 1, 15, 1);
+            ReviveCooldown = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("InitialReviveCooldown"), 25f, 10f, 60f, 2.5f, 
+                CooldownFormat);
+            IncreasedCooldownPerRevive = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("IncreasedCooldownPerRevive"), 25f, 10f, 60f, 2.5f,
+                CooldownFormat);
+            MaxReveals = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MaximumNumberOfReveals"), 5, 1, 15, 1);
 
-            MapSettings = new CustomHeaderOption(num++, MultiMenu.main, "Map Settings");
-            RandomMapEnabled = new CustomToggleOption(num++, MultiMenu.main, "Choose Random Map", false);
-            RandomMapSkeld = new CustomNumberOption(num++, MultiMenu.main, "Skeld Chance", 0f, 0f, 100f, 10f, PercentFormat);
-            RandomMapMira = new CustomNumberOption(num++, MultiMenu.main, "Mira Chance", 0f, 0f, 100f, 10f, PercentFormat);
-            RandomMapPolus = new CustomNumberOption(num++, MultiMenu.main, "Polus Chance", 0f, 0f, 100f, 10f, PercentFormat);
-            RandomMapAirship = new CustomNumberOption(num++, MultiMenu.main, "Airship Chance", 0f, 0f, 100f, 10f, PercentFormat);
-            RandomMapSubmerged = new CustomNumberOption(num++, MultiMenu.main, "Submerged Chance", 0f, 0f, 100f, 10f, PercentFormat);
-            AutoAdjustSettings = new CustomToggleOption(num++, MultiMenu.main, "Auto Adjust Settings", false);
-            SmallMapHalfVision = new CustomToggleOption(num++, MultiMenu.main, "Half Vision On Skeld/Mira HQ", false);
-            SmallMapDecreasedCooldown =
-                new CustomNumberOption(num++, MultiMenu.main, "Mira HQ Decreased Cooldowns", 0f, 0f, 15f, 2.5f, CooldownFormat);
-            LargeMapIncreasedCooldown =
-                new CustomNumberOption(num++, MultiMenu.main, "Airship/Submerged Increased Cooldowns", 0f, 0f, 15f, 2.5f, CooldownFormat);
-            SmallMapIncreasedShortTasks =
-                 new CustomNumberOption(num++, MultiMenu.main, "Skeld/Mira HQ Increased Short Tasks", 0, 0, 5, 1);
-            SmallMapIncreasedLongTasks =
-                 new CustomNumberOption(num++, MultiMenu.main, "Skeld/Mira HQ Increased Long Tasks", 0, 0, 3, 1);
-            LargeMapDecreasedShortTasks =
-                 new CustomNumberOption(num++, MultiMenu.main, "Airship/Submerged Decreased Short Tasks", 0, 0, 5, 1);
-            LargeMapDecreasedLongTasks =
-                 new CustomNumberOption(num++, MultiMenu.main, "Airship/Submerged Decreased Long Tasks", 0, 0, 3, 1);
+            MapSettings = new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MapSettings"));
+            RandomMapEnabled = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("ChooseRandomMap"), false);
+            RandomMapSkeld = new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("SkeldChance"), 0f, 0f, 100f, 10f, PercentFormat);
+            RandomMapMira = new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MiraChance"), 0f, 0f, 100f, 10f, PercentFormat);
+            RandomMapPolus = new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("PolusChance"), 0f, 0f, 100f, 10f, PercentFormat);
+            RandomMapAirship = new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AirshipChance"), 0f, 0f, 100f, 10f, PercentFormat);
+            RandomMapSubmerged = new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("SubmergedChance"), 0f, 0f, 100f, 10f, PercentFormat);
+            AutoAdjustSettings = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AutoAdjustSettings"), false);
+            SmallMapHalfVision = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("HalfVisionOnSkeldMiraHQ"), false);
+            SmallMapDecreasedCooldown = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("MiraHQDecreasedCooldowns"), 0f, 0f, 15f, 2.5f, CooldownFormat);
+            LargeMapIncreasedCooldown = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AirshipSubmergedIncreasedCooldowns"), 0f, 0f, 15f, 2.5f, CooldownFormat);
+            SmallMapIncreasedShortTasks = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("SkeldMiraHQIncreasedShortTasks"), 0, 0, 5, 1);
+            SmallMapIncreasedLongTasks = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("SkeldMiraHQIncreasedLongTasks"), 0, 0, 3, 1);
+            LargeMapDecreasedShortTasks = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AirshipSubmergedDecreasedShortTasks"), 0, 0, 5, 1);
+            LargeMapDecreasedLongTasks = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("AirshipSubmergedDecreasedLongTasks"), 0, 0, 3, 1);
+
 
             BetterPolusSettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "Better Polus Settings");
-            VentImprovements = new CustomToggleOption(num++, MultiMenu.main, "Better Polus Vent Layout", false);
-            VitalsLab = new CustomToggleOption(num++, MultiMenu.main, "Vitals Moved To Lab", false);
-            ColdTempDeathValley = new CustomToggleOption(num++, MultiMenu.main, "Cold Temp Moved To Death Valley", false);
-            WifiChartCourseSwap =
-                new CustomToggleOption(num++, MultiMenu.main, "Reboot Wifi And Chart Course Swapped", false);
+                new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("BetterPolusSettings"));
+            VentImprovements = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("BetterPolusVentLayout"), false);
+            VitalsLab = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("VitalsMovedToLab"), false);
+            ColdTempDeathValley = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("ColdTempMovedToDeathValley"), false);
+            WifiChartCourseSwap = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("RebootWifiAndChartCourseSwapped"), false);
 
-            CustomGameSettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "Custom Game Settings");
-            ColourblindComms = new CustomToggleOption(num++, MultiMenu.main, "Camouflaged Comms", false);
-            ImpostorSeeRoles = new CustomToggleOption(num++, MultiMenu.main, "Impostors Can See The Roles Of Their Team", false);
-            DeadSeeRoles =
-                new CustomToggleOption(num++, MultiMenu.main, "Dead Can See Everyone's Roles/Votes", false);
-            InitialCooldowns =
-                new CustomNumberOption(num++, MultiMenu.main, "Game Start Cooldowns", 10f, 10f, 30f, 2.5f, CooldownFormat);
-            ParallelMedScans = new CustomToggleOption(num++, MultiMenu.main, "Parallel Medbay Scans", false);
-            SkipButtonDisable = new CustomStringOption(num++, MultiMenu.main, "Disable Meeting Skip Button", new[] { "No", "Emergency", "Always" });
-            HiddenRoles = new CustomToggleOption(num++, MultiMenu.main, "Enable Hidden Roles", true);
-            FirstDeathShield = new CustomToggleOption(num++, MultiMenu.main, "First Death Shield Next Game", false);
-            NeutralEvilWinEndsGame = new CustomToggleOption(num++, MultiMenu.main, "Neutral Evil Win Ends Game", true);
+            CustomGameSettings = new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("CustomGameSettings"));
+            ColourblindComms = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("CamouflagedComms"), false);
+            ImpostorSeeRoles = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("ImpostorsCanSeeTheRolesOfTheirTeam"), false);
+            DeadSeeRoles = 
+                new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("DeadCanSeeEveryonesRolesVotes"), false);
+            InitialCooldowns = 
+                new CustomNumberOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("GameStartCooldowns"), 10f, 10f, 30f, 2.5f, CooldownFormat);
+            ParallelMedScans = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("ParallelMedbayScans"), false);
+            SkipButtonDisable = 
+                new CustomStringOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("DisableMeetingSkipButton"), new[] { LocalizationManager.Instance.GetString("No"), LocalizationManager.Instance.GetString("Emergency"), LocalizationManager.Instance.GetString("Always") });
+            HiddenRoles = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("EnableHiddenRoles"), true);
+            FirstDeathShield = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("FirstDeathShieldNextGame"), false);
+            NeutralEvilWinEndsGame = new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("NeutralEvilWinEndsGame"), true);
+
 
             TaskTrackingSettings =
-                new CustomHeaderOption(num++, MultiMenu.main, "Task Tracking Settings");
-            SeeTasksDuringRound = new CustomToggleOption(num++, MultiMenu.main, "See Tasks During Round", false);
-            SeeTasksDuringMeeting = new CustomToggleOption(num++, MultiMenu.main, "See Tasks During Meetings", false);
-            SeeTasksWhenDead = new CustomToggleOption(num++, MultiMenu.main, "See Tasks When Dead", true);
+                new CustomHeaderOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("TaskTrackingSettings"));
+            SeeTasksDuringRound =
+                new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("SeeTasksDuringRound"), false);
+            SeeTasksDuringMeeting =
+                new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("SeeTasksDuringMeetings"), false);
+            SeeTasksWhenDead =
+                new CustomToggleOption(num++, MultiMenu.main, LocalizationManager.Instance.GetString("SeeTasksWhenDead"), true);
 
-            Assassin = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Assassin Ability</color>");
-            NumberOfImpostorAssassins = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Impostor Assassins", 1, 0, 4, 1);
-            NumberOfNeutralAssassins = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Neutral Assassins", 1, 0, 5, 1);
-            AmneTurnImpAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Amnesiac Turned Impostor Gets Ability", false);
-            AmneTurnNeutAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Amnesiac Turned Neutral Killing Gets Ability", false);
-            TraitorCanAssassin = new CustomToggleOption(num++, MultiMenu.imposter, "Traitor Gets Ability", false);
-            AssassinKills = new CustomNumberOption(num++, MultiMenu.imposter, "Number Of Assassin Kills", 1, 1, 15, 1);
-            AssassinMultiKill = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Kill More Than Once Per Meeting", false);
-            AssassinCrewmateGuess = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess \"Crewmate\"", false);
-            AssassinGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Benign Roles", false);
-            AssassinGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Evil Roles", false);
-            AssassinGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Neutral Killing Roles", false);
-            AssassinGuessImpostors = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Impostor Roles", false);
-            AssassinGuessModifiers = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Crewmate Modifiers", false);
-            AssassinGuessLovers = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess Lovers", false);
-            AssassinateAfterVoting = new CustomToggleOption(num++, MultiMenu.imposter, "Assassin Can Guess After Voting", false);
+            Assassin =
+                new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("AssassinAbility")}</color>");
+            NumberOfImpostorAssassins =
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("NumberOfImpostorAssassins"), 1, 0, 4, 1);
+            NumberOfNeutralAssassins =
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("NumberOfNeutralAssassins"), 1, 0, 5, 1);
+            AmneTurnImpAssassin =
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("AmnesiacTurnedImpostorGetsAbility"), false);
+            AmneTurnNeutAssassin =
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("AmnesiacTurnedNeutralKillingGetsAbility"), false);
+            TraitorCanAssassin =
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("TraitorGetsAbility"), false);
+            AssassinKills =
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("NumberOfAssassinKills"), 1, 1, 15, 1);
 
             Aurial =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#B34D99FF>Aurial</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#B34D99FF>{LocalizationManager.Instance.GetString("Aurial")}</color>");
             RadiateRange =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Range", 1f, 0.25f, 5f, 0.25f, MultiplierFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("RadiateRange"), 1f, 0.25f, 5f, 0.25f, MultiplierFormat);
             RadiateCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("RadiateCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             RadiateInvis =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate See Delay", 10f, 0f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("RadiateSeeDelay"), 10f, 0f, 15f, 1f, CooldownFormat);
             RadiateCount =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Uses To See", 3, 1, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("RadiateUsesToSee"), 3, 1, 5, 1);
             RadiateSucceedChance =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Radiate Succeed Chance", 100f, 0f, 100f, 10f, PercentFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("RadiateSucceedChance"), 100f, 0f, 100f, 10f, PercentFormat);
 
             Detective =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#4D4DFFFF>Detective</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#4D4DFFFF>{LocalizationManager.Instance.GetString("Detective")}</color>");
             ExamineCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Examine Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            DetectiveReportOn = new CustomToggleOption(num++, MultiMenu.crewmate, "Show Detective Reports", true);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ExamineCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
+            DetectiveReportOn = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ShowDetectiveReports"), true);
             DetectiveRoleDuration =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Time Where Detective Will Have Role", 15f, 0f, 60f, 2.5f,
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TimeWhereDetectiveWillHaveRole"), 15f, 0f, 60f, 2.5f,
                     CooldownFormat);
             DetectiveFactionDuration =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Time Where Detective Will Have Faction", 30f, 0f, 60f, 2.5f,
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TimeWhereDetectiveWill HaveFaction"), 30f, 0f, 60f, 2.5f,
                     CooldownFormat);
-            CanDetectLastKiller = new CustomToggleOption(num++, MultiMenu.crewmate, "Can Detect Last Killer", false);
+            CanDetectLastKiller = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("Can Detect Last Killer"), false);
 
             Haunter =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#d3d3d3FF>Haunter</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#d3d3d3FF>{LocalizationManager.Instance.GetString("Haunter")}</color>");
             HaunterTasksRemainingClicked =
-                 new CustomNumberOption(num++, MultiMenu.crewmate, "Tasks Remaining When Haunter Can Be Clicked", 5, 1, 15, 1);
+                 new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TasksRemainingWhenHaunterCanBeClicked"), 5, 1, 15, 1);
             HaunterTasksRemainingAlert =
-                 new CustomNumberOption(num++, MultiMenu.crewmate, "Tasks Remaining When Alert Is Sent", 1, 1, 5, 1);
-            HaunterRevealsNeutrals = new CustomToggleOption(num++, MultiMenu.crewmate, "Haunter Reveals Neutral Roles", false);
-            HaunterCanBeClickedBy = new CustomStringOption(num++, MultiMenu.crewmate, "Who Can Click Haunter", new[] { "All", "Non-Crew", "Imps Only" });
+                 new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TasksRemainingWhenAlertIsSent"), 1, 1, 5, 1);
+            HaunterRevealsNeutrals = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("HaunterRevealsNeutralRoles"), false);
+            HaunterCanBeClickedBy = new CustomStringOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("WhoCanClickHaunter"), new[] { LocalizationManager.Instance.GetString("All"), LocalizationManager.Instance.GetString("Non-Crew"), LocalizationManager.Instance.GetString("ImpsOnly") });
 
             Investigator =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#00B3B3FF>Investigator</color>");
-            FootprintSize = new CustomNumberOption(num++, MultiMenu.crewmate, "Footprint Size", 4f, 1f, 10f, 1f);
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#00B3B3FF>{LocalizationManager.Instance.GetString("Investigator")}</color>");
+            FootprintSize = new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("FootprintSize"), 4f, 1f, 10f, 1f);
             FootprintInterval =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Footprint Interval", 0.1f, 0.05f, 1f, 0.05f, CooldownFormat);
-            FootprintDuration = new CustomNumberOption(num++, MultiMenu.crewmate, "Footprint Duration", 10f, 1f, 15f, 0.5f, CooldownFormat);
-            AnonymousFootPrint = new CustomToggleOption(num++, MultiMenu.crewmate, "Anonymous Footprint", false);
-            VentFootprintVisible = new CustomToggleOption(num++, MultiMenu.crewmate, "Footprint Vent Visible", false);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("FootprintInterval"), 0.1f, 0.05f, 1f, 0.05f, CooldownFormat);
+            FootprintDuration = new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("FootprintDuration"), 10f, 1f, 15f, 0.5f, CooldownFormat);
+            AnonymousFootPrint = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("AnonymousFootprint"), false);
+            VentFootprintVisible = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("FootprintVentVisible"), false);
 
             Mystic =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#4D99E6FF>Mystic</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#4D99E6FF>{LocalizationManager.Instance.GetString("Mystic")}</color>");
             MysticArrowDuration =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Dead Body Arrow Duration", 0.1f, 0f, 1f, 0.05f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("DeadBodyArrowDuration"), 0.1f, 0f, 1f, 0.05f, CooldownFormat);
 
             Oracle =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#BF00BFFF>Oracle</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#BF00BFFF>{LocalizationManager.Instance.GetString("Oracle")}</color>");
             ConfessCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Confess Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ConfessCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             RevealAccuracy = new CustomNumberOption(num++, MultiMenu.crewmate, "Reveal Accuracy", 80f, 0f, 100f, 10f,
                 PercentFormat);
             NeutralBenignShowsEvil =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Benign Roles Show Evil", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("NeutralBenignRolesShowEvil"), false);
             NeutralEvilShowsEvil =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Evil Roles Show Evil", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("NeutralEvilRolesShowEvil"), false);
             NeutralKillingShowsEvil =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Killing Roles Show Evil", true);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("NeutralKillingRolesShowEvil"), true);
 
             Seer =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#FFCC80FF>Seer</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#FFCC80FF>{LocalizationManager.Instance.GetString("Seer")}</color>");
             SeerCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Seer Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SeerCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             CrewKillingRed =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Crewmate Killing Roles Are Red", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("CrewmateKillingRolesAreRed"), false);
             NeutBenignRed =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Benign Roles Are Red", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("NeutralBenignRolesAreRed"), false);
             NeutEvilRed =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Evil Roles Are Red", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("NeutralEvilRolesAreRed"), false);
             NeutKillingRed =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Neutral Killing Roles Are Red", true);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("NeutralKillingRolesAreRed"), true);
             TraitorColourSwap =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Traitor Does Not Swap Colours", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TraitorDoesNotSwapColours"), false);
 
-            Snitch = new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#D4AF37FF>Snitch</color>");
-            SnitchSeesNeutrals = new CustomToggleOption(num++, MultiMenu.crewmate, "Snitch Sees Neutral Roles", false);
+            Snitch = new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#D4AF37FF>{LocalizationManager.Instance.GetString("Snitch")}</color>");
+            SnitchSeesNeutrals = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SnitchSeesNeutralRoles"), false);
             SnitchTasksRemaining =
-                 new CustomNumberOption(num++, MultiMenu.crewmate, "Tasks Remaining When Revealed", 1, 1, 5, 1);
-            SnitchSeesImpInMeeting = new CustomToggleOption(num++, MultiMenu.crewmate, "Snitch Sees Impostors In Meetings", true);
-            SnitchSeesTraitor = new CustomToggleOption(num++, MultiMenu.crewmate, "Snitch Sees Traitor", true);
+                 new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TasksRemainingWhenRevealed"), 1, 1, 5, 1);
+            SnitchSeesImpInMeeting = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SnitchSeesImpostorsInMeetings"), true);
+            SnitchSeesTraitor = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SnitchSeesTraitor"), true);
 
             Spy =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#CCA3CCFF>Spy</color>");
-            WhoSeesDead = new CustomStringOption(num++, MultiMenu.crewmate, "Who Sees Dead Bodies On Admin",
-                new[] { "Nobody", "Spy", "Everyone But Spy", "Everyone" });
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#CCA3CCFF>{LocalizationManager.Instance.GetString("Spy")}</color>");
+            WhoSeesDead = new CustomStringOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("WhoSeesDeadBodiesOnAdmin"),
+                new[] { LocalizationManager.Instance.GetString("Nobody"), LocalizationManager.Instance.GetString("Spy"), LocalizationManager.Instance.GetString("Everyone But Spy"), LocalizationManager.Instance.GetString("Everyone") });
 
             Tracker =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#009900FF>Tracker</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#009900FF>{LocalizationManager.Instance.GetString("Tracker")}</color>");
             UpdateInterval =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Arrow Update Interval", 5f, 0.5f, 15f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ArrowUpdateInterval"), 5f, 0.5f, 15f, 0.5f, CooldownFormat);
             TrackCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Track Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            ResetOnNewRound = new CustomToggleOption(num++, MultiMenu.crewmate, "Tracker Arrows Reset After Each Round", false);
-            MaxTracks = new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Tracks Per Round", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TrackCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
+            ResetOnNewRound = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TrackerArrowsResetAfterEachRound"), false);
+            MaxTracks = new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MaximumNumberOfTracksPerRound"), 5, 1, 15, 1);
 
             Trapper =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#A7D1B3FF>Trapper</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#A7D1B3FF>{LocalizationManager.Instance.GetString("Trapper")}</color>");
             MinAmountOfTimeInTrap =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Min Amount Of Time In Trap To Register", 1f, 0f, 15f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MinAmountOfTimeInTrapToRegister"), 1f, 0f, 15f, 0.5f, CooldownFormat);
             TrapCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Trap Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TrapCooldown"), 25f, 10f, 40f, 2.5f, CooldownFormat);
             TrapsRemoveOnNewRound =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Traps Removed After Each Round", true);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TrapsRemovedAfterEachRound"), true);
             MaxTraps =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Traps Per Game", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MaximumNumberOfTrapsPerGame"), 5, 1, 15, 1);
             TrapSize =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Trap Size", 0.25f, 0.05f, 1f, 0.05f, MultiplierFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TrapSize"), 0.25f, 0.05f, 1f, 0.05f, MultiplierFormat);
             MinAmountOfPlayersInTrap =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Minimum Number Of Roles Required To Trigger Trap", 3, 1, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MinimumNumberOfRolesRequiredToTriggerTrap"), 3, 1, 5, 1);
 
             Sheriff =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#FFFF00FF>Sheriff</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#FFFF00FF>{LocalizationManager.Instance.GetString("Sheriff")}</color>");
             SheriffKillOther =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Miskill Kills Crewmate", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffMiskillKillsCrewmate"), false);
             SheriffKillsDoomsayer =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Doomsayer", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsDoomsayer"), false);
             SheriffKillsExecutioner =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Executioner", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsExecutioner"), false);
             SheriffKillsJester =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Jester", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsJester"), false);
             SheriffKillsArsonist =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Arsonist", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsArsonist"), false);
             SheriffKillsGlitch =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills The Glitch", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsTheGlitch"), false);
             SheriffKillsJuggernaut =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Juggernaut", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsJuggernaut"), false);
             SheriffKillsPlaguebearer =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Plaguebearer", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsPlaguebearer"), false);
             SheriffKillsVampire =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Vampire", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsVampire"), false);
             SheriffKillsWerewolf =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Kills Werewolf", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillsWerewolf"), false);
             SheriffKillCd =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Sheriff Kill Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
-            SheriffBodyReport = new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Can Report Who They've Killed");
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffKillCooldown"), 25f, 10f, 40f, 2.5f, CooldownFormat);
+            SheriffBodyReport = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SheriffCanReportWhoTheyveKilled"));
 
             VampireHunter =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#B3B3E6FF>Vampire Hunter</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#B3B3E6FF>{LocalizationManager.Instance.GetString("VampireHunter")}</color>");
             StakeCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Stake Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            MaxFailedStakesPerGame = new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Failed Stakes Per Game", 5, 1, 15, 1);
-            CanStakeRoundOne = new CustomToggleOption(num++, MultiMenu.crewmate, "Can Stake Round One", false);
-            SelfKillAfterFinalStake = new CustomToggleOption(num++, MultiMenu.crewmate, "Self Kill On Failure To Kill A Vamp With All Stakes", false);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("StakeCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
+            MaxFailedStakesPerGame = new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MaximumFailedStakesPerGame"), 5, 1, 15, 1);
+            CanStakeRoundOne = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("CanStakeRoundOne"), false);
+            SelfKillAfterFinalStake = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SelfKillOnFailureToKillAVampWithAllStakes"), false);
             BecomeOnVampDeaths =
-                new CustomStringOption(num++, MultiMenu.crewmate, "What Vampire Hunter Becomes On All Vampire Deaths", new[] { "Crewmate", "Sheriff", "Veteran", "Vigilante" });
+                new CustomStringOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("WhatVampireHunterBecomesOnAllVampireDeaths"), 
+                new[] { LocalizationManager.Instance.GetString("Crewmate"), LocalizationManager.Instance.GetString("Sheriff"), LocalizationManager.Instance.GetString("Veteran"), LocalizationManager.Instance.GetString("Vigilante") });
 
             Veteran =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#998040FF>Veteran</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#998040FF>{LocalizationManager.Instance.GetString("Veteran")}</color>");
             KilledOnAlert =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Can Be Killed On Alert", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("CanBeKilledOnAlert"), false);
             AlertCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Alert Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("AlertCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             AlertDuration =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Alert Duration", 10f, 5f, 15f, 1f, CooldownFormat);
-            MaxAlerts = new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Alerts", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("AlertDuration"), 10f, 5f, 15f, 1f, CooldownFormat);
+            MaxAlerts = new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MaximumNumberOfAlerts"), 5, 1, 15, 1);
 
-            Vigilante = new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#FFFF99FF>Vigilante</color>");
-            VigilanteKills = new CustomNumberOption(num++, MultiMenu.crewmate, "Number Of Vigilante Kills", 1, 1, 15, 1);
-            VigilanteMultiKill = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Kill More Than Once Per Meeting", false);
-            VigilanteGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Neutral Benign Roles", false);
-            VigilanteGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Neutral Evil Roles", false);
-            VigilanteGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Neutral Killing Roles", false);
-            VigilanteGuessLovers = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess Lovers", false);
-            VigilanteAfterVoting = new CustomToggleOption(num++, MultiMenu.crewmate, "Vigilante Can Guess After Voting", false);
+            Vigilante = new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#FFFF99FF>{LocalizationManager.Instance.GetString("Vigilante")}</color>");
+            VigilanteKills = new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("NumberOfVigilanteKills"), 1, 1, 15, 1);
+            VigilanteMultiKill = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("VigilanteCanKillMoreThanOncePerMeeting"), false);
+            VigilanteGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("VigilanteCanGuessNeutralBenignRoles"), false);
+            VigilanteGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("VigilanteCanGuessNeutralEvilRoles"), false);
+            VigilanteGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("VigilanteCanGuessNeutralKillingRoles"), false);
+            VigilanteGuessLovers = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("VigilanteCanGuessLovers"), false);
+            VigilanteAfterVoting = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("VigilanteCanGuessAfterVoting"), false);
 
-            Altruist = new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#660000FF>Altruist</color>");
+            Altruist = new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#660000FF>{LocalizationManager.Instance.GetString("Altruist")}</color>");
             ReviveDuration =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Altruist Revive Duration", 10f, 1f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("AltruistReviveDuration"), 10f, 1f, 15f, 1f, CooldownFormat);
             AltruistTargetBody =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Target's Body Disappears On Beginning Of Revive", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TargetsBodyDisappearsOnBeginningOfRevive"), false);
 
             Medic =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#006600FF>Medic</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#006600FF>{LocalizationManager.Instance.GetString("Medic")}</color>");
             ShowShielded =
-                new CustomStringOption(num++, MultiMenu.crewmate, "Show Shielded Player",
-                    new[] { "Self", "Medic", "Self+Medic", "Everyone" });
+                new CustomStringOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ShowShieldedPlayer"),
+                    new[] { LocalizationManager.Instance.GetString("Self"), LocalizationManager.Instance.GetString("Medic"), LocalizationManager.Instance.GetString("Self+Medic"), LocalizationManager.Instance.GetString("Everyone") });
             WhoGetsNotification =
-                new CustomStringOption(num++, MultiMenu.crewmate, "Who Gets Murder Attempt Indicator",
-                    new[] { "Medic", "Shielded", "Everyone", "Nobody" });
-            ShieldBreaks = new CustomToggleOption(num++, MultiMenu.crewmate, "Shield Breaks On Murder Attempt", false);
-            MedicReportSwitch = new CustomToggleOption(num++, MultiMenu.crewmate, "Show Medic Reports");
+                new CustomStringOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("WhoGetsMurderAttemptIndicator"),
+                    new[] { LocalizationManager.Instance.GetString("Medic"), LocalizationManager.Instance.GetString("Shielded"), LocalizationManager.Instance.GetString("Everyone"), LocalizationManager.Instance.GetString("Nobody") });
+            ShieldBreaks = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ShieldBreaksOnMurderAttempt"), false);
+            MedicReportSwitch = new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ShowMedicReports"));
             MedicReportNameDuration =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Time Where Medic Will Have Name", 0f, 0f, 60f, 2.5f,
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TimeWhereMedicWillHaveName"), 0f, 0f, 60f, 2.5f,
                     CooldownFormat);
             MedicReportColorDuration =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Time Where Medic Will Have Color Type", 15f, 0f, 60f, 2.5f,
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TimeWhereMedicWillHaveColorType"), 15f, 0f, 60f, 2.5f,
                     CooldownFormat);
 
             Engineer =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#FFA60AFF>Engineer</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#FFA60AFF>{LocalizationManager.Instance.GetString("Engineer")}</color>");
             MaxFixes =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Fixes", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MaximumNumberOfFixes"), 5, 1, 15, 1);
 
             Medium =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#A680FFFF>Medium</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#A680FFFF>{LocalizationManager.Instance.GetString("Medium")}</color>");
             MediateCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Mediate Cooldown", 10f, 1f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MediateCooldown"), 10f, 1f, 15f, 1f, CooldownFormat);
             ShowMediatePlayer =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Reveal Appearance Of Mediate Target", true);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("RevealAppearanceOfMediateTarget"), true);
             ShowMediumToDead =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Reveal The Medium To The Mediate Target", true);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("RevealTheMediumToTheMediateTarget"), true);
             DeadRevealed =
-                new CustomStringOption(num++, MultiMenu.crewmate, "Who Is Revealed With Mediate", new[] { "Oldest Dead", "Newest Dead", "All Dead" });
+                new CustomStringOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("WhoIsRevealedWithMediate"), 
+                new[] { LocalizationManager.Instance.GetString("OldestDead"), LocalizationManager.Instance.GetString("NewestDead"), LocalizationManager.Instance.GetString("AllDead") });
 
             Prosecutor =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#B38000FF>Prosecutor</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#B38000FF>{LocalizationManager.Instance.GetString("Prosecutor")}</color>");
             ProsDiesOnIncorrectPros =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Prosecutor Dies When They Exile A Crewmate", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("ProsecutorDiesWhenTheyExileACrewmate"), false);
 
             Swapper =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#66E666FF>Swapper</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#66E666FF>{LocalizationManager.Instance.GetString("Swapper")}</color>");
             SwapperButton =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Swapper Can Button", true);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("SwapperCanButton"), true);
 
             Transporter =
-                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#00EEFFFF>Transporter</color>");
+                new CustomHeaderOption(num++, MultiMenu.crewmate, $"<color=#00EEFFFF>{LocalizationManager.Instance.GetString("Transporter")}</color>");
             TransportCooldown =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Transport Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TransportCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             TransportMaxUses =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Transports", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("MaximumNumberOfTransports"), 5, 1, 15, 1);
             TransporterVitals =
-                new CustomToggleOption(num++, MultiMenu.crewmate, "Transporter Can Use Vitals", false);
+                new CustomToggleOption(num++, MultiMenu.crewmate, LocalizationManager.Instance.GetString("TransporterCanUseVitals"), false);
 
-            Amnesiac = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#80B2FFFF>Amnesiac</color>");
+            Amnesiac = new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#80B2FFFF>{LocalizationManager.Instance.GetString("Amnesiac")}</color>");
             RememberArrows =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Amnesiac Gets Arrows Pointing To Dead Bodies", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("AmnesiacGetsArrowsPointingToDeadBodies"), false);
             RememberArrowDelay =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Time After Death Arrow Appears", 5f, 0f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("TimeAfterDeathArrowAppears"), 5f, 0f, 15f, 1f, CooldownFormat);
 
             GuardianAngel =
-                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#B3FFFFFF>Guardian Angel</color>");
+                new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#B3FFFFFF>{LocalizationManager.Instance.GetString("GuardianAngel")}</color>");
             ProtectCd =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Protect Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ProtectCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             ProtectDuration =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Protect Duration", 10f, 5f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ProtectDuration"), 10f, 5f, 15f, 1f, CooldownFormat);
             ProtectKCReset =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Kill Cooldown Reset When Protected", 2.5f, 0f, 15f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("KillCooldownResetWhenProtected"), 2.5f, 0f, 15f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("KillCooldownResetWhenProtected"), 2.5f, 0f, 15f, 0.5f, CooldownFormat);
             MaxProtects =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Number Of Protects", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("MaximumNumberOfProtects"), 5, 1, 15, 1);
             ShowProtect =
-                new CustomStringOption(num++, MultiMenu.neutral, "Show Protected Player",
-                    new[] { "Self", "Guardian Angel", "Self+GA", "Everyone" });
-            GaOnTargetDeath = new CustomStringOption(num++, MultiMenu.neutral, "GA Becomes On Target Dead",
-                new[] { "Crew", "Amnesiac", "Survivor", "Jester" });
+                new CustomStringOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ShowProtectedPlayer"),
+                    new[] { LocalizationManager.Instance.GetString("Self"), LocalizationManager.Instance.GetString("GuardianAngel"), LocalizationManager.Instance.GetString("Self+GA"), LocalizationManager.Instance.GetString("Everyone") });
+            GaOnTargetDeath = new CustomStringOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("GABecomes OnTargetDead"),
+                new[] { LocalizationManager.Instance.GetString("Crew"), LocalizationManager.Instance.GetString("Amnesiac"), LocalizationManager.Instance.GetString("Survivor"), LocalizationManager.Instance.GetString("Jester") });
             GATargetKnows =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Target Knows GA Exists", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("TargetKnowsGExists"), false);
             GAKnowsTargetRole =
-                new CustomToggleOption(num++, MultiMenu.neutral, "GA Knows Targets Role", false);
-            EvilTargetPercent = new CustomNumberOption(num++, MultiMenu.neutral, "Odds Of Target Being Evil", 20f, 0f, 100f, 10f,
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("GAKnowsTargetsRole"), false);
+            EvilTargetPercent = new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("OddsOfTargetBeingEvil"), 20f, 0f, 100f, 10f,
                 PercentFormat);
 
             Survivor =
-                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#FFE64DFF>Survivor</color>");
+                new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#FFE64DFF>{LocalizationManager.Instance.GetString("Survivor")}</color>");
             VestCd =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Vest Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("VestCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             VestDuration =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Vest Duration", 10f, 5f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("VestDuration"), 10f, 5f, 15f, 1f, CooldownFormat);
             VestKCReset =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Kill Cooldown Reset On Attack", 2.5f, 0f, 15f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("KillCooldownResetOnAttack"), 2.5f, 0f, 15f, 0.5f, CooldownFormat);
             MaxVests =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Number Of Vests", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("MaximumNumberOfVests"), 5, 1, 15, 1);
 
-            Doomsayer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>");
+            Doomsayer = new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#00FF80FF>{LocalizationManager.Instance.GetString("Doomsayer")}</color>");
             ObserveCooldown =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Observe Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            DoomsayerGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Benign Roles", false);
-            DoomsayerGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Evil Roles", false);
-            DoomsayerGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Killing Roles", false);
-            DoomsayerGuessImpostors = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Impostor Roles", false);
-            DoomsayerAfterVoting = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess After Voting", false);
-            DoomsayerGuessesToWin = new CustomNumberOption(num++, MultiMenu.neutral, "Number Of Doomsayer Kills To Win", 3, 1, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ObserveCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
+            DoomsayerGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("DoomsayerCanGuessNeutralBenignRoles"), false);
+            DoomsayerGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("DoomsayerCanGuessNeutralEvilRoles"), false);
+            DoomsayerGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("DoomsayerCanGuessNeutralKillingRoles"), false);
+            DoomsayerGuessImpostors = new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("DoomsayerCanGuessImpostorRoles"), false);
+            DoomsayerAfterVoting = new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("DoomsayerCanGuessAfterVoting"), false);
+            DoomsayerGuessesToWin = new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("NumberOfDoomsayerKillsToWin"), 3, 1, 5, 1);
 
             Executioner =
-                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#8C4005FF>Executioner</color>");
-            OnTargetDead = new CustomStringOption(num++, MultiMenu.neutral, "Executioner Becomes On Target Dead",
+                new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#8C4005FF>{LocalizationManager.Instance.GetString("Executioner")}</color>");
+            OnTargetDead = new CustomStringOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ExecutionerBecomesOnTargetDead"),
                 new[] { "Crew", "Amnesiac", "Survivor", "Jester" });
             ExecutionerButton =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Executioner Can Button", true);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ExecutionerCanButton"), true);
             ExecutionerTorment =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Executioner Torments Player On Victory", true);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ExecutionerTormentsPlayerOnVictory"), true);
 
             Jester =
-                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#FFBFCCFF>Jester</color>");
+                new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#FFBFCCFF>{LocalizationManager.Instance.GetString("Jester")}</color>");
             JesterButton =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Jester Can Button", true);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("JesterCanButton"), true);
             JesterVent =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Jester Can Hide In Vents", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("JesterCanHideInVents"), false);
             JesterImpVision =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Jester Has Impostor Vision", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("JesterHasImpostorVision"), false);
             JesterHaunt =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Jester Haunts Player On Victory", true);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("JesterHauntsPlayerOnVictory"), true);
 
             Phantom =
-                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#662962FF>Phantom</color>");
+                new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#662962FF>{LocalizationManager.Instance.GetString("Phantom")}</color>");
             PhantomTasksRemaining =
-                 new CustomNumberOption(num++, MultiMenu.neutral, "Tasks Remaining When Phantom Can Be Clicked", 5, 1, 15, 1);
+                 new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("TasksRemainingWhenPhantomCanBeClicked"), 5, 1, 15, 1);
             PhantomSpook =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Phantom Spooks Player On Victory", true);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("PhantomSpooksPlayer OnVictory"), true);
 
-            Arsonist = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#FF4D00FF>Arsonist</color>");
+            Arsonist = new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#FF4D00FF>{LocalizationManager.Instance.GetString("Arsonist")}</color>");
             DouseCooldown =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Douse Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("DouseCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             MaxDoused =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Alive Players Doused", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("MaximumAlivePlayersDoused"), 5, 1, 15, 1);
             ArsoImpVision =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Arsonist Has Impostor Vision", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("ArsonistHasImpostoVision"), false);
             IgniteCdRemoved =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Ignite Cooldown Removed When Arsonist Is Last Killer", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("IgniteCooldownRemovedWhenArsonistIsLastKiller"), false);
 
             Juggernaut =
-                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#8C004DFF>Juggernaut</color>");
+                new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#8C004DFF>{LocalizationManager.Instance.GetString("Juggernaut")}</color>");
             JuggKillCooldown = new CustomNumberOption(num++, MultiMenu.neutral, "Juggernaut Initial Kill Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             ReducedKCdPerKill = new CustomNumberOption(num++, MultiMenu.neutral, "Reduced Kill Cooldown Per Kill", 5f, 2.5f, 10f, 2.5f, CooldownFormat);
             JuggVent =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Juggernaut Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("JuggernautCanVent"), false);
 
-            Plaguebearer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#E6FFB3FF>Plaguebearer</color>");
+            Plaguebearer = new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#E6FFB3FF>{LocalizationManager.Instance.GetString("Plaguebearer")}</color>");
             InfectCooldown =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Infect Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("InfectCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             PestKillCooldown =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Pestilence Kill Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("PestilenceKillCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             PestVent =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Pestilence Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("PestilenceCanVent"), false);
 
             TheGlitch =
-                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#00FF00FF>The Glitch</color>");
-            MimicCooldownOption = new CustomNumberOption(num++, MultiMenu.neutral, "Mimic Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            MimicDurationOption = new CustomNumberOption(num++, MultiMenu.neutral, "Mimic Duration", 10f, 1f, 15f, 1f, CooldownFormat);
-            HackCooldownOption = new CustomNumberOption(num++, MultiMenu.neutral, "Hack Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
-            HackDurationOption = new CustomNumberOption(num++, MultiMenu.neutral, "Hack Duration", 10f, 1f, 15f, 1f, CooldownFormat);
+                new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#00FF00FF>{LocalizationManager.Instance.GetString("TheGlitch")}</color>");
+            MimicCooldownOption = new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("MimicCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
+            MimicDurationOption = new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("MimicDuration"), 10f, 1f, 15f, 1f, CooldownFormat);
+            HackCooldownOption = new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("HackCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
+            HackDurationOption = new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("HackDuration"), 10f, 1f, 15f, 1f, CooldownFormat);
             GlitchKillCooldownOption =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Glitch Kill Cooldown", 25f, 10f, 120f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("GlitchKillCooldown"), 25f, 10f, 120f, 2.5f, CooldownFormat);
             GlitchHackDistanceOption =
-                new CustomStringOption(num++, MultiMenu.neutral, "Glitch Hack Distance", new[] { "Short", "Normal", "Long" });
+                new CustomStringOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("GlitchHackDistance"),
+                new[] { LocalizationManager.Instance.GetString("Short"), LocalizationManager.Instance.GetString("Normal"), LocalizationManager.Instance.GetString("Long") });
             GlitchVent =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Glitch Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("GlitchCanVent"), false);
 
-            Vampire = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#262626FF>Vampire</color>");
+            Vampire = new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#262626FF>{LocalizationManager.Instance.GetString("Vampire")}</color>");
             BiteCooldown =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Vampire Bite Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("VampireBiteCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             VampImpVision =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Vampires Have Impostor Vision", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("VampiresHaveImpostorVision"), false);
             VampVent =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Vampires Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("VampiresCanVent"), false);
             NewVampCanAssassin =
-                new CustomToggleOption(num++, MultiMenu.neutral, "New Vampire Can Assassinate", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("NewVampireCanAssassinate"), false);
             MaxVampiresPerGame =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Vampires Per Game", 2, 2, 5, 1);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("MaximumVampiresPerGame"), 2, 2, 5, 1);
             CanBiteNeutralBenign =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Can Convert Neutral Benign Roles", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("CanConvertNeutralBenignRoles"), false);
             CanBiteNeutralEvil =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Can Convert Neutral Evil Roles", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("CanConvertNeutralEvilRoles"), false);
 
-            Werewolf = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#A86629FF>Werewolf</color>");
+            Werewolf = new CustomHeaderOption(num++, MultiMenu.neutral, $"<color=#A86629FF>{LocalizationManager.Instance.GetString("Werewolf")}</color>");
             RampageCooldown =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Rampage Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("RampageCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             RampageDuration =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Rampage Duration", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("RampageDuration"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             RampageKillCooldown =
-                new CustomNumberOption(num++, MultiMenu.neutral, "Rampage Kill Cooldown", 10f, 0.5f, 15f, 0.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("RampageKillCooldown"), 10f, 0.5f, 15f, 0.5f, CooldownFormat);
             WerewolfVent =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Werewolf Can Vent When Rampaged", false);
+                new CustomToggleOption(num++, MultiMenu.neutral, LocalizationManager.Instance.GetString("WerewolfCanVenWhenRampaged"), false);
 
             Escapist =
-                new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Escapist</color>");
+                new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Escapist")}</color>");
             EscapeCooldown =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Recall Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("RecallCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             EscapistVent =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Escapist Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("EscapistCanVent"), false);
 
             Grenadier =
-                new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Grenadier</color>");
+                new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Grenadier")}</color>");
             GrenadeCooldown =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Flash Grenade Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("FlashGrenadeCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             GrenadeDuration =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Flash Grenade Duration", 10f, 5f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("FlashGrenadeDuration"), 10f, 5f, 15f, 1f, CooldownFormat);
             FlashRadius =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Flash Radius", 1f, 0.25f, 5f, 0.25f, MultiplierFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("FlashRadius"), 1f, 0.25f, 5f, 0.25f, MultiplierFormat);
             GrenadierIndicators =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Indicate Flashed Crewmates", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("IndicateFlashedCrewmates"), false);
             GrenadierVent =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Grenadier Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("GrenadierCanVent"), false);
 
             Morphling =
-                new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Morphling</color>");
+                new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Morphling")}</color>");
             MorphlingCooldown =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Morphling Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("MorphlingCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             MorphlingDuration =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Morphling Duration", 10f, 5f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("MorphlingDuration"), 10f, 5f, 15f, 1f, CooldownFormat);
             MorphlingVent =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Morphling Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("MorphlingCanVent"), false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("MorphlingCanVent"), false);
 
-            Swooper = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Swooper</color>");
+            Swooper = new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Swooper")}</color>");
             SwoopCooldown =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Swoop Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("SwoopCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             SwoopDuration =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Swoop Duration", 10f, 5f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("SwoopDuration"), 10f, 5f, 15f, 1f, CooldownFormat);
             SwooperVent =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Swooper Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("SwooperCanVent"), false);
 
-            Venerer = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Venerer</color>");
+            Venerer = new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Venerer")}</color>");
             AbilityCooldown =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Ability Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("AbilityCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             AbilityDuration =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Ability Duration", 10f, 5f, 15f, 1f, CooldownFormat);
-            SprintSpeed = new CustomNumberOption(num++, MultiMenu.imposter, "Sprint Speed", 1.25f, 1.05f, 2.5f, 0.05f, MultiplierFormat);
-            FreezeSpeed = new CustomNumberOption(num++, MultiMenu.imposter, "Freeze Speed", 0.75f, 0.25f, 1f, 0.05f, MultiplierFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("AbilityDuration"), 10f, 5f, 15f, 1f, CooldownFormat);
+            SprintSpeed = new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("SprintSpeed"), 1.25f, 1.05f, 2.5f, 0.05f, MultiplierFormat);
+            FreezeSpeed = new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("FreezeSpeed"), 0.75f, 0.25f, 1f, 0.05f, MultiplierFormat);
 
             Bomber =
-                new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Bomber</color>");
+                new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Bomber")}</color>");
             DetonateDelay =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Detonate Delay", 5f, 1f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("DetonateDelay"), 5f, 1f, 15f, 1f, CooldownFormat);
             MaxKillsInDetonation =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Max Kills In Detonation", 5, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("MaxKillsInDetonation"), 5, 1, 15, 1);
             DetonateRadius =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Detonate Radius", 0.25f, 0.05f, 1f, 0.05f, MultiplierFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("DetonateRadius"), 0.25f, 0.05f, 1f, 0.05f, MultiplierFormat);
             BomberVent =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Bomber Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("BomberCanVent"), false);
 
-            Traitor = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Traitor</color>");
-            LatestSpawn = new CustomNumberOption(num++, MultiMenu.imposter, "Minimum People Alive When Traitor Can Spawn", 5, 3, 15, 1);
+            Traitor = new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Traitor")}</color>");
+            LatestSpawn = new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("MinimumPeopleAliveWhenTraitorCanSpawn"), 5, 3, 15, 1);
             NeutralKillingStopsTraitor =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Traitor Won't Spawn If Any Neutral Killing Is Alive", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("TraitorWon'tSpawnIfAnyNeutralKillingIsAlive"), false);
 
-            Warlock = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Warlock</color>");
+            Warlock = new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Warlock")}</color>");
             ChargeUpDuration =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Time It Takes To Fully Charge", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("TimeItTakesToFullyCharge"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             ChargeUseDuration =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Time It Takes To Use Full Charge", 1f, 0.05f, 5f, 0.05f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("TimeItTakesToUseFullCharge"), 1f, 0.05f, 5f, 0.05f, CooldownFormat);
 
-            Blackmailer = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Blackmailer</color>");
+            Blackmailer = new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Blackmailer")}</color>");
             BlackmailCooldown =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Initial Blackmail Cooldown", 10f, 1f, 15f, 1f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("InitialBlackmailCooldown"), 10f, 1f, 15f, 1f, CooldownFormat);
 
-            Miner = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Miner</color>");
+            Miner = new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Miner")}</color>");
             MineCooldown =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Mine Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("MineCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
 
-            Undertaker = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Undertaker</color>");
-            DragCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Drag Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            Undertaker = new CustomHeaderOption(num++, MultiMenu.imposter, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Undertaker")}</color>");
+            DragCooldown = new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("DragCooldown"), 25f, 10f, 60f, 2.5f, CooldownFormat);
             UndertakerDragSpeed =
-                new CustomNumberOption(num++, MultiMenu.imposter, "Undertaker Drag Speed", 0.75f, 0.25f, 1f, 0.05f, MultiplierFormat);
+                new CustomNumberOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("UndertakerDragSpeed"), 0.75f, 0.25f, 1f, 0.05f, MultiplierFormat);
             UndertakerVent =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Undertaker Can Vent", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("UndertakerCanVent"), false);
             UndertakerVentWithBody =
-                new CustomToggleOption(num++, MultiMenu.imposter, "Undertaker Can Vent While Dragging", false);
+                new CustomToggleOption(num++, MultiMenu.imposter, LocalizationManager.Instance.GetString("UndertakerCanVentWhileDragging"), false);
 
-            Bait = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#00B3B3FF>Bait</color>");
-            BaitMinDelay = new CustomNumberOption(num++, MultiMenu.modifiers, "Minimum Delay for the Bait Report", 0f, 0f, 15f, 0.5f, CooldownFormat);
-            BaitMaxDelay = new CustomNumberOption(num++, MultiMenu.modifiers, "Maximum Delay for the Bait Report", 1f, 0f, 15f, 0.5f, CooldownFormat);
+            Bait = new CustomHeaderOption(num++, MultiMenu.modifiers, $"<color=#00B3B3FF>{LocalizationManager.Instance.GetString("Bait")}</color>");
+            BaitMinDelay = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("MinimumDelayfortheBaitReport"), 0f, 0f, 15f, 0.5f, CooldownFormat);
+            BaitMaxDelay = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("MaximumDelayfortheBaitReport"), 1f, 0f, 15f, 0.5f, CooldownFormat);
 
-            Diseased = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#808080FF>Diseased</color>");
-            DiseasedKillMultiplier = new CustomNumberOption(num++, MultiMenu.modifiers, "Diseased Kill Multiplier", 3f, 1.5f, 5f, 0.5f, MultiplierFormat);
+            Diseased = new CustomHeaderOption(num++, MultiMenu.modifiers, $"<color=#808080FF>{LocalizationManager.Instance.GetString("Diseased")}</color>");
+            DiseasedKillMultiplier = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("DiseasedKillMultiplier"), 3f, 1.5f, 5f, 0.5f, MultiplierFormat);
 
-            Frosty = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#99FFFFFF>Frosty</color>");
-            ChillDuration = new CustomNumberOption(num++, MultiMenu.modifiers, "Chill Duration", 10f, 1f, 15f, 1f, CooldownFormat);
-            ChillStartSpeed = new CustomNumberOption(num++, MultiMenu.modifiers, "Chill Start Speed", 0.75f, 0.25f, 0.95f, 0.05f, MultiplierFormat);
+            Frosty = new CustomHeaderOption(num++, MultiMenu.modifiers, $"<color=#99FFFFFF>{LocalizationManager.Instance.GetString("Frosty")}</color>");
+            ChillDuration = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("ChillDuration"), 10f, 1f, 15f, 1f, CooldownFormat);
+            ChillStartSpeed = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("ChillStartSpeed"), 0.75f, 0.25f, 0.95f, 0.05f, MultiplierFormat);
 
-            Flash = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF8080FF>Flash</color>");
-            FlashSpeed = new CustomNumberOption(num++, MultiMenu.modifiers, "Flash Speed", 1.25f, 1.05f, 2.5f, 0.05f, MultiplierFormat);
+            Flash = new CustomHeaderOption(num++, MultiMenu.modifiers, $"<color=#FF8080FF>{LocalizationManager.Instance.GetString("Flash")}</color>");
+            FlashSpeed = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("FlashSpeed"), 1.25f, 1.05f, 2.5f, 0.05f, MultiplierFormat);
 
-            Giant = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FFB34DFF>Giant</color>");
-            GiantSlow = new CustomNumberOption(num++, MultiMenu.modifiers, "Giant Speed", 0.75f, 0.25f, 1f, 0.05f, MultiplierFormat);
+            Giant = new CustomHeaderOption(num++, MultiMenu.modifiers, $"<color=#FFB34DFF>{LocalizationManager.Instance.GetString("Giant")}</color>");
+            GiantSlow = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("GiantSpeed"), 0.75f, 0.25f, 1f, 0.05f, MultiplierFormat);
 
             Lovers =
-                new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>");
-            BothLoversDie = new CustomToggleOption(num++, MultiMenu.modifiers, "Both Lovers Die");
-            LovingImpPercent = new CustomNumberOption(num++, MultiMenu.modifiers, "Loving Impostor Probability", 20f, 0f, 100f, 10f,
+                new CustomHeaderOption(num++, MultiMenu.modifiers, $"<color=#FF66CCFF>{LocalizationManager.Instance.GetString("Lovers")}</color>");
+            BothLoversDie = new CustomToggleOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("BothLoversDie"));
+            LovingImpPercent = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("LovingImpostorProbability"), 20f, 0f, 100f, 10f,
                 PercentFormat);
-            NeutralLovers = new CustomToggleOption(num++, MultiMenu.modifiers, "Neutral Roles Can Be Lovers");
+            NeutralLovers = new CustomToggleOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("NeutralRolesCanBeLovers"));
 
-            Underdog = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>");
-            UnderdogKillBonus = new CustomNumberOption(num++, MultiMenu.modifiers, "Kill Cooldown Bonus", 5f, 2.5f, 10f, 2.5f, CooldownFormat);
-            UnderdogIncreasedKC = new CustomToggleOption(num++, MultiMenu.modifiers, "Increased Kill Cooldown When 2+ Imps", true);
+            Underdog = new CustomHeaderOption(num++, MultiMenu.modifiers, $"<color=#FF0000FF>{LocalizationManager.Instance.GetString("Underdog")}</color>");
+            UnderdogKillBonus = new CustomNumberOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("KillCooldownBonus"), 5f, 2.5f, 10f, 2.5f, CooldownFormat);
+            UnderdogIncreasedKC = new CustomToggleOption(num++, MultiMenu.modifiers, LocalizationManager.Instance.GetString("IncreasedKillCooldownWhen2PlusImps"), true);
         }
     }
 }

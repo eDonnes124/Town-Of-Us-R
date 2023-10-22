@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TownOfUs.Extensions;
+using TownOfUs.Patches.Localization;
 
 namespace TownOfUs.CrewmateRoles.MedicMod
 {
@@ -24,15 +25,15 @@ namespace TownOfUs.CrewmateRoles.MedicMod
             //System.Console.WriteLine(br.KillAge);
             if (br.KillAge > CustomGameOptions.MedicReportColorDuration * 1000)
                 return
-                    $"Body Report: The corpse is too old to gain information from. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+                    $"{string.Format(LocalizationManager.Instance.GetString("BodyReportTooOld"), Math.Round(br.KillAge / 1000))}";
 
             if (br.Killer.PlayerId == br.Body.PlayerId)
                 return
-                    $"Body Report: The kill appears to have been a suicide! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+                    $"{string.Format(LocalizationManager.Instance.GetString("BodyReportSuicide"), Math.Round(br.KillAge / 1000))}";
 
             if (br.KillAge < CustomGameOptions.MedicReportNameDuration * 1000)
                 return
-                    $"Body Report: The killer appears to be {br.Killer.Data.PlayerName}! (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+                    $"{string.Format(LocalizationManager.Instance.GetString("BodyReportKillerAppearance"), br.Killer.Data.PlayerName, Math.Round(br.KillAge / 1000))}";
 
             var colors = new Dictionary<int, string>
             {
@@ -74,7 +75,7 @@ namespace TownOfUs.CrewmateRoles.MedicMod
             };
             var typeOfColor = colors[br.Killer.GetDefaultOutfit().ColorId];
             return
-                $"Body Report: The killer appears to be a {typeOfColor} color. (Killed {Math.Round(br.KillAge / 1000)}s ago)";
+                $"{string.Format(LocalizationManager.Instance.GetString("BodyReportKillerAppearance"), typeOfColor, Math.Round(br.KillAge / 1000))}";
         }
     }
 }

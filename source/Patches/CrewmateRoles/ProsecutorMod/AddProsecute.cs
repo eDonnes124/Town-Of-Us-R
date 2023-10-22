@@ -1,5 +1,6 @@
 using HarmonyLib;
 using TMPro;
+using TownOfUs.Patches.Localization;
 using TownOfUs.Roles;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace TownOfUs.CrewmateRoles.ProsecutorMod
             role.Prosecute.gameObject.SetActive(skip.gameObject.active && !role.Prosecuted);
             role.Prosecute.voteComplete = skip.voteComplete;
             role.Prosecute.GetComponent<SpriteRenderer>().enabled = skip.GetComponent<SpriteRenderer>().enabled;
-            role.Prosecute.GetComponentsInChildren<TextMeshPro>()[0].text = "Prosecute";
+            role.Prosecute.GetComponentsInChildren<TextMeshPro>()[0].text = LocalizationManager.Instance.GetString("Prosecute");
         }
 
 

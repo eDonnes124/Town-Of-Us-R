@@ -9,6 +9,7 @@ using Reactor.Utilities.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using TownOfUs.Patches.Localization;
 
 namespace TownOfUs.CustomOption
 {
@@ -19,7 +20,7 @@ namespace TownOfUs.CustomOption
 
         public List<CustomButtonOption> SlotButtons = new List<CustomButtonOption>();
 
-        protected internal Export(int id) : base(id, MultiMenu.main, "Save Custom Settings")
+        protected internal Export(int id) : base(id, MultiMenu.main, LocalizationManager.Instance.GetString("SaveCustomSettings"))
         {
             Do = ToDo;
         }
@@ -63,7 +64,7 @@ namespace TownOfUs.CustomOption
 
             Loading = SlotButtons[0];
             Loading.Do = () => { };
-            Loading.Setting.Cast<ToggleOption>().TitleText.text = "Loading...";
+            Loading.Setting.Cast<ToggleOption>().TitleText.text = LocalizationManager.Instance.GetString("Loading")+"...";
 
             __instance.Children = new[] {Loading.Setting};
 
@@ -84,12 +85,12 @@ namespace TownOfUs.CustomOption
         protected internal void ToDo()
         {
             SlotButtons.Clear();
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 1", delegate { ExportSlot(1); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 2", delegate { ExportSlot(2); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 3", delegate { ExportSlot(3); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 4", delegate { ExportSlot(4); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Slot 5", delegate { ExportSlot(5); }));
-            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, "Cancel", delegate { Cancel(FlashWhite); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, LocalizationManager.Instance.GetString("Slot") + " 1", delegate { ExportSlot(1); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, LocalizationManager.Instance.GetString("Slot") + " 2", delegate { ExportSlot(2); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, LocalizationManager.Instance.GetString("Slot") + " 3", delegate { ExportSlot(3); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, LocalizationManager.Instance.GetString("Slot") + " 4", delegate { ExportSlot(4); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, LocalizationManager.Instance.GetString("Slot") + " 5", delegate { ExportSlot(5); }));
+            SlotButtons.Add(new CustomButtonOption(1, MultiMenu.external, LocalizationManager.Instance.GetString("Cancel"), delegate { Cancel(FlashWhite); }));
 
             var options = CreateOptions();
 

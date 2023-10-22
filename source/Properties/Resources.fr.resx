@@ -1,0 +1,1491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddArsonist" xml:space="preserve">
+    <value>Ajouter Pyromane</value>
+  </data>
+  <data name="AddPlaguebearer" xml:space="preserve">
+    <value>Ajouter Porteur de Peste</value>
+  </data>
+  <data name="Aftermath" xml:space="preserve">
+    <value>Conséquence</value>
+  </data>
+  <data name="AllAnySettings" xml:space="preserve">
+    <value>Paramètres Aléatoires</value>
+  </data>
+  <data name="Altruist" xml:space="preserve">
+    <value>Altruiste</value>
+  </data>
+  <data name="Amnesiac" xml:space="preserve">
+    <value>Amnésique</value>
+  </data>
+  <data name="Arsonist" xml:space="preserve">
+    <value>Pyromane</value>
+  </data>
+  <data name="Aurial" xml:space="preserve">
+    <value>Aurial</value>
+  </data>
+  <data name="Bait" xml:space="preserve">
+    <value>Appât</value>
+  </data>
+  <data name="Blackmailer" xml:space="preserve">
+    <value>Maître-chanteur</value>
+  </data>
+  <data name="Bomber" xml:space="preserve">
+    <value>Bombardier</value>
+  </data>
+  <data name="ButtonBarry" xml:space="preserve">
+    <value>Bouton de Barry</value>
+  </data>
+  <data name="ClassicGameModeSettings" xml:space="preserve">
+    <value>Paramètres de jeu classique</value>
+  </data>
+  <data name="CrewmateInvestigativeRoles" xml:space="preserve">
+    <value>Rôles Crewmate Enquêteur</value>
+  </data>
+  <data name="CrewmateKillingRoles" xml:space="preserve">
+    <value>Rôles Crewmate Tueurs</value>
+  </data>
+  <data name="CrewmateModifiers" xml:space="preserve">
+    <value>Modificateurs de Crewmate</value>
+  </data>
+  <data name="CrewmateProtectiveRoles" xml:space="preserve">
+    <value>Rôles Crewmate Protecteurs</value>
+  </data>
+  <data name="CrewmateSupportRoles" xml:space="preserve">
+    <value>Rôles Crewmate de Soutien</value>
+  </data>
+  <data name="CultistMode" xml:space="preserve">
+    <value>Mode Cultiste</value>
+  </data>
+  <data name="CultistSettings" xml:space="preserve">
+    <value>Paramètres Cultiste</value>
+  </data>
+  <data name="Detective" xml:space="preserve">
+    <value>Détective</value>
+  </data>
+  <data name="Diseased" xml:space="preserve">
+    <value>Malade</value>
+  </data>
+  <data name="Disperser" xml:space="preserve">
+    <value>Disperseur</value>
+  </data>
+  <data name="Doomsayer" xml:space="preserve">
+    <value>Prophète de malheur</value>
+  </data>
+  <data name="DoubleShot" xml:space="preserve">
+    <value>Double Coup</value>
+  </data>
+  <data name="Engineer" xml:space="preserve">
+    <value>Ingénieur</value>
+  </data>
+  <data name="Escapist" xml:space="preserve">
+    <value>Fugitif</value>
+  </data>
+  <data name="Executioner" xml:space="preserve">
+    <value>Bourreau</value>
+  </data>
+  <data name="Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="Frosty" xml:space="preserve">
+    <value>Glacial</value>
+  </data>
+  <data name="GameMode" xml:space="preserve">
+    <value>Mode de jeu</value>
+  </data>
+  <data name="GameModeSettings" xml:space="preserve">
+    <value>Paramètres du mode de jeu</value>
+  </data>
+  <data name="Giant" xml:space="preserve">
+    <value>Géant</value>
+  </data>
+  <data name="GlobalModifiers" xml:space="preserve">
+    <value>Modificateurs globaux</value>
+  </data>
+  <data name="Grenadier" xml:space="preserve">
+    <value>Grenadier</value>
+  </data>
+  <data name="GuardianAngel" xml:space="preserve">
+    <value>Ange gardien</value>
+  </data>
+  <data name="Haunter" xml:space="preserve">
+    <value>Hanteur</value>
+  </data>
+  <data name="Imitator" xml:space="preserve">
+    <value>Imitateur</value>
+  </data>
+  <data name="ImpostorConcealingRoles" xml:space="preserve">
+    <value>Rôles d'Imposteurs Masqués</value>
+  </data>
+  <data name="ImpostorKillingRoles" xml:space="preserve">
+    <value>Rôles d'Imposteurs Tueurs</value>
+  </data>
+  <data name="ImpostorModifiers" xml:space="preserve">
+    <value>Modificateurs d'Imposteurs</value>
+  </data>
+  <data name="ImpostorSupportRoles" xml:space="preserve">
+    <value>Rôles d'Imposteurs de Soutien</value>
+  </data>
+  <data name="Investigator" xml:space="preserve">
+    <value>Enquêteur</value>
+  </data>
+  <data name="Janitor" xml:space="preserve">
+    <value>Concierge</value>
+  </data>
+  <data name="Jester" xml:space="preserve">
+    <value>Bouffon</value>
+  </data>
+  <data name="KillingOnlySettings" xml:space="preserve">
+    <value>Paramètres de Tueur Seulement</value>
+  </data>
+  <data name="Lovers" xml:space="preserve">
+    <value>Amoureux</value>
+  </data>
+  <data name="MaxChameleons" xml:space="preserve">
+    <value>Max Caméléons</value>
+  </data>
+  <data name="MaxEngineers" xml:space="preserve">
+    <value>Max Ingénieurs</value>
+  </data>
+  <data name="MaxInvestigators" xml:space="preserve">
+    <value>Max Investigateur</value>
+  </data>
+  <data name="MaxMystics" xml:space="preserve">
+    <value>Max Mystiques</value>
+  </data>
+  <data name="MaxNeutralBenignRoles" xml:space="preserve">
+    <value>Nbr Max de Rôles Neutres Bénins</value>
+  </data>
+  <data name="MaxNeutralEvilRoles" xml:space="preserve">
+    <value>Nbr Max de Rôles Neutres Maléfiques</value>
+  </data>
+  <data name="MaxNeutralKillingRoles" xml:space="preserve">
+    <value>Nbr Max de Rôles Neutres Tueurs</value>
+  </data>
+  <data name="Mayor" xml:space="preserve">
+    <value>Maire</value>
+  </data>
+  <data name="Medic" xml:space="preserve">
+    <value>Médecin</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Médium</value>
+  </data>
+  <data name="Miner" xml:space="preserve">
+    <value>Mineur</value>
+  </data>
+  <data name="MinNeutralBenignRoles" xml:space="preserve">
+    <value>Nbr Mini de Rôles Neutres Bénins</value>
+  </data>
+  <data name="MinNeutralEvilRoles" xml:space="preserve">
+    <value>Nbr Mini de Rôles Neutres Maléfiques</value>
+  </data>
+  <data name="MinNeutralKillingRoles" xml:space="preserve">
+    <value>Nbr Mini de Rôles Neutres Tueurs</value>
+  </data>
+  <data name="Morphling" xml:space="preserve">
+    <value>Métamorphe</value>
+  </data>
+  <data name="Multitasker" xml:space="preserve">
+    <value>Multitâche</value>
+  </data>
+  <data name="Mystic" xml:space="preserve">
+    <value>Mystique</value>
+  </data>
+  <data name="NeutralBenignRoles" xml:space="preserve">
+    <value>Rôles Neutres Bénins</value>
+  </data>
+  <data name="NeutralEvilRoles" xml:space="preserve">
+    <value>Rôles Neutres Maléfiques</value>
+  </data>
+  <data name="NeutralKillingRoles" xml:space="preserve">
+    <value>Rôles Neutres Tueurs</value>
+  </data>
+  <data name="NeutralRoles" xml:space="preserve">
+    <value>Rôles Neutre</value>
+  </data>
+  <data name="NumberOfSpecia Roles" xml:space="preserve">
+    <value>Nombre de rôles spéciaux</value>
+  </data>
+  <data name="Oracle" xml:space="preserve">
+    <value>Oracle</value>
+  </data>
+  <data name="Phantom" xml:space="preserve">
+    <value>Fantôme</value>
+  </data>
+  <data name="Plaguebearer" xml:space="preserve">
+    <value>Porteur de Peste</value>
+  </data>
+  <data name="Prosecutor" xml:space="preserve">
+    <value>Procureur</value>
+  </data>
+  <data name="Radar" xml:space="preserve">
+    <value>Radar</value>
+  </data>
+  <data name="RandomNumberOfImpostors" xml:space="preserve">
+    <value>Nombre aléatoire d’imposteurs</value>
+  </data>
+  <data name="Seer" xml:space="preserve">
+    <value>Voyant</value>
+  </data>
+  <data name="Sheriff" xml:space="preserve">
+    <value>Shérif</value>
+  </data>
+  <data name="Sleuth" xml:space="preserve">
+    <value>Enquêteur</value>
+  </data>
+  <data name="Snitch" xml:space="preserve">
+    <value>Indicateur</value>
+  </data>
+  <data name="Spy" xml:space="preserve">
+    <value>Espion</value>
+  </data>
+  <data name="Survivor" xml:space="preserve">
+    <value>Survivant</value>
+  </data>
+  <data name="Swapper" xml:space="preserve">
+    <value>Swapeur</value>
+  </data>
+  <data name="Swooper" xml:space="preserve">
+    <value>Furtif</value>
+  </data>
+  <data name="TheGlitch" xml:space="preserve">
+    <value>Anomalie</value>
+  </data>
+  <data name="Tiebreaker" xml:space="preserve">
+    <value>Arbitre</value>
+  </data>
+  <data name="Torch" xml:space="preserve">
+    <value>Torche</value>
+  </data>
+  <data name="Tracker" xml:space="preserve">
+    <value>Suiveur</value>
+  </data>
+  <data name="Traitor" xml:space="preserve">
+    <value>Traître</value>
+  </data>
+  <data name="Transporter" xml:space="preserve">
+    <value>Transporteur</value>
+  </data>
+  <data name="Trapper" xml:space="preserve">
+    <value>Trappeur</value>
+  </data>
+  <data name="Underdog" xml:space="preserve">
+    <value>Le Désavantagé</value>
+  </data>
+  <data name="Undertaker" xml:space="preserve">
+    <value>Fossoyeur</value>
+  </data>
+  <data name="Vampire" xml:space="preserve">
+    <value>Vampire</value>
+  </data>
+  <data name="VampireHunter" xml:space="preserve">
+    <value>Chasseur de Vampire</value>
+  </data>
+  <data name="Venerer" xml:space="preserve">
+    <value>Ascendant</value>
+  </data>
+  <data name="Veteran" xml:space="preserve">
+    <value>Vétéran</value>
+  </data>
+  <data name="VeteranCount" xml:space="preserve">
+    <value>Nombre de Vétérans</value>
+  </data>
+  <data name="Vigilante" xml:space="preserve">
+    <value>Justicier</value>
+  </data>
+  <data name="VigilanteCount" xml:space="preserve">
+    <value>Nombre de Justiciers</value>
+  </data>
+  <data name="Warlock" xml:space="preserve">
+    <value>Sorcier</value>
+  </data>
+  <data name="Werewolf" xml:space="preserve">
+    <value>Loup-garou</value>
+  </data>
+  <data name="MaxSnitches" xml:space="preserve">
+    <value>Max Rapporteurs</value>
+  </data>
+  <data name="MaxSpies" xml:space="preserve">
+    <value>Max Espions</value>
+  </data>
+  <data name="MaxTransporters" xml:space="preserve">
+    <value>Max Transporteurs</value>
+  </data>
+  <data name="MaxVigilantes" xml:space="preserve">
+    <value>Max Vigilants</value>
+  </data>
+  <data name="InitialWhisperCooldown" xml:space="preserve">
+    <value>Cooldown Initial de Chuchotement</value>
+  </data>
+  <data name="IncreasedCooldownPerWhisper" xml:space="preserve">
+    <value>Cooldown Augmenté Par Chuchotement</value>
+  </data>
+  <data name="WhisperRadius" xml:space="preserve">
+    <value>Rayon de Chuchotement</value>
+  </data>
+  <data name="ConversionPercentage" xml:space="preserve">
+    <value>Pourcentage de Conversion</value>
+  </data>
+  <data name="DecreasedConversionPercentagePerConversion" xml:space="preserve">
+    <value>Pourcentage de Conversion Réduit Par Conversion</value>
+  </data>
+  <data name="InitialReviveCooldown" xml:space="preserve">
+    <value>Cooldown Initial de Résurrection</value>
+  </data>
+  <data name="IncreasedCooldownPerRevive" xml:space="preserve">
+    <value>Cooldown Augmenté Par Résurrection</value>
+  </data>
+  <data name="MaximumNumberOfReveals" xml:space="preserve">
+    <value>Nombre Maximum de Révélations</value>
+  </data>
+  <data name="MapSettings" xml:space="preserve">
+    <value>Paramètres de Carte</value>
+  </data>
+  <data name="ChooseRandomMap" xml:space="preserve">
+    <value>Choisir une Carte Aléatoire</value>
+  </data>
+  <data name="SkeldChance" xml:space="preserve">
+    <value>Chance pour Skeld</value>
+  </data>
+  <data name="MiraChance" xml:space="preserve">
+    <value>Chance pour Mira</value>
+  </data>
+  <data name="PolusChance" xml:space="preserve">
+    <value>Chance pour Polus</value>
+  </data>
+  <data name="AirshipChance" xml:space="preserve">
+    <value>Chance pour Airship</value>
+  </data>
+  <data name="SubmergedChance" xml:space="preserve">
+    <value>Chance pour Submerged</value>
+  </data>
+  <data name="BetterPolusSettings" xml:space="preserve">
+    <value>Meilleurs Paramètres pour Polus</value>
+  </data>
+  <data name="BetterSkeldSettings" xml:space="preserve">
+    <value>Meilleurs Paramètres pour Skeld</value>
+  </data>
+  <data name="BetterMiraSettings" xml:space="preserve">
+    <value>Meilleurs Paramètres pour Mira</value>
+  </data>
+  <data name="BetterAirshipSettings" xml:space="preserve">
+    <value>Meilleurs Paramètres pour Dirigeable</value>
+  </data>
+  <data name="BetterSubmergedSettings" xml:space="preserve">
+    <value>Meilleurs Paramètres pour Submergé</value>
+  </data>
+  <data name="HostSettings" xml:space="preserve">
+    <value>Paramètres de l'Hôte</value>
+  </data>
+  <data name="EjectionConfirmation" xml:space="preserve">
+    <value>Confirmation d'Éjection</value>
+  </data>
+  <data name="AnonymousVotes" xml:space="preserve">
+    <value>Votes Anonymes</value>
+  </data>
+  <data name="TaskBarUpdates" xml:space="preserve">
+    <value>Mises à Jour de la Barre des Tâches</value>
+  </data>
+  <data name="ConfirmEjects" xml:space="preserve">
+    <value>Confirmer les Éjections</value>
+  </data>
+  <data name="VisualTasks" xml:space="preserve">
+    <value>Tâches Visuelles</value>
+  </data>
+  <data name="BetterPolusVentLayout" xml:space="preserve">
+    <value>Meilleure Disposition des Conduits sur Polus</value>
+  </data>
+  <data name="VitalsMovedToLab" xml:space="preserve">
+    <value>Signes Vitaux Déplacés vers le Labo</value>
+  </data>
+  <data name="ColdTempMovedToDeathValley" xml:space="preserve">
+    <value>Température Froide Déplacée vers la Vallée de la Mort</value>
+  </data>
+  <data name="RebootWifiAndChartCourseSwapped" xml:space="preserve">
+    <value>Redémarrage Wifi et Trajet Échangés</value>
+  </data>
+  <data name="CustomGameSettings" xml:space="preserve">
+    <value>Paramètres de Jeu Personnalisés</value>
+  </data>
+  <data name="CamouflagedComms" xml:space="preserve">
+    <value>Comms Camouflées</value>
+  </data>
+  <data name="ImpostorsCanSeeTheRolesOfTheirTeam" xml:space="preserve">
+    <value>Les Imposteurs Peuvent Voir les Rôles de Leur Équipe</value>
+  </data>
+  <data name="DeadCanSeeEveryonesRolesVotes" xml:space="preserve">
+    <value>Les Morts Peuvent Voir les Rôles/Votes de Tout le Monde</value>
+  </data>
+  <data name="GameStartCooldowns" xml:space="preserve">
+    <value>Cooldowns au Début du Jeu</value>
+  </data>
+  <data name="ParallelMedbayScans" xml:space="preserve">
+    <value>Scans Médicaux Parallèles</value>
+  </data>
+  <data name="DisableMeetingSkipButton" xml:space="preserve">
+    <value>Désactiver le Bouton Passer Réunion</value>
+  </data>
+  <data name="EnableHiddenRoles" xml:space="preserve">
+    <value>Activer les Rôles Cachés</value>
+  </data>
+  <data name="FirstDeathShieldNextGame" xml:space="preserve">
+    <value>Bouclier Après Premier Décès pour le Prochain Jeu</value>
+  </data>
+  <data name="NeutralEvilWinEndsGame" xml:space="preserve">
+    <value>Victoire du Mal Neutre Termine le Jeu</value>
+  </data>
+  <data name="TaskTrackingSettings" xml:space="preserve">
+    <value>Paramètres de Suivi des Tâches</value>
+  </data>
+  <data name="SeeTasksDuringRound" xml:space="preserve">
+    <value>Voir les Tâches Pendant la Manche</value>
+  </data>
+  <data name="SeeTasksDuringMeetings" xml:space="preserve">
+    <value>Voir les Tâches Pendant les Réunions</value>
+  </data>
+  <data name="SeeTasksWhenDead" xml:space="preserve">
+    <value>Voir les Tâches Quand Mort</value>
+  </data>
+  <data name="AssassinAbility" xml:space="preserve">
+    <value>Capacité d'Assassin</value>
+  </data>
+  <data name="NumberOfImpostorAssassins" xml:space="preserve">
+    <value>Nombre d'Assassins Imposteurs</value>
+  </data>
+  <data name="NumberOfNeutralAssassins" xml:space="preserve">
+    <value>Nombre d'Assassins Neutres</value>
+  </data>
+  <data name="AmnesiacTurnedImpostorGetsAbility" xml:space="preserve">
+    <value>Amnésique Devenu Imposteur Obtient la Capacité</value>
+  </data>
+  <data name="AmnesiacTurnedNeutralKillingGetsAbility" xml:space="preserve">
+    <value>Amnésique Devenu Tueur Neutre Obtient la Capacité</value>
+  </data>
+  <data name="TraitorGetsAbility" xml:space="preserve">
+    <value>Traître Obtient la Capacité</value>
+  </data>
+  <data name="NumberOfAssassinKills" xml:space="preserve">
+    <value>Nombre de Tueries par Assassin</value>
+  </data>
+  <data name="AssassinCanKillMoreThanOncePerMeeting" xml:space="preserve">
+    <value>L'Assassin Peut Tuer Plus d'une Fois Par Réunion</value>
+  </data>
+  <data name="AssassinCanGuessCrewmate" xml:space="preserve">
+    <value>L'Assassin Peut Deviner 'Équipage'</value>
+  </data>
+  <data name="AssassinCanGuessNeutralBenignRoles" xml:space="preserve">
+    <value>L'Assassin Peut Deviner les Rôles Neutres Bénins</value>
+  </data>
+  <data name="AssassinCanGuessNeutralEvilRoles" xml:space="preserve">
+    <value>L'Assassin Peut Deviner les Rôles Neutres Maléfiques</value>
+  </data>
+  <data name="AssassinCanGuessNeutralKillingRoles" xml:space="preserve">
+    <value>L'Assassin Peut Deviner les Rôles Neutres Tueurs</value>
+  </data>
+  <data name="AssassinCanGuessImpostorRoles" xml:space="preserve">
+    <value>L'Assassin Peut Deviner les Rôles d'Imposteur</value>
+  </data>
+  <data name="AssassinCanGuessCrewmateModifiers" xml:space="preserve">
+    <value>L'Assassin Peut Deviner les Modificateurs d'Équipage</value>
+  </data>
+  <data name="AssassinCanGuessLovers" xml:space="preserve">
+    <value>L'Assassin Peut Deviner les Amoureux</value>
+  </data>
+  <data name="AssassinCanGuessAfterVoting" xml:space="preserve">
+    <value>L'Assassin Peut Deviner Après le Vote</value>
+  </data>
+  <data name="TasksRemainingWhenHaunterCanBeClicked" xml:space="preserve">
+    <value>Tâches Restantes pour Cliquer sur le Hanteur</value>
+  </data>
+  <data name="TasksRemainingWhenAlertIsSent" xml:space="preserve">
+    <value>Tâches Restantes pour Envoyer une Alerte</value>
+  </data>
+  <data name="HaunterRevealsNeutralRoles" xml:space="preserve">
+    <value>Le Hanteur Révèle les Rôles Neutres</value>
+  </data>
+  <data name="WhoCanClickHaunter" xml:space="preserve">
+    <value>Qui Peut Cliquer sur le Hanteur</value>
+  </data>
+  <data name="FootprintSize" xml:space="preserve">
+    <value>Taille de l'Empreinte</value>
+  </data>
+  <data name="FootprintInterval" xml:space="preserve">
+    <value>Intervalle de l'Empreinte</value>
+  </data>
+  <data name="FootprintDuration" xml:space="preserve">
+    <value>Durée de l'Empreinte</value>
+  </data>
+  <data name="AnonymousFootprint" xml:space="preserve">
+    <value>Empreinte Anonyme</value>
+  </data>
+  <data name="FootprintVentVisible" xml:space="preserve">
+    <value>Empreinte Visible dans la Bouche d'Aération</value>
+  </data>
+  <data name="DeadBodyArrowDuration" xml:space="preserve">
+    <value>Durée de la Flèche du Cadavre</value>
+  </data>
+  <data name="ConfessCooldown" xml:space="preserve">
+    <value>Temps de Recharge de la Confession</value>
+  </data>
+  <data name="RevealAccuracy" xml:space="preserve">
+    <value>Précision de la Révélation</value>
+  </data>
+  <data name="NeutralBenignRolesShowEvil" xml:space="preserve">
+    <value>Les Rôles Neutres Bénins Montrent le Mal</value>
+  </data>
+  <data name="NeutralEvilRolesShowEvil" xml:space="preserve">
+    <value>Les Rôles Neutres Malfaisants Montrent le Mal</value>
+  </data>
+  <data name="NeutralKillingRolesShowEvil" xml:space="preserve">
+    <value>Les Rôles Neutres Meurtriers Montrent le Mal</value>
+  </data>
+  <data name="SeerCooldown" xml:space="preserve">
+    <value>Temps de Recharge du Voyant</value>
+  </data>
+  <data name="CrewmateKillingRolesAreRed" xml:space="preserve">
+    <value>Les Rôles de Meurtriers parmi les Équipiers sont Rouges</value>
+  </data>
+  <data name="NeutralBenignRolesAreRed" xml:space="preserve">
+    <value>Les Rôles Neutres Bénins sont Rouges</value>
+  </data>
+  <data name="NeutralEvilRolesAreRed" xml:space="preserve">
+    <value>Les Rôles Neutres Malfaisants sont Rouges</value>
+  </data>
+  <data name="NeutralKillingRolesAreRed" xml:space="preserve">
+    <value>Les Rôles Neutres Meurtriers sont Rouges</value>
+  </data>
+  <data name="TraitorDoesNotSwapColours" xml:space="preserve">
+    <value>Le Traître ne Change Pas de Couleurs</value>
+  </data>
+  <data name="SnitchSeesNeutralRoles" xml:space="preserve">
+    <value>L'Indicateur Voit les Rôles Neutres</value>
+  </data>
+  <data name="TasksRemainingWhenRevealed" xml:space="preserve">
+    <value>Tâches Restantes Lors de la Révélation</value>
+  </data>
+  <data name="SnitchSeesImpostorsInMeetings" xml:space="preserve">
+    <value>L'Indicateur Voit les Imposteurs Pendant les Réunions</value>
+  </data>
+  <data name="SnitchSeesTraitor" xml:space="preserve">
+    <value>L'Indicateur Voit le Traître</value>
+  </data>
+  <data name="WhoSeesDeadBodiesOnAdmin" xml:space="preserve">
+    <value>Qui Voit les Cadavres sur l'Admin</value>
+  </data>
+  <data name="ArrowUpdateInterval" xml:space="preserve">
+    <value>Intervalle de Mise à Jour de la Flèche</value>
+  </data>
+  <data name="TrackCooldown" xml:space="preserve">
+    <value>Temps de Recharge du Suivi</value>
+  </data>
+  <data name="TrackerArrowsResetAfterEachRound" xml:space="preserve">
+    <value>Les Flèches du Suiveur se Réinitialisent Après Chaque Tour</value>
+  </data>
+  <data name="MaximumNumberOfTracksPerRound" xml:space="preserve">
+    <value>Nombre Maximum de Pistes par Tour</value>
+  </data>
+  <data name="MinAmountOfTimeInTrapToRegister" xml:space="preserve">
+    <value>Temps Minimum dans le Piège pour Enregistrement</value>
+  </data>
+  <data name="TrapCooldown" xml:space="preserve">
+    <value>Temps de Recharge du Piège</value>
+  </data>
+  <data name="TrapsRemovedAfterEachRound" xml:space="preserve">
+    <value>Pièges Retirés Après Chaque Tour</value>
+  </data>
+  <data name="MaximumNumberOfTrapsPerGame" xml:space="preserve">
+    <value>Nombre Maximum de Pièges par Jeu</value>
+  </data>
+  <data name="TrapSize" xml:space="preserve">
+    <value>Taille du Piège</value>
+  </data>
+  <data name="MinimumNumberOfRolesRequiredToTriggerTrap" xml:space="preserve">
+    <value>Nombre Minimum de Rôles Requis pour Déclencher le Piège</value>
+  </data>
+  <data name="SheriffMiskillKillsCrewmate" xml:space="preserve">
+    <value>Le Shérif Tue un Équipier en Cas d'Erreur</value>
+  </data>
+  <data name="SheriffKillsDoomsayer" xml:space="preserve">
+    <value>Le Shérif Tue le Prophète de Malheur</value>
+  </data>
+  <data name="SheriffKillsExecutioner" xml:space="preserve">
+    <value>Le Shérif Tue l'Exécuteur</value>
+  </data>
+  <data name="SheriffKillsJester" xml:space="preserve">
+    <value>Le Shérif Tue le Bouffon</value>
+  </data>
+  <data name="SheriffKillsArsonist" xml:space="preserve">
+    <value>Le Shérif Tue le Pyromane</value>
+  </data>
+  <data name="SheriffKillsTheGlitch" xml:space="preserve">
+    <value>Le Shérif Tue le Dysfonctionnement</value>
+  </data>
+  <data name="SheriffKillsJuggernaut" xml:space="preserve">
+    <value>Le Shérif Tue le Mastodonte</value>
+  </data>
+  <data name="SheriffKillsPlaguebearer" xml:space="preserve">
+    <value>Le Shérif Tue le Porteur de Peste</value>
+  </data>
+  <data name="SheriffKillsVampire" xml:space="preserve">
+    <value>Le Shérif Tue le Vampire</value>
+  </data>
+  <data name="SheriffKillsWerewolf" xml:space="preserve">
+    <value>Le Shérif Tue le Loup-Garou</value>
+  </data>
+  <data name="SheriffKillCooldown" xml:space="preserve">
+    <value>Temps de Recharge du Meurtre du Shérif</value>
+  </data>
+  <data name="SheriffCanReportWhoTheyveKilled" xml:space="preserve">
+    <value>Le Shérif Peut Signaler Qui Il a Tué</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Tous</value>
+  </data>
+  <data name="Everyone" xml:space="preserve">
+    <value>Tout le monde</value>
+  </data>
+  <data name="EveryoneButSpy" xml:space="preserve">
+    <value>Tout le monde sauf Espion</value>
+  </data>
+  <data name="ImpsOnly" xml:space="preserve">
+    <value>Impo Seulement</value>
+  </data>
+  <data name="Nobody" xml:space="preserve">
+    <value>Personne</value>
+  </data>
+  <data name="Non-Crew" xml:space="preserve">
+    <value>Non-Crew</value>
+  </data>
+  <data name="StakeCooldown" xml:space="preserve">
+    <value>Temps de Recharge du Pieu</value>
+  </data>
+  <data name="MaximumFailedStakesPerGame" xml:space="preserve">
+    <value>Nombre Maximum de Pieu Ratés par Partie</value>
+  </data>
+  <data name="CanStakeRoundOne" xml:space="preserve">
+    <value>Peut Utiliser un Pieu au Premier Tour</value>
+  </data>
+  <data name="SelfKillOnFailureToKillAVampWithAllStakes" xml:space="preserve">
+    <value>Auto-élimination en Cas d'Échec à Tuer un Vampire avec Tous les Pieux</value>
+  </data>
+  <data name="WhatVampireHunterBecomesOnAllVampireDeaths" xml:space="preserve">
+    <value>Ce que Devient le Chasseur de Vampires à la Mort de Tous les Vampires</value>
+  </data>
+  <data name="CanBeKilledOnAlert" xml:space="preserve">
+    <value>Peut être Tué en État d'Alerte</value>
+  </data>
+  <data name="AlertCooldown" xml:space="preserve">
+    <value>Temps de Recharge de l'Alerte</value>
+  </data>
+  <data name="AlertDuration" xml:space="preserve">
+    <value>Durée de l'Alerte</value>
+  </data>
+  <data name="MaximumNumberOfAlerts" xml:space="preserve">
+    <value>Nombre Maximum d'Alertes</value>
+  </data>
+  <data name="NumberOfVigilanteKills" xml:space="preserve">
+    <value>Nombre de Tueries par le Justicier</value>
+  </data>
+  <data name="VigilanteCanKillMoreThanOncePerMeeting" xml:space="preserve">
+    <value>Le Justicier Peut Tuer Plus d'une Fois par Réunion</value>
+  </data>
+  <data name="VigilanteCanGuessNeutralBenignRoles" xml:space="preserve">
+    <value>Le Justicier Peut Deviner les Rôles Neutres Bénins</value>
+  </data>
+  <data name="VigilanteCanGuessNeutralEvilRoles" xml:space="preserve">
+    <value>Le Justicier Peut Deviner les Rôles Neutres Malfaisants</value>
+  </data>
+  <data name="VigilanteCanGuessNeutralKillingRoles" xml:space="preserve">
+    <value>Le Justicier Peut Deviner les Rôles Neutres Tueurs</value>
+  </data>
+  <data name="VigilanteCanGuessLovers" xml:space="preserve">
+    <value>Le Justicier Peut Deviner les Amoureux</value>
+  </data>
+  <data name="VigilanteCanGuessAfterVoting" xml:space="preserve">
+    <value>Le Justicier Peut Deviner Après le Vote</value>
+  </data>
+  <data name="AltruistReviveDuration" xml:space="preserve">
+    <value>Durée de Résurrection de l'Altruiste</value>
+  </data>
+  <data name="TargetsBodyDisappearsOnBeginningOfRevive" xml:space="preserve">
+    <value>Le Corps de la Cible Disparaît au Début de la Résurrection</value>
+  </data>
+  <data name="ShowShieldedPlayer" xml:space="preserve">
+    <value>Montrer le Joueur Protégé</value>
+  </data>
+  <data name="WhoGetsMurderAttemptIndicator" xml:space="preserve">
+    <value>Qui Reçoit l'Indicateur de Tentative de Meurtre</value>
+  </data>
+  <data name="ShieldBreaksOnMurderAttempt" xml:space="preserve">
+    <value>Le Bouclier Se Brise à la Tentative de Meurtre</value>
+  </data>
+  <data name="ShowMedicReports" xml:space="preserve">
+    <value>Montrer les Rapports du Médecin</value>
+  </data>
+  <data name="TimeWhereMedicWillHaveName" xml:space="preserve">
+    <value>Temps où le Médecin Aura un Nom</value>
+  </data>
+  <data name="TimeWhereMedicWillHaveColorType" xml:space="preserve">
+    <value>Temps où le Médecin Aura un Type de Couleur</value>
+  </data>
+  <data name="Druid" xml:space="preserve">
+    <value>Druide</value>
+  </data>
+  <data name="ShapeCooldown" xml:space="preserve">
+    <value>Temps de Recharge de la Forme</value>
+  </data>
+  <data name="ShapeCooldownReduction" xml:space="preserve">
+    <value>Réduction du Temps de Recharge de la Forme</value>
+  </data>
+  <data name="MaxShapesPerRound" xml:space="preserve">
+    <value>Nombre Maximum de Formes par Manche</value>
+  </data>
+  <data name="CanUseShapeAbilities" xml:space="preserve">
+    <value>Peut Utiliser les Capacités de la Forme</value>
+  </data>
+  <data name="Juggernaut" xml:space="preserve">
+    <value>Juggernaut</value>
+  </data>
+  <data name="KillCooldownReduction" xml:space="preserve">
+    <value>Réduction du Temps de Recharge du Meurtre</value>
+  </data>
+  <data name="JuggernautKillsTraitor" xml:space="preserve">
+    <value>Le Juggernaut Tue le Traître</value>
+  </data>
+  <data name="JuggernautKillsVampire" xml:space="preserve">
+    <value>Le Juggernaut Tue le Vampire</value>
+  </data>
+  <data name="JuggernautKillsWitch" xml:space="preserve">
+    <value>Le Juggernaut Tue la Sorcière</value>
+  </data>
+  <data name="TimeLord" xml:space="preserve">
+    <value>Seigneur du Temps</value>
+  </data>
+  <data name="RewindDuration" xml:space="preserve">
+    <value>Durée du Retour en Arrière</value>
+  </data>
+  <data name="RewindCooldown" xml:space="preserve">
+    <value>Temps de Recharge du Retour en Arrière</value>
+  </data>
+  <data name="CanRewindDuringMeetings" xml:space="preserve">
+    <value>Peut Faire un Retour en Arrière Pendant les Réunions</value>
+  </data>
+  <data name="CustomRoles" xml:space="preserve">
+    <value>Rôles Personnalisés</value>
+  </data>
+  <data name="CustomRoleSettings" xml:space="preserve">
+    <value>Paramètres des Rôles Personnalisés</value>
+  </data>
+  <data name="CustomRolesAreInGame" xml:space="preserve">
+    <value>Les Rôles Personnalisés Sont en Jeu</value>
+  </data>
+  <data name="CustomRolesIncludeNeutral" xml:space="preserve">
+    <value>Les Rôles Personnalisés Incluent les Rôles Neutres</value>
+  </data>
+  <data name="CustomRolesIncludeCrewmate" xml:space="preserve">
+    <value>Les Rôles Personnalisés Incluent les Membres d'Équipage</value>
+  </data>
+  <data name="CustomOptions" xml:space="preserve">
+    <value>Options Personnalisées</value>
+  </data>
+  <data name="CustomOptionSettings" xml:space="preserve">
+    <value>Paramètres des Options Personnalisées</value>
+  </data>
+  <data name="CustomOptionsAreInGame" xml:space="preserve">
+    <value>Les Options Personnalisées Sont en Jeu</value>
+  </data>
+  <data name="CustomOptionsIncludeNeutral" xml:space="preserve">
+    <value>Les Options Personnalisées Incluent les Neutres</value>
+  </data>
+  <data name="CustomOptionsIncludeCrewmate" xml:space="preserve">
+    <value>Les Options Personnalisées Incluent les Membres d'Équipage</value>
+  </data>
+  <data name="ShowCustomRoleHints" xml:space="preserve">
+    <value>Afficher les Indices des Rôles Personnalisés</value>
+  </data>
+  <data name="ShowCustomOptionHints" xml:space="preserve">
+    <value>Afficher les Indices des Options Personnalisées</value>
+  </data>
+  <data name="MaximumNumberOfRoles" xml:space="preserve">
+    <value>Nombre Maximum de Rôles</value>
+  </data>
+  <data name="MaximumNumberOfNeutrals" xml:space="preserve">
+    <value>Nombre Maximum de Rôles Neutres</value>
+  </data>
+  <data name="MaximumNumberOfCrewmates" xml:space="preserve">
+    <value>Nombre Maximum de Membres d'Équipage</value>
+  </data>
+  <data name="MaximumNumberOfPlayers" xml:space="preserve">
+    <value>Nombre Maximum de Joueurs</value>
+  </data>
+  <data name="MinimumNumberOfPlayers" xml:space="preserve">
+    <value>Nombre Minimum de Joueurs</value>
+  </data>
+  <data name="IncludeAllDefaultRoles" xml:space="preserve">
+    <value>Inclure Tous les Rôles par Défaut</value>
+  </data>
+  <data name="IncludeAllDefaultCrewmates" xml:space="preserve">
+    <value>Inclure Tous les Membres d'Équipage par Défaut</value>
+  </data>
+  <data name="IncludeAllDefaultNeutrals" xml:space="preserve">
+    <value>Inclure Tous les Rôles Neutres par Défaut</value>
+  </data>
+  <data name="MinimumNumberOfImpostors" xml:space="preserve">
+    <value>Nombre Minimum d'Imposteurs</value>
+  </data>
+  <data name="MaximumNumberOfImpostors" xml:space="preserve">
+    <value>Nombre Maximum d'Imposteurs</value>
+  </data>
+  <data name="Crewmate" xml:space="preserve">
+    <value>Crewmate</value>
+  </data>
+  <data name="MediateCooldown" xml:space="preserve">
+    <value>Temps de Médiation</value>
+  </data>
+  <data name="RevealAppearanceOfMediateTarget" xml:space="preserve">
+    <value>Révéler l'apparence de la cible de médiation</value>
+  </data>
+  <data name="RevealTheMediumToTheMediateTarget" xml:space="preserve">
+    <value>Révéler le médium à la cible de médiation</value>
+  </data>
+  <data name="WhoIsRevealedWithMediate" xml:space="preserve">
+    <value>Qui est révélé avec la médiation</value>
+  </data>
+  <data name="ProsecutorDiesWhenTheyExileACrewmate" xml:space="preserve">
+    <value>Le procureur meurt s'ils exilent un coéquipier</value>
+  </data>
+  <data name="SwapperCanButton" xml:space="preserve">
+    <value>Le Swapper peut utiliser le bouton</value>
+  </data>
+  <data name="TransportCooldown" xml:space="preserve">
+    <value>Temps de recharge du Transporteur</value>
+  </data>
+  <data name="MaximumNumberOfTransports" xml:space="preserve">
+    <value>Nombre maximal de transports</value>
+  </data>
+  <data name="TransporterCanUseVitals" xml:space="preserve">
+    <value>Le Transporteur peut utiliser les signes vitaux</value>
+  </data>
+  <data name="AmnesiacGetsArrowsPointingToDeadBodies" xml:space="preserve">
+    <value>L'amnésique obtient des flèches pointant vers les cadavres</value>
+  </data>
+  <data name="TimeAfterDeathArrowAppears" xml:space="preserve">
+    <value>Temps après lequel la flèche de décès apparaît</value>
+  </data>
+  <data name="ProtectCooldown" xml:space="preserve">
+    <value>Temps de recharge de la protection</value>
+  </data>
+  <data name="ProtectDuration" xml:space="preserve">
+    <value>Durée de la protection</value>
+  </data>
+  <data name="KillCooldownResetWhenProtected" xml:space="preserve">
+    <value>Réinitialisation du temps de recharge du meurtre lors de la protection</value>
+  </data>
+  <data name="MaximumNumberOfProtects" xml:space="preserve">
+    <value>Nombre maximal de protections</value>
+  </data>
+  <data name="ShowProtectedPlayer" xml:space="preserve">
+    <value>Afficher le joueur protégé</value>
+  </data>
+  <data name="GABecomesOnTargetDead" xml:space="preserve">
+    <value>AG devient quand la cible meurt</value>
+  </data>
+  <data name="TargetKnowsGAExists" xml:space="preserve">
+    <value>La cible sait que l'Ange Gardien existe</value>
+  </data>
+  <data name="GAKnowsTargetsRole" xml:space="preserve">
+    <value>AG connaît le rôle des cibles</value>
+  </data>
+  <data name="OddsOfTargetBeingEvil" xml:space="preserve">
+    <value>Probabilité que la cible soit mauvaise</value>
+  </data>
+  <data name="VestCooldown" xml:space="preserve">
+    <value>Temps de recharge du gilet pare-balles</value>
+  </data>
+  <data name="VestDuration" xml:space="preserve">
+    <value>Durée du gilet pare-balles</value>
+  </data>
+  <data name="KillCooldownResetOnAttack" xml:space="preserve">
+    <value>Réinitialisation du temps de recharge du meurtre lors de l'attaque</value>
+  </data>
+  <data name="MaximumNumberOfVests" xml:space="preserve">
+    <value>Nombre maximal de gilets pare-balles</value>
+  </data>
+  <data name="ObserveCooldown" xml:space="preserve">
+    <value>Temps de recharge de l'observation</value>
+  </data>
+  <data name="DoomsayerCanGuessNeutralBenignRoles" xml:space="preserve">
+    <value>Le Prophète du mal peut deviner les rôles neutres bénins</value>
+  </data>
+  <data name="DoomsayerCanGuessNeutralEvilRoles" xml:space="preserve">
+    <value>Le Prophète du mal peut deviner les rôles neutres maléfiques</value>
+  </data>
+  <data name="DoomsayerCanGuessNeutralKillingRoles" xml:space="preserve">
+    <value>Le Prophète du mal peut deviner les rôles neutres tueurs</value>
+  </data>
+  <data name="DoomsayerCanGuessImpostorRoles" xml:space="preserve">
+    <value>Le Prophète du mal peut deviner les rôles d'imposteurs</value>
+  </data>
+  <data name="DoomsayerCanGuessAfterVoting" xml:space="preserve">
+    <value>Le Prophète du mal peut deviner après le vote</value>
+  </data>
+  <data name="NumberOfDoomsayerKillsToWin" xml:space="preserve">
+    <value>Nombre de meurtres du Prophète du mal pour gagner</value>
+  </data>
+  <data name="AllDead" xml:space="preserve">
+    <value>Tous les morts</value>
+  </data>
+  <data name="Crew" xml:space="preserve">
+    <value>Crew</value>
+  </data>
+  <data name="NewestDead" xml:space="preserve">
+    <value>Mort le plus récent</value>
+  </data>
+  <data name="OldestDead" xml:space="preserve">
+    <value>Mort le plus ancient</value>
+  </data>
+  <data name="Self+GA" xml:space="preserve">
+    <value>Soi-même+AG</value>
+  </data>
+  <data name="Self+Medic" xml:space="preserve">
+    <value>Soi-même+Médic</value>
+  </data>
+  <data name="Shielded" xml:space="preserve">
+    <value>Protégé</value>
+  </data>
+  <data name="ExecutionerBecomesOnTargetDead" xml:space="preserve">
+    <value>Le Bourreau devient quand la cible meurt</value>
+  </data>
+  <data name="ExecutionerCanButton" xml:space="preserve">
+    <value>Le Bourreau peut utiliser le bouton</value>
+  </data>
+  <data name="ExecutionerTormentsPlayerOnVictory" xml:space="preserve">
+    <value>Le Bourreau tourmente le joueur à la victoire</value>
+  </data>
+  <data name="JesterCanButton" xml:space="preserve">
+    <value>Le Bouffon peut utiliser le bouton</value>
+  </data>
+  <data name="JesterCanHideInVents" xml:space="preserve">
+    <value>Le Bouffon peut se cacher dans les évents</value>
+  </data>
+  <data name="JesterHasImpostorVision" xml:space="preserve">
+    <value>Le Bouffon a la vision de l'Imposteur</value>
+  </data>
+  <data name="JesterHauntsPlayerOnVictory" xml:space="preserve">
+    <value>Le Bouffon hante le joueur à la victoire</value>
+  </data>
+  <data name="TasksRemainingWhenPhantomCanBeClicked" xml:space="preserve">
+    <value>Tâches restantes lorsque le Fantôme peut être cliqué</value>
+  </data>
+  <data name="PhantomSpooksPlayerOnVictory" xml:space="preserve">
+    <value>Le Fantôme effraie le joueur à la victoire</value>
+  </data>
+  <data name="DouseCooldown" xml:space="preserve">
+    <value>Temps de recharge d'extinction</value>
+  </data>
+  <data name="MaximumAlivePlayersDoused" xml:space="preserve">
+    <value>Nombre maximal de joueurs vivants éteints</value>
+  </data>
+  <data name="ArsonistHasImpostorVision" xml:space="preserve">
+    <value>L'Incendiaire a la vision de l'Imposteur</value>
+  </data>
+  <data name="IgniteCooldownRemovedWhenArsonistIsLastKiller" xml:space="preserve">
+    <value>Temps de recharge d'incendie supprimé lorsque l'Incendiaire est le dernier tueur</value>
+  </data>
+  <data name="JuggernautInitialKillCooldown" xml:space="preserve">
+    <value>Temps de recharge initial du Juggernaut</value>
+  </data>
+  <data name="ReducedKillCooldownPerKill" xml:space="preserve">
+    <value>Réduction du temps de recharge du meurtre par meurtre</value>
+  </data>
+  <data name="JuggernautCanVent" xml:space="preserve">
+    <value>Le Juggernaut peut se faufiler</value>
+  </data>
+  <data name="InfectCooldown" xml:space="preserve">
+    <value>Temps de recharge d'infection</value>
+  </data>
+  <data name="PestilenceKillCooldown" xml:space="preserve">
+    <value>Temps de recharge de meurtre de Pestilence</value>
+  </data>
+  <data name="PestilenceCanVent" xml:space="preserve">
+    <value>Pestilence peut se faufiler</value>
+  </data>
+  <data name="MimicCooldown" xml:space="preserve">
+    <value>Temps de recharge d'imitation</value>
+  </data>
+  <data name="MimicDuration" xml:space="preserve">
+    <value>Durée d'imitation</value>
+  </data>
+  <data name="HackCooldown" xml:space="preserve">
+    <value>Temps de recharge de piratage</value>
+  </data>
+  <data name="HackDuration" xml:space="preserve">
+    <value>Durée de piratage</value>
+  </data>
+  <data name="GlitchKillCooldown" xml:space="preserve">
+    <value>Temps de recharge de meurtre de Glitch</value>
+  </data>
+  <data name="GlitchHackDistance" xml:space="preserve">
+    <value>Distance de piratage de Glitch</value>
+  </data>
+  <data name="GlitchCanVent" xml:space="preserve">
+    <value>Le Glitch peut se faufiler</value>
+  </data>
+  <data name="VampireBiteCooldown" xml:space="preserve">
+    <value>Temps de recharge de morsure de Vampire</value>
+  </data>
+  <data name="VampiresHaveImpostorVision" xml:space="preserve">
+    <value>Les Vampires ont la vision de l'Imposteur</value>
+  </data>
+  <data name="VampiresCanVent" xml:space="preserve">
+    <value>Les Vampires peuvent se faufiler</value>
+  </data>
+  <data name="NewVampireCanAssassinate" xml:space="preserve">
+    <value>Le nouveau Vampire peut assassiner</value>
+  </data>
+  <data name="MaximumVampiresPerGame" xml:space="preserve">
+    <value>Nombre maximal de Vampires par partie</value>
+  </data>
+  <data name="CanConvertNeutralBenignRoles" xml:space="preserve">
+    <value>Peut convertir les rôles neutres bénins</value>
+  </data>
+  <data name="CanConvertNeutralEvilRoles" xml:space="preserve">
+    <value>Peut convertir les rôles neutres maléfiques</value>
+  </data>
+  <data name="RampageCooldown" xml:space="preserve">
+    <value>Temps de recharge de la furie</value>
+  </data>
+  <data name="RampageDuration" xml:space="preserve">
+    <value>Durée de la furie</value>
+  </data>
+  <data name="RampageKillCooldown" xml:space="preserve">
+    <value>Temps de recharge de meurtre de la furie</value>
+  </data>
+  <data name="Long" xml:space="preserve">
+    <value>Long</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Short" xml:space="preserve">
+    <value>Court</value>
+  </data>
+  <data name="RecallCooldown" xml:space="preserve">
+    <value>Temps de recharge du rappel</value>
+  </data>
+  <data name="EscapistCanVent" xml:space="preserve">
+    <value>L'Évadé peut se faufiler</value>
+  </data>
+  <data name="FlashGrenadeCooldown" xml:space="preserve">
+    <value>Temps de recharge de la grenade flash</value>
+  </data>
+  <data name="FlashGrenadeDuration" xml:space="preserve">
+    <value>Durée de la grenade flash</value>
+  </data>
+  <data name="FlashRadius" xml:space="preserve">
+    <value>Rayon de la grenade flash</value>
+  </data>
+  <data name="IndicateFlashedCrewmates" xml:space="preserve">
+    <value>Indiquer les coéquipiers éblouis</value>
+  </data>
+  <data name="GrenadierCanVent" xml:space="preserve">
+    <value>Le Grenadier peut se faufiler</value>
+  </data>
+  <data name="MorphlingCooldown" xml:space="preserve">
+    <value>Temps de recharge du Morphling</value>
+  </data>
+  <data name="MorphlingDuration" xml:space="preserve">
+    <value>Durée du Morphling</value>
+  </data>
+  <data name="MorphlingCanVent" xml:space="preserve">
+    <value>Le Morphling peut se faufiler</value>
+  </data>
+  <data name="SwoopCooldown" xml:space="preserve">
+    <value>Temps de recharge du Swooper</value>
+  </data>
+  <data name="SwoopDuration" xml:space="preserve">
+    <value>Durée du Swooper</value>
+  </data>
+  <data name="SwooperCanVent" xml:space="preserve">
+    <value>Le Swooper peut se faufiler</value>
+  </data>
+  <data name="AbilityCooldown" xml:space="preserve">
+    <value>Temps de recharge de l'aptitude</value>
+  </data>
+  <data name="AbilityDuration" xml:space="preserve">
+    <value>Durée de l'aptitude</value>
+  </data>
+  <data name="SprintSpeed" xml:space="preserve">
+    <value>Vitesse de sprint</value>
+  </data>
+  <data name="FreezeSpeed" xml:space="preserve">
+    <value>Vitesse de gel</value>
+  </data>
+  <data name="DetonateDelay" xml:space="preserve">
+    <value>Délai de détonation</value>
+  </data>
+  <data name="MaxKillsInDetonation" xml:space="preserve">
+    <value>Nombre maximal de meurtres dans la détonation</value>
+  </data>
+  <data name="DetonateRadius" xml:space="preserve">
+    <value>Rayon de détonation</value>
+  </data>
+  <data name="BomberCanVent" xml:space="preserve">
+    <value>Le Bombardier peut se faufiler</value>
+  </data>
+  <data name="MinimumPeopleAliveWhenTraitorCanSpawn" xml:space="preserve">
+    <value>Nombre minimal de personnes en vie lorsque le Traître peut apparaître</value>
+  </data>
+  <data name="TraitorWontSpawnIfAnyNeutralKillingIsAlive" xml:space="preserve">
+    <value>Le Traître n'apparaîtra pas si un tueur neutre est en vie</value>
+  </data>
+  <data name="TimeItTakesToFullyCharge" xml:space="preserve">
+    <value>Temps nécessaire pour charger complètement</value>
+  </data>
+  <data name="TimeItTakesToUseFullCharge" xml:space="preserve">
+    <value>Temps nécessaire pour utiliser une charge complète</value>
+  </data>
+  <data name="InitialBlackmailCooldown" xml:space="preserve">
+    <value>Temps de recharge initial du chantage</value>
+  </data>
+  <data name="MineCooldown" xml:space="preserve">
+    <value>Temps de recharge de la mine</value>
+  </data>
+  <data name="DragCooldown" xml:space="preserve">
+    <value>Temps de recharge du glisser</value>
+  </data>
+  <data name="UndertakerDragSpeed" xml:space="preserve">
+    <value>Vitesse de glissement de l'Undertaker</value>
+  </data>
+  <data name="UndertakerCanVent" xml:space="preserve">
+    <value>L'Undertaker peut se faufiler</value>
+  </data>
+  <data name="UndertakerCanVentWhileDragging" xml:space="preserve">
+    <value>L'Undertaker peut se faufiler en traînant</value>
+  </data>
+  <data name="MinimumDelayForTheBaitReport" xml:space="preserve">
+    <value>Délai minimum pour le rapport d'appât</value>
+  </data>
+  <data name="MaximumDelayForTheBaitReport" xml:space="preserve">
+    <value>Délai maximum pour le rapport d'appât</value>
+  </data>
+  <data name="DiseasedKillMultiplier" xml:space="preserve">
+    <value>Multiplicateur de meurtre de la maladie</value>
+  </data>
+  <data name="ChillDuration" xml:space="preserve">
+    <value>Durée du froid</value>
+  </data>
+  <data name="ChillStartSpeed" xml:space="preserve">
+    <value>Vitesse de départ du froid</value>
+  </data>
+  <data name="FlashSpeed" xml:space="preserve">
+    <value>Vitesse de l'éclair</value>
+  </data>
+  <data name="GiantSlow" xml:space="preserve">
+    <value>Ralentissement du Géant</value>
+  </data>
+  <data name="BothLoversDie" xml:space="preserve">
+    <value>Les deux amoureux meurent</value>
+  </data>
+  <data name="LovingImpostorProbability" xml:space="preserve">
+    <value>Probabilité d'imposteur amoureux</value>
+  </data>
+  <data name="NeutralRolesCanBeLovers" xml:space="preserve">
+    <value>Les rôles neutres peuvent être amoureux</value>
+  </data>
+  <data name="KillCooldownBonus" xml:space="preserve">
+    <value>Bonus de temps de recharge du meurtre</value>
+  </data>
+  <data name="IncreasedKillCooldownWhen2PlusImps" xml:space="preserve">
+    <value>Augmentation du temps de recharge du meurtre quand 2+ Imposteurs</value>
+  </data>
+  <data name="All Any" xml:space="preserve">
+    <value>N'importe lequel</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Toujours</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Classic" xml:space="preserve">
+    <value>Classique</value>
+  </data>
+  <data name="Emergency" xml:space="preserve">
+    <value>Urgence</value>
+  </data>
+  <data name="KillingOnly" xml:space="preserve">
+    <value>Tueurs Seulement</value>
+  </data>
+  <data name="LoadCustomSettings" xml:space="preserve">
+    <value>Charger les paramètres personnalisés</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Chargement</value>
+  </data>
+  <data name="MaximumNumberOfFixes" xml:space="preserve">
+    <value>Nbr Maximun de réparation</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="SaveCustomSettings" xml:space="preserve">
+    <value>Enregistrer les paramètres personnalisés</value>
+  </data>
+  <data name="Self" xml:space="preserve">
+    <value>Soi-même</value>
+  </data>
+  <data name="Slot" xml:space="preserve">
+    <value>Emplacement</value>
+  </data>
+  <data name="BodyReportCrewmate" xml:space="preserve">
+    <value>Rapport de Corps : Le tueur semble être un Équipier ! (Tué il y a {0}s)</value>
+  </data>
+  <data name="BodyReportImpostor" xml:space="preserve">
+    <value>Rapport de Corps : Le tueur semble être un Imposteur ! (Tué il y a {0}s)</value>
+  </data>
+  <data name="BodyReportNeutralRole" xml:space="preserve">
+    <value>Rapport de Corps : Le tueur semble être un Rôle Neutre ! (Tué il y a {0}s)</value>
+  </data>
+  <data name="BodyReportRole" xml:space="preserve">
+    <value>Rapport de Corps : Le tueur semble être un {role.Name} ! (Tué il y a {0}s)</value>
+  </data>
+  <data name="BodyReportSuicide" xml:space="preserve">
+    <value>Rapport de Corps : Le meurtre semble avoir été un suicide ! (Tué il y a {0}s)</value>
+  </data>
+  <data name="BodyReportTooOld" xml:space="preserve">
+    <value>Rapport de Corps : Le cadavre est trop vieux pour obtenir des informations. (Tué il y a {0}s)</value>
+  </data>
+  <data name="ArsonistWins" xml:space="preserve">
+    <value>Victoire du pyromane!</value>
+  </data>
+  <data name="BodyReportCorpseTooOld" xml:space="preserve">
+    <value>Le cadavre est trop vieux pour obtenir des informations. (Tué il y a {0}s)</value>
+  </data>
+  <data name="BodyReportKillerAppearance" xml:space="preserve">
+    <value>Rapport de cadavre : Le tueur semble être {0} ! (Tué il y a {1}s)</value>
+  </data>
+  <data name="BodyReportKillerAppearanceColor" xml:space="preserve">
+    <value>Rapport de cadavre : Le tueur semble être d'une couleur {1}. (Tué il y a {0}s)</value>
+  </data>
+  <data name="DoomsayerWins" xml:space="preserve">
+    <value>Victoire du Prophète du Mal!</value>
+  </data>
+  <data name="ExecutionerWins" xml:space="preserve">
+    <value>Victoire du Bourreau!</value>
+  </data>
+  <data name="Imp" xml:space="preserve">
+    <value>Impt</value>
+  </data>
+  <data name="JesterWins" xml:space="preserve">
+    <value>Victoire du Bouffon!</value>
+  </data>
+  <data name="JuggernautWins" xml:space="preserve">
+    <value>Victoire du Juggernaut!</value>
+  </data>
+  <data name="LoveCoupleWins" xml:space="preserve">
+    <value>Victoire du couple amoureux!</value>
+  </data>
+  <data name="Neut" xml:space="preserve">
+    <value>Neut</value>
+  </data>
+  <data name="NoPlayersEnteredTraps" xml:space="preserve">
+    <value>Aucun joueur n'est entré dans l'une de vos pièges</value>
+  </data>
+  <data name="NotEnoughPlayersTriggeredTraps" xml:space="preserve">
+    <value>Pas assez de joueurs ont déclenché vos pièges</value>
+  </data>
+  <data name="ObservationAppearsToBeRoleless" xml:space="preserve">
+    <value>Tu observes que {0} semble être sans rôle</value>
+  </data>
+  <data name="ObservationHasAlteredPerceptionOfReality" xml:space="preserve">
+    <value>Tu observes que {0} a une perception altérée de la réalité</value>
+  </data>
+  <data name="ObservationHasATrickUpTheirSleeve" xml:space="preserve">
+    <value>Tu observes que {0} a un tour dans sa manche</value>
+  </data>
+  <data name="ObservationHasInsightForPrivateInformation" xml:space="preserve">
+    <value>Tu observes que {0} a un don pour les informations privées</value>
+  </data>
+  <data name="ObservationHasUnusualObsessionWithDeadBodies" xml:space="preserve">
+    <value>Tu observes que {0} a une obsession inhabituelle pour les cadavres</value>
+  </data>
+  <data name="ObservationHidesToGuardThemselvesOrOthers" xml:space="preserve">
+    <value>Tu observes que {0} se cache pour se protéger ou protéger les autres</value>
+  </data>
+  <data name="ObservationIsCapableOfPerformingRelentlessAttacks" xml:space="preserve">
+    <value>Tu observes que {0} est capable d'effectuer des attaques implacables</value>
+  </data>
+  <data name="ObservationIsWellTrainedInHuntingDownPrey" xml:space="preserve">
+    <value>Tu observes que {0} est bien entraîné pour chasser sa proie</value>
+  </data>
+  <data name="ObservationSpreadsFearAmongTheGroup" xml:space="preserve">
+    <value>Tu observes que {0} répand la peur parmi le groupe</value>
+  </data>
+  <data name="OnlyNeutralRolesWereLeftTranslation" xml:space="preserve">
+    <value>Seuls les rôles neutres étaient encore présents</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>ou</value>
+  </data>
+  <data name="PestilenceWins" xml:space="preserve">
+    <value>Victoire de Pestilence!</value>
+  </data>
+  <data name="PhantomWins" xml:space="preserve">
+    <value>Victoire du Fantôme!</value>
+  </data>
+  <data name="PlaguebearerWins" xml:space="preserve">
+    <value>Victoire du Porteur de Peste!</value>
+  </data>
+  <data name="PlayerConfessesToKnowingNoMoreEvilPlayers" xml:space="preserve">
+    <value>{0} avoue savoir qu'il n'y a plus de joueurs maléfiques !</value>
+  </data>
+  <data name="PlayerConfessesToKnowingTheyAndOrAreEvil" xml:space="preserve">
+    <value>{0} avoue savoir que lui, {1} et/ou {2} sont maléfiques !</value>
+  </data>
+  <data name="Prosecute" xml:space="preserve">
+    <value>Accuser</value>
+  </data>
+  <data name="RolesCaughtInYourTrap" xml:space="preserve">
+    <value>Rôles pris dans votre piège</value>
+  </data>
+  <data name="SurvivorOnlyWin" xml:space="preserve">
+    <value>Victoire du Survivant seulement!</value>
+  </data>
+  <data name="TheGlitchWins" xml:space="preserve">
+    <value>Victoire de l'Anomalie!</value>
+  </data>
+  <data name="TooFewPeopleAliveToReceiveConfessional" xml:space="preserve">
+    <value>Trop peu de personnes en vie pour recevoir une confession</value>
+  </data>
+  <data name="VampiresWin" xml:space="preserve">
+    <value>Victoire des Vampires!</value>
+  </data>
+  <data name="WerewolfWins" xml:space="preserve">
+    <value>Victoire du Loup-garou</value>
+  </data>
+  <data name="YouAreBlackmailed" xml:space="preserve">
+    <value>VOUS ÊTES SOUMIS AU CHANTAGE</value>
+  </data>
+  <data name="YourConfessorFailedToSurviveNoConfession" xml:space="preserve">
+    <value>Votre confesseur n'a pas survécu, vous n'avez donc reçu aucune confession</value>
+  </data>
+</root>

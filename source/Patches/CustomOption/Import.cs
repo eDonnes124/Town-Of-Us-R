@@ -8,6 +8,7 @@ using Reactor.Utilities.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using TownOfUs.Patches.Localization;
 
 namespace TownOfUs.CustomOption
 {
@@ -17,7 +18,7 @@ namespace TownOfUs.CustomOption
         public List<OptionBehaviour> OldButtons;
         public List<CustomButtonOption> SlotButtons = new List<CustomButtonOption>();
 
-        protected internal Import(int id) : base(id, MultiMenu.main, "Load Custom Settings")
+        protected internal Import(int id) : base(id, MultiMenu.main, LocalizationManager.Instance.GetString("LoadCustomSettings"))
         {
             Do = ToDo;
         }
