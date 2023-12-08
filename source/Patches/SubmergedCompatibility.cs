@@ -402,7 +402,7 @@ namespace TownOfUs.Patches
             if (!Loaded) return;
             try
             {
-                ShipStatus.Instance.RpcRepairSystem((SystemTypes)130, 64);
+                ShipStatus.Instance.RpcUpdateSystem((SystemTypes)130, 64);
                 RepairDamageMethod.Invoke(SubmarineOxygenSystemInstanceField.GetValue(null), new object[] { PlayerControl.LocalPlayer, 64 });
             }
             catch (System.NullReferenceException)

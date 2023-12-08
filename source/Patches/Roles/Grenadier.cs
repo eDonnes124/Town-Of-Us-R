@@ -67,14 +67,14 @@ namespace TownOfUs.Roles
             //To stop the scenario where the flash and sabotage are called at the same time.
             var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
             var specials = system.specials.ToArray();
-            var dummyActive = system.dummy.IsActive;
+            var AnyActive = system.AnyActive;
             var sabActive = specials.Any(s => s.IsActive);
 
             foreach (var player in closestPlayers)
             {
                 if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
                 {
-                    if (TimeRemaining > CustomGameOptions.GrenadeDuration - 0.5f && (!sabActive | dummyActive))
+                    if (TimeRemaining > CustomGameOptions.GrenadeDuration - 0.5f && (!sabActive | AnyActive))
                     {
                         float fade = (TimeRemaining - CustomGameOptions.GrenadeDuration) * -2.0f;
                         if (ShouldPlayerBeBlinded(player))
@@ -88,9 +88,9 @@ namespace TownOfUs.Roles
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(normalVision, dimVision, fade);
-                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.sabSystem.Timer < 0.5f)
                             {
-                                MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
+                                MapBehaviour.Instance.infectedOverlay.sabSystem.Timer = 0.5f;
                             }
                         }
                         else
@@ -100,7 +100,7 @@ namespace TownOfUs.Roles
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         }
                     }
-                    else if (TimeRemaining <= (CustomGameOptions.GrenadeDuration - 0.5f) && TimeRemaining >= 0.5f && (!sabActive | dummyActive))
+                    else if (TimeRemaining <= (CustomGameOptions.GrenadeDuration - 0.5f) && TimeRemaining >= 0.5f && (!sabActive | AnyActive))
                     {
                         if (ShouldPlayerBeBlinded(player))
                         {
@@ -113,9 +113,9 @@ namespace TownOfUs.Roles
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = dimVision;
-                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.sabSystem.Timer < 0.5f)
                             {
-                                MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
+                                MapBehaviour.Instance.infectedOverlay.sabSystem.Timer = 0.5f;
                             }
                         }
                         else
@@ -125,7 +125,7 @@ namespace TownOfUs.Roles
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = normalVision;
                         }
                     }
-                    else if (TimeRemaining < 0.5f && (!sabActive | dummyActive))
+                    else if (TimeRemaining < 0.5f && (!sabActive | AnyActive))
                     {
                         float fade2 = (TimeRemaining * -2.0f) + 1.0f;
                         if (ShouldPlayerBeBlinded(player))
@@ -139,9 +139,9 @@ namespace TownOfUs.Roles
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).enabled = true;
                             ((Renderer)DestroyableSingleton<HudManager>.Instance.FullScreen).gameObject.active = true;
                             DestroyableSingleton<HudManager>.Instance.FullScreen.color = Color.Lerp(dimVision, normalVision, fade2);
-                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                            if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.sabSystem.Timer < 0.5f)
                             {
-                                MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
+                                MapBehaviour.Instance.infectedOverlay.sabSystem.Timer = 0.5f;
                             }
                         }
                         else
@@ -163,9 +163,9 @@ namespace TownOfUs.Roles
 
             if (TimeRemaining > 0.5f)
             {
-                if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.SabSystem.Timer < 0.5f)
+                if (PlayerControl.LocalPlayer.Data.IsImpostor() && MapBehaviour.Instance.infectedOverlay.sabSystem.Timer < 0.5f)
                 {
-                    MapBehaviour.Instance.infectedOverlay.SabSystem.Timer = 0.5f;
+                    MapBehaviour.Instance.infectedOverlay.sabSystem.Timer = 0.5f;
                 }
             }
         }

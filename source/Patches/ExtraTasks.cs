@@ -19,10 +19,10 @@ namespace TownOfUs.Patches
         public static bool Prefix(ShipStatus __instance)
         {
             var commonTask = __instance.CommonTasks.Count;
-            var normalTask = __instance.NormalTasks.Count;
+            var extraTaskname = __instance.ExtraTaskNames.Count;
             var longTask = __instance.LongTasks.Count;
             if (GameOptionsManager.Instance.currentNormalGameOptions.NumCommonTasks > commonTask) GameOptionsManager.Instance.currentNormalGameOptions.NumCommonTasks = commonTask;
-            if (GameOptionsManager.Instance.currentNormalGameOptions.NumShortTasks > normalTask) GameOptionsManager.Instance.currentNormalGameOptions.NumShortTasks = normalTask;
+            if (GameOptionsManager.Instance.currentNormalGameOptions.NumShortTasks > extraTaskname) GameOptionsManager.Instance.currentNormalGameOptions.NumShortTasks = extraTaskname;
             if (GameOptionsManager.Instance.currentNormalGameOptions.NumLongTasks > longTask) GameOptionsManager.Instance.currentNormalGameOptions.NumLongTasks = longTask;
             return true;
         }

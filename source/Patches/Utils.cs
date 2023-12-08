@@ -957,7 +957,7 @@ namespace TownOfUs
                         GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4))
                         normalPlayerTask.taskStep = 1;
                     if (updateArrow)
-                        normalPlayerTask.UpdateArrow();
+                        normalPlayerTask.UpdateArrowAndLocation();
 
                     var taskInfo = player.Data.FindTaskById(task.Id);
                     taskInfo.Complete = false;
