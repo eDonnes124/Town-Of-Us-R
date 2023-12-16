@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using TMPro;
-using AmongUs.GameOptions;
 
 namespace TownOfUs.Roles
 {

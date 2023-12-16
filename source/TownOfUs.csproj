@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Version>5.0.2</Version>
+		<Version>5.0.3</Version>
 		<DebugType>embedded</DebugType>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<GamePlatform Condition="'$(GamePlatform)' == ''">Steam</GamePlatform>
-		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2023.7.11</GameVersion>
-		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2023.7.11</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2023.10.24</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2023.10.24</GameVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Reactor" Version="2.1.0" />
-		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.671" />
+		<PackageReference Include="Reactor" Version="2.2.0" />
+		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.674" />
 		<PackageReference Include="AmongUs.GameLibs.$(GamePlatform)" Version="$(GameVersion)" PrivateAssets="all" />
 		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1" PrivateAssets="all" />
 		<PackageReference Include="System.Text.Json" Version="6.0.7" PrivateAssets="all" />

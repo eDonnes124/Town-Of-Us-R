@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Collections.Generic;
 
 namespace TownOfUs.Roles.Modifiers

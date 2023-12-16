@@ -100,6 +100,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption RandomMapMira;
         public static CustomNumberOption RandomMapPolus;
         public static CustomNumberOption RandomMapAirship;
+        public static CustomNumberOption RandomMapFungle;
         public static CustomNumberOption RandomMapSubmerged;
         public static CustomToggleOption AutoAdjustSettings;
         public static CustomToggleOption SmallMapHalfVision;
@@ -744,6 +745,7 @@ namespace TownOfUs.CustomOption
             RandomMapMira = new CustomNumberOption(num++, MultiMenu.main, "Mira Chance", 0f, 0f, 100f, 10f, PercentFormat);
             RandomMapPolus = new CustomNumberOption(num++, MultiMenu.main, "Polus Chance", 0f, 0f, 100f, 10f, PercentFormat);
             RandomMapAirship = new CustomNumberOption(num++, MultiMenu.main, "Airship Chance", 0f, 0f, 100f, 10f, PercentFormat);
+            RandomMapFungle = new CustomNumberOption(num++, MultiMenu.main, "Fungle Chance", 0f, 0f, 100f, 10f, PercentFormat);
             RandomMapSubmerged = new CustomNumberOption(num++, MultiMenu.main, "Submerged Chance", 0f, 0f, 100f, 10f, PercentFormat);
             AutoAdjustSettings = new CustomToggleOption(num++, MultiMenu.main, "Auto Adjust Settings", false);
             SmallMapHalfVision = new CustomToggleOption(num++, MultiMenu.main, "Half Vision On Skeld/Mira HQ", false);

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TownOfUs.Roles
 {
     public class Impostor : Role

@@ -127,7 +127,7 @@ namespace TownOfUs.Extensions
             return new Texture2D(width, height, TextureFormat.RGBA32, Texture.GenerateAllMips, false, IntPtr.Zero);
         }
 
-        public static TMPro.TextMeshPro nameText(this PlayerControl p) => p.cosmetics.nameText;
+        public static TMPro.TextMeshPro nameText(this PlayerControl p) => p?.cosmetics?.nameText;
 
         public static TMPro.TextMeshPro NameText(this PoolablePlayer p) => p.cosmetics.nameText;
 

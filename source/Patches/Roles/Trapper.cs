@@ -1,7 +1,5 @@
-﻿using Reactor.Utilities.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using TMPro;
 using TownOfUs.CrewmateRoles.TrapperMod;
 using UnityEngine;

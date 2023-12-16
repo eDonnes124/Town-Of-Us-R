@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
-using Reactor;
 using TownOfUs.Roles;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
-using System.Collections.Generic;
 using TownOfUs.Extensions;
 
 namespace TownOfUs.CrewmateRoles.MedicMod

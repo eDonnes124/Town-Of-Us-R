@@ -2,7 +2,6 @@ using HarmonyLib;
 using System;
 using TownOfUs.Roles;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace TownOfUs.ImpostorRoles.WarlockMod
 {

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TownOfUs.CustomOption
 {
     public class CustomStringOption : CustomOption

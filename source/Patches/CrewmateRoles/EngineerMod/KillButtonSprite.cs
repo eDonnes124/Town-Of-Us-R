@@ -1,4 +1,3 @@
-using System.Linq;
 using HarmonyLib;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -47,11 +46,9 @@ namespace TownOfUs.CrewmateRoles.EngineerMod
             if (!ShipStatus.Instance) return;
             var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
             if (system == null) return;
-            var specials = system.specials.ToArray();
-            var dummyActive = system.dummy.IsActive;
-            var sabActive = specials.Any(s => s.IsActive);
+            var sabActive = system.AnyActive;
             var renderer = __instance.KillButton.graphic;
-            if (sabActive & !dummyActive & role.ButtonUsable & __instance.KillButton.enabled)
+            if (sabActive & role.ButtonUsable & __instance.KillButton.enabled)
             {
                 renderer.color = Palette.EnabledColor;
                 renderer.material.SetFloat("_Desat", 0f);

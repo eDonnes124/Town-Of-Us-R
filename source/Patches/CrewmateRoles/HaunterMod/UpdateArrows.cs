@@ -1,7 +1,6 @@
 using System.Linq;
 using HarmonyLib;
 using Reactor.Utilities.Extensions;
-using TownOfUs.Extensions;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod

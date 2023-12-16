@@ -10,15 +10,15 @@ using TownOfUs.CrewmateRoles.VampireHunterMod;
 
 namespace TownOfUs.Roles
 {
-    public class Doomsayer : Role
+    public class Doomsayer : Role, IGuesser
     {
-        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons = new Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)>();
+        public Dictionary<byte, (GameObject, GameObject, GameObject, TMP_Text)> Buttons { get; set; } = new();
 
-        private Dictionary<string, Color> ColorMapping = new Dictionary<string, Color>();
+        private Dictionary<string, Color> ColorMapping = new();
 
         public Dictionary<string, Color> SortedColorMapping;
 
-        public Dictionary<byte, string> Guesses = new Dictionary<byte, string>();
+        public Dictionary<byte, string> Guesses = new();
         public DateTime LastObserved;
         public PlayerControl ClosestPlayer;
         public PlayerControl LastObservedPlayer;

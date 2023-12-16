@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using UnityEngine;
@@ -36,7 +35,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
 
             if (MeetingHud.Instance != null) UpdateMeeting(MeetingHud.Instance, role);
 
-            role.target.nameText().color = Color.black;
+            if (role.target && role.target.nameText()) role.target.nameText().color = Color.black;
 
             if (!role.target.Data.IsDead && !role.target.Data.Disconnected && !role.target.Is(RoleEnum.Vampire)) return;
             if (role.TargetVotedOut) return;

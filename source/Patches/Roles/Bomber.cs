@@ -1,9 +1,6 @@
 using UnityEngine;
-using Reactor.Utilities.Extensions;
 using System;
 using TownOfUs.ImpostorRoles.BomberMod;
-using System.Reflection;
-using Hazel;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Patches;
 

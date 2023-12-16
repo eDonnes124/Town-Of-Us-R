@@ -11,7 +11,6 @@ using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 using Reactor.Utilities;
 using TownOfUs.Roles;
-using Hazel;
 
 namespace TownOfUs.Patches
 {
@@ -79,7 +78,7 @@ namespace TownOfUs.Patches
         }
 
         public const string SUBMERGED_GUID = "Submerged";
-        public const ShipStatus.MapType SUBMERGED_MAP_TYPE = (ShipStatus.MapType)5;
+        public const ShipStatus.MapType SUBMERGED_MAP_TYPE = (ShipStatus.MapType)6;
 
         public static SemanticVersioning.Version Version { get; private set; }
         public static bool Loaded { get; private set; }
@@ -402,7 +401,7 @@ namespace TownOfUs.Patches
             if (!Loaded) return;
             try
             {
-                ShipStatus.Instance.RpcRepairSystem((SystemTypes)130, 64);
+                ShipStatus.Instance.RpcUpdateSystem((SystemTypes)130, 64);
                 RepairDamageMethod.Invoke(SubmarineOxygenSystemInstanceField.GetValue(null), new object[] { PlayerControl.LocalPlayer, 64 });
             }
             catch (System.NullReferenceException)

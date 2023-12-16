@@ -1,6 +1,5 @@
 using System;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 using AmongUs.GameOptions;
 

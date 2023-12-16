@@ -48,7 +48,7 @@ namespace TownOfUs.Patches
         [HarmonyPostfix]
         public static void PostfixNetwork(CustomNetworkTransform __instance)
         {
-            if (!__instance.AmOwner && __instance.interpolateMovement != 0.0f && !__instance.gameObject.GetComponent<PlayerControl>().Data.IsDead)
+            if (!__instance.AmOwner && GameData.Instance && __instance.gameObject.GetComponent<PlayerControl>().CanMove && !__instance.gameObject.GetComponent<PlayerControl>().Data.IsDead)
             {
                 var player = __instance.gameObject.GetComponent<PlayerControl>();
                 __instance.body.velocity *= player.GetAppearance().SpeedFactor;

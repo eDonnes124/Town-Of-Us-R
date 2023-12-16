@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Hazel;
 using UnityEngine;
 using TownOfUs.Extensions;
 

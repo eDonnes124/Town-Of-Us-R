@@ -3,7 +3,6 @@ using HarmonyLib;
 using TownOfUs.Roles;
 using UnityEngine;
 using AmongUs.GameOptions;
-using Hazel;
 
 namespace TownOfUs.CrewmateRoles.OracleMod
 {

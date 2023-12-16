@@ -1,9 +1,7 @@
 using HarmonyLib;
-using Hazel;
 using System.Linq;
 using UnityEngine;
 using TownOfUs.ImpostorRoles.TraitorMod;
-using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs.Patches
 {
