@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using Reactor.Utilities.Extensions;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Roles;

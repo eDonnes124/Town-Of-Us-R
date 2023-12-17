@@ -1,6 +1,5 @@
 using System;
 using HarmonyLib;
-using Reactor;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -39,7 +38,7 @@ namespace TownOfUs
         {
             __instance.CanUse(PlayerControl.LocalPlayer.Data, out var canUse, out _);
             if (!canUse) return false;
-            __instance.MyDoor.SetDoorway(true);
+            __instance.myDoor.SetDoorway(true);
             return false;
         }
     }

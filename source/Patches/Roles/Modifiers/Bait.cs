@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TownOfUs.Roles.Modifiers
 {
     public class Bait : Modifier

@@ -7,6 +7,8 @@ using Reactor.Utilities.Extensions;
 using Object = UnityEngine.Object;
 using Reactor.Networking.Extensions;
 using System;
+using TownOfUs.Patches;
+using UnityEngine.LowLevel;
 
 namespace TownOfUs.Roles.Modifiers
 {
@@ -23,6 +25,9 @@ namespace TownOfUs.Roles.Modifiers
             Color = Patches.Colors.Impostor;
             StartingCooldown = DateTime.UtcNow;
             ModifierType = ModifierEnum.Disperser;
+
+            Logger<TownOfUs>.Info("DISPERSER -==-=-=-=-=-=-=-=-=----------");
+            if (PlayerControl.LocalPlayer == player) Logger<TownOfUs>.Info("ME -==-=-=-=-=-=-=-=-=----------");
         }
         public float StartTimer()
         {
@@ -82,7 +87,18 @@ namespace TownOfUs.Roles.Modifiers
             {
                 PlayerControl player = Utils.PlayerById(key);
                 player.transform.position = value;
+                if (PlayerControl.LocalPlayer == player) PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(value);
             }
+
+            if (PlayerControl.LocalPlayer.walkingToVent)
+            {
+                PlayerControl.LocalPlayer.inVent = false;
+                Vent.currentVent = null;
+                PlayerControl.LocalPlayer.moveable = true;
+                PlayerControl.LocalPlayer.MyPhysics.StopAllCoroutines();
+            }
+
+            if (SubmergedCompatibility.isSubmerged()) SubmergedCompatibility.ChangeFloor(PlayerControl.LocalPlayer.transform.position.y > -7f);
         }
 
         private Dictionary<byte, Vector2> GenerateDisperseCoordinates()

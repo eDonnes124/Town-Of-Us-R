@@ -11,9 +11,9 @@ using System.Text.Json;
 using Twitch;
 using Reactor.Utilities;
 using System.Text.Json.Serialization;
-using Rewired.ComponentControls;
 
-namespace TownOfUs {
+namespace TownOfUs
+{
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public class ModUpdaterButton {
         private static Sprite TOUUpdateSprite => TownOfUs.UpdateTOUButton;

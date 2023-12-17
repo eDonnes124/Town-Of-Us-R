@@ -1,8 +1,8 @@
 using HarmonyLib;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace TownOfUs {
+namespace TownOfUs
+{
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public static class LogoPatch
     {

@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.ImpostorRoles.SwooperMod

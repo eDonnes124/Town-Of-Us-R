@@ -14,15 +14,18 @@ namespace TownOfUs
             var position = __instance.GetComponent<AspectPosition>();
             position.DistanceFromEdge = new Vector3(3.6f, 0.1f, 0);
             position.AdjustPosition();
+            var host = GameData.Instance.GetHost();
 
             __instance.text.text =
-                "<color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>\n" +
+                "<size=2><color=#00FF00FF>TownOfUs v" + TownOfUs.VersionString + "</color>\n" +
                 $"Ping: {AmongUsClient.Instance.Ping}ms\n" +
                 (!MeetingHud.Instance
                     ? "<color=#00FF00FF>Modded By: Donners &</color>\n" +
                     "<color=#00FF00FF>MyDragonBreath</color>\n" : "") +
                 (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started
-                    ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>" : "");
+                    ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>\n" +
+                     $"Host: {host.PlayerName}" : "") +
+                    "</size>";
         }
     }
 }

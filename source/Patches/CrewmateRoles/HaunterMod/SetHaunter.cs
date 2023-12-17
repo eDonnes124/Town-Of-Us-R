@@ -73,6 +73,10 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
                 WillBeHaunter.gameObject.layer = LayerMask.NameToLayer("Players");
             }
 
+            WillBeHaunter.gameObject.GetComponent<PassiveButton>().OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+            WillBeHaunter.gameObject.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => WillBeHaunter.OnClick()));
+            WillBeHaunter.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+
             if (PlayerControl.LocalPlayer != WillBeHaunter) return;
 
             if (Role.GetRole<Haunter>(PlayerControl.LocalPlayer).Caught) return;
@@ -93,8 +97,11 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
 
 
             Utils.Rpc(CustomRPC.SetPos, PlayerControl.LocalPlayer.PlayerId, startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
+            var pos = new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f);
 
-            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(new Vector2(startingVent.transform.position.x, startingVent.transform.position.y + 0.3636f));
+            PlayerControl.LocalPlayer.transform.position = pos;
+            PlayerControl.LocalPlayer.NetTransform.SnapTo(pos);
+            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(pos);
             PlayerControl.LocalPlayer.MyPhysics.RpcEnterVent(startingVent.Id);
         }
 
@@ -103,7 +110,7 @@ namespace TownOfUs.CrewmateRoles.HaunterMod
         [HarmonyPatch(typeof(Object), nameof(Object.Destroy), new Type[] { typeof(GameObject) })]
         public static void Prefix(GameObject obj)
         {
-            if (!SubmergedCompatibility.Loaded || GameOptionsManager.Instance?.currentNormalGameOptions?.MapId != 5) return;
+            if (!SubmergedCompatibility.Loaded || GameOptionsManager.Instance?.currentNormalGameOptions?.MapId != 6) return;
             if (obj.name?.Contains("ExileCutscene") == true) ExileControllerPostfix(ExileControllerPatch.lastExiled);
         }
     }

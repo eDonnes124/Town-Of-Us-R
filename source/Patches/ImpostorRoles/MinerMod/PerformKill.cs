@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Reactor.Networking.Extensions;
 
 namespace TownOfUs.ImpostorRoles.MinerMod
 {

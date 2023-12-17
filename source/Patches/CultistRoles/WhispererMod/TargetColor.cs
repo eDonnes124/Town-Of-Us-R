@@ -3,7 +3,6 @@ using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Cultist;
 using UnityEngine;
-using static UnityEngine.ParticleSystem.PlaybackState;
 
 namespace TownOfUs.CultistRoles.WhispererMod
 {

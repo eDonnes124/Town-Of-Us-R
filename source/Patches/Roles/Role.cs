@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -475,12 +474,16 @@ namespace TownOfUs.Roles
                         {
                             __instance.__4__this.TeamTitle.text = "Neutral";
                             __instance.__4__this.TeamTitle.color = Color.white;
+                            __instance.__4__this.BackgroundBar.material.color = Color.white;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
+                        __instance.__4__this.YouAreText.color = role.Color;
+                        __instance.__4__this.RoleBlurbText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
                         //    __instance.__4__this.ImpostorText.gameObject.SetActive(true);
-                        __instance.__4__this.BackgroundBar.material.color = role.Color;
+                        // __instance.__4__this.BackgroundBar.material.color = role.Color;
                         //                        TestScale = Mathf.Max(__instance.__this.Title.scale, TestScale);
                         //                        __instance.__this.Title.scale = TestScale / role.Scale;
                     }
@@ -522,11 +525,15 @@ namespace TownOfUs.Roles
                         {
                             __instance.__4__this.TeamTitle.text = "Neutral";
                             __instance.__4__this.TeamTitle.color = Color.white;
+                            __instance.__4__this.BackgroundBar.material.color = Color.white;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
+                        __instance.__4__this.YouAreText.color = role.Color;
+                        __instance.__4__this.RoleBlurbText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
-                        __instance.__4__this.BackgroundBar.material.color = role.Color;
+                        // __instance.__4__this.BackgroundBar.material.color = role.Color;
                     }
 
                     if (ModifierText != null)
@@ -564,9 +571,13 @@ namespace TownOfUs.Roles
                         {
                             __instance.__4__this.TeamTitle.text = "Neutral";
                             __instance.__4__this.TeamTitle.color = Color.white;
+                            __instance.__4__this.BackgroundBar.material.color = Color.white;
+                            PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
                         __instance.__4__this.RoleText.text = role.Name;
                         __instance.__4__this.RoleText.color = role.Color;
+                        __instance.__4__this.YouAreText.color = role.Color;
+                        __instance.__4__this.RoleBlurbText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
                         __instance.__4__this.BackgroundBar.material.color = role.Color;
                     }
@@ -595,10 +606,10 @@ namespace TownOfUs.Roles
             }
         }
 
-        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__114), nameof(PlayerControl._CoSetTasks_d__114.MoveNext))]
+        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__126), nameof(PlayerControl._CoSetTasks_d__126.MoveNext))]
         public static class PlayerControl_SetTasks
         {
-            public static void Postfix(PlayerControl._CoSetTasks_d__114 __instance)
+            public static void Postfix(PlayerControl._CoSetTasks_d__126 __instance)
             {
                 if (__instance == null) return;
                 var player = __instance.__4__this;
@@ -846,6 +857,10 @@ namespace TownOfUs.Roles
                     if (player.Data != null && PlayerControl.LocalPlayer.Data.IsImpostor() && player.Data.IsImpostor()) continue;
                 }
             }
+        }
+        public static AudioClip GetIntroSound(RoleTypes roleType)
+        {
+            return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
         }
     }
 }

@@ -1,7 +1,6 @@
 using HarmonyLib;
 using TownOfUs.Roles;
 using UnityEngine;
-using System.Linq;
 using TownOfUs.Extensions;
 
 namespace TownOfUs.ImpostorRoles.GrenadierMod
@@ -58,11 +57,9 @@ namespace TownOfUs.ImpostorRoles.GrenadierMod
             role.FlashButton.SetCoolDown(role.FlashTimer(), CustomGameOptions.GrenadeCd);
 
             var system = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-            var specials = system.specials.ToArray();
-            var dummyActive = system.dummy.IsActive;
-            var sabActive = specials.Any(s => s.IsActive);
+            var sabActive = system.AnyActive;
 
-            if (sabActive & !dummyActive)
+            if (sabActive)
             {
                 role.FlashButton.graphic.color = Palette.DisabledClear;
                 role.FlashButton.graphic.material.SetFloat("_Desat", 1f);

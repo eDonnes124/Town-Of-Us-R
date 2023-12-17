@@ -1,9 +1,8 @@
-using System;
 using HarmonyLib;
 
 namespace TownOfUs
 {
-	internal class MedScan
+    internal class MedScan
 	{
 
 		[HarmonyPatch(typeof(MedScanMinigame))]

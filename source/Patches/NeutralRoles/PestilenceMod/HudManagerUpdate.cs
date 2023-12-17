@@ -1,8 +1,5 @@
-using System.Linq;
 using HarmonyLib;
 using TownOfUs.Roles;
-using UnityEngine;
-using Hazel;
 
 namespace TownOfUs.NeutralRoles.PestilenceMod
 {

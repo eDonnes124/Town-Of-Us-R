@@ -84,6 +84,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2023.11.28s & 2023.11.28e | v5.0.3 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.3/ToU.v5.0.3.zip) |
 | 2023.7.12s & 2023.7.12e | v5.0.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.2/ToU.v5.0.2.zip) |
 | 2023.6.13s & 2023.6.13e | v5.0.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.1/ToU.v5.0.1.zip) |
 | 2023.6.13s & 2023.6.13e | v5.0.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.0.0/ToU.v5.0.0.zip) |
@@ -145,6 +146,21 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 
 <details>
   <summary> Changelog </summary>
+  <details>
+  <summary> v5.0.3 </summary>
+  <ul> <li>Compatibility with the new Among Us version v2023.11.28</li> </ul>
+  <ul> <li>Role gen system reparied, courtesy of @AlchlcDvl</li> </ul>
+  <ul> <li>Role color is now used for interaction highlights</li> </ul>
+  <ul> <li>Changes to intro role colors, courtesy of @Loonie-Toons</li> </ul>
+  <ul> <li>Custom keybinds for interactions - integration to among us keybinds, courtesy of @whichtwix</li> </ul>
+  <ul> <li>Added a tiny discord rich prescense line</li> </ul>
+  <ul> <li>Disperse added back to submerged and heli</li> </ul>
+  <ul> <li>Multiple revived people from altruist appear on imposters arrows, rather than just the latest, courtesy of @whichtwix</li> </ul>
+  <ul> <li>Ping tracker reduced in size</li> </ul>
+  <ul> <li>Host is now shown in the ping tracker whilst in the lobby</li> </ul>
+  <ul> <li>Shows host in top left of lobby meetings</li> </ul>
+  <ul> <li>-- Soon to come: Full rewrite.</li> </ul>
+  </details>
   <details>
   <summary> v5.0.2 </summary>
   <ul> <li>Compatibility with the new Among Us version v2023.7.12</li> </ul>
@@ -725,6 +741,15 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 \
 A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
 <br/>
+If the mod does not work and the version of Among Us that you see in the main menu, under the town of us logo or bottom left, does not correspond to the version indicated in the [releases table](#releases) above please do the following to get the correct version:
+
+**1. Go to Among Us in your Steam library**\
+\
+**2. Click the gears icon or right click among us and then go into properties**\
+\
+**3. Go to betas and select "public-previous" in the drop box**\
+\
+**4. Reinstall the game and redo the mod installation, recreate your copy of the game if necessary**
 
 ## Installation Guide (Epic Games)
 **1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
@@ -754,6 +779,25 @@ A first launch may take up to 5 minutes, so be patient if it doesn't launch imme
 **13. Finally, launch Among Us from Epic Games library.**\
 \
 A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
+<br/>
+
+If the mod does not work and the version of Among Us that you see in the main menu, under the town of us logo or bottom left, does not correspond to the version indicated in the [releases table](#releases) above please do the following to get the correct version:
+
+**1. Download the latest downgrade script(DowngradeEpic.ps1) [here](https://github.com/whichtwix/EpicGamesDowngrader/releases/latest).**\
+\
+**2. Right click the file and click "run with powershell". If it does not open or instantly closes do the following:**\
+    - search powershell in your windows search bar and open it <br>
+    - navigate to the folder the script is in, by doing for example ```cd downloads``` or ```cd desktop``` <br>
+    - write ```Set-ExecutionPolicy Unrestricted -Scope Process``` and click enter <br>
+    - write ```./DowngradeEpic.ps1``` and click enter <br>
+\
+**3. Click the y key the couple times it prompts, and look above the prompt at the 'install path' to see where among us is getting installed.**\
+\
+**4. After its finished reinstall the mod to that path**\
+\
+**5. Open the game using a .cmd file that gets created in the same folder the script is, it will have the version of among us in its name. Do not use the epic launcher.**\
+\
+If there any problems with the script please check the [faq](https://github.com/whichtwix/EpicGamesDowngrader/tree/main#common-issues), and make contact with the discord server or in a issue [here](https://github.com/whichtwix/EpicGamesDowngrader/issues/new).<br/>
 <br/>
 
 ![Install](https://i.imgur.com/pvBAyZN.png)

@@ -1,5 +1,4 @@
 using HarmonyLib;
-using Hazel;
 using System.Linq;
 using TownOfUs.CrewmateRoles.HaunterMod;
 using TownOfUs.Extensions;

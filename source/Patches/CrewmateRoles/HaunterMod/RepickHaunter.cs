@@ -1,6 +1,5 @@
 using HarmonyLib;
 using System.Linq;
-using Hazel;
 using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.HaunterMod

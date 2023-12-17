@@ -1,6 +1,5 @@
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.Roles;
 
 namespace TownOfUs.CrewmateRoles.ImitatorMod

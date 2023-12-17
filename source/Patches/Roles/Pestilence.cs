@@ -1,4 +1,3 @@
-using Hazel;
 using System;
 using System.Linq;
 using TownOfUs.Extensions;

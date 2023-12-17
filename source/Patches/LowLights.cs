@@ -33,7 +33,7 @@ namespace TownOfUs
                 return false;
             }
 
-            var switchSystem = __instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+            var switchSystem = GameOptionsManager.Instance.currentNormalGameOptions.MapId == 5 ? null : __instance.Systems[SystemTypes.Electrical]?.TryCast<SwitchSystem>();
             if (player.IsImpostor() || player._object.Is(RoleEnum.Glitch) ||
                 player._object.Is(RoleEnum.Juggernaut) || player._object.Is(RoleEnum.Pestilence) ||
                 (player._object.Is(RoleEnum.Jester) && CustomGameOptions.JesterImpVision) ||
@@ -59,7 +59,7 @@ namespace TownOfUs
                 return false;
             }
 
-            var t = switchSystem.Value / 255f;
+            var t = switchSystem != null ? switchSystem.Value / 255f : 1;
 
             if (player._object.Is(ModifierEnum.Torch)) t = 1;
 

@@ -8,17 +8,17 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
     {
         public static void Postfix(PlayerControl __instance)
         {
-            if (Coroutine.Arrow != null)
+            foreach (var revived in Coroutine.Revived)
             {
                 if (LobbyBehaviour.Instance || MeetingHud.Instance || PlayerControl.LocalPlayer.Data.IsDead ||
-                    Coroutine.Target.Data.IsDead)
+                    revived.Key.Data.IsDead)
                 {
-                    Coroutine.Arrow.gameObject.Destroy();
-                    Coroutine.Target = null;
+                    revived.Value.gameObject.Destroy();
+                    Coroutine.Revived.Remove(revived.Key);
                     return;
                 }
 
-                Coroutine.Arrow.target = Coroutine.Target.transform.position;
+                revived.Value.target = revived.Key.transform.position;
             }
         }
     }

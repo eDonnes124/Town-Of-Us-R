@@ -1,6 +1,5 @@
 using HarmonyLib;
 using Object = UnityEngine.Object;
-using Hazel;
 using Reactor.Utilities.Extensions;
 using UnityEngine;
 using TownOfUs.Patches;

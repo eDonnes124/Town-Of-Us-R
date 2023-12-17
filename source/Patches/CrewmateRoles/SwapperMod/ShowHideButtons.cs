@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using Hazel;
 using TownOfUs.CrewmateRoles.MayorMod;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Analytics;
 
 namespace TownOfUs.CrewmateRoles.SwapperMod
 {
