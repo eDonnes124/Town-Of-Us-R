@@ -1,8 +1,8 @@
 {
   "InternalVersion": [
     2023, // Constants.Year
-    5, // Constants.Month
-    20 // Constants.Day
+    11, // Constants.Month
+    15 // Constants.Day
   ],
-  "Version": "2023.7.12"
+  "Version": "2023.11.28"
 }
