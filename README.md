@@ -813,7 +813,8 @@ If you have issues installing Town of Us, you can join our [Discord](https://dis
 The Aurial is a Crewmate that can see the Auras of other players.\
 At the beginning of the game all players are white, once radiated enough the Aurial can see their alignment.\
 Green is Crewmate, Grey is Neutral and Red is Impostor.\
-However, as a consequence the Aurial cannot see who is who.
+However, as a consequence the Aurial cannot see who is who. \
+Aurial can identify Swooper immediately on game start (they see Swooper as regular player, not an aura).
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
