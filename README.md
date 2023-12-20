@@ -7,78 +7,32 @@ An Among Us mod that adds a bunch of roles, modifiers and game settings
 
 Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or want to find people to play with!
 
-**Crewmate Roles**
-- [Aurial](#aurial)
-- [Detective](#detective)
-- [Haunter](#haunter)
-- [Investigator](#investigator)
-- [Mystic](#mystic)
-- [Oracle](#oracle)
-- [Seer](#seer)
-- [Snitch](#snitch)
-- [Spy](#spy)
-- [Tracker](#tracker)
-- [Trapper](#trapper)
-- [Sheriff](#sheriff)
-- [Vampire Hunter](#vampire-hunter)
-- [Veteran](#veteran)
-- [Vigilante](#vigilante)
-- [Altruist](#altruist)
-- [Medic](#medic)
-- [Engineer](#engineer)
-- [Imitator](#imitator)
-- [Mayor](#mayor)
-- [Medium](#medium)
-- [Prosecutor](#prosecutor)
-- [Swapper](#swapper)
-- [Transporter](#transporter)
+| **Impostor Roles**           | **Crewmate Roles**                | **Neutral Roles**               | **Modifiers**                |
+|:---------------------------:|:---------------------------------:|:-------------------------------:|:---------------------------:|
+| [Blackmailer](#blackmailer)  | [Altruist](#altruist)              | [Amnesiac](#amnesiac)            | [Aftermath](#aftermath)     |
+| [Bomber](#bomber)            | [Aurial](#aurial)                  | [Arsonist](#arsonist)            | [Bait](#bait)               |
+| [Escapist](#escapist)        | [Detective](#detective)            | [Doomsayer](#doomsayer)          | [Button Barry](#button-barry)|
+| [Grenadier](#grenadier)      | [Engineer](#engineer)              | [Executioner](#executioner)      | [Diseased](#diseased)       |
+| [Janitor](#janitor)          | [Haunter](#haunter)                | [Guardian Angel](#guardian-angel)| [Disperser](#disperser)     |
+| [Miner](#miner)              | [Imitator](#imitator)              | [Jester](#jester)                | [Double Shot](#double-shot) |
+| [Morphling](#morphling)      | [Investigator](#investigator)      | [Juggernaut](#juggernaut)        | [Flash](#flash)             |
+| [Swooper](#swooper)          | [Mayor](#mayor)                    | [Phantom](#phantom)              | [Frosty](#frosty)           |
+| [Traitor](#traitor)          | [Medic](#medic)                    | [Plaguebearer](#plaguebearer)    | [Giant](#giant)             |
+| [Undertaker](#undertaker)    | [Medium](#medium)                  | [Survivor](#survivor)            | [Lovers](#lovers)           |
+| [Venerer](#venerer)          | [Mystic](#mystic)                  | [The Glitch](#the-glitch)        | [Multitasker](#multitasker)|
+| [Warlock](#warlock)          | [Oracle](#oracle)                  | [Vampire](#vampire)              | [Radar](#radar)             |
+|                             | [Prosecutor](#prosecutor)          | [Werewolf](#werewolf)            | [Sleuth](#sleuth)           |
+|                             | [Seer](#seer)                      |                                 | [Tiebreaker](#tiebreaker)   |
+|                             | [Sheriff](#sheriff)                |                                 | [Torch](#torch)             |
+|                             | [Snitch](#snitch)                  |                                 | [Underdog](#underdog)       |
+|                             | [Spy](#spy)                        |                                 |                             |
+|                             | [Tracker](#tracker)                |                                 |                             |
+|                             | [Trapper](#trapper)                |                                 |                             |
+|                             | [Transporter](#transporter)        |                                 |                             |
+|                             | [Vampire Hunter](#vampire-hunter)  |                                 |                             |
+|                             | [Veteran](#veteran)                |                                 |                             |
+|                             | [Vigilante](#vigilante)            |                                 |                             |
 
-**Neutral Roles**
-- [Amnesiac](#amnesiac)
-- [Guardian Angel](#guardian-angel)
-- [Survivor](#survivor)
-- [Doomsayer](#doomsayer)
-- [Executioner](#executioner)
-- [Jester](#jester)
-- [Phantom](#phantom)
-- [Arsonist](#arsonist)
-- [Juggernaut](#juggernaut)
-- [Plaguebearer](#plaguebearer)
-- [The Glitch](#the-glitch)
-- [Vampire](#vampire)
-- [Werewolf](#werewolf)
-
-**Impostor Roles**
-- [Escapist](#escapist)
-- [Grenadier](#grenadier)
-- [Morphling](#morphling)
-- [Swooper](#swooper)
-- [Venerer](#venerer)
-- [Bomber](#bomber)
-- [Traitor](#traitor)
-- [Warlock](#warlock)
-- [Blackmailer](#blackmailer)
-- [Janitor](#janitor)
-- [Miner](#miner)
-- [Undertaker](#undertaker)
-
-**Modifiers**
-- [Aftermath](#aftermath)
-- [Bait](#bait)
-- [Diseased](#diseased)
-- [Frosty](#frosty)
-- [Multitasker](#multitasker)
-- [Torch](#torch)
-- [Button Barry](#button-barry)
-- [Flash](#flash)
-- [Giant](#giant)
-- [Radar](#radar)
-- [Lovers](#lovers)
-- [Sleuth](#sleuth)
-- [Tiebreaker](#tiebreaker)
-- [Disperser](#disperser)
-- [Double Shot](#double-shot)
-- [Underdog](#underdog)
 
 -----------------------
 # Releases
