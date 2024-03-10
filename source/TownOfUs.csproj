@@ -8,16 +8,16 @@
 
 	<PropertyGroup>
 		<GamePlatform Condition="'$(GamePlatform)' == ''">Steam</GamePlatform>
-		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2023.10.24</GameVersion>
-		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2023.10.24</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Steam'">2024.3.5</GameVersion>
+		<GameVersion Condition="'$(GamePlatform)' == 'Itch'">2024.3.5</GameVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Reactor" Version="2.2.0" />
-		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.674" />
+		<PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.688" />
 		<PackageReference Include="AmongUs.GameLibs.$(GamePlatform)" Version="$(GameVersion)" PrivateAssets="all" />
 		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1" PrivateAssets="all" />
-		<PackageReference Include="System.Text.Json" Version="6.0.7" PrivateAssets="all" />
+		<PackageReference Include="System.Text.Json" Version="6.0.8" PrivateAssets="all" />
 		<PackageReference Include="Samboy063.Cpp2IL.Core" Version="2022.1.0-development.866" />
 	</ItemGroup>
 

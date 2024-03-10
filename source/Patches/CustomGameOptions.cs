@@ -241,6 +241,7 @@ namespace TownOfUs
         public static int TransportMaxUses => (int)Generate.TransportMaxUses.Get();
         public static bool TransporterVitals => Generate.TransporterVitals.Get();
         public static bool RememberArrows => Generate.RememberArrows.Get();
+        
         public static float RememberArrowDelay => Generate.RememberArrowDelay.Get();
         public static float MediateCooldown => Generate.MediateCooldown.Get();
         public static bool ShowMediatePlayer => Generate.ShowMediatePlayer.Get();
@@ -373,5 +374,6 @@ namespace TownOfUs
         public static float ReviveCooldown => Generate.ReviveCooldown.Get();
         public static float IncreasedCooldownPerRevive => Generate.IncreasedCooldownPerRevive.Get();
         public static int MaxReveals => (int)Generate.MaxReveals.Get();
+        public static bool EnableAprilFoolsMode => Generate.EnableAprilFoolsMode.Get();
     }
 }

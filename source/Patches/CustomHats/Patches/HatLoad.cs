@@ -14,13 +14,13 @@ namespace TownOfUs.Patches.CustomHats.Patches
             public static bool Prefix(HatParent __instance, int color) {
                 if (!HatCache.hatViewDatas.ContainsKey(__instance.Hat.ProductId)) return true;
                 __instance.UnloadAsset();
-                __instance.PopulateFromHatViewData();
+                __instance.PopulateFromViewData();
                 __instance.SetMaterialColor(color);
                 return false;
             }
         }
 
-        [HarmonyPatch(typeof(HatParent), nameof(HatParent.PopulateFromHatViewData))]
+        [HarmonyPatch(typeof(HatParent), nameof(HatParent.PopulateFromViewData))]
         public static class PF_patch
         {
             public static bool Prefix(HatParent __instance)
