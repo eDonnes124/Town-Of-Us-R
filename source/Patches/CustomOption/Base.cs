@@ -43,6 +43,8 @@ namespace TownOfUs.CustomOption
         public virtual void OptionCreated()
         {
             Setting.name = Setting.gameObject.name = Name;
+            Setting.Title = (StringNames)(999000 - ID);
+            Setting.OnValueChanged = new Action<OptionBehaviour>(_ => {});
         }
 
 
@@ -69,11 +71,11 @@ namespace TownOfUs.CustomOption
                     number.Value = number.oldValue = newValue;
                     number.ValueText.text = ToString();
                 }
-                else if (Setting is StringOption str)
+                else if (Setting is KeyValueOption str)
                 {
                     var newValue = (int) Value;
 
-                    str.Value = str.oldValue = newValue;
+                    str.Selected = str.oldValue = newValue;
                     str.ValueText.text = ToString();
                 }
             }

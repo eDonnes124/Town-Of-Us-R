@@ -24,7 +24,7 @@ namespace TownOfUs.CustomOption
 
             var togglePrefab = Object.FindObjectOfType<ToggleOption>();
             var numberPrefab = Object.FindObjectOfType<NumberOption>();
-            var stringPrefab = Object.FindObjectOfType<StringOption>();
+            var keyValPrefab = Object.FindObjectOfType<KeyValueOption>();
 
             if (type == MultiMenu.main)
             {
@@ -94,7 +94,7 @@ namespace TownOfUs.CustomOption
                         options.Add(number);
                         break;
                     case CustomOptionType.String:
-                        var str = Object.Instantiate(stringPrefab, stringPrefab.transform.parent);
+                        var str = Object.Instantiate(keyValPrefab, keyValPrefab.transform.parent);
                         option.Setting = str;
                         options.Add(str);
                         break;
@@ -342,10 +342,10 @@ namespace TownOfUs.CustomOption
             }
         }
 
-        [HarmonyPatch(typeof(StringOption), nameof(StringOption.OnEnable))]
-        private static class StringOption_OnEnable
+        [HarmonyPatch(typeof(KeyValueOption), nameof(KeyValueOption.OnEnable))]
+        private static class KeyValueOption_OnEnable
         {
-            private static bool Prefix(StringOption __instance)
+            private static bool Prefix(KeyValueOption __instance)
             {
                 return OnEnable(__instance);
             }
@@ -439,10 +439,10 @@ namespace TownOfUs.CustomOption
             }
         }
 
-        [HarmonyPatch(typeof(StringOption), nameof(StringOption.Increase))]
-        private class StringOptionPatchIncrease
+        [HarmonyPatch(typeof(KeyValueOption), nameof(KeyValueOption.Increase))]
+        private class KeyValueOptionPatchIncrease
         {
-            public static bool Prefix(StringOption __instance)
+            public static bool Prefix(KeyValueOption __instance)
             {
                 var option =
                     CustomOption.AllOptions.FirstOrDefault(option =>
@@ -457,10 +457,10 @@ namespace TownOfUs.CustomOption
             }
         }
 
-        [HarmonyPatch(typeof(StringOption), nameof(StringOption.Decrease))]
-        private class StringOptionPatchDecrease
+        [HarmonyPatch(typeof(KeyValueOption), nameof(KeyValueOption.Decrease))]
+        private class KeyValueOptionPatchDecrease
         {
-            public static bool Prefix(StringOption __instance)
+            public static bool Prefix(KeyValueOption __instance)
             {
                 var option =
                     CustomOption.AllOptions.FirstOrDefault(option =>
