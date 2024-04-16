@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Collections.Generic;
 using Twitch;
 using Reactor.Utilities;
 
@@ -23,24 +24,27 @@ namespace TownOfUs
             //Check if there's a ToU update
             ModUpdater.LaunchUpdater();
 
-            var data = GetJson();
-            var RequiredVersion = Constants.GetVersion(data.InternalVersion[0], data.InternalVersion[1], data.InternalVersion[2], 0);
-            var AUversion = Constants.GetBroadcastVersion();
-            if (AUversion != RequiredVersion)
+            var data = GetJson().FirstOrDefault(x => x.ModVersion.Equals(TownOfUs.VersionString));
+            if (data != null)
             {
-                string action = AUversion > RequiredVersion ? "downgrade" : "update";
-                string info =
-                    $"ALERT\nTown of Us requires {data.Version}\nyou have {Application.version}\nPlease {action} your among us version"
-                    + "\nvisit Github or Discord for any help";
-                TwitchManager man = DestroyableSingleton<TwitchManager>.Instance;
-                ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
-                ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.68f;
-                ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = false;
-                ModUpdater.InfoPopup.Show(info);
-                ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => { ModUpdater.setPopupText(info); })));
-                ModUpdater.InvalidAUVersion = true;
+                var RequiredVersion = Constants.GetVersion(data.InternalVersion[0], data.InternalVersion[1], data.InternalVersion[2], 0);
+                var AUversion = Constants.GetBroadcastVersion();
+                if (AUversion != RequiredVersion)
+                {
+                    string action = AUversion > RequiredVersion ? "downgrade" : "update";
+                    string info =
+                        $"ALERT\nTown of Us {TownOfUs.VersionString} requires {data.AUVersion}\nyou have {Application.version}\nPlease {action} your among us version"
+                        + "\nvisit Github or Discord for any help";
+                    TwitchManager man = DestroyableSingleton<TwitchManager>.Instance;
+                    ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
+                    ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.68f;
+                    ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = true;
+                    ModUpdater.InfoPopup.Show(info);
+                    ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => { ModUpdater.setPopupText(info); })));
+                    ModUpdater.InvalidAUVersion = true;
 
-                return;
+                    return;
+                }
             }
             if (ModUpdater.HasTOUUpdate)
             {
@@ -100,11 +104,11 @@ namespace TownOfUs
             }
         }
 
-        private static ModUpdater.AUVersion GetJson()
+        private static List<ModUpdater.UpdateData> GetJson()
         {
             var text = ModUpdater.Httpclient.GetAsync("https://github.com/eDonnes124/Town-Of-Us-R/raw/master/source/Versioning.json")
                                  .GetAwaiter().GetResult().Content.ReadAsStringAsync().Result;
-            var data = JsonSerializer.Deserialize<ModUpdater.AUVersion>(text, options: new() { ReadCommentHandling = JsonCommentHandling.Skip });
+            var data = JsonSerializer.Deserialize<List<ModUpdater.UpdateData>>(text, options: new() { ReadCommentHandling = JsonCommentHandling.Skip });
             return data;
         }
     }
@@ -365,11 +369,13 @@ namespace TownOfUs
             public string browser_download_url { get; set; }
         }
 
-        public class AUVersion
+        public class UpdateData
         {
             public int[] InternalVersion { get; set; }
 
-            public string Version { get; set; }
+            public string ModVersion { get; set; }
+
+            public string AUVersion { get; set; }
         }
     }
 

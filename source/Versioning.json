@@ -1,8 +1,20 @@
-{
-  "InternalVersion": [
-    2023, // Constants.Year
-    11, // Constants.Month
-    15 // Constants.Day
-  ],
-  "Version": "2023.11.28"
-}
+[
+  {
+    "InternalVersion": [
+      2023, //Constants.Year
+      11, //Constants.Month
+      15 // Constants.Day
+    ],
+    "ModVersion": "5.0.3",
+    "AUVersion": "2023.11.28"
+  },
+  {
+    "InternalVersion": [
+      2024,
+      2,
+      1
+    ],
+    "ModVersion": "5.0.4",
+    "AUVersion": "2024.3.5"
+  }
+]
