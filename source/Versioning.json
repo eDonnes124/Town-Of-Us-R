@@ -1,20 +1,14 @@
 [
   {
-    "InternalVersion": [
-      2023, //Constants.Year
-      11, //Constants.Month
-      15 // Constants.Day
-    ],
-    "ModVersion": "5.0.3",
-    "AUVersion": "2023.11.28"
+    "InternalVersions": { // Keep internal versions in order if multiple
+      "50595550": "2023.11.28"
+    },
+    "ModVersion": "5.0.3"
   },
   {
-    "InternalVersion": [
-      2024,
-      2,
-      1
-    ],
-    "ModVersion": "5.0.4",
-    "AUVersion": "2024.3.5"
+    "InternalVersions": {
+      "50603650": "2024.3.5"
+    },
+    "ModVersion": "5.0.4"
   }
 ]

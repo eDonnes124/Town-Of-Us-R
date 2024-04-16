@@ -27,13 +27,13 @@ namespace TownOfUs
             var data = GetJson().FirstOrDefault(x => x.ModVersion.Equals(TownOfUs.VersionString));
             if (data != null)
             {
-                var RequiredVersion = Constants.GetVersion(data.InternalVersion[0], data.InternalVersion[1], data.InternalVersion[2], 0);
+                var RequiredVersions = data.InternalVersions;
                 var AUversion = Constants.GetBroadcastVersion();
-                if (AUversion != RequiredVersion)
+                if (!RequiredVersions.ContainsKey(AUversion))
                 {
-                    string action = AUversion > RequiredVersion ? "downgrade" : "update";
+                    string action = AUversion > RequiredVersions.Keys.Max() ? "downgrade" : "update";
                     string info =
-                        $"ALERT\nTown of Us {TownOfUs.VersionString} requires {data.AUVersion}\nyou have {Application.version}\nPlease {action} your among us version"
+                        $"ALERT\nTown of Us {TownOfUs.VersionString} requires {data.InternalVersions.Values.Last()}\nyou have {Application.version}\nPlease {action} your among us version"
                         + "\nvisit Github or Discord for any help";
                     TwitchManager man = DestroyableSingleton<TwitchManager>.Instance;
                     ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
@@ -371,11 +371,9 @@ namespace TownOfUs
 
         public class UpdateData
         {
-            public int[] InternalVersion { get; set; }
+            public Dictionary<int, string> InternalVersions { get; set; }
 
             public string ModVersion { get; set; }
-
-            public string AUVersion { get; set; }
         }
     }
 
