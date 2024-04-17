@@ -29,7 +29,6 @@ namespace TownOfUs.Patches
 
                 var aprilfoolstoggle = UnityEngine.Object.Instantiate(__instance.newsButton, null);
                 aprilfoolstoggle.name = "aprilfoolstoggle";
-                var mesh = aprilfoolstoggle.gameObject.AddComponent<TextMeshPro>();
 
                 aprilfoolstoggle.transform.localScale = new Vector3(0.44f, 0.84f, 1f);
 
