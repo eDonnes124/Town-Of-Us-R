@@ -45,10 +45,14 @@ namespace TownOfUs
                         if (option.Type == CustomOptionType.Button)
                             continue;
 
-                        if (option.Type == CustomOptionType.Header)
+                        if (option.Type == CustomOptionType.Header && option.ShouldShow())
+                        {
                             builder.AppendLine($"\n{option.Name}");
-                        else
+                        }
+                        else if (option.ShouldShow())
+                        {
                             builder.AppendLine($"    {option.Name}: {option}");
+                        }
                     }
                 }
 

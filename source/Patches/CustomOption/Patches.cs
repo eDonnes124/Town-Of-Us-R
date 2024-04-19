@@ -475,18 +475,6 @@ namespace TownOfUs.CustomOption
             }
         }
 
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSyncSettings))]
-        private class PlayerControlPatch
-        {
-            public static void Postfix()
-            {
-                if (PlayerControl.AllPlayerControls.Count < 2 || !AmongUsClient.Instance ||
-                    !PlayerControl.LocalPlayer || !AmongUsClient.Instance.AmHost) return;
-
-                Rpc.SendRpc();
-            }
-        }
-
         [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoSpawnPlayer))]
         private class PlayerJoinPatch
         {
