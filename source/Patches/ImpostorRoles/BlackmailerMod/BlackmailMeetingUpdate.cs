@@ -33,7 +33,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                     {
                         Coroutines.Start(BlackmailShhh());
                     }
-                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead)
+                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead && role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
                     {
                         var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
 
@@ -79,7 +79,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
 
                 foreach (var role in blackmailers)
                 {
-                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead)
+                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead && role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
                     {
                         var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
                         playerState.Overlay.gameObject.SetActive(true);

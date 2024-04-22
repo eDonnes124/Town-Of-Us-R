@@ -8,7 +8,6 @@ using Object = UnityEngine.Object;
 using Reactor.Networking.Extensions;
 using System;
 using TownOfUs.Patches;
-using UnityEngine.LowLevel;
 
 namespace TownOfUs.Roles.Modifiers
 {

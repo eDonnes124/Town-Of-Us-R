@@ -14,10 +14,10 @@ using TownOfUs.Roles;
 
 namespace TownOfUs.Patches
 {
-    [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__39), nameof(IntroCutscene._ShowRole_d__39.MoveNext))]
+    [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__41), nameof(IntroCutscene._ShowRole_d__41.MoveNext))]
     public static class SubmergedStartPatch
     {
-        public static void Postfix(IntroCutscene._ShowRole_d__39 __instance)
+        public static void Postfix(IntroCutscene._ShowRole_d__41 __instance)
         {
             if (SubmergedCompatibility.isSubmerged())
             {

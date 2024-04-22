@@ -1,10 +1,8 @@
-﻿using Hazel;
-using InnerNet;
+﻿using InnerNet;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TownOfUs.CrewmateRoles.MedicMod;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Extensions;
@@ -97,7 +95,7 @@ namespace TownOfUs.Roles
             PlayerIndex = 0;
         }
 
-        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__38 __instance)
         {
             var glitchTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             glitchTeam.Add(PlayerControl.LocalPlayer);

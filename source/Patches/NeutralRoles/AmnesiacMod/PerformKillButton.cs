@@ -85,6 +85,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Veteran:
                 case RoleEnum.Crewmate:
                 case RoleEnum.Tracker:
+                case RoleEnum.Hunter:
                 case RoleEnum.Transporter:
                 case RoleEnum.Medium:
                 case RoleEnum.Mystic:
@@ -162,8 +163,19 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 }
                 else
                 {
-                    var survivor = new Survivor(other);
-                    survivor.RegenTask();
+                    // If role is not Vampire, turn dead player into Survivor
+                    if (role != RoleEnum.Vampire)
+                    {
+                        var survivor = new Survivor(other);
+                        survivor.RegenTask();
+                    }
+                    // If role is Vampire, keep dead player as Vampire
+                    if (role == RoleEnum.Vampire)
+                    {
+                        var vampire = new Vampire(other);
+                        vampire.RegenTask();
+                    }
+
                     if (role == RoleEnum.Arsonist || role == RoleEnum.Glitch || role == RoleEnum.Plaguebearer ||
                             role == RoleEnum.Pestilence || role == RoleEnum.Werewolf || role == RoleEnum.Juggernaut
                              || role == RoleEnum.Vampire)
@@ -247,6 +259,14 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 var vetRole = Role.GetRole<Veteran>(amnesiac);
                 vetRole.UsesLeft = CustomGameOptions.MaxAlerts;
                 vetRole.LastAlerted = DateTime.UtcNow;
+            }
+
+            else if (role == RoleEnum.Hunter)
+            {
+                var hunterRole = Role.GetRole<Hunter>(amnesiac);
+                hunterRole.UsesLeft = CustomGameOptions.HunterStalkUses;
+                hunterRole.LastStalked = DateTime.UtcNow;
+                hunterRole.LastKilled = DateTime.UtcNow;
             }
 
             else if (role == RoleEnum.Tracker)

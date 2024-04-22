@@ -11,11 +11,11 @@ using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches
 {
-    [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__33), nameof(IntroCutscene._CoBegin_d__33.MoveNext))]
+    [HarmonyPatch(typeof(IntroCutscene._CoBegin_d__35), nameof(IntroCutscene._CoBegin_d__35.MoveNext))]
     public static class Start
     {
         public static Sprite Sprite => TownOfUs.Arrow;
-        public static void Postfix(IntroCutscene._CoBegin_d__33 __instance)
+        public static void Postfix(IntroCutscene._CoBegin_d__35 __instance)
         {
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
             {
@@ -64,6 +64,13 @@ namespace TownOfUs.Patches
                 var tracker = Role.GetRole<Tracker>(PlayerControl.LocalPlayer);
                 tracker.LastTracked = DateTime.UtcNow;
                 tracker.LastTracked = tracker.LastTracked.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.TrackCd);
+            }
+
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Hunter))
+            {
+                var hunter = Role.GetRole<Hunter>(PlayerControl.LocalPlayer);
+                hunter.LastKilled = DateTime.UtcNow;
+                hunter.LastKilled = hunter.LastKilled.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.HunterKillCd);
             }
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.VampireHunter))

@@ -5,6 +5,7 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
         Crewmate = 0,
         Sheriff,
         Veteran,
-        Vigilante
+        Vigilante,
+        Hunter
     }
 }
