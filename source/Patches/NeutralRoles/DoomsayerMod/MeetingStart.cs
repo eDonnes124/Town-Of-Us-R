@@ -13,7 +13,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer)) return;
             var doomsayerRole = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
-            if (doomsayerRole.LastObservedPlayer != null)
+            if (doomsayerRole.LastObservedPlayer != null && !CustomGameOptions.DoomsayerCantObserve)
             {
                 var playerResults = PlayerReportFeedback(doomsayerRole.LastObservedPlayer);
                 var roleResults = RoleReportFeedback(doomsayerRole.LastObservedPlayer);
@@ -36,7 +36,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                  || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire))
                 return $"You observe that {player.GetDefaultOutfit().PlayerName} has an unusual obsession with dead bodies";
             else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Swooper) || player.Is(RoleEnum.Tracker)
-                || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Werewolf))
+                || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Hunter))
                 return $"You observe that {player.GetDefaultOutfit().PlayerName} is well trained in hunting down prey";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                   || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter))
@@ -69,8 +69,8 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                  || player.Is(RoleEnum.Medium) || player.Is(RoleEnum.Undertaker) || player.Is(RoleEnum.Vampire))
                 return "(Altruist, Amnesiac, Janitor, Medium, Undertaker or Vampire)";
             else if (player.Is(RoleEnum.Investigator) || player.Is(RoleEnum.Swooper) || player.Is(RoleEnum.Tracker)
-                || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Werewolf))
-                return "(Investigator, Swooper, Tracker, Vampire Hunter, Venerer or Werewolf)";
+                || player.Is(RoleEnum.VampireHunter) || player.Is(RoleEnum.Venerer) || player.Is(RoleEnum.Werewolf) || player.Is(RoleEnum.Hunter))
+                return "(Investigator, Swooper, Tracker, Vampire Hunter, Venerer, Werewolf or Hunter)";
             else if (player.Is(RoleEnum.Arsonist) || player.Is(RoleEnum.Miner) || player.Is(RoleEnum.Plaguebearer)
                   || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter))
                 return "(Arsonist, Miner, Plaguebearer, Prosecutor, Seer or Transporter)";

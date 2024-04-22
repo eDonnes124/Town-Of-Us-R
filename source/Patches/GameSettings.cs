@@ -36,7 +36,17 @@ namespace TownOfUs
                 else if (SettingsPage == 3) builder.AppendLine("Impostor Settings");
                 else if (SettingsPage == 4) builder.AppendLine("Modifier Settings");
 
-                if (SettingsPage == -1) builder.Append(new StringBuilder(__result));
+                if (SettingsPage == -1)
+                {
+                    var num = RoleManager.Instance.AllRoles.Count(
+                            x => x.Role != RoleTypes.Crewmate && x.Role != RoleTypes.Impostor && x.Role != RoleTypes.CrewmateGhost && x.Role != RoleTypes.ImpostorGhost);
+
+                    for (int i = 0; i < num; i++)
+                    {
+                        __result = __result.Remove(__result.LastIndexOf("\n"), 1).Remove(__result.LastIndexOf(":"), 1);
+                    }
+                    builder.Append(new StringBuilder(__result));
+                }
 
                 else
                 {

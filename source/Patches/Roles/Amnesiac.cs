@@ -22,7 +22,7 @@ namespace TownOfUs.Roles
 
         public DeadBody CurrentTarget;
 
-        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__36 __instance)
+        protected override void IntroPrefix(IntroCutscene._ShowTeam_d__38 __instance)
         {
             var amnesiacTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
             amnesiacTeam.Add(PlayerControl.LocalPlayer);

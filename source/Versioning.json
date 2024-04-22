@@ -1,0 +1,14 @@
+[
+  { // Keys are integers from Constants.GetBroadCastVersion()
+    "InternalVersions": { // Keep internal versions in order if multiple
+      "50595550": "2023.11.28"
+    },
+    "ModVersion": "5.0.3"
+  },
+  {
+    "InternalVersions": {
+      "50603650": "2024.3.5"
+    },
+    "ModVersion": "5.0.4"
+  }
+]

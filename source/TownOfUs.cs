@@ -20,6 +20,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TownOfUs.Patches.ScreenEffects;
+using System.IO;
 
 namespace TownOfUs
 {
@@ -30,8 +31,9 @@ namespace TownOfUs
     public class TownOfUs : BasePlugin
     {
         public const string Id = "com.slushiegoose.townofus";
-        public const string VersionString = "5.0.3";
+        public const string VersionString = "5.0.4";
         public static System.Version Version = System.Version.Parse(VersionString);
+        public const string VersionTag = "<color=#ff33fc></color>";
 
         public static AssetLoader bundledAssets;
 
@@ -97,6 +99,7 @@ namespace TownOfUs
         public static Sprite HackSprite;
         public static Sprite MimicSprite;
         public static Sprite LockSprite;
+        public static Sprite StalkSprite;
 
         public static Sprite SettingsButtonSprite;
         public static Sprite CrewSettingsButtonSprite;
@@ -120,9 +123,11 @@ namespace TownOfUs
         public ConfigEntry<string> Ip { get; set; }
 
         public ConfigEntry<ushort> Port { get; set; }
-
+        public static string RuntimeLocation;
         public override void Load()
         {
+            RuntimeLocation = Path.GetDirectoryName(Assembly.GetAssembly(typeof(TownOfUs)).Location);
+
             System.Console.WriteLine("000.000.000.000/000000000000000000");
 
             _harmony = new Harmony("com.slushiegoose.townofus");
@@ -193,6 +198,7 @@ namespace TownOfUs
             HackSprite = CreateSprite("TownOfUs.Resources.Hack.png");
             MimicSprite = CreateSprite("TownOfUs.Resources.Mimic.png");
             LockSprite = CreateSprite("TownOfUs.Resources.Lock.png");
+            StalkSprite = CreateSprite("TownOfUs.Resources.Stalk.png");
 
             SettingsButtonSprite = CreateSprite("TownOfUs.Resources.SettingsButton.png");
             CrewSettingsButtonSprite = CreateSprite("TownOfUs.Resources.Crewmate.png");
