@@ -219,7 +219,7 @@ namespace TownOfUs
                 string githubURI = "";
                 if (updateType == "TOU")
                 {
-                    githubURI = "https://api.github.com/repos/eDonnes124/Town-Of-Us-R/releases/latest";
+                    githubURI = "https://api.github.com/repos/Xslah58/Town-Of-Us-Twitch/releases/latest";
                 }
                 else if (updateType == "Submerged")
                 {
