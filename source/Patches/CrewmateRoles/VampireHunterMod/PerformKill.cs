@@ -27,7 +27,7 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
             if (!role.ClosestPlayer.Is(RoleEnum.Vampire))
             {
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
-                if (interact[0] == true)
+                if (interact.FullCooldownReset)
                 {
                     role.LastStaked = DateTime.UtcNow;
                     role.UsesLeft--;
@@ -35,31 +35,31 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
                         Utils.RpcMurderPlayer(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer);
                     return false;
                 }
-                else if (interact[1] == true)
+                else if (interact.GaReset)
                 {
                     role.LastStaked = DateTime.UtcNow;
                     role.LastStaked = role.LastStaked.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.StakeCd);
                     return false;
                 }
-                else if (interact[3] == true) return false;
+                else if (interact.ZeroSecReset) return false;
                 return false;
             }
             else
             {
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
-                if (interact[4] == true) return false;
-                else if (interact[0] == true)
+                if (interact.AbilityUsed) return false;
+                else if (interact.FullCooldownReset)
                 {
                     role.LastStaked = DateTime.UtcNow;
                     return false;
                 }
-                else if (interact[1] == true)
+                else if (interact.GaReset)
                 {
                     role.LastStaked = DateTime.UtcNow;
                     role.LastStaked = role.LastStaked.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.StakeCd);
                     return false;
                 }
-                else if (interact[3] == true) return false;
+                else if (interact.ZeroSecReset) return false;
                 return false;
             }
         }

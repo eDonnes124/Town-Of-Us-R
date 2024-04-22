@@ -30,16 +30,16 @@ namespace TownOfUs.CultistRoles.WhispererMod
                 var closestPlayers = Utils.GetClosestPlayers(truePosition, CustomGameOptions.WhisperRadius, false);
                 if (role.PlayerConversion.Count == 0) role.PlayerConversion = role.GetPlayers();
                 var oldStats = role.PlayerConversion;
-                role.PlayerConversion = new List<(PlayerControl, int)>();
+                role.PlayerConversion = new();
                 foreach (var conversionRate in oldStats)
                 {
-                    var player = conversionRate.Item1;
-                    var stats = conversionRate.Item2;
+                    var player = conversionRate.Player;
+                    var stats = conversionRate.UnconvertableChance;
                     if (closestPlayers.Contains(player))
                     {
                         stats -= role.WhisperConversion;
                     }
-                    if (!player.Data.IsDead) role.PlayerConversion.Add((player, stats));
+                    if (!player.Data.IsDead) role.PlayerConversion.Add(new(player, stats));
                 }
                 role.WhisperCount += 1;
                 role.LastWhispered = DateTime.UtcNow;
@@ -51,17 +51,17 @@ namespace TownOfUs.CultistRoles.WhispererMod
 
         public static void CheckConversion(Whisperer role)
         {
-            var removals = new List<(PlayerControl, int)>();
+            var removals = new List<ConversionData>();
             foreach (var playerConversion in role.PlayerConversion)
             {
-                if (playerConversion.Item2 <= 0)
+                if (playerConversion.UnconvertableChance <= 0)
                 {
-                    Utils.Convert(playerConversion.Item1);
+                    Utils.Convert(playerConversion.Player);
                     role.ConversionCount += 1;
                     role.WhisperConversion -= CustomGameOptions.DecreasedPercentagePerConversion;
                     if (role.WhisperConversion < 5) role.WhisperConversion = 5;
 
-                    Utils.Rpc(CustomRPC.Convert, playerConversion.Item1.PlayerId);
+                    Utils.Rpc(CustomRPC.Convert, playerConversion.Player.PlayerId);
                     removals.Add(playerConversion);
                 }
             }

@@ -211,20 +211,16 @@ namespace TownOfUs
             });
         }
 
-        public static List<bool> Interact(PlayerControl player, PlayerControl target, bool toKill = false)
+        public static InteractionData Interact(PlayerControl player, PlayerControl target, bool toKill = false)
         {
-            bool fullCooldownReset = false;
-            bool gaReset = false;
-            bool survReset = false;
-            bool zeroSecReset = false;
-            bool abilityUsed = false;
+            InteractionData data = new(false, false, false, false, false);
             if (target.IsInfected() || player.IsInfected())
             {
                 foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(target, player);
             }
             if (target == ShowRoundOneShield.FirstRoundShielded && toKill)
             {
-                zeroSecReset = true;
+                data.ZeroSecReset = true;
             }
             else if (target.Is(RoleEnum.Pestilence))
             {
@@ -233,28 +229,28 @@ namespace TownOfUs
                     var medic = player.GetMedic().Player.PlayerId;
                     Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
 
-                    if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
-                    else zeroSecReset = true;
+                    if (CustomGameOptions.ShieldBreaks) data.FullCooldownReset = true;
+                    else data.ZeroSecReset = true;
 
                     StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
-                else if (player.IsProtected()) gaReset = true;
+                else if (player.IsProtected()) data.GaReset = true;
                 else RpcMurderPlayer(target, player);
             }
             else if (target.IsOnAlert())
             {
-                if (player.Is(RoleEnum.Pestilence)) zeroSecReset = true;
+                if (player.Is(RoleEnum.Pestilence)) data.ZeroSecReset = true;
                 else if (player.IsShielded())
                 {
                     var medic = player.GetMedic().Player.PlayerId;
                     Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
 
-                    if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
-                    else zeroSecReset = true;
+                    if (CustomGameOptions.ShieldBreaks) data.FullCooldownReset = true;
+                    else data.ZeroSecReset = true;
 
                     StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
                 }
-                else if (player.IsProtected()) gaReset = true;
+                else if (player.IsProtected()) data.GaReset = true;
                 else RpcMurderPlayer(target, player);
                 if (toKill && CustomGameOptions.KilledOnAlert)
                 {
@@ -263,12 +259,12 @@ namespace TownOfUs
                         var medic = target.GetMedic().Player.PlayerId;
                         Rpc(CustomRPC.AttemptSound, medic, target.PlayerId);
 
-                        if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
-                        else zeroSecReset = true;
+                        if (CustomGameOptions.ShieldBreaks) data.FullCooldownReset = true;
+                        else data.ZeroSecReset = true;
 
                         StopKill.BreakShield(medic, target.PlayerId, CustomGameOptions.ShieldBreaks);
                     }
-                    else if (target.IsProtected()) gaReset = true;
+                    else if (target.IsProtected()) data.GaReset = true;
                     else
                     {
                         if (player.Is(RoleEnum.Glitch))
@@ -303,10 +299,10 @@ namespace TownOfUs
                             ww.LastKilled = DateTime.UtcNow;
                         }
                         RpcMurderPlayer(player, target);
-                        abilityUsed = true;
-                        fullCooldownReset = true;
-                        gaReset = false;
-                        zeroSecReset = false;
+                        data.AbilityUsed = true;
+                        data.FullCooldownReset = true;
+                        data.GaReset = false;
+                        data.ZeroSecReset = false;
                     }
                 }
             }
@@ -315,17 +311,17 @@ namespace TownOfUs
                 Rpc(CustomRPC.AttemptSound, target.GetMedic().Player.PlayerId, target.PlayerId);
 
                 System.Console.WriteLine(CustomGameOptions.ShieldBreaks + "- shield break");
-                if (CustomGameOptions.ShieldBreaks) fullCooldownReset = true;
-                else zeroSecReset = true;
+                if (CustomGameOptions.ShieldBreaks) data.FullCooldownReset = true;
+                else data.ZeroSecReset = true;
                 StopKill.BreakShield(target.GetMedic().Player.PlayerId, target.PlayerId, CustomGameOptions.ShieldBreaks);
             }
             else if (target.IsVesting() && toKill)
             {
-                survReset = true;
+                data.SurvReset = true;
             }
             else if (target.IsProtected() && toKill)
             {
-                gaReset = true;
+                data.GaReset = true;
             }
             else if (toKill)
             {
@@ -361,16 +357,16 @@ namespace TownOfUs
                     ww.LastKilled = DateTime.UtcNow;
                 }
                 RpcMurderPlayer(player, target);
-                abilityUsed = true;
-                fullCooldownReset = true;
+                data.AbilityUsed = true;
+                data.FullCooldownReset = true;
             }
             else
             {
-                abilityUsed = true;
-                fullCooldownReset = true;
+                data.AbilityUsed = true;
+                data.FullCooldownReset = true;
             }
 
-            if (abilityUsed)
+            if (data.AbilityUsed)
             {
                 foreach (Role role in Role.GetRoles(RoleEnum.Hunter))
                 {
@@ -379,13 +375,8 @@ namespace TownOfUs
                 }
             }
 
-            var reset = new List<bool>();
-            reset.Add(fullCooldownReset);
-            reset.Add(gaReset);
-            reset.Add(survReset);
-            reset.Add(zeroSecReset);
-            reset.Add(abilityUsed);
-            return reset;
+
+            return data;
         }
 
         public static Il2CppSystem.Collections.Generic.List<PlayerControl> GetClosestPlayers(Vector2 truePosition, float radius, bool includeDead)
@@ -1131,7 +1122,7 @@ namespace TownOfUs
         {
             return AccessTools.Method(self.GetType(), nameof(Il2CppObjectBase.TryCast)).MakeGenericMethod(type).Invoke(self, Array.Empty<object>());
         }
-        public static IList createList(Type myType)
+        public static IList CreateList(Type myType)
         {
             Type genericListType = typeof(List<>).MakeGenericType(myType);
             return (IList)Activator.CreateInstance(genericListType);

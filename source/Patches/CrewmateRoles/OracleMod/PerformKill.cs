@@ -25,7 +25,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
             if (role.ClosestPlayer == null) return false;
 
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
-            if (interact[4] == true)
+            if (interact.AbilityUsed)
             {
                 role.Confessor = role.ClosestPlayer;
                 bool showsCorrectFaction = true;
@@ -54,18 +54,18 @@ namespace TownOfUs.CrewmateRoles.OracleMod
                 else role.RevealedFaction = Faction.Impostors;
                 Utils.Rpc(CustomRPC.Confess, PlayerControl.LocalPlayer.PlayerId, role.Confessor.PlayerId, faction);
             }
-            if (interact[0] == true)
+            if (interact.FullCooldownReset)
             {
                 role.LastConfessed = DateTime.UtcNow;
                 return false;
             }
-            else if (interact[1] == true)
+            else if (interact.GaReset)
             {
                 role.LastConfessed = DateTime.UtcNow;
                 role.LastConfessed = role.LastConfessed.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.ConfessCd);
                 return false;
             }
-            else if (interact[3] == true) return false;
+            else if (interact.ZeroSecReset) return false;
             return false;
         }
     }

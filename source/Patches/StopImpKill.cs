@@ -23,7 +23,7 @@ namespace TownOfUs
                 return false;
             }
             var interact = Utils.Interact(PlayerControl.LocalPlayer, target, true);
-            if (interact[4] == true) return false;
+            if (interact.AbilityUsed) return false;
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Warlock))
             {
                 var warlock = Role.GetRole<Warlock>(PlayerControl.LocalPlayer);
@@ -35,7 +35,7 @@ namespace TownOfUs
                 }
                 PlayerControl.LocalPlayer.SetKillTimer(0.01f);
             }
-            else if (interact[0] == true)
+            else if (interact.FullCooldownReset)
             {
                 if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
                 {
@@ -47,17 +47,17 @@ namespace TownOfUs
                 else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
                 return false;
             }
-            else if (interact[1] == true)
+            else if (interact.GaReset)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(CustomGameOptions.ProtectKCReset + 0.01f);
                 return false;
             }
-            else if (interact[2] == true)
+            else if (interact.SurvReset)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(CustomGameOptions.VestKCReset + 0.01f);
                 return false;
             }
-            else if (interact[3] == true)
+            else if (interact.ZeroSecReset == true)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(0.01f);
                 return false;
