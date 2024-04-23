@@ -156,6 +156,7 @@ namespace TownOfUs
         public static bool SnitchSeesImpInMeeting => Generate.SnitchSeesImpInMeeting.Get();
         public static bool SnitchSeesTraitor => Generate.SnitchSeesTraitor.Get();
         public static float MineCd => Generate.MineCooldown.Get();
+        public static bool MinerSpawnOnMira => Generate.MinerSpawnOnMira.Get();
         public static float SwoopCd => Generate.SwoopCooldown.Get();
         public static float SwoopDuration => Generate.SwoopDuration.Get();
         public static bool SwooperVent => Generate.SwooperVent.Get();

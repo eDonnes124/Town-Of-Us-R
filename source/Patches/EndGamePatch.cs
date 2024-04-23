@@ -181,7 +181,7 @@ namespace TownOfUs.Patches {
                     playerRole += " (<color=#" + Patches.Colors.Frosty.ToHtmlStringRGBA() + ">Frosty</color>)";
                 }
                 var player = Role.GetRole(playerControl);
-                if (playerControl.Is(RoleEnum.Phantom) || playerControl.Is(Faction.Crewmates))
+                if (playerControl.Is(RoleEnum.Phantom) || playerControl.Is(Faction.Crewmates) || playerControl.Is(RoleEnum.Survivor) && !playerControl.Data.IsDead)
                 {
                     if ((player.TotalTasks - player.TasksLeft)/player.TotalTasks == 1) playerRole += " | Tasks: <color=#" + Color.green.ToHtmlStringRGBA() + $">{player.TotalTasks - player.TasksLeft}/{player.TotalTasks}</color>";
                     else playerRole += $" | Tasks: {player.TotalTasks - player.TasksLeft}/{player.TotalTasks}";
