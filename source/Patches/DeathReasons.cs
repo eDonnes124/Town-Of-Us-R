@@ -6,7 +6,6 @@ namespace TownOfUs
         Ejected,
         Guessed,
         Killed,
-        Revived,
         Suicide
     }
 }

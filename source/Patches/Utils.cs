@@ -1171,8 +1171,6 @@ namespace TownOfUs
                 die = "Guessed";
             else if (role.DeathReason == DeathReasonEnum.Alive)
                 die = "Alive";
-            else if (role.DeathReason == DeathReasonEnum.Revived)
-                die = "Revived";
             else if (role.DeathReason == DeathReasonEnum.Suicide)
                 die = "Suicide";
 

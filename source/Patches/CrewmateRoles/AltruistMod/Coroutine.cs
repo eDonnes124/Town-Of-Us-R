@@ -55,9 +55,6 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
             var player = Utils.PlayerById(parentId);
 
-            var targetRole = Role.GetRole(player);
-            targetRole.DeathReason = DeathReasonEnum.Revived;
-            targetRole.KilledBy = " By " + Utils.ColorString(Patches.Colors.Altruist, role.PlayerName);
 
             player.Revive();
             if (player.Is(Faction.Impostors)) RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
