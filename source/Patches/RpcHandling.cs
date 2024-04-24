@@ -1467,6 +1467,9 @@ namespace TownOfUs
                     if (Check(CustomGameOptions.ButtonBarryOn))
                         ButtonModifiers.Add((typeof(ButtonBarry), CustomGameOptions.ButtonBarryOn));
 
+                    if (Check(CustomGameOptions.MiniOn))
+                        GlobalModifiers.Add((typeof(Mini), CustomGameOptions.MiniOn));
+
                     if (Check(CustomGameOptions.LoversOn))
                         GlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
 
