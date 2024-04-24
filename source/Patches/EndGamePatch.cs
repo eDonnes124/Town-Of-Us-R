@@ -206,6 +206,8 @@ namespace TownOfUs.Patches {
                 {
                     playerRole += " |<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + $"> Incorrect Guesses: {player.IncorrectAssassinKills}</color>";
                 }
+
+                playerRole += " | " + playerControl.DeathReason();
                 AdditionalTempData.playerRoles.Add(new AdditionalTempData.PlayerRoleInfo() { PlayerName = playerControl.Data.PlayerName, Role = playerRole });
             }
 
@@ -253,10 +255,10 @@ namespace TownOfUs.Patches {
             roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
             var roleSummaryText = new StringBuilder();
-            roleSummaryText.AppendLine("End game summary:");
+            roleSummaryText.AppendLine("<size=65%>End game summary: </size>");
             foreach(var data in AdditionalTempData.playerRoles) {
                 var role = string.Join(" ", data.Role);
-                roleSummaryText.AppendLine($"{data.PlayerName} - {role}");
+                roleSummaryText.AppendLine($"<size=65%>{data.PlayerName} - {role}</size>");
             }
 
             if (AdditionalTempData.otherWinners.Count != 0)

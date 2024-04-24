@@ -157,6 +157,11 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 if (!otherLover.Is(RoleEnum.Pestilence)) MurderPlayer(otherLover, false, false);
             }
 
+            var role2 = Role.GetRole(player);
+            var doomsayerPlayer = Role.GetRole<Doomsayer>(player);
+            role2.DeathReason = DeathReasonEnum.Guessed;
+            role2.KilledBy = " By " + Utils.ColorString(Colors.Doomsayer, doomsayerPlayer.PlayerName);
+
             var deadPlayer = new DeadPlayer
             {
                 PlayerId = player.PlayerId,

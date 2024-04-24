@@ -151,6 +151,11 @@ namespace TownOfUs.Modifiers.AssassinMod
                 if (!otherLover.Is(RoleEnum.Pestilence)) MurderPlayer(otherLover, false);
             }
 
+            var role2 = Role.GetRole(player);
+            var assassinPlayer = Ability.GetAbility<Assassin>(player);
+            role2.DeathReason = DeathReasonEnum.Guessed;
+            role2.KilledBy = " By " + Utils.ColorString(Colors.Impostor, assassinPlayer.PlayerName);
+
             var deadPlayer = new DeadPlayer
             {
                 PlayerId = player.PlayerId,

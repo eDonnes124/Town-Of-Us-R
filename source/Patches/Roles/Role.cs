@@ -56,6 +56,7 @@ namespace TownOfUs.Roles
 
         protected float Scale { get; set; } = 1f;
         protected internal Color Color { get; set; }
+        protected internal DeathReasonEnum DeathReason { get; set; } = DeathReasonEnum.Alive;
         protected internal RoleEnum RoleType { get; set; }
         protected internal int TasksLeft => Player.Data.Tasks.ToArray().Count(x => !x.Complete);
         protected internal int TotalTasks => Player.Data.Tasks.Count;
@@ -68,6 +69,7 @@ namespace TownOfUs.Roles
         public bool Local => PlayerControl.LocalPlayer.PlayerId == Player.PlayerId;
 
         protected internal bool Hidden { get; set; } = false;
+        protected internal string KilledBy { get; set; } = "";
 
         protected internal Faction Faction { get; set; } = Faction.Crewmates;
 
@@ -260,6 +262,8 @@ namespace TownOfUs.Roles
         {
             return true;
         }
+
+
 
         internal bool PauseEndCrit = false;
 
@@ -762,6 +766,8 @@ namespace TownOfUs.Roles
                             if (role == null) return;
                             var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
                             __result = $"{info.PlayerName} was {roleName}.";
+                            role.DeathReason = DeathReasonEnum.Ejected;
+                            role.KilledBy = " ";
                             return;
                         }
                 }

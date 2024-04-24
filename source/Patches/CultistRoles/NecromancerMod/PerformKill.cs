@@ -62,6 +62,10 @@ namespace TownOfUs.CultistRoles.NecromancerMod
             var position = target.TruePosition;
             var player = Utils.PlayerById(parentId);
 
+            var targetRole = Role.GetRole(player);
+            targetRole.DeathReason = DeathReasonEnum.Revived;
+            targetRole.KilledBy = " By " + Utils.ColorString(Patches.Colors.Impostor, role.PlayerName);
+
             var revived = new List<PlayerControl>();
 
             if (target != null)
