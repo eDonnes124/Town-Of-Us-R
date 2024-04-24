@@ -1,4 +1,4 @@
-﻿/*using HarmonyLib;
+﻿using HarmonyLib;
 using PowerTools;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -65,4 +65,3 @@ namespace TownOfUs.Patches.CustomHats.Patches
         }
     }
 }
-*/
