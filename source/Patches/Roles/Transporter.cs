@@ -388,7 +388,7 @@ namespace TownOfUs.Roles
             if (PlayerControl.LocalPlayer.PlayerId == TP1.PlayerId ||
                 PlayerControl.LocalPlayer.PlayerId == TP2.PlayerId)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Transporter));
+                Utils.ShowAnimatedFlash(Patches.Colors.Transporter, 1f);
                 if (Minigame.Instance) Minigame.Instance.Close();
             }
 

@@ -13,14 +13,14 @@ namespace TownOfUs.CrewmateRoles.MedicMod
         {
             if (PlayerControl.LocalPlayer.PlayerId == playerId &&
                 CustomGameOptions.NotificationShield == NotificationOptions.Shielded)
-                Coroutines.Start(Utils.FlashCoroutine(new Color(0f, 0.5f, 0f, 1f)));
+                Utils.ShowAnimatedFlash(Patches.Colors.Medic, 1f);
 
             if (PlayerControl.LocalPlayer.PlayerId == medicId &&
                 CustomGameOptions.NotificationShield == NotificationOptions.Medic)
-                Coroutines.Start(Utils.FlashCoroutine(new Color(0f, 0.5f, 0f, 1f)));
+                Utils.ShowAnimatedFlash(Patches.Colors.Medic, 1f);
 
             if (CustomGameOptions.NotificationShield == NotificationOptions.Everyone)
-                Coroutines.Start(Utils.FlashCoroutine(new Color(0f, 0.5f, 0f, 1f)));
+                Utils.ShowAnimatedFlash(Patches.Colors.Medic, 1f);
 
             if (!flag)
                 return;

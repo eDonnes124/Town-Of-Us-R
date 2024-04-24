@@ -143,7 +143,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
             if (PlayerControl.LocalPlayer.PlayerId == player.PlayerId)
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(true);
-                Coroutines.Start(Utils.FlashCoroutine(Color.red, 3f));
+                Utils.ShowAnimatedFlash(Color.red, 2f);
             }
 
             foreach (var snitch in Role.GetRoles(RoleEnum.Snitch))

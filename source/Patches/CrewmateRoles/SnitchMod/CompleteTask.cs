@@ -33,12 +33,12 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                         role.RegenTask();
                         if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
                         {
-                            Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                            Utils.ShowAnimatedFlash(role.Color, 1f);
                         }
                         else if ((PlayerControl.LocalPlayer.Data.IsImpostor() && (!PlayerControl.LocalPlayer.Is(RoleEnum.Traitor) || CustomGameOptions.SnitchSeesTraitor))
                             || ((PlayerControl.LocalPlayer.Is(Faction.NeutralKilling)) && CustomGameOptions.SnitchSeesNeutrals))
                         {
-                            Coroutines.Start(Utils.FlashCoroutine(role.Color));
+                            Utils.ShowAnimatedFlash(role.Color, 1f);
                             var gameObj = new GameObject();
                             var arrow = gameObj.AddComponent<ArrowBehaviour>();
                             gameObj.transform.parent = PlayerControl.LocalPlayer.gameObject.transform;
@@ -55,7 +55,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                     role.RegenTask();
                     if (PlayerControl.LocalPlayer.Is(RoleEnum.Snitch))
                     {
-                        Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                        Utils.ShowAnimatedFlash(Color.green, 1f);
                         var impostors = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor());
                         var traitor = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(RoleEnum.Traitor));
                         foreach (var imp in impostors)
@@ -75,7 +75,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                     }
                     else if (PlayerControl.LocalPlayer.Data.IsImpostor() || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.SnitchSeesNeutrals))
                     {
-                        Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                        Utils.ShowAnimatedFlash(Color.green, 1f);
                     }
 
                     break;

@@ -31,8 +31,8 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
                 if (interact[4] == true)
                 {
-                    if (role.DetectedKillers.Contains(role.ClosestPlayer.PlayerId) || (CustomGameOptions.CanDetectLastKiller && role.LastKiller == role.ClosestPlayer)) Coroutines.Start(Utils.FlashCoroutine(Color.red));
-                    else Coroutines.Start(Utils.FlashCoroutine(Color.green));
+                    if (role.DetectedKillers.Contains(role.ClosestPlayer.PlayerId) || (CustomGameOptions.CanDetectLastKiller && role.LastKiller == role.ClosestPlayer)) Utils.ShowAnimatedFlash(Color.red);
+                    else Utils.ShowAnimatedFlash(Color.green);
                 }
                 if (interact[0] == true)
                 {

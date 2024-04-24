@@ -55,7 +55,7 @@ namespace TownOfUs.Roles
                 arrow.target = Utils.PlayerById(playerId).transform.position;
             }
             MediatedPlayers.Add(playerId, arrow);
-            Coroutines.Start(Utils.FlashCoroutine(Color));
+            Utils.ShowAnimatedFlash(Patches.Colors.Medium, 1f);
         }
     }
 }

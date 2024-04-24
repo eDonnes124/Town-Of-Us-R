@@ -544,7 +544,7 @@ namespace TownOfUs
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
                 {
-                    Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
+                    Utils.ShowAnimatedFlash(Patches.Colors.Mystic, 1f);
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))
@@ -800,9 +800,9 @@ namespace TownOfUs
 
         public static void Convert(PlayerControl player)
         {
-            if (PlayerControl.LocalPlayer == player) Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
+            if (PlayerControl.LocalPlayer == player) ShowAnimatedFlash(Patches.Colors.Impostor, 1f);
             if (PlayerControl.LocalPlayer != player && PlayerControl.LocalPlayer.Is(RoleEnum.CultistMystic)
-                && !PlayerControl.LocalPlayer.Data.IsDead) Coroutines.Start(FlashCoroutine(Patches.Colors.Impostor));
+                && !PlayerControl.LocalPlayer.Data.IsDead) ShowAnimatedFlash(Patches.Colors.Impostor, 1f);
 
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter) && PlayerControl.LocalPlayer == player)
             {
@@ -949,6 +949,29 @@ namespace TownOfUs
                     player2.nameText().color = Patches.Colors.Impostor;
                 }
             }
+        }
+
+        public static void ShowAnimatedFlash(Color color, float duration = 1f)
+        {
+            if (DestroyableSingleton<HudManager>.Instance == null || DestroyableSingleton<HudManager>.Instance.FullScreen == null) return;
+            DestroyableSingleton<HudManager>.Instance.FullScreen.gameObject.SetActive(true);
+            DestroyableSingleton<HudManager>.Instance.FullScreen.enabled = true;
+            DestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(duration, new Action<float>((p) => {
+                var renderer = DestroyableSingleton<HudManager>.Instance.FullScreen;
+
+                if (p < 0.5)
+                {
+                    if (renderer != null)
+                        renderer.color = new Color(color.r, color.g, color.b, Mathf.Clamp01(p * 2 * 0.75f));
+                }
+                else
+                {
+                    if (renderer != null)
+                        renderer.color = new Color(color.r, color.g, color.b, Mathf.Clamp01((1 - p) * 2 * 0.75f));
+                }
+
+                if (p == 1f && renderer != null) renderer.enabled = false;
+            })));
         }
 
         public static IEnumerator FlashCoroutine(Color color, float waitfor = 1f, float alpha = 0.3f)
