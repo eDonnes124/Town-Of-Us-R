@@ -8,6 +8,7 @@ using Reactor.Utilities.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Text.Json;
 
 namespace TownOfUs.CustomOption
 {
@@ -63,7 +64,7 @@ namespace TownOfUs.CustomOption
             Loading.Do = () => { };
             Loading.Setting.Cast<ToggleOption>().TitleText.text = "Loading...";
 
-            __instance.Children = new[] {Loading.Setting};
+            __instance.Children = new[] { Loading.Setting };
 
 
             yield return new WaitForSeconds(0.5f);
@@ -107,10 +108,59 @@ namespace TownOfUs.CustomOption
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
 
-        private void ImportSlot(int slotId)
+        // returns true if the current mod version is higher than the version stored or stored version is absent
+        public bool ImportSlot(int slotId)
         {
-            System.Console.WriteLine(slotId);
+            System.Console.WriteLine($"reading slot {slotId}");
 
+            Dictionary<string, object> data = new();
+            try
+            {
+                var path = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}.json");
+                var text = File.ReadAllText(path);
+                data = JsonSerializer.Deserialize<Dictionary<string, object>>(text);
+            }
+            catch (Exception e)
+            {
+                Logger<TownOfUs>.Error(e);
+                Cancel(FlashRed);
+                return false;
+            }
+
+            foreach (var storedoption in data)
+            {
+                var option = AllOptions.FirstOrDefault(x => x.Name.Equals(storedoption.Key));
+                if (option != null)
+                {
+                    switch (option.Type)
+                    {
+                        case CustomOptionType.Number:
+                            option.Set(((JsonElement)storedoption.Value).Deserialize<float>(), false);
+                            break;
+                        case CustomOptionType.Toggle:
+                            option.Set(((JsonElement)storedoption.Value).Deserialize<bool>(), false);
+                            break;
+                        case CustomOptionType.String:
+                            option.Set(((JsonElement)storedoption.Value).Deserialize<int>(), false);
+                            break;
+                    }
+                }
+            }
+
+            if (LobbyBehaviour.Instance)
+            {
+                Rpc.SendRpc();
+                Cancel(FlashGreen);
+            }
+
+            if (!data.ContainsKey("Version")) return true;
+            return TownOfUs.Version.CompareTo(new Version(((JsonElement)data["Version"]).Deserialize<string>())) > 0;
+        }
+
+       
+        // Used for earlier save system, kept for migrating purposes, do not use except in CustomOption.UpdateStoredIfNewVersion()
+        public void LegacyImportSlot(int slotId)
+        {
             string text;
 
             try
@@ -120,7 +170,6 @@ namespace TownOfUs.CustomOption
             }
             catch
             {
-                Cancel(FlashRed);
                 return;
             }
 
@@ -160,10 +209,6 @@ namespace TownOfUs.CustomOption
                         break;
                 }
             }
-
-            Rpc.SendRpc();
-
-            Cancel(FlashGreen);
         }
 
 

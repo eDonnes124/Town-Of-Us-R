@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using HarmonyLib;
+using UnityEngine;
 
 namespace TownOfUs.CustomOption
 {
@@ -80,6 +83,26 @@ namespace TownOfUs.CustomOption
             catch
             {
             }
+        }
+
+        public static void UpdateStoredIfNewVersion()
+        {
+            //updates files with added / removed settings if it was written on a past version
+            for (int i = 1; i < 6; i++)
+            {
+                if (File.Exists(Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{i}")))
+                {
+                    Patches.ImportButton.LegacyImportSlot(i);
+                    Patches.ExportButton.ExportSlot(i);
+                    File.Delete(Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{i}"));
+                    continue;
+                }
+                if (File.Exists(Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{i}.json")))
+                {
+                    if (Patches.ImportButton.ImportSlot(i)) Patches.ExportButton.ExportSlot(i);
+                }
+            }
+            AllOptions.Do(x => x.Value = x.DefaultValue);
         }
     }
 }
