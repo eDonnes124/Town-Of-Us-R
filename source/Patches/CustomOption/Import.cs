@@ -123,7 +123,7 @@ namespace TownOfUs.CustomOption
             catch (Exception e)
             {
                 Logger<TownOfUs>.Error(e);
-                Cancel(FlashRed);
+                if (LobbyBehaviour.Instance) Cancel(FlashRed);
                 return false;
             }
 
