@@ -29,6 +29,7 @@ namespace TownOfUs.CrewmateRoles.ProsecutorMod
                     {
                         KillButtonTarget.DontRevive = pros.Player.PlayerId;
                         pros.Player.Exiled();
+                        pros.DeathReason = DeathReasonEnum.Suicide;
                     }
                     pros.ProsecuteThisMeeting = false;
                 }

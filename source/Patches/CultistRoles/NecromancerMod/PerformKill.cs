@@ -61,7 +61,6 @@ namespace TownOfUs.CultistRoles.NecromancerMod
             var parentId = target.ParentId;
             var position = target.TruePosition;
             var player = Utils.PlayerById(parentId);
-
             var revived = new List<PlayerControl>();
 
             if (target != null)
