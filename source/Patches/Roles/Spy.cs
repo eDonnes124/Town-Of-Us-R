@@ -6,7 +6,7 @@ namespace TownOfUs.Roles
         {
             Name = "Spy";
             ImpostorText = () => "Snoop Around And Find Stuff Out";
-            TaskText = () => "Gain extra information on the Admin Table";
+            TaskText = () => "Gain extra information from all devices";
             Color = Patches.Colors.Spy;
             RoleType = RoleEnum.Spy;
             AddToRoleHistory(RoleType);

@@ -1411,7 +1411,10 @@ namespace TownOfUs
                     if (CustomGameOptions.BlackmailerOn > 0)
                         ImpostorRoles.Add((typeof(Blackmailer), CustomGameOptions.BlackmailerOn, true));
 
-                    if (CustomGameOptions.MinerOn > 0)
+                    if (CustomGameOptions.MinerOn > 0 && CustomGameOptions.MinerSpawnOnMira && GameOptionsManager.Instance?.currentNormalGameOptions?.MapId == 1)
+                        ImpostorRoles.Add((typeof(Miner), CustomGameOptions.MinerOn, true));
+
+                    if (CustomGameOptions.MinerOn > 0 && GameOptionsManager.Instance?.currentNormalGameOptions?.MapId != 1)
                         ImpostorRoles.Add((typeof(Miner), CustomGameOptions.MinerOn, true));
 
                     if (CustomGameOptions.SwooperOn > 0)

@@ -284,6 +284,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Miner;
         public static CustomNumberOption MineCooldown;
+        public static CustomToggleOption MinerSpawnOnMira;
 
         public static CustomHeaderOption Swooper;
         public static CustomNumberOption SwoopCooldown;
@@ -1283,6 +1284,8 @@ namespace TownOfUs.CustomOption
             Miner = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Miner</color>");
             MineCooldown =
                 new CustomNumberOption(num++, MultiMenu.imposter, "Mine Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            MinerSpawnOnMira =
+                new CustomToggleOption(num++, MultiMenu.imposter, "Can Spawn On Mira HQ", false);
 
             Undertaker = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Undertaker</color>");
             DragCooldown = new CustomNumberOption(num++, MultiMenu.imposter, "Drag Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
