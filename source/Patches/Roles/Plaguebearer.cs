@@ -91,7 +91,7 @@ namespace TownOfUs.Roles
             role.IncorrectAssassinKills = killsList.IncorrectAssassinKills;
             if (Player == PlayerControl.LocalPlayer)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Pestilence));
+                Utils.ShowAnimatedFlash(Patches.Colors.Pestilence, 1f);
                 role.RegenTask();
             }
         }

@@ -180,7 +180,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                         if (modifier.LifeUsed == false)
                         {
                             modifier.LifeUsed = true;
-                            Coroutines.Start(Utils.FlashCoroutine(Color.red, 1f));
+                            Utils.ShowAnimatedFlash(Color.red, 1f);
                             ShowHideButtons.HideSingle(role, targetId, false, true);
                         }
                         else
