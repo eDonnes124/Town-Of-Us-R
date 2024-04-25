@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Il2CppSystem.Text;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Text.Json;
 
 namespace TownOfUs.CustomOption
 {
@@ -109,33 +109,34 @@ namespace TownOfUs.CustomOption
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
 
-        private void ExportSlot(int slotId)
+        public void ExportSlot(int slotId)
         {
-            System.Console.WriteLine(slotId);
+            System.Console.WriteLine($"writing slot {slotId}");
 
-            var dictie = new Dictionary<string, string>();
-
-            var builder = new StringBuilder();
+            Dictionary<string, object> data = [];
+            data.Add("Version", TownOfUs.VersionString);
             foreach (var option in AllOptions)
             {
-                if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header) continue;
-                builder.AppendLine(option.Name);
-                builder.AppendLine(option.Value.ToString());
+                if (option.Type is CustomOptionType.String or CustomOptionType.Toggle or CustomOptionType.Number)
+                {
+                    data.Add(option.Name, option.Value);
+                }
             }
-
-
-            var text = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}-temp");
+            var json = JsonSerializer.Serialize(data, options: new() { WriteIndented = true });
+            
+            var temp = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}-temp.json");
             try
             {
-                File.WriteAllText(text, builder.ToString());
-                var text2 = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}");
-                File.Delete(text2);
-                File.Move(text, text2);
-                Cancel(FlashGreen);
+                File.WriteAllText(temp, json);
+                var finalfile = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}.json");
+                File.Delete(finalfile);
+                File.Move(temp, finalfile);
+                if (LobbyBehaviour.Instance) Cancel(FlashGreen);
             }
-            catch
+            catch (Exception e)
             {
-                Cancel(FlashRed);
+                Logger<TownOfUs>.Error(e);
+                if (LobbyBehaviour.Instance) Cancel(FlashRed);
             }
         }
 
