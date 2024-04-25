@@ -25,8 +25,8 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 |                             | [Prosecutor](#prosecutor)          |                                 | [Tiebreaker](#tiebreaker)   |
 |                             | [Seer](#seer)                      |                                 | [Torch](#torch)             |
 |                             | [Sheriff](#sheriff)                |                                 | [Underdog](#underdog)       |
-|                             | [Snitch](#snitch)                  |                                 |                             |
-|                             | [Spy](#spy)                        |                                 |                             |
+|                             | [Snitch](#snitch)                  |                                 | [Mini](#mini)               |
+|                             | [Spy](#spy)                        |                                 | [Upside-down](#upside-down) |
 |                             | [Swapper](#swapper)                |                                 |                             |
 |                             | [Tracker](#tracker)                |                                 |                             |
 |                             | [Trapper](#trapper)                |                                 |                             |
@@ -1779,6 +1779,17 @@ and can no longer guess the person who they guessed wrong for the remainder of t
 The Underdog is an Impostor with a prolonged kill cooldown.\
 When they are the only remaining Impostor, they will have their kill cooldown shortened.
 
+-----------------------
+## Mini
+
+You're now tiny! You can set different speed for this modifier.
+
+-----------------------
+## Upside-down
+
+Your player is now upside down, including the camera and controls!\
+You can't use vents with this modifier.
+
 ### Game Options
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
@@ -1954,7 +1965,7 @@ If you have any bugs or any need to contact me, join the [Discord Server](https:
 [Ruiner](https://github.com/ruiner189/Town-Of-Us-Redux) - For lovers changed into a modifier and Task Tracking.\
 [Term](https://www.twitch.tv/termboii) - For creating Transporter, Medium, Blackmailer, Plaguebearer, Sleuth, Multitasker and porting v2.5.0 to the new Among Us version (v2021.12.15).\
 [BryBry16](https://github.com/Brybry16/BetterPolus) - For the code used for Better Polus.\
-[Alexejhero](https://github.com/SubmergedAmongUs/Submerged) - For the Submerged map.
+[Alexejhero](https://github.com/SubmergedAmongUs/Submerged) - For the Submerged map.\
 [Jsushi07](https://github.com/Jsushi07) - For mini modifier
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.\
