@@ -85,6 +85,7 @@ namespace TownOfUs
         public static int TiebreakerOn => (int)Generate.TiebreakerOn.Get();
         public static int GiantOn => (int)Generate.GiantOn.Get();
         public static int MiniOn => (int)Generate.MiniOn.Get();
+        public static int UpsideDownOn => (int)Generate.UpsideDownOn.Get();
         public static int ButtonBarryOn => (int)Generate.ButtonBarryOn.Get();
         public static int BaitOn => (int)Generate.BaitOn.Get();
         public static int LoversOn => (int)Generate.LoversOn.Get();

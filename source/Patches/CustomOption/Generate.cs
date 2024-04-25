@@ -87,6 +87,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption GiantOn;
         public static CustomNumberOption LoversOn;
         public static CustomNumberOption MiniOn;
+        public static CustomNumberOption UpsideDownOn;
         public static CustomNumberOption RadarOn;
         public static CustomNumberOption SleuthOn;
         public static CustomNumberOption TiebreakerOn;
@@ -664,6 +665,8 @@ namespace TownOfUs.CustomOption
             LoversOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             MiniOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#b0a1ff>Mini</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            UpsideDownOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#19247c>Upside-down</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             RadarOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0080FF>Radar</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);

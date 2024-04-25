@@ -59,6 +59,9 @@ namespace TownOfUs
                 if (role.Rampaged) return true;
             }
 
+            if (player.Is(ModifierEnum.UpsideDown))
+                return false;
+
             return playerInfo.IsImpostor();
         }
 

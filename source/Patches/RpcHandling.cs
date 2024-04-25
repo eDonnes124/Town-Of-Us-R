@@ -1470,6 +1470,9 @@ namespace TownOfUs
                     if (Check(CustomGameOptions.MiniOn))
                         GlobalModifiers.Add((typeof(Mini), CustomGameOptions.MiniOn));
 
+                    if (Check(CustomGameOptions.UpsideDownOn))
+                        GlobalModifiers.Add((typeof(UpsideDown), CustomGameOptions.UpsideDownOn));
+
                     if (Check(CustomGameOptions.LoversOn))
                         GlobalModifiers.Add((typeof(Lover), CustomGameOptions.LoversOn));
 

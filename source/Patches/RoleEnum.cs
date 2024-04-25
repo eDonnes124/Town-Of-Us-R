@@ -77,6 +77,7 @@ namespace TownOfUs
         Tiebreaker,
         Giant,
         Mini,
+        UpsideDown,
         ButtonBarry,
         Bait,
         Sleuth,
