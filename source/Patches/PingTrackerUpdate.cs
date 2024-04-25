@@ -22,10 +22,10 @@ namespace TownOfUs
                 (!MeetingHud.Instance
                     ? "<color=#00FF00FF>Modded By: Donners &</color>\n" +
                     "<color=#00FF00FF>MyDragonBreath</color>\n" : "") +
+                (!MeetingHud.Instance ? "<color=#A970FF>Twitch Fork: Xslash58</color>\n" : "") +
                 (AmongUsClient.Instance?.GameState != InnerNet.InnerNetClient.GameStates.Started
                     ? "<color=#00FF00FF>Formerly: Slushiegoose & Polus.gg</color>\n" +
                      $"Host: {host.PlayerName}" : "") +
-                (!MeetingHud.Instance ? "\n<color=#A970FF>Twitch Fork: Xslash58</color>" : "") +
                     "</size>";
         }
     }
