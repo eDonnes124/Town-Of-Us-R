@@ -1215,6 +1215,13 @@ namespace TownOfUs
                         var lastVoted = Utils.PlayerById(reader.ReadByte());
                         AssassinKill.MurderPlayer(lastVoted);
                         break;
+                    case CustomRPC.Sendchat:
+                        string report = reader.ReadString();
+                        if (!PlayerControl.LocalPlayer.Data.IsDead) 
+                        {
+                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, report);
+                        }
+                        break;
                 }
             }
         }

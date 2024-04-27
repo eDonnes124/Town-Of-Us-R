@@ -96,6 +96,8 @@ namespace TownOfUs
 
         SubmergedFixOxygen,
 
+        Sendchat,
+
         ContentAddition
     }
 }
