@@ -132,6 +132,9 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption ColdTempDeathValley;
         public static CustomToggleOption WifiChartCourseSwap;
 
+        public static CustomHeaderOption GlobalSettings;
+        public static CustomToggleOption HideHost;
+
         public static CustomHeaderOption GameModeSettings;
         public static CustomStringOption GameMode;
 
@@ -682,6 +685,10 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             UnderdogOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
+
+            GlobalSettings =
+                new CustomHeaderOption(num++, MultiMenu.main, "Global Settings");
+            HideHost = new CustomToggleOption(num++, MultiMenu.main, "Hide Host From UI", false);
 
             GameModeSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Game Mode Settings");
