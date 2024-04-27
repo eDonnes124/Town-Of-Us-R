@@ -31,7 +31,8 @@ namespace TownOfUs.ImpostorRoles.VenererMod
             else role.AbilityButton.graphic.sprite = CamoSprintFreezeSprite;
             role.AbilityButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started
+                    && !Utils.HasTask(TaskTypes.MushroomMixupSabotage));
 
             if (role.IsCamouflaged)
             {

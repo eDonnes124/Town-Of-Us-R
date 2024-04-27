@@ -454,7 +454,8 @@ namespace TownOfUs.Roles
                         $"{__instance.ColorString}Mimicking {mimicPlayer.Data.PlayerName} ({CustomGameOptions.MimicDuration - Math.Round(totalMimickTime)}s)</color>";
                     if (totalMimickTime > CustomGameOptions.MimicDuration ||
                         PlayerControl.LocalPlayer.Data.IsDead ||
-                        AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Ended)
+                        AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Ended
+                        || Utils.HasTask(TaskTypes.MushroomMixupSabotage))
                     {
                         PlayerControl.LocalPlayer.myTasks.Remove(mimicText);
                         //System.Console.WriteLine("Unsetting mimic");
@@ -628,7 +629,8 @@ namespace TownOfUs.Roles
 
                 __gInstance.MimicButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !__gInstance.Player.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started);
+                    && AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started
+                    && !Utils.HasTask(TaskTypes.MushroomMixupSabotage));
                 if (__instance.UseButton != null)
                 {
                     __gInstance.MimicButton.transform.position = new Vector3(

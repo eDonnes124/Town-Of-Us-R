@@ -25,7 +25,8 @@ namespace TownOfUs.ImpostorRoles.SwooperMod
             role.SwoopButton.graphic.sprite = SwoopSprite;
             role.SwoopButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started
+                    && !Utils.HasTask(TaskTypes.MushroomMixupSabotage));
 
             if (role.IsSwooped)
             {

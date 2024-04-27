@@ -24,7 +24,8 @@ namespace TownOfUs.CultistRoles.ChameleonMod
 
             swoopButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
-                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
+                    && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started
+                    && !Utils.HasTask(TaskTypes.MushroomMixupSabotage));
             if (role.IsSwooped) swoopButton.SetCoolDown(role.TimeRemaining, CustomGameOptions.SwoopDuration);
             else swoopButton.SetCoolDown(role.SwoopTimer(), CustomGameOptions.SwoopCd);
 

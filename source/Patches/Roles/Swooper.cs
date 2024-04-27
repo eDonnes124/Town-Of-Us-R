@@ -79,6 +79,7 @@ namespace TownOfUs.Roles
         public void UnSwoop()
         {
             Enabled = false;
+            TimeRemaining = 0f;
             LastSwooped = DateTime.UtcNow;
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial) && !Role.GetRole<Aurial>(PlayerControl.LocalPlayer).NormalVision) return;
             Utils.Unmorph(Player);

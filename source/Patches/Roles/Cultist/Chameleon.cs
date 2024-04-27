@@ -65,6 +65,7 @@ namespace TownOfUs.Roles.Cultist
         public void UnSwoop()
         {
             Enabled = false;
+            TimeRemaining = 0f;
             LastSwooped = DateTime.UtcNow;
             Utils.Unmorph(Player);
             Player.myRend().color = Color.white;

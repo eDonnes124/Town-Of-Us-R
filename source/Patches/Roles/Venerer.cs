@@ -78,6 +78,7 @@ namespace TownOfUs.Roles
         public void StopAbility()
         {
             Enabled = false;
+            TimeRemaining = 0f;
             LastCamouflaged = DateTime.UtcNow;
             if (!CamouflageUnCamouflage.IsCamoed) Utils.Unmorph(Player);
         }

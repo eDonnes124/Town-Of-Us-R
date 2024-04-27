@@ -1316,7 +1316,7 @@ namespace TownOfUs
                     if (CustomGameOptions.SeerOn > 0)
                         CrewmateRoles.Add((typeof(Seer), CustomGameOptions.SeerOn, false));
 
-                    if (CustomGameOptions.SpyOn > 0)
+                    if (CustomGameOptions.SpyOn > 0 && GameOptionsManager.Instance.currentNormalGameOptions.MapId != 5)
                         CrewmateRoles.Add((typeof(Spy), CustomGameOptions.SpyOn, false));
 
                     if (CustomGameOptions.SnitchOn > 0)

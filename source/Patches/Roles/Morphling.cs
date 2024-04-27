@@ -55,6 +55,7 @@ namespace TownOfUs.Roles
         {
             MorphedPlayer = null;
             Utils.Unmorph(Player);
+            TimeRemaining = 0f;
             LastMorphed = DateTime.UtcNow;
         }
 

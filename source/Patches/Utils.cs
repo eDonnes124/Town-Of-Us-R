@@ -1095,6 +1095,11 @@ namespace TownOfUs
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
+        public static bool HasTask(params TaskTypes[] types)
+        {
+            return PlayerControl.LocalPlayer.myTasks.ToArray().Any(x => types.ToList().Contains(x.TaskType));
+        }
+
         [HarmonyPatch(typeof(MedScanMinigame), nameof(MedScanMinigame.FixedUpdate))]
         class MedScanMinigameFixedUpdatePatch
         {
