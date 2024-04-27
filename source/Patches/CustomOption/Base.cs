@@ -14,7 +14,7 @@ namespace TownOfUs.CustomOption
 
 
         protected internal CustomOption(int id, MultiMenu menu, string name, CustomOptionType type, object defaultValue,
-            Func<object, string> format = null)
+            Func<object, string> format = null, CustomOption dependsOn = null, int? stringoptionneedstobe = null)
         {
             ID = id;
             Menu = menu;
@@ -22,6 +22,8 @@ namespace TownOfUs.CustomOption
             Type = type;
             DefaultValue = Value = defaultValue;
             Format = format ?? (obj => $"{obj}");
+            DependsOn = dependsOn;
+            RequiredStringOptionValue = stringoptionneedstobe;
 
             if (Type == CustomOptionType.Button) return;
             AllOptions.Add(this);
@@ -32,6 +34,8 @@ namespace TownOfUs.CustomOption
         protected internal OptionBehaviour Setting { get; set; }
         protected internal CustomOptionType Type { get; set; }
         public object DefaultValue { get; set; }
+        public CustomOption DependsOn { get; set; }
+        public int? RequiredStringOptionValue { get; set; }
 
         public static bool LobbyTextScroller { get; set; } = true;
 
@@ -43,6 +47,27 @@ namespace TownOfUs.CustomOption
         public virtual void OptionCreated()
         {
             Setting.name = Setting.gameObject.name = Name;
+        }
+
+        public virtual bool ShouldShow()
+        {
+            if (DependsOn == null) return true;
+
+            if (DependsOn is CustomToggleOption toggle && toggle.Get() == false)
+            {
+                return false;
+            }
+            else if (DependsOn is CustomNumberOption number && number.Get() == 0)
+            {
+                return false;
+            }
+            else if (DependsOn is CustomStringOption stringtoggle)
+            {
+                var selected = stringtoggle.Get();
+                if (selected != RequiredStringOptionValue) return false;
+            }
+
+            return true;
         }
 
 
