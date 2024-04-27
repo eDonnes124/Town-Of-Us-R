@@ -2,6 +2,7 @@
 using HarmonyLib;
 namespace TownOfUs.Patches
 {
+    [HarmonyPatch]
     internal class DiscordStatus
     {
         [HarmonyPatch(typeof(ActivityManager), nameof(ActivityManager.UpdateActivity))]

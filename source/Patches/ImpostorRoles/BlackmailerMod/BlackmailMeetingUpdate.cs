@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections;
 using Reactor.Utilities;
+using AmongUs.QuickChat;
 
 namespace TownOfUs.ImpostorRoles.BlackmailerMod
 {
@@ -88,23 +89,41 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                         if (__instance.state != MeetingHud.VoteStates.Animating && shookAlready == false)
                         {
                             shookAlready = true;
-                            (__instance as MonoBehaviour).StartCoroutine(Effects.SwayX(playerState.transform));
+                            __instance.StartCoroutine(Effects.SwayX(playerState.transform));
                         }
                     }
                 }
             }
         }
 
-        [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
+        [HarmonyPatch]
         public class StopChatting
         {
-            public static bool Prefix(TextBoxTMP __instance)
+            [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.SetText))]
+
+            public static bool Prefix()
             {
                 var blackmailers = Role.AllRoles.Where(x => x.RoleType == RoleEnum.Blackmailer && x.Player != null).Cast<Blackmailer>();
                 foreach (var role in blackmailers)
                 {
                     if (MeetingHud.Instance && role.Blackmailed != null && !role.Blackmailed.Data.IsDead && role.Blackmailed.PlayerId == PlayerControl.LocalPlayer.PlayerId)
                     {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            [HarmonyPatch(typeof(QuickChatMenu), nameof(QuickChatMenu.CanSend), MethodType.Getter)]
+            
+            public static bool Prefix(ref bool __result)
+            {
+                var blackmailers = Role.AllRoles.Where(x => x.RoleType == RoleEnum.Blackmailer && x.Player != null).Cast<Blackmailer>();
+                foreach (var role in blackmailers)
+                {
+                    if (MeetingHud.Instance && role.Blackmailed != null && !role.Blackmailed.Data.IsDead && role.Blackmailed.PlayerId == PlayerControl.LocalPlayer.PlayerId)
+                    {
+                        __result = false;
                         return false;
                     }
                 }
