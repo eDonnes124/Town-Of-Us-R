@@ -16,7 +16,6 @@ namespace TownOfUs.Roles.Modifiers
         public bool TryGetModifiedAppearance(out VisualAppearance appearance)
         {
             appearance = Player.GetDefaultAppearance();
-            appearance.SizeFactor = new Vector3(appearance.SizeFactor.x, -appearance.SizeFactor.y, appearance.SizeFactor.z);
 
             if (Player == PlayerControl.LocalPlayer)
                 Camera.main.transform.rotation = Quaternion.Euler(0, 0, 180);
