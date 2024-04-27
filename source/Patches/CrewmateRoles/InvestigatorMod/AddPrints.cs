@@ -22,7 +22,7 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
 
         public static void Postfix()
         {
-            if (!GameManager.Instance.GameHasStarted || !PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) return;
+            if ((GameManager.Instance && !GameManager.Instance.GameHasStarted) || !PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) return;
             if (MeetingHud.Instance) return;
             
             // New Footprint
