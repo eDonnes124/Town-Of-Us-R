@@ -9,9 +9,9 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
     public static class AddPrints
     {
         private static float _time;
-
-        public static bool GameStarted = false;
+        
         private static float Interval => CustomGameOptions.FootprintInterval;
+        
         private static bool Vent => CustomGameOptions.VentFootprintVisible;
 
         private static Vector2 Position(PlayerControl player)
@@ -20,11 +20,20 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
         }
 
 
-        public static void Postfix(HudManager __instance)
+        public static void Postfix()
         {
-            if (!GameStarted || !PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) return;
+            if (!GameManager.Instance.GameHasStarted || !PlayerControl.LocalPlayer.Is(RoleEnum.Investigator)) return;
+            if (MeetingHud.Instance) return;
+            
             // New Footprint
             var investigator = Role.GetRole<Investigator>(PlayerControl.LocalPlayer);
+
+            if (PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                Footprint.DestroyAll(investigator);
+                return;
+            }
+           
             _time += Time.deltaTime;
             if (_time >= Interval)
             {
