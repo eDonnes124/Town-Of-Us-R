@@ -77,6 +77,8 @@ namespace TownOfUs.Patches.CustomHats
                     var colorChip = Object.Instantiate(__instance.ColorTabPrefab, __instance.scroller.Inner);
                     colorChip.gameObject.name = hat.ProductId;
                     colorChip.Button.OnClick.AddListener((Action)(() => __instance.SelectHat(hat)));
+                    colorChip.Button.OnMouseOver.AddListener((Action)(() => __instance.SelectHat(hat)));
+                    colorChip.Button.OnMouseOut.AddListener((Action)(() => __instance.SelectHat(HatManager.Instance.GetHatById(DataManager.Player.Customization.Hat))));
                     colorChip.Inner.SetHat(hat, __instance.HasLocalPlayer() ? PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId : DataManager.Player.Customization.Color);
                     colorChip.transform.localPosition = new Vector3(num, num2, -1f);
                     colorChip.Inner.transform.localPosition = hat.ChipOffset + new Vector2(0f, -0.3f);
@@ -104,6 +106,7 @@ namespace TownOfUs.Patches.CustomHats
     public class HatsTab_OnDisable
     {
         [HarmonyPatch(typeof(InventoryTab), nameof(InventoryTab.OnDisable))]
+        [HarmonyPrefix]
 
         public static bool Prefix(InventoryTab __instance)
         {
@@ -117,6 +120,23 @@ namespace TownOfUs.Patches.CustomHats
 
             __instance.ColorChips.Clear();
             return false;
+        }
+
+        [HarmonyPatch(typeof(PlayerCustomizationMenu), nameof(PlayerCustomizationMenu.OpenTab))]
+        [HarmonyPrefix]
+
+        public static void Prefix(ref InventoryTab tab)
+        {
+            if (tab is HatsTab hattab && hattab.ColorChips.Count == 0)
+            {
+                foreach (var transform in HatCache.Children.Values)
+                {
+                    if (transform.gameObject.GetComponent<ColorChip>())
+                    {
+                        hattab.ColorChips.Add(transform.gameObject.GetComponent<ColorChip>());
+                    }
+                }
+            }
         }
     }
 }
