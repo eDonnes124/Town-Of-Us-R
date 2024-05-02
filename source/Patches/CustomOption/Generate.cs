@@ -41,6 +41,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption AmnesiacOn;
         public static CustomNumberOption GuardianAngelOn;
         public static CustomNumberOption SurvivorOn;
+        public static CustomNumberOption LawyerOn;
 
         public static CustomHeaderOption NeutralEvilRoles;
         public static CustomNumberOption DoomsayerOn;
@@ -161,6 +162,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption SeerCultistOn;
         public static CustomNumberOption SheriffCultistOn;
         public static CustomNumberOption SurvivorCultistOn;
+        public static CustomNumberOption LawyerCultistOn;
         public static CustomNumberOption NumberOfSpecialRoles;
         public static CustomNumberOption MaxChameleons;
         public static CustomNumberOption MaxEngineers;
@@ -389,6 +391,13 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption VestKCReset;
         public static CustomNumberOption MaxVests;
 
+        public static CustomHeaderOption Lawyer;
+        public static CustomToggleOption LawyerDies;
+        public static CustomNumberOption DefendantImpPercent;
+        public static CustomToggleOption NeutralDefendant;
+        public static CustomToggleOption LawyerCanTalkDefendant;
+        public static CustomStringOption OnDefendantDead;
+
         public static CustomHeaderOption GuardianAngel;
         public static CustomNumberOption ProtectCd;
         public static CustomNumberOption ProtectDuration;
@@ -591,6 +600,8 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             SurvivorOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FFE64DFF>Survivor</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
+            LawyerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#D2B48CFF>Lawyer</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
 
             NeutralEvilRoles = new CustomHeaderOption(num++, MultiMenu.neutral, "Neutral Evil Roles");
             DoomsayerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>", 0f, 0f, 100f, 10f,
@@ -733,6 +744,8 @@ namespace TownOfUs.CustomOption
             SheriffCultistOn = new CustomNumberOption(num++, MultiMenu.main, "<color=#FFFF00FF>Sheriff</color> (Cultist Mode)", 100f, 0f, 100f, 10f,
                 PercentFormat);
             SurvivorCultistOn = new CustomNumberOption(num++, MultiMenu.main, "<color=#FFE64DFF>Survivor</color> (Cultist Mode)", 100f, 0f, 100f, 10f,
+                PercentFormat);
+            LawyerCultistOn = new CustomNumberOption(num++, MultiMenu.main, "<color=#D2B48CFF>Lawyer</color> (Cultist Mode)", 100f, 0f, 100f, 10f,
                 PercentFormat);
             NumberOfSpecialRoles =
                 new CustomNumberOption(num++, MultiMenu.main, "Number Of Special Roles", 4, 0, 4, 1);
@@ -1114,6 +1127,16 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Kill Cooldown Reset On Attack", 2.5f, 0f, 15f, 0.5f, CooldownFormat);
             MaxVests =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Number Of Vests", 5, 1, 15, 1);
+
+            Lawyer =
+                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#D2B48CFF>Lawyer</color>");
+            LawyerDies = new CustomToggleOption(num++, MultiMenu.neutral, "Lawyer Dies With Defendant");
+            DefendantImpPercent = new CustomNumberOption(num++, MultiMenu.neutral, "Killer Defendant Probability", 20f, 0f, 100f, 10f,
+                PercentFormat);
+            NeutralDefendant = new CustomToggleOption(num++, MultiMenu.neutral, "Neutral Evil Roles Can Be Defendants", false);
+            LawyerCanTalkDefendant = new CustomToggleOption(num++, MultiMenu.neutral, "Lawyer And Defendant Can Talk", true);
+            OnDefendantDead = new CustomStringOption(num++, MultiMenu.neutral, "Lawyer Becomes On Defendant Dead",
+                new[] { "Amnesiac", "Survivor", "Jester", "Crew" });
 
             Doomsayer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>");
             ObserveCooldown =

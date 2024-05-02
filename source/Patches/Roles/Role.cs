@@ -290,6 +290,15 @@ namespace TownOfUs.Roles
                 }
             }
 
+            foreach (var role in GetRoles(RoleEnum.Lawyer))
+            {
+                var lwyr = (Lawyer)role;
+                if (Player == lwyr.target && PlayerControl.LocalPlayer.Data.IsDead && !lwyr.Player.Data.IsDead)
+                {
+                    PlayerName += "<color=#D2B48CFF> @</color>";
+                }
+            }
+
             var modifier = Modifier.GetModifier(Player);
             if (modifier != null && modifier.GetColoredSymbol() != null)
             {

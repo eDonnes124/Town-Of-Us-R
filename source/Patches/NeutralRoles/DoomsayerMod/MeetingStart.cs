@@ -42,7 +42,8 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                   || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter))
                 return $"You observe that {player.GetDefaultOutfit().PlayerName} spreads fear amonst the group";
             else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Escapist) || player.Is(RoleEnum.Grenadier)
-                || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor))
+                || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor)
+                || player.Is(RoleEnum.Lawyer))
                 return $"You observe that {player.GetDefaultOutfit().PlayerName} hides to guard themself or others";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Mayor)
                  || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran))
@@ -75,8 +76,9 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                   || player.Is(RoleEnum.Prosecutor) || player.Is(RoleEnum.Seer) || player.Is(RoleEnum.Transporter))
                 return "(Arsonist, Miner, Plaguebearer, Prosecutor, Seer or Transporter)";
             else if (player.Is(RoleEnum.Engineer) || player.Is(RoleEnum.Escapist) || player.Is(RoleEnum.Grenadier)
-                || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor))
-                return "(Engineer, Escapist, Grenadier, Guardian Angel, Medic or Survivor)";
+                || player.Is(RoleEnum.GuardianAngel) || player.Is(RoleEnum.Medic) || player.Is(RoleEnum.Survivor)
+                || player.Is(RoleEnum.Lawyer))
+                return "(Engineer, Escapist, Grenadier, Guardian Angel, Medic, Lawyer or Survivor)";
             else if (player.Is(RoleEnum.Executioner) || player.Is(RoleEnum.Jester) || player.Is(RoleEnum.Mayor)
                  || player.Is(RoleEnum.Swapper) || player.Is(RoleEnum.Traitor) || player.Is(RoleEnum.Veteran))
                 return "(Executioner, Jester, Mayor, Swapper, Traitor or Veteran)";
