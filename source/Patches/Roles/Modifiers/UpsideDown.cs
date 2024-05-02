@@ -9,7 +9,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Upside-down";
             TaskText = () => "umop episdn era noY";
-            Color = Patches.Colors.Mini;
+            Color = Patches.Colors.UpsideDown;
             ModifierType = ModifierEnum.UpsideDown;
         }
 
