@@ -7,6 +7,7 @@ namespace TownOfUs
         SetCouple,
         SetAssassin,
         SetTarget,
+        SetDefendant,
         SetGATarget,
 
         SetPhantom,
@@ -83,6 +84,7 @@ namespace TownOfUs
         SetHacked,
 
         ExecutionerToJester,
+        LawyerToJester,
         GAToSurv,
 
         Start,

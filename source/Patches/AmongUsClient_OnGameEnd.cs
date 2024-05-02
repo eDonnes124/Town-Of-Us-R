@@ -38,6 +38,11 @@ namespace TownOfUs
                 var exe = (Executioner)role;
                 losers.Add(exe.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Lawyer))
+            {
+                var lwyr = (Lawyer)role;
+                losers.Add(lwyr.Player.GetDefaultOutfit().ColorId);
+            }
             foreach (var role in Role.GetRoles(RoleEnum.Jester))
             {
                 var jest = (Jester)role;
@@ -283,6 +288,18 @@ namespace TownOfUs
                     if (isImp) survWinData.IsImpostor = true;
                     if (PlayerControl.LocalPlayer != surv.Player) survWinData.IsYou = false;
                     TempData.winners.Add(survWinData);
+                }
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Lawyer))
+            {
+                var lwyr = (Lawyer)role;
+                if (!lwyr.TargetVotedOut && !lwyr.Player.Data.IsDead)
+                {
+                    var isImp = TempData.winners[0].IsImpostor;
+                    var lwyrWinData = new WinningPlayerData(lwyr.Player.Data);
+                    if (isImp) lwyrWinData.IsImpostor = true;
+                    if (PlayerControl.LocalPlayer != lwyr.Player) lwyrWinData.IsYou = false;
+                    TempData.winners.Add(lwyrWinData);
                 }
             }
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))

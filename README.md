@@ -22,7 +22,7 @@ Join Town-Of-Us-R's [Discord](https://discord.gg/ugyc4EVUYZ) if you have any pro
 | [Venerer](#venerer)          | [Medium](#medium)                  | [The Glitch](#the-glitch)        | [Multitasker](#multitasker)|
 | [Warlock](#warlock)          | [Mystic](#mystic)                  | [Vampire](#vampire)              | [Radar](#radar)             |
 |                             | [Oracle](#oracle)                  | [Werewolf](#werewolf)            | [Sleuth](#sleuth)           |
-|                             | [Prosecutor](#prosecutor)          |                                 | [Tiebreaker](#tiebreaker)   |
+|                             | [Prosecutor](#prosecutor)          | [Lawyer](#lawyer)                | [Tiebreaker](#tiebreaker)   |
 |                             | [Seer](#seer)                      |                                 | [Torch](#torch)             |
 |                             | [Sheriff](#sheriff)                |                                 | [Underdog](#underdog)       |
 |                             | [Snitch](#snitch)                  |                                 | [Mini](#mini)               |
@@ -829,6 +829,22 @@ The Werewolf needs to be the last killer alive to win the game.
 | Werewolf can Vent when Rampaged | Whether the Werewolf can Vent when Rampaged | Toggle | False |
 
 -----------------------
+## Lawyer
+### **Team: Neutral**
+The Lawyer is a Neutral role which wins if their assigned defendant survives. If their defendant is exiled, they are also killed.\
+The Lawyer can win with any team that does not explicitly win alone, as long as their defendant survives.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Lawyer | The percentage probability of the Lawyer appearing | Percentage | 0% |
+| Lawyer Dies With Defendant | Whether the Lawyer dies when their defendant is exiled | Toggle | True |
+| Evil Defendant Probability | The chances of the Lawyer's defendant being evil | Percentage | 20% |
+| Neutral Roles Can Be Defendants | Whether neutral benign & evil roles can be defendants | Toggle | False |
+| Lawyer And Defendant Can Talk | Whether the Lawyer and their defendant can chat outside of meetings | Toggle | True |
+| Lawyer becomes on Defendant Dead | Which role the Lawyer becomes when their target dies | Amnesiac / Survivor / Jester / Crewmate | Amnesiac |
+
+-----------------------
 # Impostor Roles
 ## Escapist
 ### **Team: Impostors**
@@ -1364,6 +1380,7 @@ If you have any bugs or any need to contact me, join the [Discord Server](https:
 [BryBry16](https://github.com/Brybry16/BetterPolus) - For the code used for Better Polus.\
 [Alexejhero](https://github.com/SubmergedAmongUs/Submerged) - For the Submerged map.\
 [Jsushi07](https://github.com/Jsushi07) - For mini modifier.\
+[fariparedes](https://github.com/fariparedes) - For lawyer role code.\
 [ZIELONY_03](https://github.com/ZIELONY_03) - For skins you made in this mod.
 
 [Essentials](https://github.com/DorCoMaNdO/Reactor-Essentials) - For created custom game options.\
