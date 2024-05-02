@@ -135,6 +135,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption GlobalSettings;
         public static CustomToggleOption HideHost;
+        public static CustomToggleOption PolishTranslations;
 
         public static CustomHeaderOption GameModeSettings;
         public static CustomStringOption GameMode;
@@ -700,6 +701,7 @@ namespace TownOfUs.CustomOption
             GlobalSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Global Settings");
             HideHost = new CustomToggleOption(num++, MultiMenu.main, "Hide Host From UI", false);
+            PolishTranslations = new CustomToggleOption(num++, MultiMenu.main, "Translate ToU Messages To Polish", false);
 
             GameModeSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Game Mode Settings");
