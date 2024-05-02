@@ -46,7 +46,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
                 thirdPlayer = evilPlayers[0];
             
             return CustomGameOptions.PolishTranslations
-                ? $"{player.GetDefaultOutfit().PlayerName} spowiada się z wiedzy, iż on, {secondPlayer.GetDefaultOutfit().PlayerName} i/lub {thirdPlayer.GetDefaultOutfit().PlayerName} jest zły!"
+                ? $"{player.GetDefaultOutfit().PlayerName} spowiada sie z wiedzy, iz on, {secondPlayer.GetDefaultOutfit().PlayerName} i/lub {thirdPlayer.GetDefaultOutfit().PlayerName} jest zly!"
                 : $"{player.GetDefaultOutfit().PlayerName} confesses to knowing that they, {secondPlayer.GetDefaultOutfit().PlayerName} and/or {thirdPlayer.GetDefaultOutfit().PlayerName} is evil!";
         }
     }
