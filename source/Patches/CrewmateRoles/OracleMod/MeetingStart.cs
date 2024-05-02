@@ -23,13 +23,13 @@ namespace TownOfUs.CrewmateRoles.OracleMod
 
         public static string PlayerReportFeedback(PlayerControl player)
         {
-            if (player.Data.IsDead || player.Data.Disconnected) return CustomGameOptions.PolishTranslations ? "Twojemu spowiednikowi nie udało się przeżyć, brak spowiedzi" : "Your confessor failed to survive so you received no confession";
+            if (player.Data.IsDead || player.Data.Disconnected) return CustomGameOptions.PolishTranslations ? "Twojemu spowiednikowi nie udalo sie przezyc, brak spowiedzi" : "Your confessor failed to survive so you received no confession";
             var allPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x != PlayerControl.LocalPlayer && x != player).ToList();
-            if (allPlayers.Count < 2) return CustomGameOptions.PolishTranslations ? "Za mało osób jest przy życiu, aby otrzymać spowiedź" : "Too few people alive to receive a confessional";
+            if (allPlayers.Count < 2) return CustomGameOptions.PolishTranslations ? "Za malo osob jest przy zyciu, aby otrzymac spowiedz" : "Too few people alive to receive a confessional";
             var evilPlayers = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected &&
             (x.Is(Faction.Impostors) || (x.Is(Faction.NeutralKilling) && CustomGameOptions.NeutralKillingShowsEvil) ||
             (x.Is(Faction.NeutralEvil) && CustomGameOptions.NeutralEvilShowsEvil) || (x.Is(Faction.NeutralBenign) && CustomGameOptions.NeutralBenignShowsEvil))).ToList();
-            if (evilPlayers.Count == 0) return CustomGameOptions.PolishTranslations ? $"{player.GetDefaultOutfit().PlayerName} spowiada, że nie ma więcej złych graczy!" : $"{player.GetDefaultOutfit().PlayerName} confesses to knowing that there are no more evil players!"; 
+            if (evilPlayers.Count == 0) return CustomGameOptions.PolishTranslations ? $"{player.GetDefaultOutfit().PlayerName} spowiada, ze nie ma wiecej zlych graczy!" : $"{player.GetDefaultOutfit().PlayerName} confesses to knowing that there are no more evil players!"; 
             allPlayers.Shuffle();
             evilPlayers.Shuffle();
             var secondPlayer = allPlayers[0];

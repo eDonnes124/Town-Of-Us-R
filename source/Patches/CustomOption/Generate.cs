@@ -690,7 +690,7 @@ namespace TownOfUs.CustomOption
             GlobalSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Global Settings");
             HideHost = new CustomToggleOption(num++, MultiMenu.main, "Hide Host From UI", false);
-            HideHost = new CustomToggleOption(num++, MultiMenu.main, "Translate ToU Messages To Polish", false);
+            PolishTranslations = new CustomToggleOption(num++, MultiMenu.main, "Translate ToU Messages To Polish", false);
 
             GameModeSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Game Mode Settings");
