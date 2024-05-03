@@ -6,7 +6,6 @@ using BepInEx.Logging;
 using Reactor.Utilities;
 using System.Linq;
 using UnityEngine.AddressableAssets;
-using Reactor.Utilities.Extensions;
 
 namespace TownOfUs.Patches.CustomHats
 {
@@ -43,12 +42,6 @@ namespace TownOfUs.Patches.CustomHats
                     hatData.Add(hatBehaviours[i]);
                 }
                 HatManager.Instance.allHats = hatData.ToArray();
-
-                if (HatCache.ChipHolder == null)
-                {
-                    HatCache.ChipHolder = new("HatHolder");
-                    HatCache.ChipHolder.DontDestroy();
-                }
             }
             catch (Exception e)
             {
