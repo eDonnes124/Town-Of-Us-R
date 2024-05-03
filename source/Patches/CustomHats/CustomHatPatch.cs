@@ -88,7 +88,7 @@ namespace TownOfUs.Patches.CustomHats
                 var text = Object.Instantiate(groupNameText, __instance.scroller.Inner);
                 text.gameObject.transform.localScale = Vector3.one;
                 text.GetComponent<TextTranslatorTMP>().Destroy();
-                text.text = groupName;
+                text.text = $"{groupName}\nPress F3 & F4 to cycle pages";
                 text.alignment = TextAlignmentOptions.Center;
                 text.fontSize = 3f;
                 text.fontSizeMax = 3f;
