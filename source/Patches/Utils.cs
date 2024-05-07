@@ -66,6 +66,11 @@ namespace TownOfUs
                         PlayerName = " ",
                         PetId = ""
                     });
+                    if (AprilFoolsMode.ShouldLongAround())
+                    {
+                        player.cosmetics.currentBodySprite.LongModeParts.Do(x => PlayerMaterial.SetColors(Color.grey, x));
+                        player.cosmetics.GetLongBoi().ResetNeck();
+                    }
                     PlayerMaterial.SetColors(Color.grey, player.myRend());
                     player.nameText().color = Color.clear;
                     player.cosmetics.colorBlindText.color = Color.clear;

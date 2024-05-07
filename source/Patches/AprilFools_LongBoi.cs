@@ -11,4 +11,11 @@ public static class LongBoiPatches
     {
         while (colorIndex >= __instance.heightsPerColor.Count) colorIndex -= __instance.heightsPerColor.Count;
     }
+
+    [HarmonyPatch(nameof(LongBoiPlayerBody.GrowNeck))]
+    [HarmonyPrefix]
+    public static bool LongBoy_GrowNeckPatch()
+    {
+        return !CamouflageUnCamouflage.IsCamoed;
+    }
 }
