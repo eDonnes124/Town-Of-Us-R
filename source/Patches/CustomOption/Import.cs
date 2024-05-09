@@ -20,6 +20,7 @@ namespace TownOfUs.CustomOption
         protected internal Import(int id) : base(id, MultiMenu.main, "Load Custom Settings")
         {
             Do = ToDo;
+            TryLoadExistingFile();
         }
 
 
@@ -30,6 +31,7 @@ namespace TownOfUs.CustomOption
             var togglePrefab = Object.FindObjectOfType<ToggleOption>();
 
             foreach (var button in SlotButtons)
+            {
                 if (button.Setting != null)
                 {
                     button.Setting.gameObject.SetActive(true);
@@ -45,6 +47,7 @@ namespace TownOfUs.CustomOption
                     button.OptionCreated();
                     options.Add(toggle);
                 }
+            }
 
             return options;
         }
@@ -107,7 +110,7 @@ namespace TownOfUs.CustomOption
             __instance.Children = new Il2CppReferenceArray<OptionBehaviour>(options.ToArray());
         }
 
-        private void ImportSlot(int slotId)
+        private void ImportSlot(int slotId, bool DoAction = true)
         {
             System.Console.WriteLine(slotId);
 
@@ -120,10 +123,9 @@ namespace TownOfUs.CustomOption
             }
             catch
             {
-                Cancel(FlashRed);
+                if (DoAction) Cancel(FlashRed);
                 return;
             }
-
 
             var splitText = text.Split("\n").ToList();
 
@@ -131,7 +133,7 @@ namespace TownOfUs.CustomOption
             {
                 var name = splitText[0].Trim();
                 splitText.RemoveAt(0);
-                var option = AllOptions.FirstOrDefault(o => o.Name.Equals(name, StringComparison.Ordinal));
+                var option = AllOptions.Find(o => o.Name.Equals(name, StringComparison.Ordinal));
                 if (option == null)
                 {
                     try
@@ -161,11 +163,32 @@ namespace TownOfUs.CustomOption
                 }
             }
 
-            Rpc.SendRpc();
+            if (DoAction)
+            {
+                Rpc.SendRpc();
+                Cancel(FlashGreen);
+            }
 
-            Cancel(FlashGreen);
+            return;
         }
 
+        private void TryLoadExistingFile()
+        {
+            if (File.Exists(Application.persistentDataPath + $"\\GameSettings-Slot{TownOfUs.PreferredFile.Value}"))
+            {
+                ImportSlot(TownOfUs.PreferredFile.Value, false);
+                return;
+            }
+
+            for (int i = 1; i < 6; i++)
+            {
+                if (File.Exists(Application.persistentDataPath + $"\\GameSettings-Slot{i}"))
+                {
+                    ImportSlot(i, false);
+                    return;
+                }
+            }
+        }
 
         private IEnumerator FlashGreen()
         {

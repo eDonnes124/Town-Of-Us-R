@@ -1,7 +1,4 @@
 using System;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
@@ -117,12 +114,9 @@ namespace TownOfUs
 
         private static DLoadImage _iCallLoadImage;
 
-
         private Harmony _harmony;
 
-        public ConfigEntry<string> Ip { get; set; }
-
-        public ConfigEntry<ushort> Port { get; set; }
+        public static ConfigEntry<int> PreferredFile { get; set; }
         public static string RuntimeLocation;
         public override void Load()
         {
@@ -131,6 +125,7 @@ namespace TownOfUs
             System.Console.WriteLine("000.000.000.000/000000000000000000");
 
             _harmony = new Harmony("com.slushiegoose.townofus");
+            PreferredFile = Config.Bind("Loading mod settings", "Preferred slot", 1, "which slot(1 - 5) is preferred to be loaded at game start");
 
             Generate.GenerateAll();
 
@@ -217,22 +212,7 @@ namespace TownOfUs
 
             // RegisterInIl2CppAttribute.Register();
 
-            Ip = Config.Bind("Custom", "Ipv4 or Hostname", "127.0.0.1");
-            Port = Config.Bind("Custom", "Port", (ushort) 22023);
-            var defaultRegions = ServerManager.DefaultRegions.ToList();
-            var ip = Ip.Value;
-            if (Uri.CheckHostName(Ip.Value).ToString() == "Dns")
-                foreach (var address in Dns.GetHostAddresses(Ip.Value))
-                {
-                    if (address.AddressFamily != AddressFamily.InterNetwork)
-                        continue;
-                    ip = address.ToString();
-                    break;
-                }
-
-            ServerManager.DefaultRegions = defaultRegions.ToArray();
-
-            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>) ((scene, loadSceneMode) =>
+            SceneManager.add_sceneLoaded((Action<Scene, LoadSceneMode>) ((_, __) =>
             {
                 try { ModManager.Instance.ShowModStamp(); }
                 catch { }
