@@ -20,7 +20,7 @@ namespace TownOfUs.NeutralRoles.JuggernautMod
 
             __instance.KillButton.SetCoolDown(role.KillTimer(), CustomGameOptions.JuggKCd - CustomGameOptions.ReducedKCdPerKill * role.JuggKills);
 
-            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton);
+            Utils.SetTarget(ref role.ClosestPlayer, __instance.KillButton, allowVented: true);
         }
     }
 }

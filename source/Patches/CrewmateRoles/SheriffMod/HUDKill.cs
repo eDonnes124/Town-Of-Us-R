@@ -30,7 +30,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                     && !MeetingHud.Instance && !PlayerControl.LocalPlayer.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started);
                 KillButton.SetCoolDown(role.SheriffKillTimer(), CustomGameOptions.SheriffKillCd);
-                Utils.SetTarget(ref role.ClosestPlayer, KillButton);
+                Utils.SetTarget(ref role.ClosestPlayer, KillButton, allowVented: true);
             }
             else
             {

@@ -46,7 +46,7 @@ namespace TownOfUs.CrewmateRoles.VampireHunterMod
             else stakeButton.SetCoolDown(0f, CustomGameOptions.StakeCd);
             if (role.UsesLeft == 0) return;
 
-            Utils.SetTarget(ref role.ClosestPlayer, stakeButton, float.NaN);
+            Utils.SetTarget(ref role.ClosestPlayer, stakeButton, float.NaN, allowVented: true);
 
             var renderer = stakeButton.graphic;
             if (role.ClosestPlayer != null && role.ButtonUsable)

@@ -286,6 +286,11 @@ namespace TownOfUs.Roles
                 {
                     if (PlayerControl.LocalPlayer == hackPlayer)
                     {
+                        if (PlayerControl.LocalPlayer.inVent)
+                        {
+                            PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
+                            PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
+                        }
                         if (HudManager.Instance.KillButton != null)
                         {
                             if (lockImg[0] == null)
@@ -496,7 +501,7 @@ namespace TownOfUs.Roles
 
                 if (__instance.KillButton.isActiveAndEnabled)
                 {
-                    __instance.KillButton.SetTarget(__gInstance.ClosestPlayer);
+                    Utils.SetTarget(ref __gInstance.ClosestPlayer, __instance.KillButton, allowVented: true);
                     __gInstance.KillTarget = __gInstance.ClosestPlayer;
                 }
 
@@ -570,7 +575,8 @@ namespace TownOfUs.Roles
                     Utils.SetTarget(
                         ref closestPlayer,
                         __gInstance.HackButton,
-                        GameOptionsData.KillDistances[CustomGameOptions.GlitchHackDistance]
+                        GameOptionsData.KillDistances[CustomGameOptions.GlitchHackDistance],
+                        allowVented: true
                     );
                     __gInstance.HackTarget = closestPlayer;
                 }

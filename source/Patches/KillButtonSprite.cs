@@ -1,5 +1,7 @@
 ﻿using AmongUs.GameOptions;
 using HarmonyLib;
+using System.Collections.Generic;
+using System.Linq;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
@@ -47,6 +49,7 @@ namespace TownOfUs
         public static void Postfix(HudManager __instance)
         {
             if (__instance.KillButton == null) return;
+            if (!GameManager.Instance.GameHasStarted) return;
 
             if (!Kill) Kill = __instance.KillButton.graphic.sprite;
 
@@ -160,6 +163,10 @@ namespace TownOfUs
             {
                 __instance.KillButton.graphic.sprite = Kill;
                 __instance.KillButton.buttonLabelText.gameObject.SetActive(true);
+                PlayerControl closestPlayer = __instance.KillButton.currentTarget;
+                var validTargets = new List<PlayerControl>(PlayerControl.AllPlayerControls.ToArray()).Where(t => !t.Data.IsDead && !t.Data.Disconnected && (Role.GetRole(PlayerControl.LocalPlayer).Faction != Faction.Impostors || Role.GetRole(t).Faction != Faction.Impostors)).ToList();
+                Utils.SetTarget(ref closestPlayer, __instance.KillButton, targets: validTargets, allowVented: true);
+                __instance.KillButton.currentTarget = closestPlayer;
                 __instance.KillButton.buttonLabelText.text = "Kill";
                 flag = PlayerControl.LocalPlayer.Is(RoleEnum.Sheriff) || PlayerControl.LocalPlayer.Is(RoleEnum.Pestilence) ||
                     PlayerControl.LocalPlayer.Is(RoleEnum.Werewolf) || PlayerControl.LocalPlayer.Is(RoleEnum.Juggernaut);

@@ -410,14 +410,14 @@ namespace TownOfUs
             return playerControlList;
         }
 
-        public static PlayerControl GetClosestPlayer(PlayerControl refPlayer, List<PlayerControl> AllPlayers)
+        public static PlayerControl GetClosestPlayer(PlayerControl refPlayer, List<PlayerControl> AllPlayers, bool allowVented)
         {
             var num = double.MaxValue;
             var refPosition = refPlayer.GetTruePosition();
             PlayerControl result = null;
             foreach (var player in AllPlayers)
             {
-                if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled || player.inVent) continue;
+                if (player.Data.IsDead || player.PlayerId == refPlayer.PlayerId || !player.Collider.enabled || (player.inVent && !allowVented)) continue;
                 var playerPosition = player.GetTruePosition();
                 var distBetweenPlayers = Vector2.Distance(refPosition, playerPosition);
                 var isClosest = distBetweenPlayers < num;
@@ -436,27 +436,30 @@ namespace TownOfUs
             ref PlayerControl closestPlayer,
             KillButton button,
             float maxDistance = float.NaN,
-            List<PlayerControl> targets = null
+            List<PlayerControl> targets = null,
+            bool allowVented = false
         )
         {
             if (!button.isActiveAndEnabled) return;
 
             button.SetTarget(
-                SetClosestPlayer(ref closestPlayer, maxDistance, targets)
+                SetClosestPlayer(ref closestPlayer, maxDistance, targets, allowVented)
             );
         }
 
         public static PlayerControl SetClosestPlayer(
             ref PlayerControl closestPlayer,
             float maxDistance = float.NaN,
-            List<PlayerControl> targets = null
+            List<PlayerControl> targets = null,
+            bool allowVented = false
         )
         {
             if (float.IsNaN(maxDistance))
                 maxDistance = GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             var player = GetClosestPlayer(
                 PlayerControl.LocalPlayer,
-                targets ?? PlayerControl.AllPlayerControls.ToArray().ToList()
+                targets ?? PlayerControl.AllPlayerControls.ToArray().ToList(),
+                allowVented
             );
             var closeEnough = player == null || (
                 GetDistBetweenPlayers(PlayerControl.LocalPlayer, player) < maxDistance

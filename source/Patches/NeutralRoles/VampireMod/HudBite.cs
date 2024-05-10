@@ -28,7 +28,7 @@ namespace TownOfUs.NeutralRoles.VampireMod
                 .Where(x => !x.Is(RoleEnum.Vampire))
                 .ToList();
 
-            Utils.SetTarget(ref role.ClosestPlayer, biteButton, float.NaN, notVampire);
+            Utils.SetTarget(ref role.ClosestPlayer, biteButton, float.NaN, notVampire, allowVented: true);
 
             var renderer = biteButton.graphic;
 
