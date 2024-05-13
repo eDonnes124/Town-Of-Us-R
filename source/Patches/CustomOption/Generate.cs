@@ -193,6 +193,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption SheriffKillsWerewolf;
         public static CustomNumberOption SheriffKillCd;
         public static CustomToggleOption SheriffBodyReport;
+        public static CustomToggleOption ShouldSheriffEnableNewCosmetics;
 
         public static CustomHeaderOption Hunter;
         public static CustomNumberOption HunterKillCd;
@@ -978,7 +979,7 @@ namespace TownOfUs.CustomOption
             SheriffKillCd =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Sheriff Kill Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
             SheriffBodyReport = new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Can Report Who They've Killed");
-
+            ShouldSheriffEnableNewCosmetics = new CustomToggleOption(num++, MultiMenu.crewmate, "Should Sheriff Enable the Horse Wrangler Cosmetics", true);
             VampireHunter =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#B3B3E6FF>Vampire Hunter</color>");
             StakeCooldown =
