@@ -10,7 +10,9 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
         public static void Postfix(PlayerControl __instance)
         {
             var sheriff = Role.GetRole<Sheriff>(PlayerControl.LocalPlayer);
-           
+
+            if (CustomGameOptions.ShouldSheriffEnableCoolCosmetics)
+            {  
             sheriff.Player.SetOutfit(CustomPlayerOutfitType.Sheriff, new GameData.PlayerOutfit()
             {
                 ColorId = sheriff.Player.cosmetics.ColorId,
@@ -19,6 +21,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
                 SkinId = "skin_MilitaryDesert",
                 PlayerName = sheriff.PlayerName,
             });
+            }
         }
     }
 
