@@ -86,6 +86,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption FlashOn;
         public static CustomNumberOption GiantOn;
         public static CustomNumberOption LoversOn;
+        public static CustomNumberOption MiniOn;
         public static CustomNumberOption RadarOn;
         public static CustomNumberOption SleuthOn;
         public static CustomNumberOption TiebreakerOn;
@@ -192,7 +193,8 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption SheriffKillsWerewolf;
         public static CustomNumberOption SheriffKillCd;
         public static CustomToggleOption SheriffBodyReport;
-        public static CustomToggleOption ShouldSheriffEnableCoolCosmetics;
+      
+        public static CustomToggleOption ShouldSheriffEnableNewCosmetics;
 
         public static CustomHeaderOption Hunter;
         public static CustomNumberOption HunterKillCd;
@@ -490,6 +492,9 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Flash;
         public static CustomNumberOption FlashSpeed;
 
+        public static CustomHeaderOption Mini;
+        public static CustomNumberOption MiniSpeed;
+
         public static CustomHeaderOption Diseased;
         public static CustomNumberOption DiseasedKillMultiplier;
 
@@ -659,6 +664,8 @@ namespace TownOfUs.CustomOption
             GiantOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FFB34DFF>Giant</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             LoversOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF66CCFF>Lovers</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            MiniOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#b0a1ff>Mini</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             RadarOn = new CustomNumberOption(num++, MultiMenu.modifiers, "<color=#FF0080FF>Radar</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -973,6 +980,7 @@ namespace TownOfUs.CustomOption
             SheriffKillCd =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Sheriff Kill Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
             SheriffBodyReport = new CustomToggleOption(num++, MultiMenu.crewmate, "Sheriff Can Report Who They've Killed");
+
             ShouldSheriffEnableCoolCosmetics = new CustomToggleOption(num++, MultiMenu.crewmate, "Should Sheriff Enable the Horse Wrangler Cosmetics", true);
 
             VampireHunter =
@@ -1312,6 +1320,9 @@ namespace TownOfUs.CustomOption
             LovingImpPercent = new CustomNumberOption(num++, MultiMenu.modifiers, "Loving Impostor Probability", 20f, 0f, 100f, 10f,
                 PercentFormat);
             NeutralLovers = new CustomToggleOption(num++, MultiMenu.modifiers, "Neutral Roles Can Be Lovers");
+
+            Mini = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#b0a1ff>Mini</color>");
+            MiniSpeed = new CustomNumberOption(num++, MultiMenu.modifiers, "Mini Speed", 1.25f, 1.05f, 2.5f, 0.05f, MultiplierFormat);
 
             Underdog = new CustomHeaderOption(num++, MultiMenu.modifiers, "<color=#FF0000FF>Underdog</color>");
             UnderdogKillBonus = new CustomNumberOption(num++, MultiMenu.modifiers, "Kill Cooldown Bonus", 5f, 2.5f, 10f, 2.5f, CooldownFormat);
