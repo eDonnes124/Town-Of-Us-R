@@ -97,6 +97,7 @@ namespace TownOfUs
         public static int UnderdogOn => (int)Generate.UnderdogOn.Get();
         public static int FrostyOn => (int)Generate.FrostyOn.Get();
         public static float InitialCooldowns => Generate.InitialCooldowns.Get();
+        public static bool ButtonBarryGetsCooldown => Generate.ButtonBarryGetsCooldown.Get();
         public static bool BothLoversDie => Generate.BothLoversDie.Get();
         public static bool NeutralLovers => Generate.NeutralLovers.Get();
         public static bool SheriffKillOther => Generate.SheriffKillOther.Get();
