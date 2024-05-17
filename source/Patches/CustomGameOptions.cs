@@ -30,6 +30,9 @@ namespace TownOfUs
     }
     public static class CustomGameOptions
     {
+        // Define a new game option to enable or disable the weighted role selection system.
+        public static bool WeightedRoleSelection = Generate.WeightedRoleSelection.Get();
+
         public static int MayorOn => (int)Generate.MayorOn.Get();
         public static int JesterOn => (int)Generate.JesterOn.Get();
         public static int SheriffOn => (int)Generate.SheriffOn.Get();
