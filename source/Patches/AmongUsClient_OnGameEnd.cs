@@ -23,7 +23,7 @@ namespace TownOfUs
                     _sessionRoleHistory[playerId] = new List<RoleEnum>();
                 }
                 if (_sessionRoleHistory[playerId].Count > CustomGameOptions.MaxRoleHistoryListSize) {
-                    _sessionRoleHistory[playerId].RemoveRange(0, _sessionRoleHistory[playerId].Count - 100);
+                    _sessionRoleHistory[playerId].RemoveRange(0, _sessionRoleHistory[playerId].Count - CustomGameOptions.MaxRoleHistoryListSize);
              }
                 _sessionRoleHistory[playerId].Add(roleType);
             }
