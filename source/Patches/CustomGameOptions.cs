@@ -32,6 +32,8 @@ namespace TownOfUs
     {
         // Define a new game option to enable or disable the weighted role selection system.
         public static bool WeightedRoleSelection = Generate.WeightedRoleSelection.Get();
+        // Define a new game option to set the maximum size of the role history list.
+        public static int MaxRoleHistoryListSize = 100; // always value at 100 for better performance and user cannot modify it in the game
 
         public static int MayorOn => (int)Generate.MayorOn.Get();
         public static int JesterOn => (int)Generate.JesterOn.Get();
