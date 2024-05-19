@@ -314,7 +314,8 @@ namespace TownOfUs.Roles
 
             Player.nameText().transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
 
-            return PlayerName + "\n" + Name;
+            if (modifier != null) return PlayerName + "\n" + Name + $"\n<color=#{modifier.Color.ToHtmlStringRGBA()}>({modifier.Name})</color>";
+            else return PlayerName + "\n" + Name;
         }
 
         public static bool operator ==(Role a, Role b)
@@ -424,35 +425,8 @@ namespace TownOfUs.Roles
 
         public static class IntroCutScenePatch
         {
-            public static TextMeshPro ModifierText;
 
             public static float Scale;
-
-            [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
-            public static class IntroCutscene_BeginCrewmate
-            {
-                public static void Postfix(IntroCutscene __instance)
-                {
-                    var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                    if (modifier != null)
-                        ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
-                    else
-                        ModifierText = null;
-                }
-            }
-
-            [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
-            public static class IntroCutscene_BeginImpostor
-            {
-                public static void Postfix(IntroCutscene __instance)
-                {
-                    var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
-                    if (modifier != null)
-                        ModifierText = Object.Instantiate(__instance.RoleText, __instance.RoleText.transform.parent, false);
-                    else
-                        ModifierText = null;
-                }
-            }
 
             [HarmonyPatch(typeof(IntroCutscene._ShowTeam_d__38), nameof(IntroCutscene._ShowTeam_d__38.MoveNext))]
             public static class IntroCutscene_ShowTeam__d_MoveNext
@@ -472,43 +446,48 @@ namespace TownOfUs.Roles
                     {
                         if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
                         {
-                            __instance.__4__this.TeamTitle.text = "Neutral";
+                            __instance.__4__this.TeamTitle.text = $"Neutral\n<size=30%>Your Role Is...";
                             __instance.__4__this.TeamTitle.color = Color.white;
                             __instance.__4__this.BackgroundBar.material.color = Color.white;
                             PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
-                        __instance.__4__this.RoleText.text = role.Name;
-                        __instance.__4__this.RoleText.color = role.Color;
+                        if (role.Faction == Faction.Crewmates)
+                        {
+                            __instance.__4__this.TeamTitle.text = $"Crewmate\n<size=30%>Your Role Is...";
+                            __instance.__4__this.TeamTitle.color = Palette.CrewmateBlue;
+                        }
+                        if (role.Faction == Faction.Impostors)
+                        {
+                            __instance.__4__this.TeamTitle.text = $"Impostor\n<size=30%>Your Role Is...";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.Impostor;
+                        }
+                        var GetFirstLetter = role.Name.Remove(role.Name.Length - (role.Name.Length - 1));
+                        if (role.RoleType != RoleEnum.Glitch)
+                        {
+                        if (CustomGameOptions.GameMode == GameMode.Classic)
+                        __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>The " + role.Name + "</size>")));
+                        else if ((GetFirstLetter == "A") || (GetFirstLetter == "E") || (GetFirstLetter == "I") || (GetFirstLetter == "U") || (GetFirstLetter == "O"))
+                        __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>An " + role.Name + "</size>")));
+                        else __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>A " + role.Name + "</size>")));
+                        }
+                        __instance.__4__this.RoleText.text = "";
                         __instance.__4__this.YouAreText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
-                        //    __instance.__4__this.ImpostorText.gameObject.SetActive(true);
-                        // __instance.__4__this.BackgroundBar.material.color = role.Color;
-                        //                        TestScale = Mathf.Max(__instance.__this.Title.scale, TestScale);
-                        //                        __instance.__this.Title.scale = TestScale / role.Scale;
                     }
                     /*else if (!__instance.isImpostor)
                     {
                         __instance.__this.ImpostorText.text = "Haha imagine being a boring old crewmate";
                     }*/
 
-                    if (ModifierText != null)
+                    var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
+                    if (modifier != null)
                     {
-                        var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                         if (modifier.GetType() == typeof(Lover))
-                        {
-                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
-                        }
+                        __instance.__4__this.RoleText.text = $"<size=50%>{modifier.TaskText()}</size>";
                         else
-                        {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
-                        }
-                        ModifierText.color = modifier.Color;
-
-                        //
-                        ModifierText.transform.position =
-                            __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
-                        ModifierText.gameObject.SetActive(true);
+                        __instance.__4__this.RoleText.text = $"<size=50%>You are also {modifier.Name}</size>";
+                        __instance.__4__this.RoleText.color = modifier.Color;
                     }
                 }
             }
@@ -523,35 +502,44 @@ namespace TownOfUs.Roles
                     {
                         if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
                         {
-                            __instance.__4__this.TeamTitle.text = "Neutral";
+                            __instance.__4__this.TeamTitle.text = $"Neutral\n<size=30%>Your Role Is...";
                             __instance.__4__this.TeamTitle.color = Color.white;
                             __instance.__4__this.BackgroundBar.material.color = Color.white;
                             PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
-                        __instance.__4__this.RoleText.text = role.Name;
-                        __instance.__4__this.RoleText.color = role.Color;
+                        if (role.Faction == Faction.Crewmates)
+                        {
+                            __instance.__4__this.TeamTitle.text = $"Crewmate\n<size=30%>Your Role Is...";
+                            __instance.__4__this.TeamTitle.color = Palette.CrewmateBlue;
+                        }
+                        if (role.Faction == Faction.Impostors)
+                        {
+                            __instance.__4__this.TeamTitle.text = $"Impostor\n<size=30%>Your Role Is...";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.Impostor;
+                        }
+                        var GetFirstLetter = role.Name.Remove(role.Name.Length - (role.Name.Length - 1));
+                        if (role.RoleType != RoleEnum.Glitch)
+                        {
+                        if (CustomGameOptions.GameMode == GameMode.Classic)
+                        __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>The " + role.Name + "</size>")));
+                        else if ((GetFirstLetter == "A") || (GetFirstLetter == "E") || (GetFirstLetter == "I") || (GetFirstLetter == "U") || (GetFirstLetter == "O"))
+                        __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>An " + role.Name + "</size>")));
+                        else __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>A " + role.Name + "</size>")));
+                        }
+                        __instance.__4__this.RoleText.text = "";
                         __instance.__4__this.YouAreText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
-                        // __instance.__4__this.BackgroundBar.material.color = role.Color;
                     }
 
-                    if (ModifierText != null)
+                    var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
+                    if (modifier != null)
                     {
-                        var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                         if (modifier.GetType() == typeof(Lover))
-                        {
-                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
-                        }
+                        __instance.__4__this.RoleText.text = $"<size=50%>{modifier.TaskText()}</size>";
                         else
-                        {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
-                        }
-                        ModifierText.color = modifier.Color;
-
-                        ModifierText.transform.position =
-                            __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
-                        ModifierText.gameObject.SetActive(true);
+                        __instance.__4__this.RoleText.text = $"<size=50%>You are also {modifier.Name}</size>";
+                        __instance.__4__this.RoleText.color = modifier.Color;
                     }
 
                     if (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)
@@ -569,35 +557,44 @@ namespace TownOfUs.Roles
                     {
                         if (role.Faction == Faction.NeutralKilling || role.Faction == Faction.NeutralEvil || role.Faction == Faction.NeutralBenign)
                         {
-                            __instance.__4__this.TeamTitle.text = "Neutral";
+                            __instance.__4__this.TeamTitle.text = $"Neutral\n<size=30%>Your Role Is...";
                             __instance.__4__this.TeamTitle.color = Color.white;
                             __instance.__4__this.BackgroundBar.material.color = Color.white;
                             PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                         }
-                        __instance.__4__this.RoleText.text = role.Name;
-                        __instance.__4__this.RoleText.color = role.Color;
+                        if (role.Faction == Faction.Crewmates)
+                        {
+                            __instance.__4__this.TeamTitle.text = $"Crewmate\n<size=30%>Your Role Is...";
+                            __instance.__4__this.TeamTitle.color = Palette.CrewmateBlue;
+                        }
+                        if (role.Faction == Faction.Impostors)
+                        {
+                            __instance.__4__this.TeamTitle.text = $"Impostor\n<size=30%>Your Role Is...";
+                            __instance.__4__this.TeamTitle.color = Patches.Colors.Impostor;
+                        }
+                        var GetFirstLetter = role.Name.Remove(role.Name.Length - (role.Name.Length - 1));
+                        if (role.RoleType != RoleEnum.Glitch)
+                        {
+                        if (CustomGameOptions.GameMode == GameMode.Classic)
+                        __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>The " + role.Name + "</size>")));
+                        else if ((GetFirstLetter == "A") || (GetFirstLetter == "E") || (GetFirstLetter == "I") || (GetFirstLetter == "U") || (GetFirstLetter == "O"))
+                        __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>An " + role.Name + "</size>")));
+                        else __instance.__4__this.StartCoroutine(Effects.Lerp(0.01f, new Action<float>(_ => __instance.__4__this.YouAreText.text = "<size=125%>A " + role.Name + "</size>")));
+                        }
+                        __instance.__4__this.RoleText.text = "";
                         __instance.__4__this.YouAreText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.color = role.Color;
                         __instance.__4__this.RoleBlurbText.text = role.ImpostorText();
-                        __instance.__4__this.BackgroundBar.material.color = role.Color;
                     }
 
-                    if (ModifierText != null)
+                    var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
+                    if (modifier != null)
                     {
-                        var modifier = Modifier.GetModifier(PlayerControl.LocalPlayer);
                         if (modifier.GetType() == typeof(Lover))
-                        {
-                            ModifierText.text = $"<size=3>{modifier.TaskText()}</size>";
-                        }
+                        __instance.__4__this.RoleText.text = $"<size=50%>{modifier.TaskText()}</size>";
                         else
-                        {
-                            ModifierText.text = "<size=4>Modifier: " + modifier.Name + "</size>";
-                        }
-                        ModifierText.color = modifier.Color;
-
-                        ModifierText.transform.position =
-                            __instance.__4__this.transform.position - new Vector3(0f, 1.6f, 0f);
-                        ModifierText.gameObject.SetActive(true);
+                        __instance.__4__this.RoleText.text = $"<size=50%>You are also {modifier.Name}</size>";
+                        __instance.__4__this.RoleText.color = modifier.Color;
                     }
 
                     if (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)
