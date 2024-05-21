@@ -314,7 +314,10 @@ namespace TownOfUs.Roles
 
             Player.nameText().transform.localPosition = new Vector3(0f, 0.15f, -0.5f);
 
-            if (modifier != null) return PlayerName + "\n" + Name + $"\n<color=#{modifier.Color.ToHtmlStringRGBA()}>({modifier.Name})</color>";
+            if (modifier != null && (
+                (Player.Is(ModifierEnum.Lover) && PlayerControl.LocalPlayer.Is(ModifierEnum.Lover)) || !Player.Is(ModifierEnum.Lover) ||
+                (PlayerControl.LocalPlayer.Data.IsDead && CustomGameOptions.DeadSeeRoles)
+            )) return PlayerName + "\n" + Name + "\n" + $"<size=50%><b><color=#{modifier.Color.ToHtmlStringRGBA()}>({modifier.Name})</color></b></size>";
             else return PlayerName + "\n" + Name;
         }
 
