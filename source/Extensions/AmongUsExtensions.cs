@@ -132,5 +132,11 @@ namespace TownOfUs.Extensions
         public static TMPro.TextMeshPro NameText(this PoolablePlayer p) => p.cosmetics.nameText;
 
         public static UnityEngine.SpriteRenderer myRend(this PlayerControl p) => p.cosmetics.currentBodySprite.BodySprite;
+
+        // Add a method to calculate weighted role probabilities based on the session's role history.
+        public static Dictionary<RoleEnum, float> CalculateWeightedRoleProbabilities(PlayerControl player) {
+            // Placeholder for actual implementation
+            return new Dictionary<RoleEnum, float>();
+        }       
     }
 }

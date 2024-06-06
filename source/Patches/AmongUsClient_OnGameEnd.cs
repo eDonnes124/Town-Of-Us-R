@@ -10,8 +10,31 @@ namespace TownOfUs
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.Start))]
     public class EndGameManager_SetEverythingUp
     {
+        // Implement a method to record the roles assigned to each player at the end of a game.
+        // Store the role history in a session-based collection.
+        private static Dictionary<byte, List<RoleEnum>> _sessionRoleHistory = new Dictionary<byte, List<RoleEnum>>();
+
+        public static void RecordSessionRoles() {
+            foreach (var player in PlayerControl.AllPlayerControls) {
+                var playerId = player.PlayerId;
+                var roleType = Role.GetRole(player)?.RoleType ?? RoleEnum.None;
+
+                if (!_sessionRoleHistory.ContainsKey(playerId)) {
+                    _sessionRoleHistory[playerId] = new List<RoleEnum>();
+                }
+                if (_sessionRoleHistory[playerId].Count > CustomGameOptions.MaxRoleHistoryListSize) {
+                    _sessionRoleHistory[playerId].RemoveRange(0, _sessionRoleHistory[playerId].Count - CustomGameOptions.MaxRoleHistoryListSize);
+             }
+                _sessionRoleHistory[playerId].Add(roleType);
+            }
+        }
+
         public static void Prefix()
         {
+          if (CustomGameOptions.WeightedRoleSelection)  
+          { 
+              RecordSessionRoles(); // Record roles at the end of each game
+          }
             List<int> losers = new List<int>();
             foreach (var role in Role.GetRoles(RoleEnum.Amnesiac))
             {
