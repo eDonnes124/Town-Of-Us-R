@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.MedicMod
 {
@@ -25,6 +26,11 @@ namespace TownOfUs.CrewmateRoles.MedicMod
                 role.ShieldedPlayer = role.ClosestPlayer;
                 role.UsedAbility = true;
                 return false;
+            }
+            else if (interact[5] == true)
+            {
+                role.StartingCooldown = System.DateTime.UtcNow;
+                role.StartingCooldown = role.StartingCooldown.AddSeconds(CustomGameOptions.ProtectAbsorbCd - role.StartTimer());
             }
             return false;
         }

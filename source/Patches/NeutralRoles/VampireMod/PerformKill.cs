@@ -60,6 +60,11 @@ namespace TownOfUs.NeutralRoles.VampireMod
                     role.LastBit = DateTime.UtcNow;
                     return false;
                 }
+                else if (interact[5] == true)
+                {
+                    role.LastBit = DateTime.UtcNow;
+                    role.LastBit = role.LastBit.AddSeconds(CustomGameOptions.ProtectAbsorbCd - CustomGameOptions.BiteCd);
+                }
                 else if (interact[1] == true)
                 {
                     role.LastBit = DateTime.UtcNow;
@@ -77,6 +82,11 @@ namespace TownOfUs.NeutralRoles.VampireMod
                 {
                     role.LastBit = DateTime.UtcNow;
                     return false;
+                }
+                else if (interact[5] == true)
+                {
+                    role.LastBit = System.DateTime.UtcNow;
+                    role.LastBit = role.LastBit.AddSeconds(CustomGameOptions.ProtectAbsorbCd - CustomGameOptions.BiteCd);
                 }
                 else if (interact[1] == true)
                 {

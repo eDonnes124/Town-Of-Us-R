@@ -41,6 +41,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption AmnesiacOn;
         public static CustomNumberOption GuardianAngelOn;
         public static CustomNumberOption SurvivorOn;
+        public static CustomNumberOption MercenaryOn;
 
         public static CustomHeaderOption NeutralEvilRoles;
         public static CustomNumberOption DoomsayerOn;
@@ -384,6 +385,14 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption VestKCReset;
         public static CustomNumberOption MaxVests;
 
+        public static CustomHeaderOption Mercenary;
+        public static CustomNumberOption MercenaryBrildersRequired;
+        public static CustomStringOption ShowMercShielded;
+        public static CustomStringOption WhoGetsMercNotification;
+        public static CustomNumberOption MercAbsorbCd;
+        public static CustomNumberOption MercArmorCd;
+        public static CustomNumberOption MercArmorDuration;
+
         public static CustomHeaderOption GuardianAngel;
         public static CustomNumberOption ProtectCd;
         public static CustomNumberOption ProtectDuration;
@@ -582,6 +591,8 @@ namespace TownOfUs.CustomOption
             GuardianAngelOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#B3FFFFFF>Guardian Angel</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             SurvivorOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FFE64DFF>Survivor</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            MercenaryOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#A59C94FF>Mercenary</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
 
             NeutralEvilRoles = new CustomHeaderOption(num++, MultiMenu.neutral, "Neutral Evil Roles");
@@ -1098,6 +1109,23 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.neutral, "Kill Cooldown Reset On Attack", 2.5f, 0f, 15f, 0.5f, CooldownFormat);
             MaxVests =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Maximum Number Of Vests", 5, 1, 15, 1);
+
+            Mercenary =
+                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#A59C94FF>Mercenary</color>");
+            MercenaryBrildersRequired =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Brilders Required To Win", 5, 1, 15, 1);
+            ShowMercShielded =
+                new CustomStringOption(num++, MultiMenu.neutral, "Show Shielded Player",
+                    new[] { "Mercenary", "Self", "Self+Mercenary", "Everyone" });
+            WhoGetsMercNotification =
+                new CustomStringOption(num++, MultiMenu.neutral, "Who Gets Ability Block Indicator",
+                    new[] { "Mercenary", "Shielded", "Mercenary+Shielded", "Everyone", "Nobody" });
+            MercAbsorbCd =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Cooldown Reset On Absorbed", 10f, 0f, 60f, 2.5f, CooldownFormat);
+            MercArmorCd =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Armor Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            MercArmorDuration =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Armor Duration", 25f, 5f, 60f, 1f, CooldownFormat);
 
             Doomsayer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>");
             ObserveCooldown =

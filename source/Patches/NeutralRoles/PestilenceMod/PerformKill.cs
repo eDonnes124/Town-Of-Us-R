@@ -30,6 +30,11 @@ namespace TownOfUs.NeutralRoles.PestilenceMod
                 role.LastKill = DateTime.UtcNow;
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                role.LastKill = DateTime.UtcNow;
+                role.LastKill = role.LastKill.AddSeconds(CustomGameOptions.ProtectAbsorbCd - CustomGameOptions.PestKillCd);
+            }
             else if (interact[1] == true)
             {
                 role.LastKill = DateTime.UtcNow;

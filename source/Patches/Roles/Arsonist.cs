@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfUs.CrewmateRoles.MedicMod;
+using TownOfUs.CrewmateRoles.MercenaryMod;
 using TownOfUs.Extensions;
 using TownOfUs.Patches;
 
@@ -88,7 +89,7 @@ namespace TownOfUs.Roles
             foreach (var playerId in DousedPlayers)
             {
                 var player = Utils.PlayerById(playerId);
-                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
+                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsMercShielded() && !player.IsArmored() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
                 {
                     Utils.RpcMultiMurderPlayer(Player, player);
                 }
@@ -97,6 +98,12 @@ namespace TownOfUs.Roles
                     var medic = player.GetMedic().Player.PlayerId;
                     Utils.Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
                     StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
+                }
+                else if (player.IsMercShielded())
+                {
+                    var merc = player.GetMerc().Player.PlayerId;
+                    Utils.Rpc(CustomRPC.MercShield, merc, player.PlayerId);
+                    StopAbility.BreakShield(merc, player.PlayerId);
                 }
             }
             DousedPlayers.Clear();

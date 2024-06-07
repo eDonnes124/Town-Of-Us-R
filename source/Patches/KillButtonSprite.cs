@@ -21,6 +21,8 @@ namespace TownOfUs
     {
         private static Sprite Fix => TownOfUs.EngineerFix;
         private static Sprite Medic => TownOfUs.MedicSprite;
+        private static Sprite Mercenary => TownOfUs.MercProtectSprite;
+        private static Sprite DonArmor => TownOfUs.DonArmorSprite;
         private static Sprite Seer => TownOfUs.SeerSprite;
         private static Sprite Douse => TownOfUs.DouseSprite;
         private static Sprite Revive => TownOfUs.ReviveSprite;
@@ -59,6 +61,11 @@ namespace TownOfUs
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Medic))
             {
                 __instance.KillButton.graphic.sprite = Medic;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Mercenary))
+            {
+                __instance.KillButton.graphic.sprite = Mercenary;
                 flag = true;
             }
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Arsonist))

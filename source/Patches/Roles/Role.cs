@@ -22,6 +22,7 @@ namespace TownOfUs.Roles
 
         public static bool NobodyWins;
         public static bool SurvOnlyWins;
+        public static bool MercOnlyWins;
         public static bool VampireWins;
 
         public List<KillButton> ExtraButtons = new List<KillButton>();
@@ -179,6 +180,10 @@ namespace TownOfUs.Roles
         {
             SurvOnlyWins = true;
         }
+        public static void MercOnlyWin()
+        {
+            MercOnlyWins = true;
+        }
         public static void VampWin()
         {
             foreach (var jest in GetRoles(RoleEnum.Jester))
@@ -234,6 +239,19 @@ namespace TownOfUs.Roles
                 return flag;
             }
 
+            bool MercOnly()
+            {
+                var alives = PlayerControl.AllPlayerControls.ToArray()
+                    .Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList();
+                if (alives.Count == 0) return false;
+                var flag = false;
+                foreach (var player in alives)
+                {
+                    if (player.Is(RoleEnum.Mercenary) && GetRole<Mercenary>(player).HasEnoughBrilders) flag = true;
+                }
+                return flag;
+            }
+
             if (CheckNoImpsNoCrews())
             {
                 if (SurvOnly())
@@ -241,6 +259,14 @@ namespace TownOfUs.Roles
                     Utils.Rpc(CustomRPC.SurvivorOnlyWin);
 
                     SurvOnlyWin();
+                    Utils.EndGame();
+                    return false;
+                }
+                else if (MercOnly())
+                {
+                    Utils.Rpc(CustomRPC.MercenaryOnlyWin);
+
+                    MercOnlyWin();
                     Utils.EndGame();
                     return false;
                 }

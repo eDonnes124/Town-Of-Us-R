@@ -41,6 +41,7 @@ namespace TownOfUs
         Oracle,
         Aurial,
         Hunter,
+        Mercenary,
 
         Miner,
         Swooper,

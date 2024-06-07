@@ -40,6 +40,11 @@ namespace TownOfUs.CrewmateRoles.SeerMod
                 role.LastInvestigated = role.LastInvestigated.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.SeerCd);
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                role.LastInvestigated = DateTime.UtcNow;
+                role.LastInvestigated = role.LastInvestigated.AddSeconds(CustomGameOptions.ProtectAbsorbCd - CustomGameOptions.SeerCd);
+            }
             else if (interact[3] == true) return false;
             return false;
         }

@@ -16,13 +16,13 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 | [Janitor](#janitor)          | [Haunter](#haunter)                | [Guardian Angel](#guardian-angel)| [Disperser](#disperser)     |
 | [Miner](#miner)              | [Hunter](#hunter)                  | [Jester](#jester)                | [Double Shot](#double-shot) |
 | [Morphling](#morphling)      | [Imitator](#imitator)              | [Juggernaut](#juggernaut)        | [Flash](#flash)             |
-| [Swooper](#swooper)          | [Investigator](#investigator)      | [Phantom](#phantom)              | [Frosty](#frosty)           |
-| [Traitor](#traitor)          | [Mayor](#mayor)                    | [Plaguebearer](#plaguebearer)    | [Giant](#giant)             |
-| [Undertaker](#undertaker)    | [Medic](#medic)                    | [Survivor](#survivor)            | [Lovers](#lovers)           |
-| [Venerer](#venerer)          | [Medium](#medium)                  | [The Glitch](#the-glitch)        | [Multitasker](#multitasker)|
-| [Warlock](#warlock)          | [Mystic](#mystic)                  | [Vampire](#vampire)              | [Radar](#radar)             |
-|                             | [Oracle](#oracle)                  | [Werewolf](#werewolf)            | [Sleuth](#sleuth)           |
-|                             | [Prosecutor](#prosecutor)          |                                 | [Tiebreaker](#tiebreaker)   |
+| [Swooper](#swooper)          | [Investigator](#investigator)      | [Mercenary](#mercenary)          | [Frosty](#frosty)           |
+| [Traitor](#traitor)          | [Mayor](#mayor)                    | [Phantom](#phantom)              | [Giant](#giant)             |
+| [Undertaker](#undertaker)    | [Medic](#medic)                    | [Plaguebearer](#plaguebearer)    | [Lovers](#lovers)           |
+| [Venerer](#venerer)          | [Medium](#medium)                  | [Survivor](#survivor)            | [Multitasker](#multitasker)|
+| [Warlock](#warlock)          | [Mystic](#mystic)                  | [The Glitch](#the-glitch)        | [Radar](#radar)             |
+|                             | [Oracle](#oracle)                  | [Vampire](#vampire)             | [Sleuth](#sleuth)           |
+|                             | [Prosecutor](#prosecutor)          | [Werewolf](#werewolf)           | [Tiebreaker](#tiebreaker)   |
 |                             | [Seer](#seer)                      |                                 | [Torch](#torch)             |
 |                             | [Sheriff](#sheriff)                |                                 | [Underdog](#underdog)       |
 |                             | [Snitch](#snitch)                  |                                 |                             |
@@ -1255,6 +1255,23 @@ However, if Lovers, or a Neutral Evil role wins the game, the survivor loses.
 | Vest Duration | How long The Survivor's Vest lasts | Time | 10s |
 | Kill Cooldown Reset on Attack | The attackers kill cooldown after they attacked the veste Survivor | Time | 2.5s |
 | Max Uses | The amount of times the Vest ability can be used | Number | 5 |
+
+-----------------------
+## Mercenary
+### **Team: Neutral**
+The Mercenary is a Neutral role which must block the abilities of other players to win.\
+So long as they possess the required number of brilders by the end of the game, they win with anyone (except Lovers). \
+They may also expend brilders to protect themselves from attack. They cannot shield while armored.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Mercenary | The percentage probability of the Mercenary appearing | Percentage | 0% |
+| Brilders Required To Win | How many brilders the Mercenary must possess at game end to win | Number | 5 |
+| Show Shielded Player | Who should be able to see who is Shielded | Mercenary / Self / Self + Mercenary / Everyone | Mercenary |
+| Who Gets Ability Block Indicator | Who will receive an indicator when the shield blocks an ability | Mercenary / Shielded / Mercenary & Shielded / Everyone / Nobody | Mercenary |
+| Armor Cooldown | The cooldown of the Mercenary's Armor button | Time | 25s |
+| Armor Duration | How long the Mercenary's Armor lasts | Time | 25s |
 
 -----------------------
 ## Doomsayer

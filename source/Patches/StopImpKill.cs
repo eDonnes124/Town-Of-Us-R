@@ -47,6 +47,11 @@ namespace TownOfUs
                 else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
                 return false;
             }
+            else if (interact[5] == true)
+            {
+                PlayerControl.LocalPlayer.SetKillTimer(CustomGameOptions.ProtectAbsorbCd + 0.01f);
+                return false;
+            }
             else if (interact[1] == true)
             {
                 PlayerControl.LocalPlayer.SetKillTimer(CustomGameOptions.ProtectKCReset + 0.01f);

@@ -79,6 +79,7 @@ namespace TownOfUs
         public static int OracleOn => (int)Generate.OracleOn.Get();
         public static int VenererOn => (int)Generate.VenererOn.Get();
         public static int AurialOn => (int)Generate.AurialOn.Get();
+        public static int MercenaryOn => (int)Generate.MercenaryOn.Get();
         public static int TorchOn => (int)Generate.TorchOn.Get();
         public static int DiseasedOn => (int)Generate.DiseasedOn.Get();
         public static int FlashOn => (int)Generate.FlashOn.Get();
@@ -319,6 +320,14 @@ namespace TownOfUs
         public static bool NeutralBenignShowsEvil => Generate.NeutralBenignShowsEvil.Get();
         public static bool NeutralEvilShowsEvil => Generate.NeutralEvilShowsEvil.Get();
         public static bool NeutralKillingShowsEvil => Generate.NeutralKillingShowsEvil.Get();
+        public static int MercenaryBrildersRequired => (int)Generate.MercenaryBrildersRequired.Get();
+        public static CrewmateRoles.MercenaryMod.ShieldOptions ShowMercShielded => (CrewmateRoles.MercenaryMod.ShieldOptions)Generate.ShowMercShielded.Get();
+
+        public static CrewmateRoles.MercenaryMod.NotificationOptions NotificationMercShield =>
+            (CrewmateRoles.MercenaryMod.NotificationOptions)Generate.WhoGetsMercNotification.Get();
+        public static float ProtectAbsorbCd => Generate.MercAbsorbCd.Get();
+        public static float ArmorCd => Generate.MercArmorCd.Get();
+        public static float ArmorDuration => Generate.MercArmorDuration.Get();
         public static float AbilityCd => Generate.AbilityCooldown.Get();
         public static float AbilityDuration => Generate.AbilityDuration.Get();
         public static float SprintSpeed => Generate.SprintSpeed.Get();

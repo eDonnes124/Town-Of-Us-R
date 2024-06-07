@@ -3,6 +3,7 @@ using System;
 using TownOfUs.ImpostorRoles.BomberMod;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Patches;
+using TownOfUs.CrewmateRoles.MercenaryMod;
 
 namespace TownOfUs.Roles
 {
@@ -69,7 +70,7 @@ namespace TownOfUs.Roles
             while (playersToDie.Count > CustomGameOptions.MaxKillsInDetonation) playersToDie.Remove(playersToDie[playersToDie.Count - 1]);
             foreach (var player in playersToDie)
             {
-                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
+                if (!player.Is(RoleEnum.Pestilence) && !player.IsShielded() && !player.IsMercShielded() && !player.IsArmored() && !player.IsProtected() && player != ShowRoundOneShield.FirstRoundShielded)
                 {
                     Utils.RpcMultiMurderPlayer(Player, player);
                 }
@@ -78,6 +79,12 @@ namespace TownOfUs.Roles
                     var medic = player.GetMedic().Player.PlayerId;
                     Utils.Rpc(CustomRPC.AttemptSound, medic, player.PlayerId);
                     StopKill.BreakShield(medic, player.PlayerId, CustomGameOptions.ShieldBreaks);
+                }
+                else if (player.IsMercShielded())
+                {
+                    var merc = player.GetMerc().Player.PlayerId;
+                    Utils.Rpc(CustomRPC.MercShield, merc, player.PlayerId);
+                    StopAbility.BreakShield(merc, player.PlayerId);
                 }
             }
         }

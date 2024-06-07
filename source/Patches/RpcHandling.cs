@@ -35,6 +35,7 @@ using AmongUs.GameOptions;
 using TownOfUs.NeutralRoles.VampireMod;
 using TownOfUs.CrewmateRoles.MayorMod;
 using System.Reflection;
+using TownOfUs.CrewmateRoles.MercenaryMod;
 using TownOfUs.Patches.NeutralRoles;
 
 namespace TownOfUs
@@ -675,6 +676,10 @@ namespace TownOfUs
                         Role.SurvOnlyWin();
                         break;
 
+                    case CustomRPC.MercenaryOnlyWin:
+                        Role.MercOnlyWin();
+                        break;
+
                     case CustomRPC.VampireWin:
                         Role.VampWin();
                         break;
@@ -803,10 +808,23 @@ namespace TownOfUs
                         Role.GetRole<Medic>(medic).ShieldedPlayer = shield;
                         Role.GetRole<Medic>(medic).UsedAbility = true;
                         break;
+                    case CustomRPC.MercProtect:
+                        readByte1 = reader.ReadByte();
+                        readByte2 = reader.ReadByte();
+
+                        var merc = Utils.PlayerById(readByte1);
+                        var mercShield = Utils.PlayerById(readByte2);
+                        Role.GetRole<Mercenary>(merc).ShieldedPlayer = mercShield;
+                        break;
                     case CustomRPC.AttemptSound:
                         var medicId = reader.ReadByte();
                         readByte = reader.ReadByte();
                         StopKill.BreakShield(medicId, readByte, CustomGameOptions.ShieldBreaks);
+                        break;
+                    case CustomRPC.MercShield:
+                        var mercId = reader.ReadByte();
+                        readByte = reader.ReadByte();
+                        StopAbility.BreakShield(mercId, readByte);
                         break;
                     case CustomRPC.BypassKill:
                         var killer = Utils.PlayerById(reader.ReadByte());
@@ -954,6 +972,19 @@ namespace TownOfUs
                         var survRole = Role.GetRole<Survivor>(surv);
                         survRole.TimeRemaining = CustomGameOptions.VestDuration;
                         survRole.Vest();
+                        break;
+                    case CustomRPC.DonArmor:
+                        var armored = Utils.PlayerById(reader.ReadByte());
+                        var mercRole = Role.GetRole<Mercenary>(armored);
+                        mercRole.TimeRemaining = CustomGameOptions.ArmorDuration;
+                        mercRole.Brilders -= 1;
+                        if (mercRole.ShieldedPlayer != null)
+                        {
+                            mercRole.ShieldedPlayer.myRend().material.SetColor("_VisorColor", Palette.VisorColor);
+                            mercRole.ShieldedPlayer.myRend().material.SetFloat("_Outline", 0f);
+                        }
+                        mercRole.ShieldedPlayer = null;
+                        mercRole.DonArmor();
                         break;
                     case CustomRPC.GAProtect:
                         var ga2 = Utils.PlayerById(reader.ReadByte());
@@ -1379,6 +1410,9 @@ namespace TownOfUs
 
                     if (CustomGameOptions.SurvivorOn > 0)
                         NeutralBenignRoles.Add((typeof(Survivor), CustomGameOptions.SurvivorOn, false));
+
+                    if (CustomGameOptions.MercenaryOn > 0)
+                        NeutralBenignRoles.Add((typeof(Mercenary), CustomGameOptions.MercenaryOn, false));
 
                     if (CustomGameOptions.GuardianAngelOn > 0)
                         NeutralBenignRoles.Add((typeof(GuardianAngel), CustomGameOptions.GuardianAngelOn, false));

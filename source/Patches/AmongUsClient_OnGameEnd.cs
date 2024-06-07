@@ -38,6 +38,11 @@ namespace TownOfUs
                 var exe = (Executioner)role;
                 losers.Add(exe.Player.GetDefaultOutfit().ColorId);
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Mercenary))
+            {
+                var merc = (Mercenary)role;
+                losers.Add(merc.Player.GetDefaultOutfit().ColorId);
+            }
             foreach (var role in Role.GetRoles(RoleEnum.Jester))
             {
                 var jest = (Jester)role;
@@ -103,6 +108,32 @@ namespace TownOfUs
                         var survData = new WinningPlayerData(surv.Player.Data);
                         if (PlayerControl.LocalPlayer != surv.Player) survData.IsYou = false;
                         TempData.winners.Add(new WinningPlayerData(surv.Player.Data));
+                    }
+                }
+                foreach (var role in Role.GetRoles(RoleEnum.Mercenary))
+                {
+                    var merc = (Mercenary)role;
+                    if (!merc.Player.Data.IsDead && !merc.Player.Data.Disconnected && merc.HasEnoughBrilders)
+                    {
+                        var mercData = new WinningPlayerData(merc.Player.Data);
+                        if (PlayerControl.LocalPlayer != merc.Player) mercData.IsYou = false;
+                        TempData.winners.Add(new WinningPlayerData(merc.Player.Data));
+                    }
+                }
+
+                return;
+            }
+            if (Role.MercOnlyWins)
+            {
+                TempData.winners = new List<WinningPlayerData>();
+                foreach (var role in Role.GetRoles(RoleEnum.Mercenary))
+                {
+                    var merc = (Mercenary)role;
+                    if (!merc.Player.Data.IsDead && !merc.Player.Data.Disconnected && merc.HasEnoughBrilders)
+                    {
+                        var mercData = new WinningPlayerData(merc.Player.Data);
+                        if (PlayerControl.LocalPlayer != merc.Player) mercData.IsYou = false;
+                        TempData.winners.Add(new WinningPlayerData(merc.Player.Data));
                     }
                 }
 
@@ -285,6 +316,20 @@ namespace TownOfUs
                     TempData.winners.Add(survWinData);
                 }
             }
+
+            foreach (var role in Role.GetRoles(RoleEnum.Mercenary))
+            {
+                var merc = (Mercenary)role;
+                if (!merc.Player.Data.IsDead && !merc.Player.Data.Disconnected && merc.HasEnoughBrilders)
+                {
+                    var isImp = TempData.winners[0].IsImpostor;
+                    var mercWinData = new WinningPlayerData(merc.Player.Data);
+                    if (isImp) mercWinData.IsImpostor = true;
+                    if (PlayerControl.LocalPlayer != merc.Player) mercWinData.IsYou = false;
+                    TempData.winners.Add(mercWinData);
+                }
+            }
+
             foreach (var role in Role.GetRoles(RoleEnum.GuardianAngel))
             {
                 var ga = (GuardianAngel)role;
