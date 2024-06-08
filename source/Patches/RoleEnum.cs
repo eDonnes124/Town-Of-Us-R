@@ -11,6 +11,7 @@ namespace TownOfUs
         Medic,
         Seer,
         Executioner,
+        Lawyer,
         Spy,
         Glitch,
         Snitch,

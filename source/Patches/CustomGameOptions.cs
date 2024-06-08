@@ -5,6 +5,7 @@ using TownOfUs.CrewmateRoles.HaunterMod;
 using TownOfUs.CrewmateRoles.MediumMod;
 using TownOfUs.CrewmateRoles.VampireHunterMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
+using TownOfUs.NeutralRoles.LawyerMod;
 
 namespace TownOfUs
 {
@@ -62,6 +63,7 @@ namespace TownOfUs
         public static int TransporterOn => (int)Generate.TransporterOn.Get();
         public static int MediumOn => (int)Generate.MediumOn.Get();
         public static int SurvivorOn => (int)Generate.SurvivorOn.Get();
+        public static int LawyerOn => (int)Generate.LawyerOn.Get();
         public static int GuardianAngelOn => (int)Generate.GuardianAngelOn.Get();
         public static int MysticOn => (int)Generate.MysticOn.Get();
         public static int BlackmailerOn => (int)Generate.BlackmailerOn.Get();
@@ -151,6 +153,11 @@ namespace TownOfUs
         public static OnTargetDead OnTargetDead => (OnTargetDead)Generate.OnTargetDead.Get();
         public static bool ExecutionerButton => Generate.ExecutionerButton.Get();
         public static bool ExecutionerTorment => Generate.ExecutionerTorment.Get();
+        public static OnDefendantDead OnDefendantDead => (OnDefendantDead)Generate.OnDefendantDead.Get();
+        public static bool LawyerDies => Generate.LawyerDies.Get();
+        public static int DefendantImpPercent => (int)Generate.DefendantImpPercent.Get();
+        public static bool NeutralDefendant => Generate.NeutralDefendant.Get();
+        public static bool LawyerCanTalkDefendant => Generate.LawyerCanTalkDefendant.Get();
         public static bool SnitchSeesNeutrals => Generate.SnitchSeesNeutrals.Get();
         public static int SnitchTasksRemaining => (int)Generate.SnitchTasksRemaining.Get();
         public static bool SnitchSeesImpInMeeting => Generate.SnitchSeesImpInMeeting.Get();
@@ -358,6 +365,7 @@ namespace TownOfUs
         public static int SeerCultistOn => (int)Generate.SeerCultistOn.Get();
         public static int SheriffCultistOn => (int)Generate.SheriffCultistOn.Get();
         public static int SurvivorCultistOn => (int)Generate.SurvivorCultistOn.Get();
+        public static int LawyerCultistOn => (int)Generate.LawyerCultistOn.Get();
         public static int SpecialRoleCount => (int)Generate.NumberOfSpecialRoles.Get();
         public static int MaxChameleons => (int)Generate.MaxChameleons.Get();
         public static int MaxEngineers => (int)Generate.MaxEngineers.Get();

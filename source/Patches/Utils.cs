@@ -90,6 +90,29 @@ namespace TownOfUs
             return player.Is(ModifierEnum.Lover);
         }
 
+        public static bool IsOtherLover(this PlayerControl player, PlayerControl source)
+        {
+            return player.Is(ModifierEnum.Lover) && Modifier.GetModifier<Lover>(player).OtherLover.Player.PlayerId == source.PlayerId;
+        }
+
+        public static bool IsLegalCounsel(this PlayerControl player, PlayerControl source)
+        {
+            if (!CustomGameOptions.LawyerCanTalkDefendant) return false;
+            bool defendant = source.Is(RoleEnum.Lawyer) && Role.GetRole<Lawyer>(source).target.PlayerId == player.PlayerId;
+            bool lawyer = player.Is(RoleEnum.Lawyer) && Role.GetRole<Lawyer>(player).target.PlayerId == source.PlayerId;
+            return lawyer || defendant;
+        }
+
+        public static bool HasLegalCounsel(this PlayerControl player)
+        {
+            if (!CustomGameOptions.LawyerCanTalkDefendant) return false;
+            bool defendant = false;
+            foreach (var role in Role.GetRoles(RoleEnum.Lawyer))
+                if (((Lawyer)role).target != null && ((Lawyer)role).target.PlayerId == player.PlayerId)
+                    defendant = true;
+            return player.Is(RoleEnum.Lawyer) || defendant;
+        }
+
         public static bool Is(this PlayerControl player, RoleEnum roleType)
         {
             return Role.GetRole(player)?.RoleType == roleType;
@@ -153,6 +176,14 @@ namespace TownOfUs
             {
                 var exeTarget = ((Executioner)role).target;
                 return exeTarget != null && player.PlayerId == exeTarget.PlayerId;
+            });
+        }
+        public static bool IsLawyerTarget(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Lawyer).Any(role =>
+            {
+                var lwyrTarget = ((Lawyer)role).target;
+                return lwyrTarget != null && player.PlayerId == lwyrTarget.PlayerId;
             });
         }
 

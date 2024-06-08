@@ -16,13 +16,13 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 | [Janitor](#janitor)          | [Haunter](#haunter)                | [Guardian Angel](#guardian-angel)| [Disperser](#disperser)     |
 | [Miner](#miner)              | [Hunter](#hunter)                  | [Jester](#jester)                | [Double Shot](#double-shot) |
 | [Morphling](#morphling)      | [Imitator](#imitator)              | [Juggernaut](#juggernaut)        | [Flash](#flash)             |
-| [Swooper](#swooper)          | [Investigator](#investigator)      | [Phantom](#phantom)              | [Frosty](#frosty)           |
-| [Traitor](#traitor)          | [Mayor](#mayor)                    | [Plaguebearer](#plaguebearer)    | [Giant](#giant)             |
-| [Undertaker](#undertaker)    | [Medic](#medic)                    | [Survivor](#survivor)            | [Lovers](#lovers)           |
-| [Venerer](#venerer)          | [Medium](#medium)                  | [The Glitch](#the-glitch)        | [Multitasker](#multitasker)|
-| [Warlock](#warlock)          | [Mystic](#mystic)                  | [Vampire](#vampire)              | [Radar](#radar)             |
-|                             | [Oracle](#oracle)                  | [Werewolf](#werewolf)            | [Sleuth](#sleuth)           |
-|                             | [Prosecutor](#prosecutor)          |                                 | [Tiebreaker](#tiebreaker)   |
+| [Swooper](#swooper)          | [Investigator](#investigator)      | [Lawyer](#lawyer)                | [Frosty](#frosty)           |
+| [Traitor](#traitor)          | [Mayor](#mayor)                    | [Phantom](#phantom)              | [Giant](#giant)             |
+| [Undertaker](#undertaker)    | [Medic](#medic)                    | [Plaguebearer](#plaguebearer)    | [Lovers](#lovers)           |
+| [Venerer](#venerer)          | [Medium](#medium)                  | [Survivor](#survivor)            | [Multitasker](#multitasker)|
+| [Warlock](#warlock)          | [Mystic](#mystic)                  | [The Glitch](#the-glitch)        | [Radar](#radar)             |
+|                             | [Oracle](#oracle)                  | [Vampire](#vampire)             | [Sleuth](#sleuth)           |
+|                             | [Prosecutor](#prosecutor)          | [Werewolf](#werewolf)           | [Tiebreaker](#tiebreaker)   |
 |                             | [Seer](#seer)                      |                                 | [Torch](#torch)             |
 |                             | [Sheriff](#sheriff)                |                                 | [Underdog](#underdog)       |
 |                             | [Snitch](#snitch)                  |                                 |                             |
@@ -1253,8 +1253,24 @@ However, if Lovers, or a Neutral Evil role wins the game, the survivor loses.
 | Survivor | The percentage probability of the Survivor appearing | Percentage | 0% |
 | Vest Cooldown | The cooldown of the Survivor's Vest button | Time | 25s |
 | Vest Duration | How long The Survivor's Vest lasts | Time | 10s |
-| Kill Cooldown Reset on Attack | The attackers kill cooldown after they attacked the veste Survivor | Time | 2.5s |
+| Kill Cooldown Reset on Attack | The attackers kill cooldown after they attacked the vested Survivor | Time | 2.5s |
 | Max Uses | The amount of times the Vest ability can be used | Number | 5 |
+
+-----------------------
+## Lawyer
+### **Team: Neutral**
+The Lawyer is a Neutral role which wins if their assigned defendant survives. If their defendant is exiled, they are also killed.\
+The Lawyer can win with any team that does not explicitly win alone, as long as their defendant survives.
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Lawyer | The percentage probability of the Lawyer appearing | Percentage | 0% |
+| Lawyer Dies With Defendant | Whether the Lawyer dies when their defendant is exiled | Toggle | True |
+| Evil Defendant Probability | The chances of the Lawyer's defendant being evil | Percentage | 20% |
+| Neutral Roles Can Be Defendants | Whether neutral benign & evil roles can be defendants | Toggle | False |
+| Lawyer And Defendant Can Talk | Whether the Lawyer and their defendant can chat outside of meetings | Toggle | False |
+| Lawyer becomes on Defendant Dead | Which role the Lawyer becomes when their target dies | Crewmate / Amnesiac / Survivor / Jester | Crewmate |
 
 -----------------------
 ## Doomsayer
