@@ -1,7 +1,9 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
+using Hazel;
 using System;
 using TownOfUs.Roles;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.HunterMod
 {

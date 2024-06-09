@@ -290,6 +290,15 @@ namespace TownOfUs.Roles
                 }
             }
 
+            foreach (var role in GetRoles(RoleEnum.Hunter))
+            {
+                var hunter = (Hunter)role;
+                if (hunter.CaughtPlayers.Any(pc => pc.PlayerId == Player.PlayerId) && PlayerControl.LocalPlayer.Data.IsDead && !hunter.Player.Data.IsDead)
+                {
+                    PlayerName += "<color=#29AB87FF> !!</color>";
+                }
+            }
+
             var modifier = Modifier.GetModifier(Player);
             if (modifier != null && modifier.GetColoredSymbol() != null)
             {

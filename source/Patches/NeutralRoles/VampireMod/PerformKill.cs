@@ -203,6 +203,13 @@ namespace TownOfUs.NeutralRoles.VampireMod
                     var gaRole = Role.GetRole<GuardianAngel>(PlayerControl.LocalPlayer);
                     UnityEngine.Object.Destroy(gaRole.UsesText);
                 }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Hunter))
+                {
+                    var hunterRole = Role.GetRole<Hunter>(PlayerControl.LocalPlayer);
+                    hunterRole.StalkButton.gameObject.SetActive(false);
+                    UnityEngine.Object.Destroy(hunterRole.UsesText);
+                }
             }
 
             Role.RoleDictionary.Remove(newVamp.PlayerId);

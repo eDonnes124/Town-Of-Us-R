@@ -82,7 +82,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 return "(Executioner, Jester, Mayor, Swapper, Traitor or Veteran)";
             else if (player.Is(RoleEnum.Bomber) || player.Is(RoleEnum.Juggernaut) || player.Is(RoleEnum.Pestilence)
                  || player.Is(RoleEnum.Sheriff) || player.Is(RoleEnum.Vigilante) || player.Is(RoleEnum.Warlock))
-                return "(Bomber, Juggernaut, Pestilence, Sheriff, Vigilante or Warlock)";
+                return "(Bomber, Juggernaut, Pestilence, Sheriff, Vigilante, or Warlock)";
             else if (player.Is(RoleEnum.Crewmate) || player.Is(RoleEnum.Impostor))
                 return "(Crewmate or Impostor)";
             else return "Error";
