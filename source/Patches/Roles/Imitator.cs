@@ -12,6 +12,7 @@ namespace TownOfUs.Roles
 
         public List<RoleEnum> trappedPlayers = null;
         public PlayerControl confessingPlayer = null;
+        public Dictionary<string, int> LimitedRoleUses = new Dictionary<string, int>();
 
 
         public Imitator(PlayerControl player) : base(player)

@@ -75,6 +75,7 @@ namespace TownOfUs
         HunterStalk,
         HunterCatchPlayer,
         Retribution,
+        UpdateImitator,
 
         BypassKill,
         BypassMultiKill,
