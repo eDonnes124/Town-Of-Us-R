@@ -47,7 +47,7 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
             Utils.SetTarget(ref role.ClosestPlayer, role.ExamineButton, float.NaN);
 
             var renderer = role.ExamineButton.graphic;
-            if (role.ClosestPlayer != null)
+            if (role.ClosestPlayer != null && role.InvestigatingScene != null)
             {
                 renderer.color = Palette.EnabledColor;
                 renderer.material.SetFloat("_Desat", 0f);
@@ -69,25 +69,25 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 LayerMask.GetMask(new[] { "Players", "Ghost" }));
 
             var killButton = __instance.KillButton;
-            DeadBody closestBody = null;
+            CrimeScene closestScene = null;
             var closestDistance = float.MaxValue;
-
             foreach (var collider2D in allocs)
             {
-                if (!flag || isDead || collider2D.tag != "DeadBody") continue;
-                var component = collider2D.GetComponent<DeadBody>();
+                if (!flag || isDead || collider2D.gameObject.name != "CrimeScene") continue;
+                var component = collider2D.GetComponent<CrimeScene>();
+                if (component == null) continue;
+                if (role.InvestigatingScene == component) continue;
 
-
-                if (!(Vector2.Distance(truePosition, component.TruePosition) <=
+                if (!(Vector2.Distance(truePosition, component.gameObject.transform.position) <=
                       maxDistance)) continue;
 
-                var distance = Vector2.Distance(truePosition, component.TruePosition);
+                var distance = Vector2.Distance(truePosition, component.gameObject.transform.position);
                 if (!(distance < closestDistance)) continue;
-                closestBody = component;
+                closestScene = component;
                 closestDistance = distance;
             }
 
-            KillButtonTarget.SetTarget(killButton, closestBody, role);
+            KillButtonTarget.SetTarget(killButton, closestScene, role);
             killButton.SetCoolDown(0f, 1f);
         }
     }

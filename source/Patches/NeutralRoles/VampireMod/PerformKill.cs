@@ -182,6 +182,10 @@ namespace TownOfUs.NeutralRoles.VampireMod
                 {
                     var detecRole = Role.GetRole<Detective>(PlayerControl.LocalPlayer);
                     detecRole.ExamineButton.gameObject.SetActive(false);
+                    foreach(GameObject scene in detecRole.CrimeScenes)
+                    {
+                        UnityEngine.Object.Destroy(scene);
+                    }
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial))
