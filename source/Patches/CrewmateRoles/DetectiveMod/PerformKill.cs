@@ -60,6 +60,10 @@ namespace TownOfUs.CrewmateRoles.DetectiveMod
                 {
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
                 }
+                if (player.IsCampaigned() || role.Player.IsCampaigned())
+                {
+                    foreach (var pn in Role.GetRoles(RoleEnum.Politician)) ((Politician)pn).RpcSpreadCampaign(player, role.Player);
+                }
                 foreach (var deadPlayer in Murder.KilledPlayers)
                 {
                     if (deadPlayer.PlayerId == playerId) role.DetectedKillers.Add(deadPlayer.KillerId);

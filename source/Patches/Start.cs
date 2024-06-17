@@ -267,6 +267,13 @@ namespace TownOfUs.Patches
                 plaguebearer.LastInfected = plaguebearer.LastInfected.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.InfectCd);
             }
 
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Politician))
+            {
+                var politician = Role.GetRole<Politician>(PlayerControl.LocalPlayer);
+                politician.LastCampaigned = DateTime.UtcNow;
+                politician.LastCampaigned = politician.LastCampaigned.AddSeconds(CustomGameOptions.InitialCooldowns - CustomGameOptions.CampaignCd);
+            }
+
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Survivor))
             {
                 var surv = Role.GetRole<Survivor>(PlayerControl.LocalPlayer);

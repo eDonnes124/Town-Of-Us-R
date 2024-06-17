@@ -119,11 +119,13 @@ namespace TownOfUs
             Generate.TrapCooldown.Set((float)Generate.TrapCooldown.Value + change, false);
             Generate.SheriffKillCd.Set((float)Generate.SheriffKillCd.Value + change, false);
             Generate.AlertCooldown.Set((float)Generate.AlertCooldown.Value + change, false);
+            Generate.BodyguardCooldown.Set((float)Generate.BodyguardCooldown.Value + change, false);
             Generate.TransportCooldown.Set((float)Generate.TransportCooldown.Value + change, false);
             Generate.ProtectCd.Set((float)Generate.ProtectCd.Value + change, false);
             Generate.VestCd.Set((float)Generate.VestCd.Value + change, false);
             Generate.DouseCooldown.Set((float)Generate.DouseCooldown.Value + change, false);
             Generate.InfectCooldown.Set((float)Generate.InfectCooldown.Value + change, false);
+            Generate.CampaignCooldown.Set((float)Generate.CampaignCooldown.Value + change, false);
             Generate.PestKillCooldown.Set((float)Generate.PestKillCooldown.Value + change, false);
             Generate.MimicCooldownOption.Set((float)Generate.MimicCooldownOption.Value + change, false);
             Generate.HackCooldownOption.Set((float)Generate.HackCooldownOption.Value + change, false);

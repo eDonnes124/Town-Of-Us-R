@@ -30,7 +30,7 @@ namespace TownOfUs
     }
     public static class CustomGameOptions
     {
-        public static int MayorOn => (int)Generate.MayorOn.Get();
+        public static int PoliticianOn => (int)Generate.PoliticianOn.Get();
         public static int JesterOn => (int)Generate.JesterOn.Get();
         public static int SheriffOn => (int)Generate.SheriffOn.Get();
         public static int JanitorOn => (int)Generate.JanitorOn.Get();
@@ -218,6 +218,11 @@ namespace TownOfUs
         public static int VigilanteKills => (int)Generate.VigilanteKills.Get();
         public static bool VigilanteMultiKill => Generate.VigilanteMultiKill.Get();
         public static bool VigilanteAfterVoting => Generate.VigilanteAfterVoting.Get();
+        public static float CampaignCd => Generate.CampaignCooldown.Get();
+        public static bool CanSeeCampaigned => Generate.PoliticianCanSeeCampaigned.Get();
+        public static float BodyguardCd => Generate.BodyguardCooldown.Get();
+        public static float BodyguardDuration => Generate.BodyguardDuration.Get();
+        public static bool KilledOnBodyguard => Generate.KilledOnBodyguard.Get();
         public static int HaunterTasksRemainingClicked => (int)Generate.HaunterTasksRemainingClicked.Get();
         public static int HaunterTasksRemainingAlert => (int)Generate.HaunterTasksRemainingAlert.Get();
         public static bool HaunterRevealsNeutrals => Generate.HaunterRevealsNeutrals.Get();
@@ -354,7 +359,7 @@ namespace TownOfUs
             (DisableSkipButtonMeetings)Generate.SkipButtonDisable.Get();
         public static GameMode GameMode =>
             (GameMode)Generate.GameMode.Get();
-        public static int MayorCultistOn => (int)Generate.MayorCultistOn.Get();
+        public static int PoliticianCultistOn => (int)Generate.PoliticianCultistOn.Get();
         public static int SeerCultistOn => (int)Generate.SeerCultistOn.Get();
         public static int SheriffCultistOn => (int)Generate.SheriffCultistOn.Get();
         public static int SurvivorCultistOn => (int)Generate.SurvivorCultistOn.Get();

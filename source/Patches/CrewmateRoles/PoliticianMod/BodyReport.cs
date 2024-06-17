@@ -1,7 +1,7 @@
 using HarmonyLib;
 using TownOfUs.Roles;
 
-namespace TownOfUs.NeutralRoles.PlaguebearerMod
+namespace TownOfUs.NeutralRoles.PoliticianMod
 {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CmdReportDeadBody))]
     public class BodyReport

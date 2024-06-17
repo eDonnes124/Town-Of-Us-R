@@ -75,6 +75,9 @@ namespace TownOfUs
         HunterStalk,
         HunterCatchPlayer,
         Retribution,
+        Campaign,
+        TurnMayor,
+        Bodyguard,
 
         BypassKill,
         BypassMultiKill,

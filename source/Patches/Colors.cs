@@ -32,6 +32,7 @@ namespace TownOfUs.Patches
         public readonly static Color Oracle = new Color(0.75f, 0f, 0.75f, 1f);
         public readonly static Color Aurial = new Color(0.7f, 0.3f, 0.6f, 1f);
         public readonly static Color Hunter = new Color(0.16f, 0.67f, 0.53f, 1f);
+        public readonly static Color Politician = new Color(0.8f, 0.83f, 0.83f, 1f);
 
         // Neutral Colors
         public readonly static Color Jester = new Color(1f, 0.75f, 0.8f, 1f);
@@ -66,6 +67,5 @@ namespace TownOfUs.Patches
         public readonly static Color Radar = new Color(1f, 0f, 0.5f, 1f);
         public readonly static Color Multitasker = new Color(1f, 0.5f, 0.3f, 1f);
         public readonly static Color Frosty = new Color(0.6f, 1f, 1f, 1f);
-
     }
 }

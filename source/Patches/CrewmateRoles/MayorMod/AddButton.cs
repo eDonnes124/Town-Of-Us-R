@@ -18,7 +18,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
 
         public static void GenButton(Mayor role, int index)
         {
-            var confirmButton = MeetingHud.Instance.playerStates[index].Buttons.transform.GetChild(0).gameObject;
+            /*var confirmButton = MeetingHud.Instance.playerStates[index].Buttons.transform.GetChild(0).gameObject;
 
             var newButton = Object.Instantiate(confirmButton, MeetingHud.Instance.playerStates[index].transform);
             var renderer = newButton.GetComponent<SpriteRenderer>();
@@ -32,7 +32,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
 
             passive.OnClick = new Button.ButtonClickedEvent();
             passive.OnClick.AddListener(Reveal(role));
-            role.RevealButton = newButton;
+            role.RevealButton = newButton;*/
         }
 
 

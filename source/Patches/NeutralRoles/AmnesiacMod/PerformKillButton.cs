@@ -44,6 +44,10 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             {
                 foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
             }
+            if ((player.IsCampaigned() || role.Player.IsCampaigned()) && !player.Is(RoleEnum.Politician))
+            {
+                foreach (var pn in Role.GetRoles(RoleEnum.Politician)) ((Politician)pn).RpcSpreadCampaign(player, role.Player);
+            }
 
             Utils.Rpc(CustomRPC.Remember, PlayerControl.LocalPlayer.PlayerId, playerId);
 
@@ -74,6 +78,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Sheriff:
                 case RoleEnum.Engineer:
                 case RoleEnum.Mayor:
+                case RoleEnum.Politician:
                 case RoleEnum.Swapper:
                 case RoleEnum.Investigator:
                 case RoleEnum.Medic:
@@ -233,11 +238,20 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 else medicRole.UsedAbility = true;
             }
 
+            else if (role == RoleEnum.Politician)
+            {
+                var pnRole = Role.GetRole<Politician>(amnesiac);
+                pnRole.CampaignedPlayers.RemoveRange(0, pnRole.CampaignedPlayers.Count);
+                pnRole.CampaignedPlayers.Add(amnesiac.PlayerId);
+                pnRole.LastCampaigned = DateTime.UtcNow;
+            }
+
             else if (role == RoleEnum.Mayor)
             {
                 var mayorRole = Role.GetRole<Mayor>(amnesiac);
                 mayorRole.Revealed = false;
-                DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
+                mayorRole.UsesLeft = 0;
+                mayorRole.LastBodyguarded = DateTime.UtcNow;
             }
 
             else if (role == RoleEnum.Prosecutor)

@@ -28,9 +28,13 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
                     PlayerControl.LocalPlayer.GetTruePosition()) > maxDistance) return false;
                 var playerId = role.CurrentTarget.ParentId;
                 var player = Utils.PlayerById(playerId);
-                if (player.IsInfected() || role.Player.IsInfected())
+                if (player.IsInfected() || role.Player.IsInfected() && !player.Is(RoleEnum.Plaguebearer))
                 {
                     foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
+                }
+                if (player.IsCampaigned() || role.Player.IsCampaigned() && !player.Is(RoleEnum.Politician))
+                {
+                    foreach (var pn in Role.GetRoles(RoleEnum.Politician)) ((Politician)pn).RpcSpreadCampaign(player, role.Player);
                 }
 
                 Utils.Rpc(CustomRPC.JanitorClean, PlayerControl.LocalPlayer.PlayerId, playerId);

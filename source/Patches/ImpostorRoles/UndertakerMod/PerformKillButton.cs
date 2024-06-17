@@ -32,6 +32,10 @@ namespace TownOfUs.ImpostorRoles.UndertakerMod
                     {
                         foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(player, role.Player);
                     }
+                    if ((player.IsCampaigned() || role.Player.IsCampaigned()) && !player.Is(RoleEnum.Politician))
+                    {
+                        foreach (var pn in Role.GetRoles(RoleEnum.Politician)) ((Politician)pn).RpcSpreadCampaign(player, role.Player);
+                    }
 
                     Utils.Rpc(CustomRPC.Drag, PlayerControl.LocalPlayer.PlayerId, playerId);
 

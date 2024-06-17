@@ -17,11 +17,11 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 | [Miner](#miner)              | [Hunter](#hunter)                  | [Jester](#jester)                | [Double Shot](#double-shot) |
 | [Morphling](#morphling)      | [Imitator](#imitator)              | [Juggernaut](#juggernaut)        | [Flash](#flash)             |
 | [Swooper](#swooper)          | [Investigator](#investigator)      | [Phantom](#phantom)              | [Frosty](#frosty)           |
-| [Traitor](#traitor)          | [Mayor](#mayor)                    | [Plaguebearer](#plaguebearer)    | [Giant](#giant)             |
-| [Undertaker](#undertaker)    | [Medic](#medic)                    | [Survivor](#survivor)            | [Lovers](#lovers)           |
-| [Venerer](#venerer)          | [Medium](#medium)                  | [The Glitch](#the-glitch)        | [Multitasker](#multitasker)|
-| [Warlock](#warlock)          | [Mystic](#mystic)                  | [Vampire](#vampire)              | [Radar](#radar)             |
-|                             | [Oracle](#oracle)                  | [Werewolf](#werewolf)            | [Sleuth](#sleuth)           |
+| [Traitor](#traitor)          | [Medic](#medic)                    | [Plaguebearer](#plaguebearer)    | [Giant](#giant)             |
+| [Undertaker](#undertaker)    | [Medium](#medium)                  | [Survivor](#survivor)            | [Lovers](#lovers)           |
+| [Venerer](#venerer)          | [Mystic](#mystic)                  | [The Glitch](#the-glitch)        | [Multitasker](#multitasker)|
+| [Warlock](#warlock)          | [Oracle](#oracle)                  | [Vampire](#vampire)              | [Radar](#radar)             |
+|                             | [Politician](#politician)          | [Werewolf](#werewolf)            | [Sleuth](#sleuth)           |
 |                             | [Prosecutor](#prosecutor)          |                                 | [Tiebreaker](#tiebreaker)   |
 |                             | [Seer](#seer)                      |                                 | [Torch](#torch)             |
 |                             | [Sheriff](#sheriff)                |                                 | [Underdog](#underdog)       |
@@ -1043,6 +1043,27 @@ During meetings, the Vigilante can choose to kill someone by guessing their role
 | Vigilante Guess After Voting  | Whether the Vigilante can Guess after they have voted | Toggle | False |
 
 -----------------------
+## Politician
+### **Team: Crewmates**
+The Politician is a Crewmate who is trying to be elected Mayor of the town.\
+They can gain people's votes using the Campaign button. Anyone voting for them will also automatically gain the vote\
+of anyone who interacts with them in any way, spreading the Politician's Campaign.\
+Once they have the votes of every living player, they become the Mayor. At the next meeting, they will be\
+revealed as the Mayor to the rest of the town. The Mayor has an additional 2 votes and cannot be assassinated.\
+After being revealed, the Mayor will be able to use Bodyguard button once per round. While the Mayor's Bodyguard is\
+active, they will kill anyone who interacts with them.\
+
+### Game Options
+| Name | Description | Type | Default |
+|----------|:-------------:|:------:|:------:|
+| Politician | The percentage probability of the Politician appearing | Percentage | 0% |
+| Campaign Cooldown | The cooldown on the Politician's campaign button. | Time | 25s |
+| See Campaigned In Meetings | Whether the names of campaigned players are a different color during meetings | Toggle | False |
+| Can Be Killed With Bodyguard | Whether the Mayor dies when someone tries to kill them when they have a bodyguard | Toggle | False |
+| Bodyguard Cooldown | The cooldown on the Mayor's bodyguard button. | Time | 25s |
+| Bodyguard Duration | The duration of the alert | Time | 10s |
+
+-----------------------
 ## Altruist
 ### **Team: Crewmates**
 
@@ -1136,18 +1157,6 @@ It should be noted the Imitator can not imitate all crew roles.
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
 | Imitator | The percentage probability of the Imitator appearing | Percentage | 0% |
-
------------------------
-## Mayor
-### **Team: Crewmates**
-The Mayor is a Crewmate that can reveal themself to everyone.\
-Once revealed the Mayor cannot be assassinated, gains an additional 2 votes and everyone can see that they are the Mayor.\
-As a consequence of revealing, they have half vision when lights are on.
-
-### Game Options
-| Name | Description | Type | Default |
-|----------|:-------------:|:------:|:------:|
-| Mayor | The percentage probability of the Mayor appearing | Percentage | 0% |
 
 -----------------------
 ## Medium
@@ -1823,7 +1832,7 @@ When they are the only remaining Impostor, they will have their kill cooldown sh
 # Cultist Settings
 | Name | Description | Type | Default |
 |----------|:-------------:|:------:|:------:|
-| Mayor | The percentage probability of the Mayor appearing | Percentage | 0% |
+| Politician | The percentage probability of the Politician appearing | Percentage | 0% |
 | Seer | The percentage probability of the Seer appearing | Percentage | 0% |
 | Sheriff | The percentage probability of the Sheriff appearing | Percentage | 0% |
 | Survivor | The percentage probability of the Survivor appearing | Percentage | 0% |
