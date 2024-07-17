@@ -11,8 +11,11 @@ namespace TownOfUs.Patches
     public static class HudUpdate
     {
         private static GameObject ZoomButton;
+        private static GameObject MapColorButton;
         public static bool Zooming;
+        public static bool Colorful = false;
         private static Vector3 Pos;
+        private static Vector3 Pos2;
 
         public static void Postfix(HudManager __instance)
         {
@@ -23,7 +26,15 @@ namespace TownOfUs.Patches
                 ZoomButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(Zoom));
             }
 
+            if (!MapColorButton)
+            {
+                MapColorButton = Object.Instantiate(__instance.MapButton.gameObject, __instance.MapButton.transform.parent);
+                MapColorButton.GetComponent<PassiveButton>().OnClick = new();
+                MapColorButton.GetComponent<PassiveButton>().OnClick.AddListener(new Action(ColorfulMap));
+            }
+
             Pos = __instance.MapButton.transform.localPosition + new Vector3(0.02f, -0.66f, 0f);
+            Pos2 = Pos + new Vector3(0f, -0.66f, 0f);
             var dead = false;
             if (Utils.ShowDeadBodies)
             {
@@ -41,8 +52,11 @@ namespace TownOfUs.Patches
             }
             ZoomButton.SetActive(!MeetingHud.Instance && dead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started
                 && GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal);
-            ZoomButton.transform.localPosition = Pos;
+            ZoomButton.transform.localPosition = Pos2;
             ZoomButton.GetComponent<SpriteRenderer>().sprite = Zooming ? TownOfUs.ZoomPlusButton : TownOfUs.ZoomMinusButton;
+            MapColorButton.SetActive(!MeetingHud.Instance && GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.Normal);
+            MapColorButton.transform.localPosition = Pos;
+            MapColorButton.GetComponent<SpriteRenderer>().sprite = Colorful ? TownOfUs.ColoressButton : TownOfUs.ColorfulButton;
         }
 
         public static void Zoom()
@@ -58,6 +72,11 @@ namespace TownOfUs.Patches
             }
 
             ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height, Screen.fullScreen);
+        }
+
+        public static void ColorfulMap()
+        {
+            Colorful = Colorful ? false : true;
         }
 
         public static void ZoomStart()

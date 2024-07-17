@@ -112,6 +112,8 @@ namespace TownOfUs
 
         public static Sprite ZoomPlusButton;
         public static Sprite ZoomMinusButton;
+        public static Sprite ColoressButton;
+        public static Sprite ColorfulButton;
 
         public static Vector3 ButtonPosition { get; private set; } = new Vector3(2.6f, 0.7f, -9f);
 
@@ -211,6 +213,8 @@ namespace TownOfUs
 
             ZoomPlusButton = CreateSprite("TownOfUs.Resources.Plus.png");
             ZoomMinusButton = CreateSprite("TownOfUs.Resources.Minus.png");
+            ColoressButton = CreateSprite("TownOfUs.Resources.Change1.png");
+            ColorfulButton = CreateSprite("TownOfUs.Resources.Change2.png");
 
             PalettePatch.Load();
             ClassInjector.RegisterTypeInIl2Cpp<RainbowBehaviour>();
