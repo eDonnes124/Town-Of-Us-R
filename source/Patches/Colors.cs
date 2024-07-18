@@ -51,6 +51,19 @@ namespace TownOfUs.Patches
 
         //Imposter Colors
         public readonly static Color Impostor = Palette.ImpostorRed;
+        public readonly static Color Escapist = new Color(0.26f, 0.52f, 0.22f, 1f);
+        public readonly static Color Grenadier = new Color(0.3f, 0.24f, 0.25f, 1f);
+        public readonly static Color Morphling = new Color(0.43f, 0.3f, 0.63f, 1f);
+        public readonly static Color Swooper = new Color(0.78f, 0.49f, 0.59f, 1f);
+        public readonly static Color Venerer = new Color(0.21f, 0.27f, 0.4f, 1f);
+        public readonly static Color Bomber = new Color(0.9f, 0.07f, 0.25f, 1f);
+        public readonly static Color Traitor = new Color(0.36f, 0.04f, 0.06f, 1f);
+        public readonly static Color Warlock = new Color(0.16f, 0.02f, 0.47f, 1f);
+        public readonly static Color Blackmailer = new Color(0.36f, 0.23f, 0.14f, 1f);
+        public readonly static Color Janitor = new Color(0.54f, 0.26f, 0.05f, 1f);
+        public readonly static Color Miner = new Color(0.61f, 0.16f, 0.11f, 1f);
+        public readonly static Color Undertaker = new Color(0.09f, 0.21f, 0.38f, 1f);
+
 
         //Modifiers
         public readonly static Color Bait = new Color(0f, 0.7f, 0.7f, 1f);
@@ -66,6 +79,9 @@ namespace TownOfUs.Patches
         public readonly static Color Radar = new Color(1f, 0f, 0.5f, 1f);
         public readonly static Color Multitasker = new Color(1f, 0.5f, 0.3f, 1f);
         public readonly static Color Frosty = new Color(0.6f, 1f, 1f, 1f);
+        public readonly static Color Disperser = new Color(0.32f, 0.27f, 0.41f, 1f);
+        public readonly static Color DoubleShot = new Color(0.32f, 0.11f, 0.27f, 1f);
+        public readonly static Color Underdog = new Color(0.12f, 0.21f, 0.05f, 1f);
 
     }
 }

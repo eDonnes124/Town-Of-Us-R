@@ -32,18 +32,18 @@ namespace TownOfUs.Roles
             if (CustomGameOptions.GameMode == GameMode.Classic || CustomGameOptions.GameMode == GameMode.AllAny)
             {
                 ColorMapping.Add("Impostor", Colors.Impostor);
-                if (CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Impostor);
-                if (CustomGameOptions.MorphlingOn > 0) ColorMapping.Add("Morphling", Colors.Impostor);
-                if (CustomGameOptions.MinerOn > 0) ColorMapping.Add("Miner", Colors.Impostor);
-                if (CustomGameOptions.SwooperOn > 0) ColorMapping.Add("Swooper", Colors.Impostor);
-                if (CustomGameOptions.UndertakerOn > 0) ColorMapping.Add("Undertaker", Colors.Impostor);
-                if (CustomGameOptions.EscapistOn > 0) ColorMapping.Add("Escapist", Colors.Impostor);
-                if (CustomGameOptions.GrenadierOn > 0) ColorMapping.Add("Grenadier", Colors.Impostor);
-                if (CustomGameOptions.TraitorOn > 0) ColorMapping.Add("Traitor", Colors.Impostor);
-                if (CustomGameOptions.BlackmailerOn > 0) ColorMapping.Add("Blackmailer", Colors.Impostor);
-                if (CustomGameOptions.BomberOn > 0) ColorMapping.Add("Bomber", Colors.Impostor);
-                if (CustomGameOptions.WarlockOn > 0) ColorMapping.Add("Warlock", Colors.Impostor);
-                if (CustomGameOptions.VenererOn > 0) ColorMapping.Add("Venerer", Colors.Impostor);
+                if (CustomGameOptions.JanitorOn > 0) ColorMapping.Add("Janitor", Colors.Janitor);
+                if (CustomGameOptions.MorphlingOn > 0) ColorMapping.Add("Morphling", Colors.Morphling);
+                if (CustomGameOptions.MinerOn > 0) ColorMapping.Add("Miner", Colors.Miner);
+                if (CustomGameOptions.SwooperOn > 0) ColorMapping.Add("Swooper", Colors.Swooper);
+                if (CustomGameOptions.UndertakerOn > 0) ColorMapping.Add("Undertaker", Colors.Undertaker);
+                if (CustomGameOptions.EscapistOn > 0) ColorMapping.Add("Escapist", Colors.Escapist);
+                if (CustomGameOptions.GrenadierOn > 0) ColorMapping.Add("Grenadier", Colors.Grenadier);
+                if (CustomGameOptions.TraitorOn > 0) ColorMapping.Add("Traitor", Colors.Traitor);
+                if (CustomGameOptions.BlackmailerOn > 0) ColorMapping.Add("Blackmailer", Colors.Blackmailer);
+                if (CustomGameOptions.BomberOn > 0) ColorMapping.Add("Bomber", Colors.Bomber);
+                if (CustomGameOptions.WarlockOn > 0) ColorMapping.Add("Warlock", Colors.Warlock);
+                if (CustomGameOptions.VenererOn > 0) ColorMapping.Add("Venerer", Colors.Venerer);
 
                 if (CustomGameOptions.VigilanteGuessNeutralBenign)
                 {
@@ -70,13 +70,13 @@ namespace TownOfUs.Roles
             }
             else if (CustomGameOptions.GameMode == GameMode.KillingOnly)
             {
-                ColorMapping.Add("Morphling", Colors.Impostor);
-                ColorMapping.Add("Miner", Colors.Impostor);
-                ColorMapping.Add("Swooper", Colors.Impostor);
-                ColorMapping.Add("Undertaker", Colors.Impostor);
-                ColorMapping.Add("Grenadier", Colors.Impostor);
-                ColorMapping.Add("Traitor", Colors.Impostor);
-                ColorMapping.Add("Escapist", Colors.Impostor);
+                ColorMapping.Add("Morphling", Colors.Morphling);
+                ColorMapping.Add("Miner", Colors.Miner);
+                ColorMapping.Add("Swooper", Colors.Swooper);
+                ColorMapping.Add("Undertaker", Colors.Undertaker);
+                ColorMapping.Add("Grenadier", Colors.Grenadier);
+                ColorMapping.Add("Traitor", Colors.Traitor);
+                ColorMapping.Add("Escapist", Colors.Escapist);
 
                 if (CustomGameOptions.VigilanteGuessNeutralKilling)
                 {
@@ -91,13 +91,13 @@ namespace TownOfUs.Roles
             {
                 ColorMapping.Add("Necromancer", Colors.Impostor);
                 ColorMapping.Add("Whisperer", Colors.Impostor);
-                if (CustomGameOptions.MaxChameleons > 0) ColorMapping.Add("Swooper", Colors.Impostor);
+                if (CustomGameOptions.MaxChameleons > 0) ColorMapping.Add("Swooper", Colors.Swooper);
                 if (CustomGameOptions.MaxEngineers > 0) ColorMapping.Add("Demolitionist", Colors.Impostor);
                 if (CustomGameOptions.MaxInvestigators > 0) ColorMapping.Add("Consigliere", Colors.Impostor);
                 if (CustomGameOptions.MaxMystics > 0) ColorMapping.Add("Clairvoyant", Colors.Impostor);
                 if (CustomGameOptions.MaxSnitches > 0) ColorMapping.Add("Informant", Colors.Impostor);
                 if (CustomGameOptions.MaxSpies > 0) ColorMapping.Add("Rogue Agent", Colors.Impostor);
-                if (CustomGameOptions.MaxTransporters > 0) ColorMapping.Add("Escapist", Colors.Impostor);
+                if (CustomGameOptions.MaxTransporters > 0) ColorMapping.Add("Escapist", Colors.Escapist);
                 if (CustomGameOptions.MaxVigilantes > 1) ColorMapping.Add("Assassin", Colors.Impostor);
                 ColorMapping.Add("Impostor", Colors.Impostor);
             }

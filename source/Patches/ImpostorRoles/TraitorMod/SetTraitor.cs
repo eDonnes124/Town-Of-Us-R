@@ -134,7 +134,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
             {
                 if (player2.Data.IsImpostor() && PlayerControl.LocalPlayer.Data.IsImpostor())
                 {
-                    player2.nameText().color = Patches.Colors.Impostor;
+                    player2.nameText().color = Role.GetRole(player2).Color;
                 }
             }
 

@@ -15,7 +15,7 @@ namespace TownOfUs.Roles
             Name = "Blackmailer";
             ImpostorText = () => "Silence Crewmates During Meetings";
             TaskText = () => "Silence a crewmate for the next meeting";
-            Color = Patches.Colors.Impostor;
+            Color = Patches.Colors.Blackmailer;
             LastBlackmailed = DateTime.UtcNow;
             RoleType = RoleEnum.Blackmailer;
             AddToRoleHistory(RoleType);

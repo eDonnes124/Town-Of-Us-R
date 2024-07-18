@@ -195,7 +195,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 {
                     if (player.Data.IsImpostor() && PlayerControl.LocalPlayer.Data.IsImpostor())
                     {
-                        player.nameText().color = Patches.Colors.Impostor;
+                        player.nameText().color = Role.GetRole(player).Color;
                     }
                 }
                 if (CustomGameOptions.AmneTurnImpAssassin) new Assassin(amnesiac);
