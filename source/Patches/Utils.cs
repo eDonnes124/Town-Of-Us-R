@@ -211,6 +211,24 @@ namespace TownOfUs
             });
         }
 
+        public static bool IsInvestigated(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Investigator).Any(role =>
+            {
+                var investigated = ((Investigator)role).InvestigatedPlayer;
+                var investigator = (Investigator)role;
+                return investigated != null && player.PlayerId == investigated.PlayerId;
+            });
+        }
+        public static Investigator GetInvestigator(this PlayerControl player)
+        {
+            return Role.GetRoles(RoleEnum.Investigator).FirstOrDefault(role =>
+            {
+                var investigated = ((Investigator)role).InvestigatedPlayer;
+                return investigated != null && player.PlayerId == investigated.PlayerId;
+            }) as Investigator;
+        }
+
         public static List<bool> Interact(PlayerControl player, PlayerControl target, bool toKill = false)
         {
             bool fullCooldownReset = false;
@@ -218,6 +236,11 @@ namespace TownOfUs
             bool survReset = false;
             bool zeroSecReset = false;
             bool abilityUsed = false;
+            if (player.IsInvestigated())
+            {
+                var invest = player.GetInvestigator();
+                Rpc(CustomRPC.NotifyInvestigator, invest.Player.PlayerId);
+            }
             if (target.IsInfected() || player.IsInfected())
             {
                 foreach (var pb in Role.GetRoles(RoleEnum.Plaguebearer)) ((Plaguebearer)pb).RpcSpreadInfection(target, player);
