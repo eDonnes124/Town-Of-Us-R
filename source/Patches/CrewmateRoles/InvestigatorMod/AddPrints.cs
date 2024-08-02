@@ -29,22 +29,21 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
             if (_time >= Interval)
             {
                 _time -= Interval;
-                foreach (var player in PlayerControl.AllPlayerControls)
-                {
-                    if (player == null || player.Data.IsDead ||
-                        player.PlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
+                    if (!(investigator.InvestigatedPlayer == null || investigator.InvestigatedPlayer.Data.IsDead ||
+                        investigator.InvestigatedPlayer.PlayerId == PlayerControl.LocalPlayer.PlayerId))
+                    {
                     var canPlace = !investigator.AllPrints.Any(print =>
-                        Vector3.Distance(print.Position, Position(player)) < 0.5f &&
+                        Vector3.Distance(print.Position, Position(investigator.InvestigatedPlayer)) < 0.5f &&
                         print.Color.a > 0.5 &&
-                        print.Player.PlayerId == player.PlayerId);
+                        print.Player.PlayerId == investigator.InvestigatedPlayer.PlayerId);
 
                     if (Vent && ShipStatus.Instance != null)
                         if (ShipStatus.Instance.AllVents.Any(vent =>
-                            Vector2.Distance(vent.gameObject.transform.position, Position(player)) < 1f))
+                            Vector2.Distance(vent.gameObject.transform.position, Position(investigator.InvestigatedPlayer)) < 1f))
                             canPlace = false;
 
-                    if (canPlace) new Footprint(player, investigator);
-                }
+                    if (canPlace) new Footprint(investigator.InvestigatedPlayer, investigator);
+                    }
 
                 for (var i = 0; i < investigator.AllPrints.Count; i++)
                 {

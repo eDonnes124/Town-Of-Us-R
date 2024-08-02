@@ -803,6 +803,26 @@ namespace TownOfUs
                         Role.GetRole<Medic>(medic).ShieldedPlayer = shield;
                         Role.GetRole<Medic>(medic).UsedAbility = true;
                         break;
+                    case CustomRPC.Investigate:
+                        readByte1 = reader.ReadByte();
+                        readByte2 = reader.ReadByte();
+
+                        var investigator = Utils.PlayerById(readByte1);
+                        var investigated = Utils.PlayerById(readByte2);
+                        Role.GetRole<Investigator>(investigator).InvestigatedPlayer = investigated;
+                        break;
+                    case CustomRPC.StopInvestigation:
+                        readByte1 = reader.ReadByte();
+
+                        var investigator1 = Utils.PlayerById(readByte1);
+                        Role.GetRole<Investigator>(investigator1).InvestigatedPlayer = null;
+                        break;
+                    case CustomRPC.NotifyInvestigator:
+                        readByte1 = reader.ReadByte();
+
+                        var investigator2 = Utils.PlayerById(readByte1);
+                        Role.GetRole<Investigator>(investigator2).ShouldNotify = Role.GetRole<Investigator>(investigator2).ShouldNotify ? false : true;
+                        break;
                     case CustomRPC.AttemptSound:
                         var medicId = reader.ReadByte();
                         readByte = reader.ReadByte();

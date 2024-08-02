@@ -64,6 +64,7 @@ namespace TownOfUs.Roles
         protected internal int IncorrectKills { get; set; } = 0;
         protected internal int CorrectAssassinKills { get; set; } = 0;
         protected internal int IncorrectAssassinKills { get; set; } = 0;
+        protected internal List<RoleEnum> PossibleRoles = new List<RoleEnum>();
 
         public bool Local => PlayerControl.LocalPlayer.PlayerId == Player.PlayerId;
 

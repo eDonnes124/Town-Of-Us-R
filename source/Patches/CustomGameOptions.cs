@@ -113,7 +113,9 @@ namespace TownOfUs
         public static float FootprintSize => Generate.FootprintSize.Get();
         public static float FootprintInterval => Generate.FootprintInterval.Get();
         public static float FootprintDuration => Generate.FootprintDuration.Get();
-        public static bool AnonymousFootPrint => Generate.AnonymousFootPrint.Get();
+        public static int RoleAmount => (int)Generate.RoleAmount.Get();
+        public static float InvestCd => Generate.InvestCd.Get();
+        public static int RemoveRoles => (int)Generate.RemoveRoles.Get();
         public static bool VentFootprintVisible => Generate.VentFootprintVisible.Get();
         public static bool JesterButton => Generate.JesterButton.Get();
         public static bool JesterVent => Generate.JesterVent.Get();

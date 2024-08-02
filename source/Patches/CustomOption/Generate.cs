@@ -207,7 +207,9 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption FootprintSize;
         public static CustomNumberOption FootprintInterval;
         public static CustomNumberOption FootprintDuration;
-        public static CustomToggleOption AnonymousFootPrint;
+        public static CustomNumberOption RoleAmount;
+        public static CustomNumberOption InvestCd;
+        public static CustomNumberOption RemoveRoles;
         public static CustomToggleOption VentFootprintVisible;
 
         public static CustomHeaderOption Medic;
@@ -858,11 +860,13 @@ namespace TownOfUs.CustomOption
 
             Investigator =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#00B3B3FF>Investigator</color>");
+            InvestCd = new CustomNumberOption(num++, MultiMenu.crewmate, "Investigate Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             FootprintSize = new CustomNumberOption(num++, MultiMenu.crewmate, "Footprint Size", 4f, 1f, 10f, 1f);
             FootprintInterval =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Footprint Interval", 0.1f, 0.05f, 1f, 0.05f, CooldownFormat);
             FootprintDuration = new CustomNumberOption(num++, MultiMenu.crewmate, "Footprint Duration", 10f, 1f, 15f, 0.5f, CooldownFormat);
-            AnonymousFootPrint = new CustomToggleOption(num++, MultiMenu.crewmate, "Anonymous Footprint", false);
+            RoleAmount = new CustomNumberOption(num++, MultiMenu.crewmate, "Amount Of Roles Given To Investigator", 6f, 3f, 8f, 1f);
+            RemoveRoles = new CustomNumberOption(num++, MultiMenu.crewmate, "Amount Of Roles Investigator Can Check Off", 3f, 0f, 7f, 1f);
             VentFootprintVisible = new CustomToggleOption(num++, MultiMenu.crewmate, "Footprint Vent Visible", false);
 
             Mystic =
