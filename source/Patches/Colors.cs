@@ -53,7 +53,7 @@ namespace TownOfUs.Patches
         public readonly static Color Impostor = Palette.ImpostorRed;
         public readonly static Color Escapist = new Color(0.26f, 0.52f, 0.22f, 1f);
         public readonly static Color Grenadier = new Color(0.3f, 0.24f, 0.25f, 1f);
-        public readonly static Color Morphling = new Color(0.43f, 0.3f, 0.63f, 1f);
+        public readonly static Color Morphling = new Color(0.58f, 0.04f, 0.96f, 1f);
         public readonly static Color Swooper = new Color(0.78f, 0.49f, 0.59f, 1f);
         public readonly static Color Venerer = new Color(0.21f, 0.27f, 0.4f, 1f);
         public readonly static Color Bomber = new Color(0.9f, 0.07f, 0.25f, 1f);

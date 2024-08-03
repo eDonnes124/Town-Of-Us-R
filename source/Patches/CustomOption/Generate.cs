@@ -611,7 +611,7 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             GrenadierOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#4D3F40>Grenadier</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
-            MorphlingOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#704EA3>Morphling</color>", 0f, 0f, 100f, 10f,
+            MorphlingOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#940CF5>Morphling</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             SwooperOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#C97D98>Swooper</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -1222,7 +1222,7 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.imposter, "Grenadier Can Vent", false);
 
             Morphling =
-                new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#704EA3>Morphling</color>");
+                new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#940CF5>Morphling</color>");
             MorphlingCooldown =
                 new CustomNumberOption(num++, MultiMenu.imposter, "Morphling Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             MorphlingDuration =
