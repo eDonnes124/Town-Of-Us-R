@@ -17,7 +17,7 @@ namespace TownOfUs.Roles
             Name = "Miner";
             ImpostorText = () => "From The Top, Make It Drop, That's A Vent";
             TaskText = () => "Place vents around the map";
-            Color = Patches.Colors.Impostor;
+            Color = Patches.Colors.Miner;
             LastMined = DateTime.UtcNow;
             RoleType = RoleEnum.Miner;
             AddToRoleHistory(RoleType);

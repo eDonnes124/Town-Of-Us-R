@@ -16,7 +16,7 @@ namespace TownOfUs.Roles
             Name = "Escapist";
             ImpostorText = () => "Get Away From Kills With Ease";
             TaskText = () => "Teleport to get away from bodies";
-            Color = Patches.Colors.Impostor;
+            Color = Patches.Colors.Escapist;
             RoleType = RoleEnum.Escapist;
             AddToRoleHistory(RoleType);
             Faction = Faction.Impostors;

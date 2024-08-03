@@ -8,7 +8,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Underdog";
             TaskText = () => "When you're alone your kill cooldown is shortened";
-            Color = Patches.Colors.Impostor;
+            Color = Patches.Colors.Underdog;
             ModifierType = ModifierEnum.Underdog;
         }
 

@@ -23,7 +23,7 @@ namespace TownOfUs.Roles
             Name = "Bomber";
             ImpostorText = () => "Plant Bombs To Kill Multiple Crewmates At Once";
             TaskText = () => "Plant bombs to kill crewmates";
-            Color = Palette.ImpostorRed;
+            Color = Colors.Bomber;
             StartingCooldown = DateTime.UtcNow;
             RoleType = RoleEnum.Bomber;
             AddToRoleHistory(RoleType);

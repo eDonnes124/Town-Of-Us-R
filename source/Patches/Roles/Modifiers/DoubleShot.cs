@@ -7,7 +7,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Double Shot";
             TaskText = () => "You have an extra life when assassinating";
-            Color = Patches.Colors.Impostor;
+            Color = Patches.Colors.DoubleShot;
             ModifierType = ModifierEnum.DoubleShot;
             LifeUsed = false;
         }

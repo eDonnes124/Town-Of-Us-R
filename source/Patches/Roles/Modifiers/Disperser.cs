@@ -21,7 +21,7 @@ namespace TownOfUs.Roles.Modifiers
         {
             Name = "Disperser";
             TaskText = () => "Separate the Crew";
-            Color = Patches.Colors.Impostor;
+            Color = Patches.Colors.Disperser;
             StartingCooldown = DateTime.UtcNow;
             ModifierType = ModifierEnum.Disperser;
 
