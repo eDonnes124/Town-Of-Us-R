@@ -30,8 +30,8 @@ namespace TownOfUs.CultistRoles.WhispererMod
             {
                 foreach (var state in __instance.playerStates)
                 {
-                    if (stats.Item1.PlayerId != state.TargetPlayerId) continue;
-                    float color = stats.Item2 / 100f;
+                    if (stats.Player.PlayerId != state.TargetPlayerId) continue;
+                    float color = stats.UnconvertableChance / 100f;
                     if (color <= 0) state.NameText.color = Patches.Colors.Impostor;
                     else state.NameText.color = new Color(1f, 1f, color, 1f);
                 }
@@ -60,9 +60,9 @@ namespace TownOfUs.CultistRoles.WhispererMod
 
             foreach (var stats in role.PlayerConversion)
             {
-                float color = stats.Item2/100f;
-                if (color <= 0) stats.Item1.nameText().color = Patches.Colors.Impostor;
-                else stats.Item1.nameText().color = new Color(1f, 1f, color, 1f);
+                float color = stats.UnconvertableChance/100f;
+                if (color <= 0) stats.Player.nameText().color = Patches.Colors.Impostor;
+                else stats.Player.nameText().color = new Color(1f, 1f, color, 1f);
             }
         }
     }

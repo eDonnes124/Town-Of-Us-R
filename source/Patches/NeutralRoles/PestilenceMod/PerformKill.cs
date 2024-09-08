@@ -24,25 +24,25 @@ namespace TownOfUs.NeutralRoles.PestilenceMod
                         GameOptionsData.KillDistances[GameOptionsManager.Instance.currentNormalGameOptions.KillDistance];
             if (!flag3) return false;
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
-            if (interact[4] == true) return false;
-            else if (interact[0] == true)
+            if (interact.AbilityUsed) return false;
+            else if (interact.FullCooldownReset)
             {
                 role.LastKill = DateTime.UtcNow;
                 return false;
             }
-            else if (interact[1] == true)
+            else if (interact.GaReset)
             {
                 role.LastKill = DateTime.UtcNow;
                 role.LastKill = role.LastKill.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.PestKillCd);
                 return false;
             }
-            else if (interact[2] == true)
+            else if (interact.SurvReset)
             {
                 role.LastKill = DateTime.UtcNow;
                 role.LastKill = role.LastKill.AddSeconds(CustomGameOptions.VestKCReset - CustomGameOptions.PestKillCd);
                 return false;
             }
-            else if (interact[3] == true) return false;
+            else if (interact.ZeroSecReset) return false;
             return false;
         }
     }

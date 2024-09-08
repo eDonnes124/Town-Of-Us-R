@@ -25,22 +25,22 @@ namespace TownOfUs.CrewmateRoles.SeerMod
             if (role.ClosestPlayer == null) return false;
 
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
-            if (interact[4] == true)
+            if (interact.AbilityUsed)
             {
                 role.Investigated.Add(role.ClosestPlayer.PlayerId);
             }
-            if (interact[0] == true)
+            if (interact.FullCooldownReset)
             {
                 role.LastInvestigated = DateTime.UtcNow;
                 return false;
             }
-            else if (interact[1] == true)
+            else if (interact.GaReset)
             {
                 role.LastInvestigated = DateTime.UtcNow;
                 role.LastInvestigated = role.LastInvestigated.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.SeerCd);
                 return false;
             }
-            else if (interact[3] == true) return false;
+            else if (interact.ZeroSecReset) return false;
             return false;
         }
     }

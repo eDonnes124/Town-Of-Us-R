@@ -195,7 +195,7 @@ namespace TownOfUs.Patches
 
             SubmarineElevatorSystem = Types.First(t => t.Name == "SubmarineElevatorSystem");
             UpperDeckIsTargetFloor = AccessTools.Field(SubmarineElevatorSystem, "upperDeckIsTargetFloor");
-            Harmony _harmony = new Harmony("tou.submerged.patch");
+            Harmony _harmony = new("tou.submerged.patch");
             var exilerolechangePostfix = SymbolExtensions.GetMethodInfo(() => ExileRoleChangePostfix());
             _harmony.Patch(SubmergedExileWrapUpMethod, null, new HarmonyMethod(exilerolechangePostfix));
         }
@@ -205,9 +205,9 @@ namespace TownOfUs.Patches
             if (!Loaded) return;
             if (!isSubmerged()) return;
 
-            Tuple<bool, object> elevator = GetPlayerElevator(player);
-            if (!elevator.Item1) return;
-            bool CurrentFloor = (bool)UpperDeckIsTargetFloor.GetValue(getSubElevatorSystem.GetValue(elevator.Item2)); //true is top, false is bottom
+            ElevatorData elevator = GetPlayerElevator(player);
+            if (!elevator.AtTopFloor) return;
+            bool CurrentFloor = (bool)UpperDeckIsTargetFloor.GetValue(getSubElevatorSystem.GetValue(elevator.Player)); //true is top, false is bottom
             bool PlayerFloor = player.transform.position.y > -7f; //true is top, false is bottom
             
             if (CurrentFloor != PlayerFloor)
@@ -219,14 +219,14 @@ namespace TownOfUs.Patches
         public static void MoveDeadPlayerElevator(PlayerControl player)
         {
             if (!isSubmerged()) return;
-            Tuple<bool, object> elevator = GetPlayerElevator(player);
-            if (!elevator.Item1) return;
+            ElevatorData elevator = GetPlayerElevator(player);
+            if (!elevator.AtTopFloor) return;
 
-            int MovementStage = (int)GetMovementStageFromTime.Invoke(elevator.Item2, null);
+            int MovementStage = (int)GetMovementStageFromTime.Invoke(elevator.Player, null);
             if (MovementStage >= 5)
             {
                 //Fade to clear
-                bool topfloortarget = (bool)UpperDeckIsTargetFloor.GetValue(getSubElevatorSystem.GetValue(elevator.Item2)); //true is top, false is bottom
+                bool topfloortarget = (bool)UpperDeckIsTargetFloor.GetValue(getSubElevatorSystem.GetValue(elevator.Player)); //true is top, false is bottom
                 bool topintendedtarget = player.transform.position.y > -7f; //true is top, false is bottom
                 if (topfloortarget != topintendedtarget)
                 {
@@ -235,17 +235,17 @@ namespace TownOfUs.Patches
             }
         }
 
-        public static Tuple<bool, object> GetPlayerElevator(PlayerControl player)
+        public static ElevatorData GetPlayerElevator(PlayerControl player)
         {
-            if (!isSubmerged()) return Tuple.Create(false, (object)null);
-            IList elevatorlist = Utils.createList(SubmarineElevator);
+            if (!isSubmerged()) return new ElevatorData(false, null);
+            IList elevatorlist = Utils.CreateList(SubmarineElevator);
             elevatorlist = (IList)SubmergedElevators.GetValue(SubmergedInstance.GetValue(null));
             foreach (object elevator in elevatorlist)
             {
-                if ((bool)GetInElevator.Invoke(elevator, new object[] { player })) return Tuple.Create(true, elevator);
+                if ((bool)GetInElevator.Invoke(elevator, new object[] { player })) return new ElevatorData(true, elevator);
             }
 
-            return Tuple.Create(false, (object)null);
+            return new ElevatorData(false, null);
         }
 
         public static void ExileRoleChangePostfix()

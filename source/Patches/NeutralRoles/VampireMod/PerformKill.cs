@@ -50,47 +50,47 @@ namespace TownOfUs.NeutralRoles.VampireMod
                 aliveVamps.Count == 1 && vamps.Count < CustomGameOptions.MaxVampiresPerGame)
             {
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
-                if (interact[4] == true)
+                if (interact.AbilityUsed)
                 {
                     Convert(role.ClosestPlayer);
                     Utils.Rpc(CustomRPC.Bite, role.ClosestPlayer.PlayerId);
                 }
-                if (interact[0] == true)
+                if (interact.FullCooldownReset)
                 {
                     role.LastBit = DateTime.UtcNow;
                     return false;
                 }
-                else if (interact[1] == true)
+                else if (interact.GaReset)
                 {
                     role.LastBit = DateTime.UtcNow;
                     role.LastBit = role.LastBit.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.BiteCd);
                     return false;
                 }
-                else if (interact[3] == true) return false;
+                else if (interact.ZeroSecReset) return false;
                 return false;
             }
             else
             {
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer, true);
-                if (interact[4] == true) return false;
-                if (interact[0] == true)
+                if (interact.AbilityUsed) return false;
+                if (interact.FullCooldownReset)
                 {
                     role.LastBit = DateTime.UtcNow;
                     return false;
                 }
-                else if (interact[1] == true)
+                else if (interact.GaReset)
                 {
                     role.LastBit = DateTime.UtcNow;
                     role.LastBit = role.LastBit.AddSeconds(CustomGameOptions.ProtectKCReset - CustomGameOptions.BiteCd);
                     return false;
                 }
-                else if (interact[2] == true)
+                else if (interact.SurvReset)
                 {
                     role.LastBit = DateTime.UtcNow;
                     role.LastBit = role.LastBit.AddSeconds(CustomGameOptions.VestKCReset - CustomGameOptions.BiteCd);
                     return false;
                 }
-                else if (interact[3] == true) return false;
+                else if (interact.ZeroSecReset) return false;
                 return false;
             }
         }

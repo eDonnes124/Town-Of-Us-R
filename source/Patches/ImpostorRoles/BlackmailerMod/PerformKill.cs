@@ -23,7 +23,7 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
                 if (role.BlackmailTimer() != 0) return false;
 
                 var interact = Utils.Interact(PlayerControl.LocalPlayer, target);
-                if (interact[4] == true)
+                if (interact.AbilityUsed)
                 {
                     role.Blackmailed?.myRend().material.SetFloat("_Outline", 0f);
                     if (role.Blackmailed != null && role.Blackmailed.Data.IsImpostor())

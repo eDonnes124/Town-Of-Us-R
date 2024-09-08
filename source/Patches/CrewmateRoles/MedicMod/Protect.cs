@@ -18,7 +18,7 @@ namespace TownOfUs.CrewmateRoles.MedicMod
             if (role.StartTimer() > 0) return false;
 
             var interact = Utils.Interact(PlayerControl.LocalPlayer, role.ClosestPlayer);
-            if (interact[4] == true)
+            if (interact.AbilityUsed)
             {
                 Utils.Rpc(CustomRPC.Protect, PlayerControl.LocalPlayer.PlayerId, role.ClosestPlayer.PlayerId);
 
