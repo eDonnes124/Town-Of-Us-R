@@ -1,4 +1,4 @@
-## *Note: This repository is an unofficial continuation of Town of Us due to the original repository being discontinued.*
+## *Note: This repository is an unofficial modification of eDonnes124 fork of Town Of Us*
 
 ![LOGO](./Images/TOU-logo.png)
 ![Roles](./Images/Roles.png)
