@@ -1,6 +1,10 @@
 ## *Note: This repository is an unofficial modification of eDonnes124 fork of Town Of Us*
 
 ![LOGO](./Images/TOU-logo.png)
+
+Current modifications to the original:
+ - Each individual neutral evil now has an option to end the game or keep playing.
+
 ![Roles](./Images/Roles.png)
 
 An Among Us mod that adds a bunch of roles, modifiers and game settings
