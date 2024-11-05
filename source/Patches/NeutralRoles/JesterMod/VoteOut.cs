@@ -22,7 +22,7 @@ namespace TownOfUs.NeutralRoles.JesterMod
                 ((Jester)role).Wins();
                 
 
-                if (CustomGameOptions.NeutralEvilWinEndsGame || !CustomGameOptions.JesterHaunt) return;
+                if (CustomGameOptions.JesterEndsGame || !CustomGameOptions.JesterHaunt) return;
                 if (PlayerControl.LocalPlayer != player) return;
                 role.PauseEndCrit = true;
 

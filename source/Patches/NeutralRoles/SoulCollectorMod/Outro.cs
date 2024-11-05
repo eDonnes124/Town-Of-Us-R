@@ -11,7 +11,7 @@ namespace TownOfUs.NeutralRoles.SoulCollectorMod
     {
         public static void Postfix(EndGameManager __instance)
         {
-            if (!CustomGameOptions.NeutralEvilWinEndsGame) return;
+            if (!CustomGameOptions.SoulCollectorEndsGame) return;
             var role = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.SoulCollector && ((SoulCollector) x).CollectedSouls);
             if (role == null) return;

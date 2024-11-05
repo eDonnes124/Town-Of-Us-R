@@ -971,7 +971,7 @@ namespace TownOfUs
                                 {
                                     sc.CollectedSouls = true;
 
-                                    if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                                    if (!CustomGameOptions.SoulCollectorEndsGame)
                                     {
                                         KillButtonTarget.DontRevive = sc.Player.PlayerId;
                                         sc.Player.Exiled();
@@ -1100,7 +1100,7 @@ namespace TownOfUs
                     case CustomRPC.PhantomWin:
                         var phantomWinner = Role.GetRole<Phantom>(Utils.PlayerById(reader.ReadByte()));
                         phantomWinner.CompletedTasks = true;
-                        if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                        if (!CustomGameOptions.PhantomEndsGame)
                         {
                             phantomWinner.Caught = true;
                             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Phantom) || !CustomGameOptions.PhantomSpook || MeetingHud.Instance) return;

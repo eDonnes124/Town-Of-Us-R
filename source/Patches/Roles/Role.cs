@@ -184,22 +184,22 @@ namespace TownOfUs.Roles
             foreach (var jest in GetRoles(RoleEnum.Jester))
             {
                 var jestRole = (Jester)jest;
-                if (jestRole.VotedOut && CustomGameOptions.NeutralEvilWinEndsGame) return;
+                if (jestRole.VotedOut && CustomGameOptions.JesterEndsGame) return;
             }
             foreach (var exe in GetRoles(RoleEnum.Executioner))
             {
                 var exeRole = (Executioner)exe;
-                if (exeRole.TargetVotedOut && CustomGameOptions.NeutralEvilWinEndsGame) return;
+                if (exeRole.TargetVotedOut && CustomGameOptions.ExecutionerEndsGame) return;
             }
             foreach (var doom in GetRoles(RoleEnum.Doomsayer))
             {
                 var doomRole = (Doomsayer)doom;
-                if (doomRole.WonByGuessing && CustomGameOptions.NeutralEvilWinEndsGame) return;
+                if (doomRole.WonByGuessing && CustomGameOptions.DoomsayerEndsGame) return;
             }
             foreach (var sc in GetRoles(RoleEnum.SoulCollector))
             {
                 var scRole = (SoulCollector)sc;
-                if (scRole.CollectedSouls && CustomGameOptions.NeutralEvilWinEndsGame) return;
+                if (scRole.CollectedSouls && CustomGameOptions.SoulCollectorEndsGame) return;
             }
 
             VampireWins = true;

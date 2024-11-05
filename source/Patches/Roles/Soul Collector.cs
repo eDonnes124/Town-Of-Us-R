@@ -61,7 +61,7 @@ namespace TownOfUs.Roles
         internal override bool GameEnd(LogicGameFlowNormal __instance)
         {
             if (Player.Data.IsDead) return true;
-            if (!CustomGameOptions.NeutralEvilWinEndsGame) return true;
+            if (!CustomGameOptions.SoulCollectorEndsGame) return true;
             if (!CollectedSouls) return true;
             Utils.EndGame();
             return false;

@@ -44,7 +44,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             var doom = Role.GetRole<Doomsayer>(doomsayer);
             doom.CorrectAssassinKills += 1;
             doom.WonByGuessing = true;
-            if (!CustomGameOptions.NeutralEvilWinEndsGame) MurderPlayer(doom.Player, true, false);
+            if (!CustomGameOptions.DoomsayerEndsGame) MurderPlayer(doom.Player, true, false);
         }
         public static void MurderPlayer(
             PlayerVoteArea voteArea,

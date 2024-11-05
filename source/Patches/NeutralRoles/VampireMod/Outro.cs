@@ -11,13 +11,11 @@ namespace TownOfUs.NeutralRoles.VampireMod
     {
         public static void Postfix(EndGameManager __instance)
         {
-            if (CustomGameOptions.NeutralEvilWinEndsGame)
-            {
-                if (Role.GetRoles(RoleEnum.Jester).Any(x => ((Jester)x).VotedOut)) return;
-                if (Role.GetRoles(RoleEnum.Executioner).Any(x => ((Executioner)x).TargetVotedOut)) return;
-                if (Role.GetRoles(RoleEnum.Doomsayer).Any(x => ((Doomsayer)x).WonByGuessing)) return;
-                if (Role.GetRoles(RoleEnum.SoulCollector).Any(x => ((SoulCollector)x).CollectedSouls)) return;
-            }
+            if (CustomGameOptions.JesterEndsGame && Role.GetRoles(RoleEnum.Jester).Any(x => ((Jester)x).VotedOut)) return;
+            if (CustomGameOptions.ExecutionerEndsGame && Role.GetRoles(RoleEnum.Executioner).Any(x => ((Executioner)x).TargetVotedOut)) return;
+            if (CustomGameOptions.DoomsayerEndsGame && Role.GetRoles(RoleEnum.Doomsayer).Any(x => ((Doomsayer)x).WonByGuessing)) return;
+            if (CustomGameOptions.SoulCollectorEndsGame && Role.GetRoles(RoleEnum.SoulCollector).Any(x => ((SoulCollector)x).CollectedSouls)) return;
+
             var role = Role.AllRoles.FirstOrDefault(x =>
                 x.RoleType == RoleEnum.Vampire && Role.VampireWins);
             if (role == null) return;

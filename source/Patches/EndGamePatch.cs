@@ -209,28 +209,44 @@ namespace TownOfUs.Patches {
                 AdditionalTempData.playerRoles.Add(new AdditionalTempData.PlayerRoleInfo() { PlayerName = playerControl.Data.PlayerName, Role = playerRole });
             }
 
-            if (!CustomGameOptions.NeutralEvilWinEndsGame)
+            if (!CustomGameOptions.DoomsayerEndsGame)
             {
                 foreach (var doomsayer in Role.GetRoles(RoleEnum.Doomsayer))
                 {
                     var doom = (Doomsayer)doomsayer;
                     if (doom.WonByGuessing) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = doom.Player.Data.PlayerName, Role = RoleEnum.Doomsayer });
                 }
+            }
+
+            if (!CustomGameOptions.ExecutionerEndsGame)
+            {
                 foreach (var executioner in Role.GetRoles(RoleEnum.Executioner))
                 {
                     var exe = (Executioner)executioner;
                     if (exe.TargetVotedOut) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = exe.Player.Data.PlayerName, Role = RoleEnum.Executioner });
                 }
+            }
+
+            if(!CustomGameOptions.JesterEndsGame)
+            {
                 foreach (var jester in Role.GetRoles(RoleEnum.Jester))
                 {
                     var jest = (Jester)jester;
                     if (jest.VotedOut) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = jest.Player.Data.PlayerName, Role = RoleEnum.Jester });
                 }
+            }
+
+            if(!CustomGameOptions.PhantomEndsGame)
+            {
                 foreach (var phantom in Role.GetRoles(RoleEnum.Phantom))
                 {
                     var phan = (Phantom)phantom;
                     if (phan.CompletedTasks) AdditionalTempData.otherWinners.Add(new AdditionalTempData.Winners() { PlayerName = phan.Player.Data.PlayerName, Role = RoleEnum.Phantom });
                 }
+            }
+
+            if(!CustomGameOptions.SoulCollectorEndsGame)
+            {
                 foreach (var soulCollector in Role.GetRoles(RoleEnum.SoulCollector))
                 {
                     var sc = (SoulCollector)soulCollector;

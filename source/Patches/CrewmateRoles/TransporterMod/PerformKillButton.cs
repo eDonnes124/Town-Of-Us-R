@@ -33,18 +33,14 @@ namespace TownOfUs.CrewmateRoles.TransporterMod
                     List<byte> transportTargets = new List<byte>();
                     foreach (var player in PlayerControl.AllPlayerControls)
                     {
-                        if (!player.Data.Disconnected)
-                        {
-                            if (!player.Data.IsDead) transportTargets.Add(player.PlayerId);
-                            else
-                            {
-                                foreach (var body in Object.FindObjectsOfType<DeadBody>())
-                                {
-                                    if (body.ParentId == player.PlayerId) transportTargets.Add(player.PlayerId);
-                                }
-                            }
-                        }
+                        if (!player.Data.Disconnected && !player.Data.IsDead) transportTargets.Add(player.PlayerId);
                     }
+
+                    foreach (var body in Object.FindObjectsOfType<DeadBody>())
+                    {
+                        transportTargets.Add(body.ParentId);
+                    }
+
                     byte[] transporttargetIDs = transportTargets.ToArray();
                     var pk = new PlayerMenu((x) =>
                     {

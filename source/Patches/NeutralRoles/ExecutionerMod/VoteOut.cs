@@ -20,7 +20,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
                 {
                     ((Executioner)role).Wins();
 
-                    if (CustomGameOptions.NeutralEvilWinEndsGame || !CustomGameOptions.ExecutionerTorment) return;
+                    if (CustomGameOptions.ExecutionerEndsGame || !CustomGameOptions.ExecutionerTorment) return;
                     if (PlayerControl.LocalPlayer != ((Executioner)role).Player) return;
                     role.PauseEndCrit = true;
 

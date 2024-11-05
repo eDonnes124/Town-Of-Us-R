@@ -214,6 +214,7 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption TransporterVitals;
 
         public static CustomHeaderOption Jester;
+        public static CustomToggleOption JesterEndsGame;
         public static CustomToggleOption JesterButton;
         public static CustomToggleOption JesterVent;
         public static CustomToggleOption JesterImpVision;
@@ -239,11 +240,13 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption MorphlingVent;
 
         public static CustomHeaderOption Executioner;
+        public static CustomToggleOption ExecutionerEndsGame;
         public static CustomStringOption OnTargetDead;
         public static CustomToggleOption ExecutionerButton;
         public static CustomToggleOption ExecutionerTorment;
 
         public static CustomHeaderOption Phantom;
+        public static CustomToggleOption PhantomEndsGame;
         public static CustomNumberOption PhantomTasksRemaining;
         public static CustomToggleOption PhantomSpook;
 
@@ -408,6 +411,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Doomsayer;
         public static CustomNumberOption ObserveCooldown;
+        public static CustomToggleOption DoomsayerEndsGame;
         public static CustomToggleOption DoomsayerGuessNeutralBenign;
         public static CustomToggleOption DoomsayerGuessNeutralEvil;
         public static CustomToggleOption DoomsayerGuessNeutralKilling;
@@ -464,6 +468,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption SoulCollector;
         public static CustomNumberOption ReapCooldown;
+        public static CustomToggleOption SoulCollectorEndsGame;
         public static CustomToggleOption PassiveSoulCollection;
         public static CustomNumberOption SoulsToWin;
 
@@ -749,7 +754,6 @@ namespace TownOfUs.CustomOption
             SkipButtonDisable = new CustomStringOption(num++, MultiMenu.main, "Disable Meeting Skip Button", new[] { "No", "Emergency", "Always" });
             HiddenRoles = new CustomToggleOption(num++, MultiMenu.main, "Enable Hidden Roles", true);
             FirstDeathShield = new CustomToggleOption(num++, MultiMenu.main, "First Death Shield Next Game", false);
-            NeutralEvilWinEndsGame = new CustomToggleOption(num++, MultiMenu.main, "Neutral Evil Win Ends Game", true);
             CrewKillersContinue = new CustomToggleOption(num++, MultiMenu.main, "Crew Killers Continue Game", false);
 
             TaskTrackingSettings =
@@ -1043,6 +1047,7 @@ namespace TownOfUs.CustomOption
             Doomsayer = new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#00FF80FF>Doomsayer</color>");
             ObserveCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Observe Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            DoomsayerEndsGame = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Win Ends Game", false);
             DoomsayerGuessNeutralBenign = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Benign Roles", false);
             DoomsayerGuessNeutralEvil = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Evil Roles", false);
             DoomsayerGuessNeutralKilling = new CustomToggleOption(num++, MultiMenu.neutral, "Doomsayer Can Guess Neutral Killing Roles", false);
@@ -1056,11 +1061,15 @@ namespace TownOfUs.CustomOption
                 new[] { "Crew", "Amnesiac", "Survivor", "Jester" });
             ExecutionerButton =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Executioner Can Button", true);
+            ExecutionerEndsGame =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Executioner Win Ends Game", false);
             ExecutionerTorment =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Executioner Torments Player On Victory", true);
 
             Jester =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#FFBFCCFF>Jester</color>");
+            JesterEndsGame =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Jester Win Ends Game", false);
             JesterButton =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Jester Can Button", true);
             JesterVent =
@@ -1072,6 +1081,8 @@ namespace TownOfUs.CustomOption
 
             Phantom =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#662962FF>Phantom</color>");
+            PhantomEndsGame =
+                 new CustomToggleOption(num++, MultiMenu.neutral, "Phantom Win Ends Game", true);
             PhantomTasksRemaining =
                  new CustomNumberOption(num++, MultiMenu.neutral, "Tasks Remaining When Phantom Can Be Clicked", 5, 1, 15, 1);
             PhantomSpook =
@@ -1079,6 +1090,8 @@ namespace TownOfUs.CustomOption
 
             SoulCollector =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#99FFCCFF>Soul Collector</color>");
+            SoulCollectorEndsGame =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Soul Collector Win Ends Game", true);
             ReapCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Reap Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             PassiveSoulCollection =

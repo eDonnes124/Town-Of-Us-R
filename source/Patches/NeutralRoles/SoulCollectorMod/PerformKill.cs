@@ -69,7 +69,7 @@ namespace TownOfUs.NeutralRoles.SoulCollectorMod
                 {
                     role.CollectedSouls = true;
 
-                    if (!CustomGameOptions.NeutralEvilWinEndsGame)
+                    if (!CustomGameOptions.SoulCollectorEndsGame)
                     {
                         KillButtonTarget.DontRevive = role.Player.PlayerId;
                         role.Player.Exiled();

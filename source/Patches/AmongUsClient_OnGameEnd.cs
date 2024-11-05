@@ -114,72 +114,100 @@ namespace TownOfUs
                 return;
             }
 
-            if (CustomGameOptions.NeutralEvilWinEndsGame)
+            if (CustomGameOptions.JesterEndsGame)
             {
-                foreach (var role in Role.AllRoles)
+                foreach (var role in Role.GetRoles(RoleEnum.Jester))
                 {
-                    var type = role.RoleType;
+                    var jester = (Jester)role;
+                    if (jester.VotedOut)
+                    {
+                        EndGameResult.CachedWinners = new List<CachedPlayerData>();
+                        var jestData = new CachedPlayerData(jester.Player.Data);
+                        jestData.IsDead = false;
+                        if (PlayerControl.LocalPlayer != jester.Player) jestData.IsYou = false;
+                        EndGameResult.CachedWinners.Add(jestData);
+                        return;
+                    }
 
-                    if (type == RoleEnum.Jester)
+                }
+            }
+
+            if (CustomGameOptions.ExecutionerEndsGame)
+            {
+                foreach (var role in Role.GetRoles(RoleEnum.Executioner))
+                {
+                    var executioner = (Executioner)role;
+                    if (executioner.TargetVotedOut)
                     {
-                        var jester = (Jester)role;
-                        if (jester.VotedOut)
-                        {
-                            EndGameResult.CachedWinners = new List<CachedPlayerData>();
-                            var jestData = new CachedPlayerData(jester.Player.Data);
-                            jestData.IsDead = false;
-                            if (PlayerControl.LocalPlayer != jester.Player) jestData.IsYou = false;
-                            EndGameResult.CachedWinners.Add(jestData);
-                            return;
-                        }
+                        EndGameResult.CachedWinners = new List<CachedPlayerData>();
+                        var exeData = new CachedPlayerData(executioner.Player.Data);
+                        if (PlayerControl.LocalPlayer != executioner.Player) exeData.IsYou = false;
+                        EndGameResult.CachedWinners.Add(exeData);
+                        return;
                     }
-                    else if (type == RoleEnum.Executioner)
+                }
+            }
+
+            if (CustomGameOptions.DoomsayerEndsGame)
+            {
+                foreach (var role in Role.GetRoles(RoleEnum.Executioner))
+                {
+                    var doom = (Doomsayer)role;
+                    if (doom.WonByGuessing)
                     {
-                        var executioner = (Executioner)role;
-                        if (executioner.TargetVotedOut)
-                        {
-                            EndGameResult.CachedWinners = new List<CachedPlayerData>();
-                            var exeData = new CachedPlayerData(executioner.Player.Data);
-                            if (PlayerControl.LocalPlayer != executioner.Player) exeData.IsYou = false;
-                            EndGameResult.CachedWinners.Add(exeData);
-                            return;
-                        }
+                        EndGameResult.CachedWinners = new List<CachedPlayerData>();
+                        var doomData = new CachedPlayerData(doom.Player.Data);
+                        if (PlayerControl.LocalPlayer != doom.Player) doomData.IsYou = false;
+                        EndGameResult.CachedWinners.Add(doomData);
+                        return;
                     }
-                    else if (type == RoleEnum.Doomsayer)
+                }
+            }
+
+            if (CustomGameOptions.DoomsayerEndsGame)
+            {
+                foreach (var role in Role.GetRoles(RoleEnum.Executioner))
+                {
+                    var doom = (Doomsayer)role;
+                    if (doom.WonByGuessing)
                     {
-                        var doom = (Doomsayer)role;
-                        if (doom.WonByGuessing)
-                        {
-                            EndGameResult.CachedWinners = new List<CachedPlayerData>();
-                            var doomData = new CachedPlayerData(doom.Player.Data);
-                            if (PlayerControl.LocalPlayer != doom.Player) doomData.IsYou = false;
-                            EndGameResult.CachedWinners.Add(doomData);
-                            return;
-                        }
+                        EndGameResult.CachedWinners = new List<CachedPlayerData>();
+                        var doomData = new CachedPlayerData(doom.Player.Data);
+                        if (PlayerControl.LocalPlayer != doom.Player) doomData.IsYou = false;
+                        EndGameResult.CachedWinners.Add(doomData);
+                        return;
                     }
-                    else if (type == RoleEnum.SoulCollector)
+                }
+            }
+
+            if (CustomGameOptions.SoulCollectorEndsGame)
+            {
+                foreach (var role in Role.GetRoles(RoleEnum.Executioner))
+                {
+                    var sc = (SoulCollector)role;
+                    if (sc.CollectedSouls)
                     {
-                        var sc = (SoulCollector)role;
-                        if (sc.CollectedSouls)
-                        {
-                            EndGameResult.CachedWinners = new List<CachedPlayerData>();
-                            var scData = new CachedPlayerData(sc.Player.Data);
-                            if (PlayerControl.LocalPlayer != sc.Player) scData.IsYou = false;
-                            EndGameResult.CachedWinners.Add(scData);
-                            return;
-                        }
+                        EndGameResult.CachedWinners = new List<CachedPlayerData>();
+                        var scData = new CachedPlayerData(sc.Player.Data);
+                        if (PlayerControl.LocalPlayer != sc.Player) scData.IsYou = false;
+                        EndGameResult.CachedWinners.Add(scData);
+                        return;
                     }
-                    else if (type == RoleEnum.Phantom)
+                }
+            }
+
+            if (CustomGameOptions.PhantomEndsGame)
+            {
+                foreach (var role in Role.GetRoles(RoleEnum.Executioner))
+                {
+                    var phantom = (Phantom)role;
+                    if (phantom.CompletedTasks)
                     {
-                        var phantom = (Phantom)role;
-                        if (phantom.CompletedTasks)
-                        {
-                            EndGameResult.CachedWinners = new List<CachedPlayerData>();
-                            var phantomData = new CachedPlayerData(phantom.Player.Data);
-                            if (PlayerControl.LocalPlayer != phantom.Player) phantomData.IsYou = false;
-                            EndGameResult.CachedWinners.Add(phantomData);
-                            return;
-                        }
+                        EndGameResult.CachedWinners = new List<CachedPlayerData>();
+                        var phantomData = new CachedPlayerData(phantom.Player.Data);
+                        if (PlayerControl.LocalPlayer != phantom.Player) phantomData.IsYou = false;
+                        EndGameResult.CachedWinners.Add(phantomData);
+                        return;
                     }
                 }
             }

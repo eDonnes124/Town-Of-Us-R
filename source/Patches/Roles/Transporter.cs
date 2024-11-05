@@ -283,20 +283,17 @@ namespace TownOfUs.Roles
             SwappingMenus = false;
             if (MeetingHud.Instance || !PlayerControl.LocalPlayer.Is(RoleEnum.Transporter)) yield break;
             List<byte> transportTargets = new List<byte>();
+
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (!player.Data.Disconnected && player != TransportPlayer1)
-                {
-                    if (!player.Data.IsDead) transportTargets.Add(player.PlayerId);
-                    else
-                    {
-                        foreach (var body in Object.FindObjectsOfType<DeadBody>())
-                        {
-                            if (body.ParentId == player.PlayerId) transportTargets.Add(player.PlayerId);
-                        }
-                    }
-                }
+                if (!player.Data.Disconnected && !player.Data.IsDead && player != TransportPlayer1) transportTargets.Add(player.PlayerId);
             }
+
+            foreach (var body in Object.FindObjectsOfType<DeadBody>())
+            {
+                 if(body.ParentId != TransportPlayer1.PlayerId) transportTargets.Add(body.ParentId);
+            }
+
             byte[] transporttargetIDs = transportTargets.ToArray();
             var pk = new PlayerMenu((x) =>
             {

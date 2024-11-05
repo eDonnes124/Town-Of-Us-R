@@ -29,7 +29,7 @@ namespace TownOfUs.Roles
         internal override bool GameEnd(LogicGameFlowNormal __instance)
         {
             if (!VotedOut || !Player.Data.IsDead && !Player.Data.Disconnected) return true;
-            if (!CustomGameOptions.NeutralEvilWinEndsGame) return true;
+            if (!CustomGameOptions.JesterEndsGame) return true;
             Utils.EndGame();
             return false;
         }

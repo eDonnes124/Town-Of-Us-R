@@ -24,7 +24,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
             var player = exiled.Object;
 
             foreach (var role in Role.GetRoles(RoleEnum.Executioner))
-                if (player.PlayerId == ((Executioner)role).target.PlayerId && !CustomGameOptions.NeutralEvilWinEndsGame)
+                if (player.PlayerId == ((Executioner)role).target.PlayerId && !CustomGameOptions.ExecutionerEndsGame)
                 {
                     KillButtonTarget.DontRevive = role.Player.PlayerId;
                     role.Player.Exiled();

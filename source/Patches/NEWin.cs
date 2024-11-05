@@ -10,18 +10,17 @@ namespace TownOfUs.Patches
     {
         public static void Postfix(EndGameManager __instance)
         {
-            if (CustomGameOptions.NeutralEvilWinEndsGame) return;
             var neWin = false;
             var doomRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Doomsayer && ((Doomsayer)x).WonByGuessing && ((Doomsayer)x).Player == PlayerControl.LocalPlayer);
-            if (doomRole != null) neWin = true;
+            if (doomRole != null && CustomGameOptions.DoomsayerEndsGame) neWin = true;
             var exeRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Executioner && ((Executioner)x).TargetVotedOut && ((Executioner)x).Player == PlayerControl.LocalPlayer);
-            if (exeRole != null) neWin = true;
+            if (exeRole != null && CustomGameOptions.ExecutionerEndsGame) neWin = true;
             var jestRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Jester && ((Jester)x).VotedOut && ((Jester)x).Player == PlayerControl.LocalPlayer);
-            if (jestRole != null) neWin = true;
+            if (jestRole != null && CustomGameOptions.JesterEndsGame) neWin = true;
             var phantomRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.Phantom && ((Phantom)x).CompletedTasks && ((Phantom)x).Player == PlayerControl.LocalPlayer);
-            if (phantomRole != null) neWin = true;
+            if (phantomRole != null && CustomGameOptions.PhantomEndsGame) neWin = true;
             var scRole = Role.AllRoles.FirstOrDefault(x => x.RoleType == RoleEnum.SoulCollector && ((SoulCollector)x).CollectedSouls && ((SoulCollector)x).Player == PlayerControl.LocalPlayer);
-            if (scRole != null) neWin = true;
+            if (scRole != null && CustomGameOptions.SoulCollectorEndsGame) neWin = true;
             if (neWin)
             {
                 __instance.WinText.text = "</color><color=#008DFFFF>Victory";
