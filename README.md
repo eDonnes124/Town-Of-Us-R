@@ -5,6 +5,7 @@
 Current modifications to the original:
  - Each individual neutral evil now has an option to end the game or keep playing.
  - You can now choose the percentage chance the game will allow a repeat role under Mod Options. Set to 0 for no repeats, set to 100 for normal behavior.
+ - Added an option that makes the Politican only see the reveal button after he has gotten enough votes.
 
 ![Roles](./Images/Roles.png)
 
