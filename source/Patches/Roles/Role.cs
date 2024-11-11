@@ -10,6 +10,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using TownOfUs.Extensions;
+using Reactor.Utilities;
 using AmongUs.GameOptions;
 using TownOfUs.ImpostorRoles.TraitorMod;
 
@@ -18,6 +19,7 @@ namespace TownOfUs.Roles
     public abstract class Role
     {
         public static readonly Dictionary<byte, Role> RoleDictionary = new Dictionary<byte, Role>();
+        public static readonly Dictionary<byte, Type> PreviousRoles = new Dictionary<byte, Type>();
         public static readonly List<KeyValuePair<byte, RoleEnum>> RoleHistory = new List<KeyValuePair<byte, RoleEnum>>();
 
         public static bool NobodyWins;
@@ -387,11 +389,77 @@ namespace TownOfUs.Roles
 
         public static T GenRole<T>(Type type, List<PlayerControl> players)
         {
+            players.Shuffle();
             var player = players[Random.RandomRangeInt(0, players.Count)];
 
             var role = GenRole<T>(type, player);
             players.Remove(player);
             return role;
+        }
+
+        public static List<T> GenRole<T> (List<Type> types, List<PlayerControl> players)
+        {
+            var assignments = new Dictionary<PlayerControl, Type>();
+            var unassignedPlayers = players.ToList();
+            var roles = new List<T>();
+
+            Logger<TownOfUs>.Info($"Role Count: {types.Count}");
+            Logger<TownOfUs>.Info($"Player Count: {players.Count}");
+
+
+            unassignedPlayers.Shuffle();
+
+            for(int i = 0; i < types.Count && unassignedPlayers.Count > 0; i++)
+            {
+                var type = types[i];
+                Logger<TownOfUs>.Info($"Assigning {type.FullName}");
+
+                var possiblePlayers = unassignedPlayers.Where(p => 
+                    !PreviousRoles.ContainsKey(p.PlayerId) || 
+                    PreviousRoles[p.PlayerId] != type || 
+                    Random.RandomRangeInt(0, 100) < CustomGameOptions.RepeatRolePercentage
+                ).ToList();
+
+
+                Logger<TownOfUs>.Info($"Possible Players: {String.Join(", ", possiblePlayers.Select(p => "" + p.PlayerId))}");
+
+                if (possiblePlayers.Count == 0)
+                {
+                    var unassignedPlayer = unassignedPlayers[Random.RandomRangeInt(0, unassignedPlayers.Count())];
+
+                    Logger<TownOfUs>.Info($"Unassigned Player to Swap: {unassignedPlayer.PlayerId}");
+
+                    var assignedPossiblePlayers = assignments.Where(p => 
+                        (!PreviousRoles.ContainsKey(p.Key.PlayerId) || PreviousRoles[p.Key.PlayerId] != type) && p.Value != type
+                    ).ToList();
+
+                    if (assignedPossiblePlayers.Count == 0) continue;
+
+                    var swapPlayer = assignedPossiblePlayers[Random.RandomRangeInt(0, assignedPossiblePlayers.Count())];
+
+                    Logger<TownOfUs>.Info($"Assigned Player to Swap: {swapPlayer.Key.PlayerId}");
+
+                    assignments[unassignedPlayer] = assignments[swapPlayer.Key];
+                    assignments[swapPlayer.Key] = type;
+
+                    unassignedPlayers.Remove(unassignedPlayer);
+                }
+                else
+                {
+                    var player = possiblePlayers[Random.RandomRangeInt(0, possiblePlayers.Count())];
+                    Logger<TownOfUs>.Info($"Unassigned Player to assign: {player.PlayerId}");
+                    assignments[player] = type;
+                    unassignedPlayers.Remove(player);
+                }
+            }
+
+            foreach (var player in assignments.Keys)
+            {
+                roles.Add(GenRole<T>(assignments[player], player));
+                players.Remove(player);
+            }
+
+            return roles;
         }
         public static T GenModifier<T>(Type type, List<PlayerControl> players)
         {

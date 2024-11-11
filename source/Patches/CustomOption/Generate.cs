@@ -117,6 +117,8 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption LargeMapDecreasedShortTasks;
         public static CustomNumberOption LargeMapDecreasedLongTasks;
 
+        public static CustomHeaderOption RepeatRoleSettings;
+        public static CustomNumberOption RepeatRolePercentage;
         public static CustomHeaderOption CustomGameSettings;
         public static CustomToggleOption ColourblindComms;
         public static CustomToggleOption CamoCommsKillAnyone;
@@ -679,6 +681,9 @@ namespace TownOfUs.CustomOption
             GameModeSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Game Mode Settings");
             GameMode = new CustomStringOption(num++, MultiMenu.main, "Game Mode", new[] {"Classic", "All Any", "Killing Only" });
+
+            RepeatRoleSettings = new CustomHeaderOption(num++, MultiMenu.main, "Repeat Role Settings");
+            RepeatRolePercentage = new CustomNumberOption(num++, MultiMenu.main, "Percentage Chance Players Could Get A Repeat Role", 100f, 0f, 100f, 10f, PercentFormat);
 
             ClassicSettings =
                 new CustomHeaderOption(num++, MultiMenu.main, "Classic Game Mode Settings");

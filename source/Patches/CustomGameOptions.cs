@@ -366,5 +366,6 @@ namespace TownOfUs
         public static float InvisDelay => Generate.InvisDelay.Get();
         public static float TransformInvisDuration => Generate.TransformInvisDuration.Get();
         public static float FinalTransparency => Generate.FinalTransparency.Get();
+        public static float RepeatRolePercentage => Generate.RepeatRolePercentage.Get();
     }
 }

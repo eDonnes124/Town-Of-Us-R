@@ -70,8 +70,7 @@ namespace TownOfUs
         }
         private static int PickRoleCount(int min, int max)
         {
-            if (min > max) min = max;
-            return Random.RandomRangeInt(min, max + 1);
+            return Random.RandomRangeInt(Math.Min(min, max), max + 1);
         }
 
         private static void SortRoles(this List<(Type, int, bool)> roles, int max)
@@ -280,14 +279,8 @@ namespace TownOfUs
             impRoles.Shuffle();
 
             // Hand out appropriate roles to crewmates and impostors.
-            foreach (var (type, _, unique) in crewRoles)
-            {
-                Role.GenRole<Role>(type, crewmates);
-            }
-            foreach (var (type, _, unique) in impRoles)
-            {
-                Role.GenRole<Role>(type, impostors);
-            }
+            Role.GenRole<Role>(crewRoles.Select(r => r.Item1).ToList(), crewmates);
+            Role.GenRole<Role>(impRoles.Select(r => r.Item1).ToList(), impostors);
 
             // Assign vanilla roles to anyone who did not receive a role.
             foreach (var crewmate in crewmates)
