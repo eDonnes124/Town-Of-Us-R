@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "TownOfUs": {
+      "commandName": "Project"
+    },
+    "Among Us": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\ryanthornton\\Projects\\Among Us - TOU\\Run 5.bat"
+    }
+  }
+}
