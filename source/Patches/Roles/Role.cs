@@ -396,38 +396,30 @@ namespace TownOfUs.Roles
             players.Remove(player);
             return role;
         }
-
+        
         public static List<T> GenRole<T> (List<Type> types, List<PlayerControl> players)
         {
             var assignments = new Dictionary<PlayerControl, Type>();
             var unassignedPlayers = players.ToList();
             var roles = new List<T>();
 
-            Logger<TownOfUs>.Info($"Role Count: {types.Count}");
-            Logger<TownOfUs>.Info($"Player Count: {players.Count}");
-
-
             unassignedPlayers.Shuffle();
 
             for(int i = 0; i < types.Count && unassignedPlayers.Count > 0; i++)
             {
                 var type = types[i];
-                Logger<TownOfUs>.Info($"Assigning {type.FullName}");
 
+                // Pull a list of possible players for the role.
+                // A possible player is one that either did not have the role in the pre
                 var possiblePlayers = unassignedPlayers.Where(p => 
                     !PreviousRoles.ContainsKey(p.PlayerId) || 
                     PreviousRoles[p.PlayerId] != type || 
                     Random.RandomRangeInt(0, 100) < CustomGameOptions.RepeatRolePercentage
                 ).ToList();
 
-
-                Logger<TownOfUs>.Info($"Possible Players: {String.Join(", ", possiblePlayers.Select(p => "" + p.PlayerId))}");
-
                 if (possiblePlayers.Count == 0)
                 {
                     var unassignedPlayer = unassignedPlayers[Random.RandomRangeInt(0, unassignedPlayers.Count())];
-
-                    Logger<TownOfUs>.Info($"Unassigned Player to Swap: {unassignedPlayer.PlayerId}");
 
                     var assignedPossiblePlayers = assignments.Where(p => 
                         (!PreviousRoles.ContainsKey(p.Key.PlayerId) || PreviousRoles[p.Key.PlayerId] != type) && p.Value != type
@@ -437,8 +429,6 @@ namespace TownOfUs.Roles
 
                     var swapPlayer = assignedPossiblePlayers[Random.RandomRangeInt(0, assignedPossiblePlayers.Count())];
 
-                    Logger<TownOfUs>.Info($"Assigned Player to Swap: {swapPlayer.Key.PlayerId}");
-
                     assignments[unassignedPlayer] = assignments[swapPlayer.Key];
                     assignments[swapPlayer.Key] = type;
 
@@ -447,7 +437,6 @@ namespace TownOfUs.Roles
                 else
                 {
                     var player = possiblePlayers[Random.RandomRangeInt(0, possiblePlayers.Count())];
-                    Logger<TownOfUs>.Info($"Unassigned Player to assign: {player.PlayerId}");
                     assignments[player] = type;
                     unassignedPlayers.Remove(player);
                 }
@@ -829,6 +818,12 @@ namespace TownOfUs.Roles
                 {
                     ((Mystic)role).BodyArrows.Values.DestroyAll();
                     ((Mystic)role).BodyArrows.Clear();
+                }
+
+                PreviousRoles.Clear();
+                foreach (var role in RoleDictionary)
+                {
+                    PreviousRoles[role.Key] = role.Value.GetType();
                 }
 
                 RoleDictionary.Clear();
