@@ -1,6 +1,7 @@
 AmongUs/
 source/v2022.2.24s/**
-
+source/Properties/
+Directory.Build.props
 
 
 ## Ignore Visual Studio temporary files, build results, and
