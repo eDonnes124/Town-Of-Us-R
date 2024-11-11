@@ -19,22 +19,27 @@ namespace TownOfUs.NeutralRoles.JesterMod
             if (role == null) return;
             if (role.RoleType == RoleEnum.Jester)
             {
-                ((Jester)role).Wins();
+                var jesterRole = (Jester)role;
+                jesterRole.Wins();
                 
 
                 if (CustomGameOptions.JesterEndsGame || !CustomGameOptions.JesterHaunt) return;
                 if (PlayerControl.LocalPlayer != player) return;
-                role.PauseEndCrit = true;
 
-                byte[] toKill = MeetingHud.Instance.playerStates.Where(x => !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Pestilence) && x.VotedFor == player.PlayerId).Select(x => x.TargetPlayerId).ToArray();
+                jesterRole.KillableVoters = MeetingHud.Instance.playerStates.Where(x => !Utils.PlayerById(x.TargetPlayerId).Is(RoleEnum.Pestilence) && x.VotedFor == player.PlayerId).Select(x => x.TargetPlayerId).ToArray();
+
+                if (CustomGameOptions.JesterChoosesHaunt) return;
+
+                jesterRole.PauseEndCrit = true;
                 var pk = new PlayerMenu((x) =>
                 {
                     Utils.RpcMultiMurderPlayer(player, x);
                     role.PauseEndCrit = false;
                 }, (y) =>
                 {
-                    return toKill.Contains(y.PlayerId);
+                    return jesterRole.KillableVoters.Contains(y.PlayerId);
                 });
+
                 Coroutines.Start(pk.Open(3f));
             }
         }

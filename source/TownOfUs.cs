@@ -23,14 +23,14 @@ using Reactor.Utilities;
 
 namespace TownOfUs
 {
-    [BepInPlugin(Id, "Town Of Us", VersionString)]
+    [BepInPlugin(Id, "Town Of Us Mongy Monday", VersionString)]
     [BepInDependency(ReactorPlugin.Id)]
     [BepInDependency(SubmergedCompatibility.SUBMERGED_GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [ReactorModFlags(Reactor.Networking.ModFlags.RequireOnAllClients)]
     public class TownOfUs : BasePlugin
     {
-        public const string Id = "com.slushiegoose.townofus";
-        public const string VersionString = "5.1.1";
+        public const string Id = "net.dolphauy.townofus-mm";
+        public const string VersionString = "1.0.0";
         public static System.Version Version = System.Version.Parse(VersionString);
         public const string VersionTag = "<color=#ff33fc></color>";
 
@@ -57,6 +57,7 @@ namespace TownOfUs
         public static Sprite CycleBackSprite;
         public static Sprite CycleForwardSprite;
         public static Sprite GuessSprite;
+        public static Sprite KillSprite;
         public static Sprite DragSprite;
         public static Sprite DropSprite;
         public static Sprite FlashSprite;
@@ -167,6 +168,7 @@ namespace TownOfUs
             CycleBackSprite = CreateSprite("TownOfUs.Resources.CycleBack.png");
             CycleForwardSprite = CreateSprite("TownOfUs.Resources.CycleForward.png");
             GuessSprite = CreateSprite("TownOfUs.Resources.Guess.png");
+            KillSprite = CreateSprite("TownOfUs.Resources.Kill.png");
             FlashSprite = CreateSprite("TownOfUs.Resources.Flash.png");
             AlertSprite = CreateSprite("TownOfUs.Resources.Alert.png");
             RememberSprite = CreateSprite("TownOfUs.Resources.Remember.png");

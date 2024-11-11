@@ -117,6 +117,7 @@ namespace TownOfUs
         public static bool JesterVent => Generate.JesterVent.Get();
         public static bool JesterImpVision => Generate.JesterImpVision.Get();
         public static bool JesterHaunt => Generate.JesterHaunt.Get();
+        public static bool JesterChoosesHaunt => Generate.JesterChoosesHaunt.Get();
         public static ShieldOptions ShowShielded => (ShieldOptions)Generate.ShowShielded.Get();
 
         public static NotificationOptions NotificationShield =>
@@ -217,6 +218,7 @@ namespace TownOfUs
         public static int VigilanteKills => (int)Generate.VigilanteKills.Get();
         public static bool VigilanteMultiKill => Generate.VigilanteMultiKill.Get();
         public static bool VigilanteAfterVoting => Generate.VigilanteAfterVoting.Get();
+        public static bool PoliticanKnowsReveal => Generate.PoliticanKnowsReveal.Get();
         public static float CampaignCd => Generate.CampaignCooldown.Get();
         public static int HaunterTasksRemainingClicked => (int)Generate.HaunterTasksRemainingClicked.Get();
         public static int HaunterTasksRemainingAlert => (int)Generate.HaunterTasksRemainingAlert.Get();

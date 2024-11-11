@@ -217,6 +217,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption Jester;
         public static CustomToggleOption JesterEndsGame;
+        public static CustomToggleOption JesterChoosesHaunt;
         public static CustomToggleOption JesterButton;
         public static CustomToggleOption JesterVent;
         public static CustomToggleOption JesterImpVision;
@@ -456,6 +457,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption SenseDuration;
 
         public static CustomHeaderOption Politician;
+        public static CustomToggleOption PoliticanKnowsReveal;
         public static CustomNumberOption CampaignCooldown;
 
         public static CustomHeaderOption Warden;
@@ -988,6 +990,8 @@ namespace TownOfUs.CustomOption
 
             Politician =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#660099FF>Politician</color>");
+            PoliticanKnowsReveal =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Politican Knows When They Can Reveal", true);
             CampaignCooldown =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Campaign Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
 
@@ -1083,6 +1087,8 @@ namespace TownOfUs.CustomOption
                 new CustomToggleOption(num++, MultiMenu.neutral, "Jester Has Impostor Vision", false);
             JesterHaunt =
                 new CustomToggleOption(num++, MultiMenu.neutral, "Jester Haunts Player On Victory", true);
+            JesterChoosesHaunt =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Jester Gets To Choose When To Haunt", true);
 
             Phantom =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#662962FF>Phantom</color>");

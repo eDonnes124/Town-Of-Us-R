@@ -36,14 +36,18 @@ namespace TownOfUs.CrewmateRoles.PoliticianMod
             role.RevealButton = newButton;
         }
 
+        private static bool CanReveal(Politician role)
+        {
+            return role.CampaignedPlayers.ToArray().Where(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected && Utils.PlayerById(x).Is(Faction.Crewmates)).ToList().Count * 2 >= PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Politician)).ToList().Count;
+        }
+
 
         private static Action Reveal(Politician role)
         {
             void Listener()
             {
                 role.RevealButton.Destroy();
-                if (role.CampaignedPlayers.ToArray().Where(x => Utils.PlayerById(x) != null && Utils.PlayerById(x).Data != null && !Utils.PlayerById(x).Data.IsDead && !Utils.PlayerById(x).Data.Disconnected && Utils.PlayerById(x).Is(Faction.Crewmates)).ToList().Count * 2 >= 
-                    PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Politician)).ToList().Count)
+                if (CanReveal(role))
                 {
                     Role.RoleDictionary.Remove(role.Player.PlayerId);
                     var mayorRole = new Mayor(role.Player);
@@ -69,11 +73,12 @@ namespace TownOfUs.CrewmateRoles.PoliticianMod
             if (PlayerControl.LocalPlayer.IsJailed()) return;
             var politicianrole = Role.GetRole<Politician>(PlayerControl.LocalPlayer);
             politicianrole.CanCampaign = true;
-            for (var i = 0; i < __instance.playerStates.Length; i++)
-                if (PlayerControl.LocalPlayer.PlayerId == __instance.playerStates[i].TargetPlayerId)
-                {
-                    GenButton(politicianrole, i);
-                }
+            if(CanReveal(politicianrole) || !CustomGameOptions.PoliticanKnowsReveal) 
+                for (var i = 0; i < __instance.playerStates.Length; i++)
+                    if (PlayerControl.LocalPlayer.PlayerId == __instance.playerStates[i].TargetPlayerId)
+                    {
+                        GenButton(politicianrole, i);
+                    }
         }
     }
 }

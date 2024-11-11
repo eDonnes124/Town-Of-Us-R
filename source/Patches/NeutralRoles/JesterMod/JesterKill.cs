@@ -1,35 +1,36 @@
-﻿using System.Linq;
+﻿using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using System;
+using System.Linq;
 using TownOfUs.Roles;
+using TownOfUs.Roles.Modifiers;
 using UnityEngine;
 using UnityEngine.UI;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using TownOfUs.CrewmateRoles.MedicMod;
-using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.CrewmateRoles.VigilanteMod;
-using TownOfUs.NeutralRoles.DoomsayerMod;
+using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.ImpostorRoles.BlackmailerMod;
-using TownOfUs.Roles.Modifiers;
 using TownOfUs.Extensions;
-using TownOfUs.CrewmateRoles.ImitatorMod;
-using TownOfUs.Patches;
+using TownOfUs.NeutralRoles.DoomsayerMod;
+using TownOfUs.CrewmateRoles.SwapperMod;
 using Reactor.Utilities.Extensions;
+using TownOfUs.CrewmateRoles.ImitatorMod;
+using Object = UnityEngine.Object;
 
-namespace TownOfUs.Modifiers.AssassinMod
+namespace TownOfUs.Patches.NeutralRoles.JesterMod
 {
-    public class AssassinKill
+    public class JesterKill
     {
-        public static void RpcMurderPlayer(PlayerControl player, PlayerControl assassin)
+        public static void RpcMurderPlayer(PlayerControl player, PlayerControl jester)
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == player.PlayerId
             );
-            RpcMurderPlayer(voteArea, player, assassin);
+            RpcMurderPlayer(voteArea, player, jester);
         }
-        public static void RpcMurderPlayer(PlayerVoteArea voteArea, PlayerControl player, PlayerControl assassin)
+        public static void RpcMurderPlayer(PlayerVoteArea voteArea, PlayerControl player, PlayerControl jester)
         {
             MurderPlayer(voteArea, player);
-            AssassinKillCount(player, assassin);
-            Utils.Rpc(CustomRPC.AssassinKill, player.PlayerId, assassin.PlayerId);
+            Utils.Rpc(CustomRPC.JesterMeetingKill, player.PlayerId, jester.PlayerId);
         }
 
         public static void MurderPlayer(PlayerControl player, bool checkLover = true)
@@ -38,12 +39,6 @@ namespace TownOfUs.Modifiers.AssassinMod
                 x => x.TargetPlayerId == player.PlayerId
             );
             MurderPlayer(voteArea, player, checkLover);
-        }
-        public static void AssassinKillCount(PlayerControl player, PlayerControl assassin)
-        {
-            var assassinPlayer = Role.GetRole(assassin);
-            if (player == assassin) assassinPlayer.IncorrectAssassinKills += 1;
-            else assassinPlayer.CorrectAssassinKills += 1;
         }
         public static void MurderPlayer(
             PlayerVoteArea voteArea,
@@ -249,7 +244,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                 swapper.Buttons[voteArea.TargetPlayerId] = null;
             }
 
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Jester))
+            if(PlayerControl.LocalPlayer.Is(RoleEnum.Jester))
             {
                 var jester = (Jester)Role.GetRole(PlayerControl.LocalPlayer);
                 if (jester.canKill && jester.KillableVoters.Contains(voteArea.TargetPlayerId) && jester.meetingButtons.ContainsKey(voteArea.TargetPlayerId))
@@ -290,3 +285,4 @@ namespace TownOfUs.Modifiers.AssassinMod
         }
     }
 }
+

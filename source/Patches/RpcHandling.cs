@@ -36,6 +36,7 @@ using TownOfUs.CrewmateRoles.MayorMod;
 using System.Reflection;
 using TownOfUs.Patches.NeutralRoles;
 using TownOfUs.ImpostorRoles.BomberMod;
+using TownOfUs.Patches.NeutralRoles.JesterMod;
 
 namespace TownOfUs
 {
@@ -747,6 +748,11 @@ namespace TownOfUs
                         var doom = Utils.PlayerById(reader.ReadByte());
                         DoomsayerKill.DoomKillCount(toDie3, doom);
                         DoomsayerKill.MurderPlayer(toDie3);
+                        break;
+                    case CustomRPC.JesterMeetingKill:
+                        var toDie4 = Utils.PlayerById(reader.ReadByte());
+                        var jester = Utils.PlayerById(reader.ReadByte());
+                        JesterKill.MurderPlayer(toDie4);
                         break;
                     case CustomRPC.SetMimic:
                         var glitchPlayer = Utils.PlayerById(reader.ReadByte());

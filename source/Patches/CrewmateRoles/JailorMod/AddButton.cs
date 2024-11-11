@@ -315,6 +315,16 @@ namespace TownOfUs.CrewmateRoles.JailorMod
                 }
             }
 
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Jester))
+            {
+                var jester = (Jester)Role.GetRole(PlayerControl.LocalPlayer);
+                if (jester.canKill && jester.KillableVoters.Contains(voteArea.TargetPlayerId) && jester.meetingButtons.ContainsKey(voteArea.TargetPlayerId))
+                {
+                    jester.meetingButtons[voteArea.TargetPlayerId].Destroy();
+                    jester.meetingButtons.Remove(voteArea.TargetPlayerId);
+                }
+            }
+
             foreach (var playerVoteArea in meetingHud.playerStates)
             {
                 if (playerVoteArea.VotedFor != player.PlayerId) continue;

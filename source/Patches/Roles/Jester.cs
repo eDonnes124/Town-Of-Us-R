@@ -1,11 +1,19 @@
 using Il2CppSystem.Collections.Generic;
+using UnityEngine;
 
 namespace TownOfUs.Roles
 {
     public class Jester : Role
     {
         public bool VotedOut;
+        public byte[] KillableVoters;
+        public bool HasKilled = false;
         public bool SpawnedAs = true;
+
+        public Dictionary<byte, GameObject> meetingButtons = new Dictionary<byte, GameObject>();
+
+        public bool canKill => CustomGameOptions.JesterChoosesHaunt 
+                     && VotedOut && !HasKilled && KillableVoters.Length > 0;
 
 
         public Jester(PlayerControl player) : base(player)
