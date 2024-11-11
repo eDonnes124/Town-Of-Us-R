@@ -1093,7 +1093,7 @@ namespace TownOfUs.CustomOption
             Phantom =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#662962FF>Phantom</color>");
             PhantomEndsGame =
-                 new CustomToggleOption(num++, MultiMenu.neutral, "Phantom Win Ends Game", true);
+                 new CustomToggleOption(num++, MultiMenu.neutral, "Phantom Win Ends Game", false);
             PhantomTasksRemaining =
                  new CustomNumberOption(num++, MultiMenu.neutral, "Tasks Remaining When Phantom Can Be Clicked", 5, 1, 15, 1);
             PhantomSpook =
@@ -1102,7 +1102,7 @@ namespace TownOfUs.CustomOption
             SoulCollector =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#99FFCCFF>Soul Collector</color>");
             SoulCollectorEndsGame =
-                new CustomToggleOption(num++, MultiMenu.neutral, "Soul Collector Win Ends Game", true);
+                new CustomToggleOption(num++, MultiMenu.neutral, "Soul Collector Win Ends Game", false);
             ReapCooldown =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Reap Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             PassiveSoulCollection =
