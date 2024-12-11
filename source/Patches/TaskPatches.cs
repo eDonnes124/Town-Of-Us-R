@@ -41,7 +41,7 @@ namespace TownOfUs
         [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
         private class Console_CanUse
         {
-            private static bool Prefix(Console __instance, [HarmonyArgument(0)] NetworkedPlayerInfo playerInfo, ref float __result)
+            private static bool Prefix(Console __instance, [HarmonyArgument(0)] NetworkedPlayerInfo playerInfo, ref float __result, ref bool canUse, ref bool couldUse)
             {
                 var playerControl = playerInfo.Object;
 
@@ -61,6 +61,8 @@ namespace TownOfUs
                 if (flag && !__instance.AllowImpostor)
                 {
                     __result = float.MaxValue;
+                    canUse = false;
+                    couldUse = false;
                     return false;
                 }
 
