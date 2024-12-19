@@ -756,6 +756,45 @@ If the mod does not work and the version of Among Us that you see in the main me
 \
 **4. Reinstall the game and redo the mod installation, recreate your copy of the game if necessary**
 
+## Installation Guide (Steam) - Linux
+**1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
+\
+**2. Go to your Steam library.**\
+\
+**3. Right-click Among Us > click `Manage` > click `Browse local files`.**\
+\
+**4. In the File Explorer, delete the entire `Among Us` folder.**\
+\
+**5. Go back to your Steam library.**\
+\
+**6. Right-Click Among Us > click `Properties...` > click `LOCAL FILES`.**\
+\
+**7. Click on `VERIFY INTEGRITY OF GAME FILES...`.**\
+\
+**8. Wait for Steam to download a clean version of Among Us.**\
+\
+**9. Double-click on the zip file you downloaded.**\
+\
+**10. Drag all the files from the zip file to the Among Us folder.**\
+\
+**11. Install [Protontricks](https://flathub.org/apps/com.github.Matoking.protontricks).**\
+\
+**12. Open Protontricks and select: Among Us > Select the default wineprefix > Install a Windows DLL or component > Scroll down and select `winhttp`.**\
+\
+**13. Finally, launch Among Us from Steam.**\
+\
+A first launch may take up to 5 minutes, so be patient if it doesn't launch immediately.<br/>
+<br/>
+If the mod does not work and the version of Among Us that you see in the main menu, under the town of us logo or bottom left, does not correspond to the version indicated in the [releases table](#releases) above please do the following to get the correct version:
+
+**1. Go to Among Us in your Steam library**\
+\
+**2. Click the gears icon or right click among us and then go into properties**\
+\
+**3. Go to betas and select "public-previous" in the drop box**\
+\
+**4. Reinstall the game and redo the mod installation, recreate your copy of the game if necessary**
+
 ## Installation Guide (Epic Games)
 **1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
 \
