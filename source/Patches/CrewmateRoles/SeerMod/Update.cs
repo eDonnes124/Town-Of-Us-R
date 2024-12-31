@@ -2,6 +2,7 @@ using HarmonyLib;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
+using TownOfUs.ImpostorRoles.CamouflagerMod;
 using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.SeerMod
@@ -63,7 +64,7 @@ namespace TownOfUs.CrewmateRoles.SeerMod
             var seer = Role.GetRole<Seer>(PlayerControl.LocalPlayer);
             if (MeetingHud.Instance != null) UpdateMeeting(MeetingHud.Instance, seer);
 
-            if (!PlayerControl.LocalPlayer.IsHypnotised())
+            if (!PlayerControl.LocalPlayer.IsHypnotised() && !CamouflagerUnCamouflage.CamouflagerIsCamoed)
             {
                 foreach (var player in PlayerControl.AllPlayerControls)
                 {

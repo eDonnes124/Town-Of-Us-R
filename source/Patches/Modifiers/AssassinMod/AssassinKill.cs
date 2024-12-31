@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Hazel;
 using TownOfUs.Roles;
 using UnityEngine;
 using UnityEngine.UI;
@@ -150,9 +151,9 @@ namespace TownOfUs.Modifiers.AssassinMod
                     politician.RevealButton.Destroy();
                 }
 
-                if (player.Is(RoleEnum.Mayor))
+                if (player.Is(RoleEnum.President))
                 {
-                    var mayor = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
+                    var mayor = Role.GetRole<President>(PlayerControl.LocalPlayer);
                     mayor.RevealButton.Destroy();
                 }
 
@@ -274,7 +275,32 @@ namespace TownOfUs.Modifiers.AssassinMod
                 }
             }
 
-            if (AmongUsClient.Instance.AmHost) meetingHud.CheckForEndVoting();
+            if (AmongUsClient.Instance.AmHost) {
+                foreach (var role in Role.GetRoles(RoleEnum.Mayor))
+                {
+                    if (role is Mayor mayor)
+                    {
+                        if (role.Player == player)
+                        {
+                            mayor.ExtraVotes.Clear();
+                        }
+                        else
+                        {
+                            var votesRegained = mayor.ExtraVotes.RemoveAll(x => x == player.PlayerId);
+
+                            if (mayor.Player == PlayerControl.LocalPlayer)
+                                mayor.VoteBank += votesRegained;
+
+                            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                                (byte) CustomRPC.AddMayorVoteBank, SendOption.Reliable, -1);
+                            writer.Write(mayor.Player.PlayerId);
+                            writer.Write(votesRegained);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        }
+                    }
+                }
+                meetingHud.CheckForEndVoting();
+            }
 
             AddHauntPatch.AssassinatedPlayers.Add(player);
         }

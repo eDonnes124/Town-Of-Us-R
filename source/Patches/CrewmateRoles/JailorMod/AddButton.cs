@@ -212,9 +212,9 @@ namespace TownOfUs.CrewmateRoles.JailorMod
                         politician.RevealButton.Destroy();
                     }
 
-                    if (player.Is(RoleEnum.Mayor))
+                    if (player.Is(RoleEnum.President))
                     {
-                        var mayor = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
+                        var mayor = Role.GetRole<President>(PlayerControl.LocalPlayer);
                         mayor.RevealButton.Destroy();
                     }
 

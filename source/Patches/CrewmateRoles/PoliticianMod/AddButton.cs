@@ -46,7 +46,7 @@ namespace TownOfUs.CrewmateRoles.PoliticianMod
                     PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Politician)).ToList().Count)
                 {
                     Role.RoleDictionary.Remove(role.Player.PlayerId);
-                    var mayorRole = new Mayor(role.Player);
+                    var mayorRole = new President(role.Player);
                     mayorRole.Revealed = true;
                     Utils.Rpc(CustomRPC.Elect, role.Player.PlayerId);
                 }

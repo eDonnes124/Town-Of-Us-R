@@ -6,8 +6,10 @@ namespace TownOfUs
         Jester,
         Engineer,
         Mayor,
+        President,
         Swapper,
         Investigator,
+        TimeLord,
         Medic,
         Seer,
         Executioner,
@@ -47,6 +49,7 @@ namespace TownOfUs
 
         Miner,
         Swooper,
+        Camouflager,
         Morphling,
         Janitor,
         Undertaker,

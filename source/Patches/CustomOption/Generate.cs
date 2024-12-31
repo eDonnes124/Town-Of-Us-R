@@ -9,6 +9,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption DetectiveOn;
         public static CustomNumberOption HaunterOn;
         public static CustomNumberOption InvestigatorOn;
+        public static CustomNumberOption TimeLordOn;
         public static CustomNumberOption MysticOn;
         public static CustomNumberOption OracleOn;
         public static CustomNumberOption SeerOn;
@@ -31,6 +32,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption CrewSupportRoles;
         public static CustomNumberOption EngineerOn;
+        public static CustomNumberOption MayorOn;
         public static CustomNumberOption ImitatorOn;
         public static CustomNumberOption MediumOn;
         public static CustomNumberOption PoliticianOn;
@@ -60,6 +62,7 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption ImpostorConcealingRoles;
         public static CustomNumberOption EscapistOn;
         public static CustomNumberOption MorphlingOn;
+        public static CustomNumberOption CamouflagerOn;
         public static CustomNumberOption SwooperOn;
         public static CustomNumberOption GrenadierOn;
         public static CustomNumberOption VenererOn;
@@ -162,6 +165,10 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption SeeTasksDuringMeeting;
         public static CustomToggleOption SeeTasksWhenDead;
 
+        public static CustomHeaderOption Mayor;
+        public static CustomNumberOption MayorVoteBank;
+        public static CustomToggleOption MayorAnonymous;
+
         public static CustomHeaderOption Sheriff;
         public static CustomToggleOption SheriffKillOther;
         public static CustomToggleOption SheriffKillsNE;
@@ -186,6 +193,13 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption FootprintDuration;
         public static CustomToggleOption AnonymousFootPrint;
         public static CustomToggleOption VentFootprintVisible;
+
+        public static CustomHeaderOption TimeLord;
+        public static CustomToggleOption RewindRevive;
+        public static CustomNumberOption RewindDuration;
+        public static CustomNumberOption RewindCooldown;
+        public static CustomNumberOption RewindMaxUses;
+        public static CustomToggleOption TimeLordVitals;
 
         public static CustomHeaderOption Medic;
         public static CustomStringOption ShowShielded;
@@ -238,6 +252,10 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption MorphlingCooldown;
         public static CustomNumberOption MorphlingDuration;
         public static CustomToggleOption MorphlingVent;
+
+        public static CustomHeaderOption Camouflager;
+        public static CustomNumberOption CamouflagerCooldown;
+        public static CustomNumberOption CamouflagerDuration;
 
         public static CustomHeaderOption Executioner;
         public static CustomStringOption OnTargetDead;
@@ -554,6 +572,8 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             ImitatorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#B3D94DFF>Imitator</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
+            MayorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#704FA8FF>Mayor</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
             MediumOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#A680FFFF>Medium</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             PoliticianOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#660099FF>Politician</color>", 0f, 0f, 100f, 10f,
@@ -561,6 +581,8 @@ namespace TownOfUs.CustomOption
             ProsecutorOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#B38000FF>Prosecutor</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             SwapperOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#66E666FF>Swapper</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            TimeLordOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#0000FFFF>Time Lord</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             TransporterOn = new CustomNumberOption(num++, MultiMenu.crewmate, "<color=#00EEFFFF>Transporter</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -605,6 +627,8 @@ namespace TownOfUs.CustomOption
                 PercentFormat);
             MorphlingOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Morphling</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
+            CamouflagerOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Camouflager</color>", 0f, 0f, 100f,
+                10f, PercentFormat);
             SwooperOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Swooper</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             VenererOn = new CustomNumberOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Venerer</color>", 0f, 0f, 100f, 10f,
@@ -969,6 +993,13 @@ namespace TownOfUs.CustomOption
             MaxFixes =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Fixes", 5, 1, 15, 1);
 
+            Mayor =
+                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#704FA8FF>Mayor</color>");
+            MayorVoteBank =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Initial Mayor Vote Bank", 1, 1, 15, 1);
+            MayorAnonymous =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Mayor Votes Show Anonymous", false);
+
             Medium =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#A680FFFF>Medium</color>");
             MediateCooldown =
@@ -994,6 +1025,16 @@ namespace TownOfUs.CustomOption
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#66E666FF>Swapper</color>");
             SwapperButton =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Swapper Can Button", true);
+
+            TimeLord =
+                new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#0000FFFF>Time Lord</color>");
+            RewindRevive = new CustomToggleOption(num++, MultiMenu.crewmate, "Revive During Rewind", false);
+            RewindDuration = new CustomNumberOption(num++, MultiMenu.crewmate, "Rewind Duration", 2f, 2f, 5f, 0.5f, CooldownFormat);
+            RewindCooldown = new CustomNumberOption(num++, MultiMenu.crewmate, "Rewind Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            RewindMaxUses =
+                 new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Rewinds", 5, 1, 15, 1);
+            TimeLordVitals =
+                new CustomToggleOption(num++, MultiMenu.crewmate, "Time Lord Can Use Vitals", false);
 
             Transporter =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#00EEFFFF>Transporter</color>");
@@ -1181,6 +1222,13 @@ namespace TownOfUs.CustomOption
                 new CustomNumberOption(num++, MultiMenu.imposter, "Morphling Duration", 10f, 5f, 15f, 1f, CooldownFormat);
             MorphlingVent =
                 new CustomToggleOption(num++, MultiMenu.imposter, "Morphling Can Vent", false);
+
+            Camouflager =
+                new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Camouflager</color>");
+            CamouflagerCooldown =
+                new CustomNumberOption(num++, MultiMenu.imposter, "Camouflager Cooldown", 25f, 10f, 40f, 2.5f, CooldownFormat);
+            CamouflagerDuration =
+                new CustomNumberOption(num++, MultiMenu.imposter, "Camouflager Duration", 10f, 5f, 15f, 1f, CooldownFormat);
 
             Swooper = new CustomHeaderOption(num++, MultiMenu.imposter, "<color=#FF0000FF>Swooper</color>");
             SwoopCooldown =

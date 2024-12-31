@@ -1,5 +1,7 @@
 ## *Note: This repository is an unofficial continuation of Town of Us due to the original repository being discontinued.*
 
+## *If an update isn't released that probably means that the current stable version still works for the new version of Among Us*
+
 ![LOGO](./Images/TOU-logo.png)
 ![Roles](./Images/Roles.png)
 

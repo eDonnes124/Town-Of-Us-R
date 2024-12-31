@@ -33,10 +33,14 @@ namespace TownOfUs
         JanitorClean,
         FixLights,
         EngineerFix,
+        SetExtraVotes,
         SetSwaps,
         Protect,
         AttemptSound,
+        Rewind,
+        RewindRevive,
         Morph,
+        CamouflagerAbility,
         Mine,
         Swoop,
         AltruistRevive,
@@ -93,6 +97,7 @@ namespace TownOfUs
         SetPos,
         SetSettings,
         
+        AddMayorVoteBank,
         RemoveAllBodies,
         CheckMurder,
 

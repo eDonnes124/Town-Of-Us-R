@@ -42,6 +42,7 @@ namespace TownOfUs.Roles
                 if (CustomGameOptions.EngineerOn > 0) ColorMapping.Add("Engineer", Colors.Engineer);
                 if (CustomGameOptions.SwapperOn > 0) ColorMapping.Add("Swapper", Colors.Swapper);
                 if (CustomGameOptions.InvestigatorOn > 0) ColorMapping.Add("Investigator", Colors.Investigator);
+                if (CustomGameOptions.TimeLordOn > 0) ColorMapping.Add("Time Lord", Colors.TimeLord);
                 if (CustomGameOptions.MedicOn > 0) ColorMapping.Add("Medic", Colors.Medic);
                 if (CustomGameOptions.SeerOn > 0) ColorMapping.Add("Seer", Colors.Seer);
                 if (CustomGameOptions.SpyOn > 0) ColorMapping.Add("Spy", Colors.Spy);

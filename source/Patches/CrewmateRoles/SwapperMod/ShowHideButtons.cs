@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Hazel;
 using HarmonyLib;
 using TownOfUs.CrewmateRoles.MayorMod;
 using TownOfUs.Extensions;
@@ -148,6 +149,15 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
                             VoterId = playerVoteArea.TargetPlayerId,
                             VotedForId = playerVoteArea.VotedFor
                         };
+                    }
+
+                    foreach (var role in Role.GetRoles(RoleEnum.Mayor))
+                    {
+                        var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                            (byte) CustomRPC.SetExtraVotes, SendOption.Reliable, -1);
+                        writer.Write(role.Player.PlayerId);
+                        writer.WriteBytesAndSize(((Mayor) role).ExtraVotes.ToArray());
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
                     }
 
                     __instance.RpcVotingComplete(array, exiled, tie);

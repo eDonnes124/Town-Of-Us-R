@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
+using TownOfUs.ImpostorRoles.CamouflagerMod;
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Extensions;
 using TownOfUs.Patches;
@@ -37,6 +38,7 @@ namespace TownOfUs
 
         public static void Morph(PlayerControl player, PlayerControl MorphedPlayer)
         {
+            if (CamouflagerUnCamouflage.CamouflagerIsCamoed) return;
             if (PlayerControl.LocalPlayer.IsHypnotised()) return;
             if (CamouflageUnCamouflage.IsCamoed) return;
             if (player.GetCustomOutfitType() != CustomPlayerOutfitType.Morph)
@@ -227,7 +229,7 @@ namespace TownOfUs
         public static bool IsCrewKiller(this PlayerControl player)
         {
             if (!CustomGameOptions.CrewKillersContinue) return false;
-            if (player.Is(RoleEnum.Mayor) || player.Is(RoleEnum.Politician) || player.Is(RoleEnum.Swapper) ||
+            if (player.Is(RoleEnum.President) || player.Is(RoleEnum.Politician) || player.Is(RoleEnum.Swapper) ||
                 (player.Is(RoleEnum.Sheriff) && CustomGameOptions.SheriffKillsNK)) return true;
             else if (player.Is(RoleEnum.Hunter))
             {
@@ -1236,6 +1238,11 @@ namespace TownOfUs
                 var sheriff = Role.GetRole<Sheriff>(PlayerControl.LocalPlayer);
                 sheriff.LastKilled = DateTime.UtcNow;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.TimeLord)) {
+                var timelord = Role.GetRole<TimeLord>(PlayerControl.LocalPlayer);
+                timelord.StartRewind = DateTime.UtcNow.AddSeconds(-10.0f);
+                timelord.FinishRewind = DateTime.UtcNow;
+            }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Hunter))
             {
                 var hunter = Role.GetRole<Hunter>(PlayerControl.LocalPlayer);
@@ -1462,6 +1469,7 @@ namespace TownOfUs
                 undertaker.CurrentlyDragging = null;
             }
             #endregion
+            
         }
     }
 }

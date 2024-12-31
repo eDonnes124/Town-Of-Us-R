@@ -2,6 +2,7 @@ using TownOfUs.Roles;
 using UnityEngine;
 using TownOfUs.Extensions;
 using TownOfUs.Patches;
+using TownOfUs.ImpostorRoles.CamouflagerMod;
 
 namespace TownOfUs.CrewmateRoles.InvestigatorMod
 {
@@ -34,7 +35,7 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
         public static float Duration => CustomGameOptions.FootprintDuration;
 
         public static bool Grey =>
-            CustomGameOptions.AnonymousFootPrint || CamouflageUnCamouflage.IsCamoed;
+            CustomGameOptions.AnonymousFootPrint || CamouflageUnCamouflage.IsCamoed || CamouflagerUnCamouflage.CamouflagerIsCamoed;
 
         public static void DestroyAll(Investigator role)
         {

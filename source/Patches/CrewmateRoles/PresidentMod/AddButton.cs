@@ -9,14 +9,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace TownOfUs.CrewmateRoles.MayorMod
+namespace TownOfUs.CrewmateRoles.PresidentMod
 {
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
     public class AddRevealButton
     {
         public static Sprite RevealSprite => TownOfUs.RevealSprite;
 
-        public static void GenButton(Mayor role, int index)
+        public static void GenButton(President role, int index)
         {
             var confirmButton = MeetingHud.Instance.playerStates[index].Buttons.transform.GetChild(0).gameObject;
 
@@ -36,7 +36,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
         }
 
 
-        private static Action Reveal(Mayor role)
+        private static Action Reveal(President role)
         {
             void Listener()
             {
@@ -48,7 +48,7 @@ namespace TownOfUs.CrewmateRoles.MayorMod
             return Listener;
         }
 
-        public static void RemoveAssassin(Mayor mayor)
+        public static void RemoveAssassin(President mayor)
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == mayor.Player.PlayerId);
@@ -103,16 +103,16 @@ namespace TownOfUs.CrewmateRoles.MayorMod
 
         public static void Postfix(MeetingHud __instance)
         {
-            foreach (var role in Role.GetRoles(RoleEnum.Mayor))
+            foreach (var role in Role.GetRoles(RoleEnum.President))
             {
-                var mayor = (Mayor)role;
+                var mayor = (President)role;
                 mayor.RevealButton.Destroy();
             }
 
             if (PlayerControl.LocalPlayer.Data.IsDead) return;
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Mayor)) return;
+            if (!PlayerControl.LocalPlayer.Is(RoleEnum.President)) return;
             if (PlayerControl.LocalPlayer.IsJailed()) return;
-            var mayorrole = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
+            var mayorrole = Role.GetRole<President>(PlayerControl.LocalPlayer);
             if (mayorrole.Revealed) return;
             for (var i = 0; i < __instance.playerStates.Length; i++)
                 if (PlayerControl.LocalPlayer.PlayerId == __instance.playerStates[i].TargetPlayerId)

@@ -12,6 +12,7 @@ using Random = UnityEngine.Random;
 using TownOfUs.Extensions;
 using AmongUs.GameOptions;
 using TownOfUs.ImpostorRoles.TraitorMod;
+using TownOfUs.ImpostorRoles.CamouflagerMod;
 
 namespace TownOfUs.Roles
 {
@@ -150,10 +151,10 @@ namespace TownOfUs.Roles
                 if (lover.OtherLover.Player != Player) return false;
                 if (!PlayerControl.LocalPlayer.Is(RoleEnum.Aurial)) return true;
                 if (MeetingHud.Instance || Utils.ShowDeadBodies) return true;
-                if (lover.OtherLover.Player.Is(RoleEnum.Mayor))
+                if (lover.OtherLover.Player.Is(RoleEnum.President))
                 {
-                    var mayor = GetRole<Mayor>(lover.OtherLover.Player);
-                    if (mayor.Revealed) return true;
+                    var president = GetRole<President>(lover.OtherLover.Player);
+                    if (president.Revealed) return true;
                 }
             }
             return false;
@@ -278,6 +279,10 @@ namespace TownOfUs.Roles
         {
             if (PlayerControl.LocalPlayer.IsHypnotised() && Player.GetCustomOutfitType() == CustomPlayerOutfitType.Morph && player == null) return PlayerControl.LocalPlayer.GetDefaultOutfit().PlayerName;
             else if (((CamouflageUnCamouflage.IsCamoed && !PlayerControl.LocalPlayer.IsHypnotised()) || (PlayerControl.LocalPlayer.IsHypnotised() && PlayerControl.LocalPlayer != Player)) && player == null) return "";
+
+            if (CamouflagerUnCamouflage.CamouflagerIsCamoed && player == null) return "";
+
+            if (CamouflageUnCamouflage.IsCamoed && player == null) return "";
 
             if (Player == null) return "";
 

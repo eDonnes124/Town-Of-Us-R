@@ -78,8 +78,10 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 case RoleEnum.Sheriff:
                 case RoleEnum.Engineer:
                 case RoleEnum.Mayor:
+                case RoleEnum.President:
                 case RoleEnum.Swapper:
                 case RoleEnum.Investigator:
+                case RoleEnum.TimeLord:
                 case RoleEnum.Medic:
                 case RoleEnum.Seer:
                 case RoleEnum.Spy:
@@ -259,10 +261,17 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 else medicRole.UsedAbility = true;
             }
 
+            else if (role == RoleEnum.President)
+            {
+                var presidentRole = Role.GetRole<President>(amnesiac);
+                presidentRole.Revealed = false;
+                DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
+            }
+
             else if (role == RoleEnum.Mayor)
             {
                 var mayorRole = Role.GetRole<Mayor>(amnesiac);
-                mayorRole.Revealed = false;
+                mayorRole.VoteBank = CustomGameOptions.MayorVoteBank;
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
             }
 
@@ -347,6 +356,15 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 mysticRole.BodyArrows.Values.DestroyAll();
                 mysticRole.BodyArrows.Clear();
                 DestroyableSingleton<HudManager>.Instance.KillButton.gameObject.SetActive(false);
+            }
+
+            else if (role == RoleEnum.TimeLord)
+            {
+                var tlRole = Role.GetRole<TimeLord>(amnesiac);
+                tlRole.FinishRewind = DateTime.UtcNow;
+                tlRole.StartRewind = DateTime.UtcNow;
+                tlRole.StartRewind = tlRole.StartRewind.AddSeconds(-10.0f);
+                tlRole.UsesLeft = CustomGameOptions.RewindMaxUses;
             }
 
             else if (role == RoleEnum.Transporter)
@@ -436,6 +454,12 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
             {
                 var morphlingRole = Role.GetRole<Morphling>(amnesiac);
                 morphlingRole.LastMorphed = DateTime.UtcNow;
+            }
+
+            else if (role == RoleEnum.Camouflager)
+            {
+                var camouflagerRole = Role.GetRole<Camouflager>(amnesiac);
+                camouflagerRole.LastCamouflaged = DateTime.UtcNow;
             }
 
             else if (role == RoleEnum.Escapist)

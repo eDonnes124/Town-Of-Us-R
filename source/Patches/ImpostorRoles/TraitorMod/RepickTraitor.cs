@@ -15,7 +15,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
             if (PlayerControl.LocalPlayer != SetTraitor.WillBeTraitor) return;
             if (PlayerControl.LocalPlayer.Is(Faction.Impostors)) return;
             if (!PlayerControl.LocalPlayer.Data.IsDead && !PlayerControl.LocalPlayer.Is(RoleEnum.Vampire)) return;
-            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.Mayor) && !x.Is(RoleEnum.Politician) &&
+            var toChooseFrom = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(Faction.Crewmates) && !x.Is(RoleEnum.President) && !x.Is(RoleEnum.Politician) &&
                 !x.Is(ModifierEnum.Lover) && !x.Data.IsDead && !x.Data.Disconnected && !x.IsExeTarget()).ToList();
             if (toChooseFrom.Count == 0)
             {

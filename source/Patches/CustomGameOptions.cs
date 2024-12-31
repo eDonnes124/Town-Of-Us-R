@@ -28,6 +28,7 @@ namespace TownOfUs
     }
     public static class CustomGameOptions
     {
+        public static int MayorOn => (int)Generate.MayorOn.Get();
         public static int PoliticianOn => (int)Generate.PoliticianOn.Get();
         public static int JesterOn => (int)Generate.JesterOn.Get();
         public static int SheriffOn => (int)Generate.SheriffOn.Get();
@@ -36,10 +37,12 @@ namespace TownOfUs
         public static int SwapperOn => (int)Generate.SwapperOn.Get();
         public static int AmnesiacOn => (int)Generate.AmnesiacOn.Get();
         public static int InvestigatorOn => (int)Generate.InvestigatorOn.Get();
+        public static int TimeLordOn => (int)Generate.TimeLordOn.Get();
         public static int MedicOn => (int)Generate.MedicOn.Get();
         public static int SeerOn => (int)Generate.SeerOn.Get();
         public static int GlitchOn => (int)Generate.GlitchOn.Get();
         public static int MorphlingOn => (int)Generate.MorphlingOn.Get();
+        public static int CamouflagerOn => (int) Generate.CamouflagerOn.Get();
         public static int ExecutionerOn => (int)Generate.ExecutionerOn.Get();
         public static int SpyOn => (int)Generate.SpyOn.Get();
         public static int SnitchOn => (int)Generate.SnitchOn.Get();
@@ -106,6 +109,8 @@ namespace TownOfUs
         public static bool SheriffKillsNE => Generate.SheriffKillsNE.Get();
         public static bool SheriffKillsNK => Generate.SheriffKillsNK.Get();
         public static float SheriffKillCd => Generate.SheriffKillCd.Get();
+        public static int MayorVoteBank => (int)Generate.MayorVoteBank.Get();
+        public static bool MayorAnonymous => Generate.MayorAnonymous.Get();
         public static bool SwapperButton => Generate.SwapperButton.Get();
         public static float FootprintSize => Generate.FootprintSize.Get();
         public static float FootprintInterval => Generate.FootprintInterval.Get();
@@ -116,6 +121,11 @@ namespace TownOfUs
         public static bool JesterVent => Generate.JesterVent.Get();
         public static bool JesterImpVision => Generate.JesterImpVision.Get();
         public static bool JesterHaunt => Generate.JesterHaunt.Get();
+        public static bool RewindRevive => Generate.RewindRevive.Get();
+        public static float RewindDuration => Generate.RewindDuration.Get();
+        public static float RewindCooldown => Generate.RewindCooldown.Get();
+        public static int RewindMaxUses => (int)Generate.RewindMaxUses.Get();
+        public static bool TimeLordVitals => Generate.TimeLordVitals.Get();
         public static ShieldOptions ShowShielded => (ShieldOptions)Generate.ShowShielded.Get();
 
         public static NotificationOptions NotificationShield =>
@@ -148,6 +158,8 @@ namespace TownOfUs
         public static OnTargetDead OnTargetDead => (OnTargetDead)Generate.OnTargetDead.Get();
         public static bool ExecutionerButton => Generate.ExecutionerButton.Get();
         public static bool ExecutionerTorment => Generate.ExecutionerTorment.Get();
+        public static float CamouflagerCd => Generate.CamouflagerCooldown.Get();
+        public static float CamouflagerDuration => Generate.CamouflagerDuration.Get();
         public static bool SnitchSeesNeutrals => Generate.SnitchSeesNeutrals.Get();
         public static int SnitchTasksRemaining => (int)Generate.SnitchTasksRemaining.Get();
         public static bool SnitchSeesImpInMeeting => Generate.SnitchSeesImpInMeeting.Get();

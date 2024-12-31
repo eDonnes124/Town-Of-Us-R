@@ -152,10 +152,10 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                     politician.RevealButton.Destroy();
                 }
 
-                if (player.Is(RoleEnum.Mayor))
+                if (player.Is(RoleEnum.President))
                 {
-                    var mayor = Role.GetRole<Mayor>(PlayerControl.LocalPlayer);
-                    mayor.RevealButton.Destroy();
+                    var president = Role.GetRole<President>(PlayerControl.LocalPlayer);
+                    president.RevealButton.Destroy();
                 }
 
                 if (player.Is(RoleEnum.Jailor))
