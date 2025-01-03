@@ -41,6 +41,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 2024.11.26.(s/e) **and above** | v5.1.2.1 | [Download](https://github.com/LimeShep/Town-Of-Us-R/releases/download/v5.1.2.1/ToU.v5.1.2.zip) |
 | 2024.10.29s & 2024.10.29e | v5.1.2 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.1.2/ToU.v5.1.2.zip) |
 | 2024.9.4s & 2024.9.4e | v5.1.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.1.1/ToU.v5.1.1.zip) |
 | 2024.9.4s & 2024.9.4e | v5.1.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.1.0/ToU.v5.1.0.zip) |
@@ -104,6 +105,105 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 | 2020.12.19s | v1.0.2 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.0.2/TownOfUs-v1.0.2.zip) |
 | 2020.12.19s | v1.0.1 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.0.1/TownOfUs-v1.0.1.zip) |
 | 2020.12.19s | v1.0.0 | [Download](https://github.com/polusgg/Town-Of-Us/releases/download/v1.0.0/TownOfUs-v1.0.0.zip) |
+
+# Szybki opis ról po polsku: (Polish desc)
+
+
+# CREWMATE (WSPÓLNICY)
+## MAYOR (Burmistrz)
+Podczas spotkania może albo: zagłosować kilkukrotnie, albo zachować swój głos by w następnej rundzie zagłosować więcej razy
+## SPY (Szpieg)
+Na admin panelu widzi wszystkich kolorowo
+## MEDIC (Medyk)
+Na początku gry może dać jednej osobie tarczę, jeśli ktoś spróbuje ją zabić to jego ekran mignie na zielono
+## SEER (Wróżbita)
+Co jakiś czas może odkryć rolę / stan jakiejś osoby, np. czy jest dobra czy zła
+## TRACKER (Podążacz)
+Może śledzić innych graczy podczas rundy
+## SNITCH (Kapuś)
+Po wykonaniu wszystkich zadań widzi kto jest mordercą, nie widzi roli neutralnych. Jeśli zostanie mu jedno zadanie, zabójcy dostają strzałkę kierującą na niego
+## SWAPPER (Zamieniacz)
+Podczas spotkania może zamienić głosy dwóch osób ze sobą
+## TIME LORD (Władca czasu)
+Raz na jakiś czas może cofnąć czas o 10 sekund i potencjalnie kogoś ożywić. Nie ma dostępu do Vitalsów.
+## SHERIFF (Szeryf)
+Może zabijać zabójców.
+## ENGINEER (Inżynier)
+Może ventować oraz naprawiać sabotaż w mgnieniu oka
+## DETECTIVE (Detektyw)
+Może analizować miejsce śmierci i potencjalnie znaleźć mordercę
+## INVESTIGATOR (Inspektor)
+Widzi ślady stóp graczy którzy przed chwilą tędy biegli
+## ALTRUIST (Altruista)
+Może wskrzesić zabitą osobę kosztem własnej śmierci
+## MYSTIC (Nadprzyrodzony)
+Dostaje alert kiedy ktoś umarł
+## VIGILLANTE (Przyjazny rewolwerowiec)
+Podczas spotkania może strzelić rolę zabójcy, jeśli trafi dobrze to zabójca ginie, jeśli nie to on sam ginie.
+## TRAPPER (Pułapkowiec)
+Kładzie pułapki na mapie, jeśli ktoś w nie wejdzie to będzie miał ujawnioną rolę na spotkaniu.
+## TRANSPORTER (Jeździec)
+Może zamienić miejscami dwie losowe osoby (oprócz tych w ventach).
+## MEDIUM (Mediator)
+Widzi duchy. Może medytować, jeśli ktoś **w tej rudzie zginął** to Medium będzie mógł się z duchem porozumiewać oraz go widzieć.
+## IMITATOR (Udawacz)
+Podczas każdego spotkania gracz może wybrać kogo umarłego chce udawać.
+## AURIAL (Naukowiec)
+Jeśli jakaś widoczna umiejętność zostanie wykonana, to będzie mógł widzieć gdzie ona została użyta
+## ORACLE (Spowiednik)
+Jeśli ktoś zginie to może powiedzieć jakie było jego przeznaczenie, Podczas każdego spotkania dostaje informację kto może być zły, Osoba spowiadana dostaje immunitet na wygłosowanie.
+# NEUTRAL (INTROWERTYCY)
+## ARSONIST (Podpalacz)
+Co jakiś czas może wylać kubeł diesla na daną osobę, jeśli uzbiera minimum 3 takie osoby to może je podpalić, a oni natychmiast umrą.
+## AMNESIAC (Amnezjak)
+Rola bez celu, jego zadaniem jest znaleźć trupa i przejąć jego rolę.
+## EXECUTIOTER (Rzeźnik)
+Na początku gry dostaje cel, jego zadaniem jest **wygłosować** tą osobę podczas spotkania. Jeśli jego target umrze to zostaje Błaznem
+## JESTER (Błazen)
+Jego celem jest **wygłosować** samego siebie ze spotkania
+## WEREWOLF (Wilk)
+Podczas gry może dostać wściekliznę. Podczas wścieklizny może zabijać innych graczy oraz ma wyzję zabójcy.
+## THE GLITCH (Ust3rk4)
+Może zabijać graczy, dodatkowo może zamienić się w dowolnego gracza na ograniczony czas, oraz zhackować gracza, tzn. nie będzie on mógł robić żadnych zadań ani zgłaszać ciał.
+# IMPOSTOR (ZABÓJCY)
+## CAMOUFLAGER (Kamuflażysta)
+Może co jakiś czas spowodować że każdy jest czarny.
+## BLACKMAILER (SZANTAŻYSTA)
+Może wyciszyć daną osobę ze spotkania, będzie mogła jedynie oddać głos.
+## MORPHLING (Podszywacz)
+Na początku pobiera próbkę gracza, i następnie do końca rundy moze się w niego przemienić.
+## SWOOPER (Widmo)
+Może stać się niewidzialny.
+## UNDERTAKER (Grabiarz)
+Może przenosić ciała np. w niewidzialne miejsce.
+## JANITOR (Sprzątaczka)
+Może czyścić ciała.
+## MINER (Górnik)
+Może tworzyć własne venty.
+## BOMBER (Bombardier)
+Raz na jakiś czas wysadza atomówki.
+## TRAITOR (Zdrajca)
+Jeśli jest więcej jak 5 graczy a wszyscy zabójcy umarli to losowy wspólnik zostaje zdrajcą. Jego zadaniem jest pomścić zabójców
+
+# MODY
+## BAIT (Wabik)
+Po jego śmierci zabójca od razu zgłasza jego ciało
+## LOVERS (Zakochana para)
+Nie widzą swoich ról ale mają dostęp do grupowego czatu, ich celem jest przeżycie razem. Jeśli jeden zakochany zginie, drugi ginie natychmiast.
+## TIEBREAKER (Decydent)
+Jeśli na spotkaniu nastąpi remis, to on może podjąć skutek spotkania.
+## SLEUTH (Mędrzec)
+Widzi rolę każdego martwego którego zgłosił
+## TORCH (Wizjoner)
+Widzi wizją zabójcy
+## GIANT (Bulerman)
+Jest duży i wolny
+## BUTTON BARRY (Przenośny przycisk)
+Ma przy sobie podręczny przycisk
+## UNDERDOG (Pupilek)
+Ma mniejszy cooldown, jeśli jego partner zginie, będzie miał cooldown mniejszy o połowę.
+
+
 
 <details>
   <summary> Changelog </summary>
