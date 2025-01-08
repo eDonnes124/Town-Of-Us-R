@@ -34,6 +34,34 @@ namespace TownOfUs.CustomOption
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
+        public static void SendTargetRpc(PlayerControl target, CustomOption optionn = null)
+        {
+            List<CustomOption> options;
+            if (optionn != null)
+                options = new List<CustomOption> {optionn};
+            else
+                options = CustomOption.AllOptions;
+
+            var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                (byte) CustomRPC.SyncSettingsTarget, SendOption.Reliable);
+            writer.Write(target.PlayerId);
+            foreach (var option in options)
+            {
+                if (writer.Position > 1000) {
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                        (byte) CustomRPC.SyncSettingsTarget, SendOption.Reliable);
+                    writer.Write(target.PlayerId);
+                }
+                writer.Write(option.ID);
+                if (option.Type == CustomOptionType.Toggle) writer.Write((bool) option.Value);
+                else if (option.Type == CustomOptionType.Number) writer.Write((float) option.Value);
+                else if (option.Type == CustomOptionType.String) writer.Write((int) option.Value);
+            }
+
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
         public static void ReceiveRpc(MessageReader reader)
         {
             PluginSingleton<TownOfUs>.Instance.Log.LogInfo("Options received");
