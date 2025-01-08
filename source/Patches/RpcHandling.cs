@@ -1008,6 +1008,10 @@ namespace TownOfUs
                     case CustomRPC.SyncCustomSettings:
                         Rpc.ReceiveRpc(reader);
                         break;
+                    case CustomRPC.SyncSettingsTarget:
+                        var joined = Utils.PlayerById(reader.ReadByte());
+                        if (joined != null && joined.AmOwner) Rpc.ReceiveRpc(reader);
+                        break;
                     case CustomRPC.AltruistRevive:
                         readByte1 = reader.ReadByte();
                         var altruistPlayer = Utils.PlayerById(readByte1);
