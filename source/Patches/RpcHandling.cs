@@ -29,6 +29,7 @@ using UnityEngine;
 using Coroutine = TownOfUs.ImpostorRoles.JanitorMod.Coroutine;
 using Object = UnityEngine.Object;
 using PerformKillButton = TownOfUs.NeutralRoles.AmnesiacMod.PerformKillButton;
+using ShifterPerformKillButton = TownOfUs.NeutralRoles.ShifterMod.PerformKillButton;
 using Random = UnityEngine.Random;
 using TownOfUs.Patches;
 using AmongUs.GameOptions;
@@ -735,6 +736,13 @@ namespace TownOfUs
                                 break;
                         }
                         break;
+                    case CustomRPC.Shift:
+                        readByte1 = reader.ReadByte();
+                        readByte2 = reader.ReadByte();
+                        var shifter = Utils.PlayerById(readByte1);
+                        var shiftother = Utils.PlayerById(readByte2);
+                        ShifterPerformKillButton.Shift(Role.GetRole<Shifter>(shifter), shiftother);
+                        break;
                     case CustomRPC.Rewind:
                         readByte = reader.ReadByte();
                         var TimeLordPlayer = Utils.PlayerById(readByte);
@@ -1426,6 +1434,9 @@ namespace TownOfUs
                     if (CustomGameOptions.AmnesiacOn > 0)
                         NeutralBenignRoles.Add((typeof(Amnesiac), CustomGameOptions.AmnesiacOn, false));
 
+                    if (CustomGameOptions.ShifterOn > 0)
+                        NeutralBenignRoles.Add((typeof(Shifter), CustomGameOptions.ShifterOn, false));
+
                     if (CustomGameOptions.ExecutionerOn > 0)
                         NeutralEvilRoles.Add((typeof(Executioner), CustomGameOptions.ExecutionerOn, false));
 
@@ -1447,6 +1458,8 @@ namespace TownOfUs
                     if (CustomGameOptions.ArsonistOn > 0)
                         NeutralKillingRoles.Add((typeof(Arsonist), CustomGameOptions.ArsonistOn, true));
 
+                    if (CustomGameOptions.JuggernautOn > 0)
+                        NeutralKillingRoles.Add((typeof(Juggernaut), CustomGameOptions.JuggernautOn, true));
                     if (CustomGameOptions.PlaguebearerOn > 0)
                         NeutralKillingRoles.Add((typeof(Plaguebearer), CustomGameOptions.PlaguebearerOn, true));
 
@@ -1456,8 +1469,6 @@ namespace TownOfUs
                     if (CustomGameOptions.GameMode == GameMode.Classic && CustomGameOptions.VampireOn > 0)
                         NeutralKillingRoles.Add((typeof(Vampire), CustomGameOptions.VampireOn, true));
 
-                    if ((CheckJugg() || CustomGameOptions.GameMode == GameMode.AllAny) && CustomGameOptions.HiddenRoles)
-                        NeutralKillingRoles.Add((typeof(Juggernaut), 100, true));
                     #endregion
                     #region Impostor Roles
                     if (CustomGameOptions.UndertakerOn > 0)

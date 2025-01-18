@@ -316,7 +316,7 @@ namespace TownOfUs.NeutralRoles.AmnesiacMod
                 var trackerRole = Role.GetRole<Tracker>(amnesiac);
                 trackerRole.TrackerArrows.Values.DestroyAll();
                 trackerRole.TrackerArrows.Clear();
-                trackerRole.UsesLeft = CustomGameOptions.MaxTracks;
+                trackerRole.TrackDuration = CustomGameOptions.TrackDuration;
                 trackerRole.LastTracked = DateTime.UtcNow;
             }
 

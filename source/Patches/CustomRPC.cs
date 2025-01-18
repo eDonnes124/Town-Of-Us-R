@@ -35,6 +35,7 @@ namespace TownOfUs
         EngineerFix,
         SetExtraVotes,
         SetSwaps,
+        Shift,
         Protect,
         AttemptSound,
         Rewind,

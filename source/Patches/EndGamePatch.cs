@@ -8,6 +8,7 @@ using TownOfUs.Roles;
 using TownOfUs.Extensions;
 using AmongUs.GameOptions;
 using TownOfUs.Patches.ScreenEffects;
+using System;
 
 namespace TownOfUs.Patches {
 
@@ -42,12 +43,23 @@ namespace TownOfUs.Patches {
             if (CameraEffect.singleton) CameraEffect.singleton.materials.Clear();
             AdditionalTempData.clear();
             var playerRole = "";
+            var temporaryRoleName = "";
+            var roleColor = "";
             // Theres a better way of doing this e.g. switch statement or dictionary. But this works for now.
             foreach (var playerControl in PlayerControl.AllPlayerControls)
             {
                 playerRole = "";
+                temporaryRoleName = "";
                 foreach (var role in Role.RoleHistory.Where(x => x.Key == playerControl.PlayerId))
                 {
+                    /*temporaryRoleName = role.Value.ToString();
+                    var roleColorObject = typeof(Colors).GetProperty(role.Value.ToString())?.GetValue(null) as dynamic;
+                    if (roleColorObject != null) {
+                        roleColor = roleColorObject.ToHtmlStringRGBA();
+                        playerRole += "<color=#" + roleColor + ">" + temporaryRoleName + "</color> > ";
+                    } else {
+                        playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">" + temporaryRoleName + "</color> > ";
+                    }*/
                     if (role.Value == RoleEnum.Crewmate) { playerRole += "<color=#" + Patches.Colors.Crewmate.ToHtmlStringRGBA() + ">Crewmate</color> > "; }
                     else if (role.Value == RoleEnum.Impostor) { playerRole += "<color=#" + Patches.Colors.Impostor.ToHtmlStringRGBA() + ">Impostor</color> > "; }
                     else if (role.Value == RoleEnum.Altruist) { playerRole += "<color=#" + Patches.Colors.Altruist.ToHtmlStringRGBA() + ">Altruist</color> > "; }
@@ -79,6 +91,7 @@ namespace TownOfUs.Patches {
                     else if (role.Value == RoleEnum.Haunter) { playerRole += "<color=#" + Patches.Colors.Haunter.ToHtmlStringRGBA() + ">Haunter</color> > "; }
                     else if (role.Value == RoleEnum.Veteran) { playerRole += "<color=#" + Patches.Colors.Veteran.ToHtmlStringRGBA() + ">Veteran</color> > "; }
                     else if (role.Value == RoleEnum.Amnesiac) { playerRole += "<color=#" + Patches.Colors.Amnesiac.ToHtmlStringRGBA() + ">Amnesiac</color> > "; }
+                    else if (role.Value == RoleEnum.Shifter) { playerRole += "<color=#" + Patches.Colors.Shifter.ToHtmlStringRGBA() + ">Shifter</color> > "; }
                     else if (role.Value == RoleEnum.Juggernaut) { playerRole += "<color=#" + Patches.Colors.Juggernaut.ToHtmlStringRGBA() + ">Juggernaut</color> > "; }
                     else if (role.Value == RoleEnum.Tracker) { playerRole += "<color=#" + Patches.Colors.Tracker.ToHtmlStringRGBA() + ">Tracker</color> > "; }
                     else if (role.Value == RoleEnum.Transporter) { playerRole += "<color=#" + Patches.Colors.Transporter.ToHtmlStringRGBA() + ">Transporter</color> > "; }

@@ -19,6 +19,7 @@ namespace TownOfUs
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class KillButtonSprite
     {
+        private static Sprite Shift => TownOfUs.Shift;
         private static Sprite Rewind => TownOfUs.Rewind;
         private static Sprite Fix => TownOfUs.EngineerFix;
         private static Sprite Medic => TownOfUs.MedicSprite;
@@ -56,6 +57,11 @@ namespace TownOfUs
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Seer))
             {
                 __instance.KillButton.graphic.sprite = Seer;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Shifter))
+            {
+                __instance.KillButton.graphic.sprite = Shift;
                 flag = true;
             }
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.TimeLord))

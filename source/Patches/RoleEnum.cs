@@ -23,6 +23,7 @@ namespace TownOfUs
         Haunter,
         Veteran,
         Amnesiac,
+        Shifter,
         Juggernaut,
         Tracker,
         Transporter,

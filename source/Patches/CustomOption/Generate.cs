@@ -42,6 +42,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption NeutralBenignRoles;
         public static CustomNumberOption AmnesiacOn;
+        public static CustomNumberOption ShifterOn;
         public static CustomNumberOption GuardianAngelOn;
         public static CustomNumberOption SurvivorOn;
 
@@ -54,6 +55,7 @@ namespace TownOfUs.CustomOption
 
         public static CustomHeaderOption NeutralKillingRoles;
         public static CustomNumberOption ArsonistOn;
+        public static CustomNumberOption JuggernautOn;
         public static CustomNumberOption PlaguebearerOn;
         public static CustomNumberOption GlitchOn;
         public static CustomNumberOption VampireOn;
@@ -168,6 +170,7 @@ namespace TownOfUs.CustomOption
         public static CustomHeaderOption Mayor;
         public static CustomNumberOption MayorVoteBank;
         public static CustomToggleOption MayorAnonymous;
+        public static CustomNumberOption MayorMaximumBank;
 
         public static CustomHeaderOption Sheriff;
         public static CustomToggleOption SheriffKillOther;
@@ -175,6 +178,12 @@ namespace TownOfUs.CustomOption
         public static CustomToggleOption SheriffKillsNK;
         public static CustomNumberOption SheriffKillCd;
         public static CustomToggleOption SheriffBodyReport;
+
+        public static CustomHeaderOption Shifter;
+        public static CustomNumberOption ShifterCd;
+        public static CustomStringOption WhoShifts;
+        public static CustomStringOption ShiftedBecomes;
+        public static CustomToggleOption ShifterCrewmate;
 
         public static CustomHeaderOption Hunter;
         public static CustomNumberOption HunterKillCd;
@@ -349,7 +358,7 @@ namespace TownOfUs.CustomOption
         public static CustomNumberOption UpdateInterval;
         public static CustomNumberOption TrackCooldown;
         public static CustomToggleOption ResetOnNewRound;
-        public static CustomNumberOption MaxTracks;
+        public static CustomNumberOption TrackDuration;
 
         public static CustomHeaderOption Trapper;
         public static CustomNumberOption TrapCooldown;
@@ -591,6 +600,8 @@ namespace TownOfUs.CustomOption
             NeutralBenignRoles = new CustomHeaderOption(num++, MultiMenu.neutral, "Neutral Benign Roles");
             AmnesiacOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#80B2FFFF>Amnesiac</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
+            ShifterOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#999999FF>Shifter</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
             GuardianAngelOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#B3FFFFFF>Guardian Angel</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             SurvivorOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FFE64DFF>Survivor</color>", 0f, 0f, 100f, 10f,
@@ -610,6 +621,8 @@ namespace TownOfUs.CustomOption
 
             NeutralKillingRoles = new CustomHeaderOption(num++, MultiMenu.neutral, "Neutral Killing Roles");
             ArsonistOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#FF4D00FF>Arsonist</color>", 0f, 0f, 100f, 10f,
+                PercentFormat);
+            JuggernautOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#8C004DFF>Juggernaut</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
             PlaguebearerOn = new CustomNumberOption(num++, MultiMenu.neutral, "<color=#E6FFB3FF>Plaguebearer</color>", 0f, 0f, 100f, 10f,
                 PercentFormat);
@@ -891,7 +904,7 @@ namespace TownOfUs.CustomOption
             TrackCooldown =
                 new CustomNumberOption(num++, MultiMenu.crewmate, "Track Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
             ResetOnNewRound = new CustomToggleOption(num++, MultiMenu.crewmate, "Tracker Arrows Reset After Each Round", true);
-            MaxTracks = new CustomNumberOption(num++, MultiMenu.crewmate, "Maximum Number Of Tracks", 5, 1, 15, 1);
+            TrackDuration = new CustomNumberOption(num++, MultiMenu.crewmate, "Tracking Duration", 30f, 10f, 60f, 5f, CooldownFormat);
 
             Trapper =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#A7D1B3FF>Trapper</color>");
@@ -996,9 +1009,11 @@ namespace TownOfUs.CustomOption
             Mayor =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#704FA8FF>Mayor</color>");
             MayorVoteBank =
-                new CustomNumberOption(num++, MultiMenu.crewmate, "Initial Mayor Vote Bank", 1, 1, 15, 1);
+                new CustomNumberOption(num++, MultiMenu.crewmate, "Initial Mayor Vote Bank", 1, 0, 15, 1);
             MayorAnonymous =
                 new CustomToggleOption(num++, MultiMenu.crewmate, "Mayor Votes Show Anonymous", false);
+            MayorMaximumBank =
+                new CustomNumberOption(num++, MultiMenu.crewmate, "The Maximum Amount Of Votes In The Vote Bank", 3, 2, 20, 1);
 
             Medium =
                 new CustomHeaderOption(num++, MultiMenu.crewmate, "<color=#A680FFFF>Medium</color>");
@@ -1051,6 +1066,16 @@ namespace TownOfUs.CustomOption
             RememberArrowDelay =
                 new CustomNumberOption(num++, MultiMenu.neutral, "Time After Death Arrow Appears", 5f, 0f, 15f, 1f, CooldownFormat);
 
+            Shifter =
+                new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#999999FF>Shifter</color>");
+            ShifterCd =
+                new CustomNumberOption(num++, MultiMenu.neutral, "Shifter Cooldown", 25f, 10f, 60f, 2.5f, CooldownFormat);
+            WhoShifts = new CustomStringOption(num++,
+                MultiMenu.neutral, "Who Can Shifter Shift On", new[] { "No Impostors", "Crewmates" });
+            ShiftedBecomes = new CustomStringOption(num++,
+                MultiMenu.neutral, "Shifted Becomes", new[] { "Shifter", "Crewmate" });
+            ShifterCrewmate =
+                new CustomToggleOption(num++, MultiMenu.neutral, "Shifter Wins With Crew", false);
             GuardianAngel =
                 new CustomHeaderOption(num++, MultiMenu.neutral, "<color=#B3FFFFFF>Guardian Angel</color>");
             ProtectCd =

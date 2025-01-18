@@ -1253,12 +1253,6 @@ namespace TownOfUs
             {
                 var tracker = Role.GetRole<Tracker>(PlayerControl.LocalPlayer);
                 tracker.LastTracked = DateTime.UtcNow;
-                if (CustomGameOptions.ResetOnNewRound)
-                {
-                    tracker.TrackerArrows.Values.DestroyAll();
-                    tracker.TrackerArrows.Clear();
-                    tracker.UsesLeft = CustomGameOptions.MaxTracks;
-                }
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))
             {

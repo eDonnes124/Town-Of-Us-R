@@ -30,7 +30,7 @@ namespace TownOfUs
     public class TownOfUs : BasePlugin
     {
         public const string Id = "com.slushiegoose.townofus";
-        public const string VersionString = "5.1.2.1";
+        public const string VersionString = "5.1.2.2";
         public static System.Version Version = System.Version.Parse(VersionString);
         public const string VersionTag = "<color=#ff33fc></color>";
 
@@ -40,6 +40,8 @@ namespace TownOfUs
         public static Sprite EngineerFix;
         public static Sprite SwapperSwitch;
         public static Sprite SwapperSwitchDisabled;
+        public static Sprite Shift;
+        public static Sprite ShiftKill;
         public static Sprite Footprint;
         public static Sprite Rewind;
         public static Sprite NormalKill;
@@ -149,9 +151,11 @@ namespace TownOfUs
             EngineerFix = CreateSprite("TownOfUs.Resources.Engineer.png");
             SwapperSwitch = CreateSprite("TownOfUs.Resources.SwapperSwitch.png");
             SwapperSwitchDisabled = CreateSprite("TownOfUs.Resources.SwapperSwitchDisabled.png");
+            Shift = CreateSprite("TownOfUs.Resources.Shift.png");
             Footprint = CreateSprite("TownOfUs.Resources.Footprint.png");
             Rewind = CreateSprite("TownOfUs.Resources.Rewind.png");
             NormalKill = CreateSprite("TownOfUs.Resources.NormalKill.png");
+            ShiftKill = CreateSprite("TownOfUs.Resources.ShiftKill.png");
             MedicSprite = CreateSprite("TownOfUs.Resources.Medic.png");
             SeerSprite = CreateSprite("TownOfUs.Resources.Seer.png");
             SampleSprite = CreateSprite("TownOfUs.Resources.Sample.png");

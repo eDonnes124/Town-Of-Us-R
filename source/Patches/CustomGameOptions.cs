@@ -1,6 +1,7 @@
 using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.CustomOption;
 using TownOfUs.NeutralRoles.ExecutionerMod;
+using TownOfUs.NeutralRoles.ShifterMod;
 using TownOfUs.CrewmateRoles.HaunterMod;
 using TownOfUs.CrewmateRoles.MediumMod;
 using TownOfUs.NeutralRoles.GuardianAngelMod;
@@ -36,6 +37,7 @@ namespace TownOfUs
         public static int EngineerOn => (int)Generate.EngineerOn.Get();
         public static int SwapperOn => (int)Generate.SwapperOn.Get();
         public static int AmnesiacOn => (int)Generate.AmnesiacOn.Get();
+        public static int ShifterOn => (int)Generate.ShifterOn.Get();
         public static int InvestigatorOn => (int)Generate.InvestigatorOn.Get();
         public static int TimeLordOn => (int)Generate.TimeLordOn.Get();
         public static int MedicOn => (int)Generate.MedicOn.Get();
@@ -49,6 +51,7 @@ namespace TownOfUs
         public static int MinerOn => (int)Generate.MinerOn.Get();
         public static int SwooperOn => (int)Generate.SwooperOn.Get();
         public static int ArsonistOn => (int)Generate.ArsonistOn.Get();
+        public static int JuggernautOn => (int)Generate.JuggernautOn.Get();
         public static int AltruistOn => (int)Generate.AltruistOn.Get();
         public static int UndertakerOn => (int)Generate.UndertakerOn.Get();
         public static int PhantomOn => (int)Generate.PhantomOn.Get();
@@ -111,7 +114,12 @@ namespace TownOfUs
         public static float SheriffKillCd => Generate.SheriffKillCd.Get();
         public static int MayorVoteBank => (int)Generate.MayorVoteBank.Get();
         public static bool MayorAnonymous => Generate.MayorAnonymous.Get();
+        public static float MayorMaximumBank => Generate.MayorMaximumBank.Get();
         public static bool SwapperButton => Generate.SwapperButton.Get();
+        public static float ShifterCd => Generate.ShifterCd.Get();
+        public static ShiftEnum WhoShifts => (ShiftEnum)Generate.WhoShifts.Get();
+        public static BecomeEnum ShiftedBecomes => (BecomeEnum)Generate.ShiftedBecomes.Get();
+        public static bool ShifterCrewmate => Generate.ShifterCrewmate.Get();
         public static float FootprintSize => Generate.FootprintSize.Get();
         public static float FootprintInterval => Generate.FootprintInterval.Get();
         public static float FootprintDuration => Generate.FootprintDuration.Get();
@@ -244,8 +252,8 @@ namespace TownOfUs
         public static int MaxAlerts => (int)Generate.MaxAlerts.Get();
         public static float UpdateInterval => Generate.UpdateInterval.Get();
         public static float TrackCd => Generate.TrackCooldown.Get();
+        public static float TrackDuration => Generate.TrackDuration.Get();
         public static bool ResetOnNewRound => Generate.ResetOnNewRound.Get();
-        public static int MaxTracks => (int)Generate.MaxTracks.Get();
         public static int LatestSpawn => (int)Generate.LatestSpawn.Get();
         public static bool NeutralKillingStopsTraitor => Generate.NeutralKillingStopsTraitor.Get();
         public static float TransportCooldown => Generate.TransportCooldown.Get();
