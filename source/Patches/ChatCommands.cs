@@ -268,7 +268,12 @@ namespace TownOfUs.Patches
                         AddRoleMessage(RoleEnum.Prosecutor);
                         return false;
                     }
-                    else if ((chatText.ToLower().StartsWith("/war") || chatText.ToLower().StartsWith("/ war")) && !(chatText.ToLower().StartsWith("/ward") || chatText.ToLower().StartsWith("/ ward")))
+                    else if (chatText.ToLower().StartsWith("/ward") || chatText.ToLower().StartsWith("/ ward"))
+                    {
+                        AddRoleMessage(RoleEnum.Warden);
+                        return false;
+                    }
+                    else if (chatText.ToLower().StartsWith("/war") || chatText.ToLower().StartsWith("/ war"))
                     {
                         AddRoleMessage(RoleEnum.Warlock);
                         return false;
@@ -292,12 +297,7 @@ namespace TownOfUs.Patches
                     {
                         AddRoleMessage(RoleEnum.Politician);
                         return false;
-                    }
-                    else if (chatText.ToLower().StartsWith("/ward") || chatText.ToLower().StartsWith("/ ward"))
-                    {
-                        AddRoleMessage(RoleEnum.Warden);
-                        return false;
-                    }
+                    }                    
                     else if (chatText.ToLower().StartsWith("/hypno") || chatText.ToLower().StartsWith("/ hypno"))
                     {
                         AddRoleMessage(RoleEnum.Hypnotist);
