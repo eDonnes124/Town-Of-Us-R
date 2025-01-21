@@ -268,7 +268,7 @@ namespace TownOfUs.Patches
                         AddRoleMessage(RoleEnum.Prosecutor);
                         return false;
                     }
-                    else if (chatText.ToLower().StartsWith("/war") || chatText.ToLower().StartsWith("/ war"))
+                    else if ((chatText.ToLower().StartsWith("/war") || chatText.ToLower().StartsWith("/ war")) && !(chatText.ToLower().StartsWith("/ward") || chatText.ToLower().StartsWith("/ ward")))
                     {
                         AddRoleMessage(RoleEnum.Warlock);
                         return false;
