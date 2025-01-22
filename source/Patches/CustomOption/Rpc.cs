@@ -34,8 +34,10 @@ namespace TownOfUs.CustomOption
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void SendTargetRpc(PlayerControl target, CustomOption optionn = null)
+        public static IEnumerator SendTargetRpc(PlayerControl target, CustomOption optionn = null)
         {
+            yield return new WaitForSeconds(0.5f);
+
             List<CustomOption> options;
             if (optionn != null)
                 options = new List<CustomOption> {optionn};
@@ -43,14 +45,14 @@ namespace TownOfUs.CustomOption
                 options = CustomOption.AllOptions;
 
             var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                (byte) CustomRPC.SyncSettingsTarget, SendOption.Reliable);
+                (byte)CustomRPC.SyncSettingsTarget, SendOption.Reliable);
             writer.Write(target.PlayerId);
             foreach (var option in options)
             {
                 if (writer.Position > 1000) {
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
-                        (byte) CustomRPC.SyncSettingsTarget, SendOption.Reliable);
+                        (byte)CustomRPC.SyncSettingsTarget, SendOption.Reliable);
                     writer.Write(target.PlayerId);
                 }
                 writer.Write(option.ID);
@@ -60,6 +62,8 @@ namespace TownOfUs.CustomOption
             }
 
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            yield break;
         }
 
         public static void ReceiveRpc(MessageReader reader)
