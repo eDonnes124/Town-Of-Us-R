@@ -637,7 +637,7 @@ namespace TownOfUs.CustomOption
                 if (PlayerControl.AllPlayerControls.Count < 2 || !AmongUsClient.Instance ||
                     !PlayerControl.LocalPlayer || !AmongUsClient.Instance.AmHost) return;
 
-                Rpc.SendTargetRpc(__instance.myPlayer);
+                Coroutines.Start(Rpc.SendTargetRpc(__instance.myPlayer));
             }
         }
 
