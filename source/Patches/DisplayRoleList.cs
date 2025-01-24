@@ -108,14 +108,11 @@ namespace TownOfUs.Patches
         }
     }
 
-    // Patch to hide RoleList in IntroCutscene.OnDestroy
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
     internal static class HideRoleListInIntroCutscene
     {
-        // This method will run when IntroCutscene.OnDestroy is called
         private static void Postfix()
         {
-            // If the RoleList exists, hide it
             if (DisplayRoleList.RoleList != null)
             {
                 DisplayRoleList.RoleList.enabled = false;
@@ -123,14 +120,11 @@ namespace TownOfUs.Patches
         }
     }
 
-    // Patch to reveal RoleList again in LobbyBehaviour.Start
     [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
     internal static class RevealRoleListInLobby
     {
-        // This method will run when LobbyBehaviour.Start is called
         private static void Postfix()
         {
-            // If the RoleList exists, show it
             if (DisplayRoleList.RoleList != null)
             {
                 DisplayRoleList.RoleList.enabled = true;
