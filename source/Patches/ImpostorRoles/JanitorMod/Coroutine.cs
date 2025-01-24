@@ -11,6 +11,15 @@ namespace TownOfUs.ImpostorRoles.JanitorMod
 
         public static IEnumerator CleanCoroutine(DeadBody body, Janitor role)
         {
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                if (lookout.Watching.ContainsKey(body.ParentId))
+                {
+                    if (!lookout.Watching[body.ParentId].Contains(RoleEnum.Janitor)) lookout.Watching[body.ParentId].Add(RoleEnum.Janitor);
+                }
+            }
+
             KillButtonTarget.SetTarget(DestroyableSingleton<HudManager>.Instance.KillButton, null, role);
             role.Player.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown);
             SpriteRenderer renderer = null;

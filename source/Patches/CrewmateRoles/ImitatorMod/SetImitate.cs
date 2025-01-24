@@ -14,18 +14,19 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
         {
             public static void Postfix(MeetingHud __instance)
             {
-                if (Imitate == null) return;
-
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Imitator))
                 {
                     var imitator = Role.GetRole<Imitator>(PlayerControl.LocalPlayer);
                     foreach (var button in imitator.Buttons.Where(button => button != null)) button.SetActive(false);
 
-                    foreach (var player in PlayerControl.AllPlayerControls)
+                    if (Imitate != null)
                     {
-                        if (player.PlayerId == Imitate.TargetPlayerId) 
-                        { 
-                            imitator.ImitatePlayer = player;
+                        foreach (var player in PlayerControl.AllPlayerControls)
+                        {
+                            if (player.PlayerId == Imitate.TargetPlayerId)
+                            {
+                                imitator.ImitatePlayer = player;
+                            }
                         }
                     }
 

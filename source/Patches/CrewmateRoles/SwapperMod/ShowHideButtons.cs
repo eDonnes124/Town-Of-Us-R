@@ -81,12 +81,12 @@ namespace TownOfUs.CrewmateRoles.SwapperMod
                     button.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
                 }
 
-                if (swapper.ListOfActives.Count(x => x) == 2)
+                if (swapper.ListOfActives.Count(x => x.Item2) == 2)
                 {
                     var toSet1 = true;
                     for (var i = 0; i < swapper.ListOfActives.Count; i++)
                     {
-                        if (!swapper.ListOfActives[i]) continue;
+                        if (!swapper.ListOfActives[i].Item2) continue;
 
                         if (toSet1)
                         {

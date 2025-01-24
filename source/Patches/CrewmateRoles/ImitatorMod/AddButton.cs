@@ -15,19 +15,33 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
         private static Sprite ActiveSprite => TownOfUs.ImitateSelectSprite;
         public static Sprite DisabledSprite => TownOfUs.ImitateDeselectSprite;
 
-
-        public static void GenButton(Imitator role, int index, bool isUseable, bool replace = false)
+        private static bool IsExempt(PlayerVoteArea voteArea)
         {
-            if (!isUseable)
+            var player = Utils.PlayerById(voteArea.TargetPlayerId);
+            if (
+                    player == null ||
+                    !player.Data.IsDead ||
+                    player.Data.Disconnected
+                ) return true;
+            return !player.Is(Faction.Crewmates);
+        }
+
+
+        public static void GenButton(Imitator role, PlayerVoteArea voteArea, bool replace = false)
+        {
+            if (PlayerControl.LocalPlayer.IsJailed()) return;
+            var targetId = voteArea.TargetPlayerId;
+            if (IsExempt(voteArea))
             {
+                if (replace) return;
                 role.Buttons.Add(null);
-                role.ListOfActives.Add(false);
+                role.ListOfActives.Add((targetId, false));
                 return;
             }
 
-            var confirmButton = MeetingHud.Instance.playerStates[index].Buttons.transform.GetChild(0).gameObject;
+            var confirmButton = voteArea.Buttons.transform.GetChild(0).gameObject;
 
-            var newButton = Object.Instantiate(confirmButton, MeetingHud.Instance.playerStates[index].transform);
+            var newButton = Object.Instantiate(confirmButton, voteArea.transform);
             var renderer = newButton.GetComponent<SpriteRenderer>();
             var passive = newButton.GetComponent<PassiveButton>();
 
@@ -38,43 +52,62 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             newButton.transform.parent = confirmButton.transform.parent.parent;
 
             passive.OnClick = new Button.ButtonClickedEvent();
-            passive.OnClick.AddListener(SetActive(role, index));
-            if (replace) role.Buttons[index] = newButton;
+            passive.OnClick.AddListener(SetActive(role, targetId));
+            if (replace)
+            {
+                for (var i = 0; i < role.Buttons.Count; i++)
+                {
+                    if (role.ListOfActives[i].Item1 == targetId)
+                    {
+                        role.Buttons[i] = newButton;
+                    }
+                }
+            }
             else
             {
                 role.Buttons.Add(newButton);
-                role.ListOfActives.Add(false);
+                role.ListOfActives.Add((targetId, false));
             }
         }
 
 
-        private static Action SetActive(Imitator role, int index)
+        private static Action SetActive(Imitator role, int targetId)
         {
             void Listener()
             {
-                if (role.ListOfActives.Count(x => x) == 1 &&
+                int index = int.MaxValue;
+                for (var i = 0; i < role.ListOfActives.Count; i++)
+                {
+                    if (role.ListOfActives[i].Item1 == targetId)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index == int.MaxValue) return;
+                if (role.ListOfActives.Count(x => x.Item2) == 1 &&
                     role.Buttons[index].GetComponent<SpriteRenderer>().sprite == DisabledSprite)
                 {
                     int active = 0;
-                    for (var i = 0; i < role.ListOfActives.Count; i++) if (role.ListOfActives[i]) active = i;
+                    for (var i = 0; i < role.ListOfActives.Count; i++) if (role.ListOfActives[i].Item2) active = i;
 
                     role.Buttons[active].GetComponent<SpriteRenderer>().sprite =
-                        role.ListOfActives[active] ? DisabledSprite : ActiveSprite;
+                        role.ListOfActives[active].Item2 ? DisabledSprite : ActiveSprite;
 
-                    role.ListOfActives[active] = !role.ListOfActives[active];
+                    role.ListOfActives[active] = (role.ListOfActives[active].Item1, !role.ListOfActives[active].Item2);
                 }
 
                 role.Buttons[index].GetComponent<SpriteRenderer>().sprite =
-                    role.ListOfActives[index] ? DisabledSprite : ActiveSprite;
+                    role.ListOfActives[index].Item2 ? DisabledSprite : ActiveSprite;
 
-                role.ListOfActives[index] = !role.ListOfActives[index];
+                role.ListOfActives[index] = (role.ListOfActives[index].Item1, !role.ListOfActives[index].Item2);
 
                 _mostRecentId = index;
 
                 SetImitate.Imitate = null;
                 for (var i = 0; i < role.ListOfActives.Count; i++)
                 {
-                    if (!role.ListOfActives[i]) continue;
+                    if (!role.ListOfActives[i].Item2) continue;
                     SetImitate.Imitate = MeetingHud.Instance.playerStates[i];
                 }
             }
@@ -95,23 +128,9 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
             if (!PlayerControl.LocalPlayer.Is(RoleEnum.Imitator)) return;
             if (PlayerControl.LocalPlayer.IsJailed()) return;
             var imitatorRole = Role.GetRole<Imitator>(PlayerControl.LocalPlayer);
-            for (var i = 0; i < __instance.playerStates.Length; i++)
+            foreach (var voteArea in __instance.playerStates)
             {
-                foreach (var player in PlayerControl.AllPlayerControls)
-                {
-                    if (player.PlayerId == __instance.playerStates[i].TargetPlayerId)
-                    {
-                        var imitatable = false;
-                        var imitatedRole = Role.GetRole(player).RoleType;
-                        if (imitatedRole == RoleEnum.Haunter)
-                        {
-                            var haunter = Role.GetRole<Haunter>(player);
-                            imitatedRole = haunter.formerRole;
-                        }
-                        if (player.Data.IsDead && !player.Data.Disconnected && imitatorRole.ImitatableRoles.Contains(imitatedRole)) imitatable = true;
-                        GenButton(imitatorRole, i, imitatable);
-                    }
-                }
+                GenButton(imitatorRole, voteArea);
             }
         }
     }

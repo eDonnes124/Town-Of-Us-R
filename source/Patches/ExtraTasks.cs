@@ -1,6 +1,8 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using System;
 
 namespace TownOfUs.Patches
 {
@@ -34,66 +36,46 @@ namespace TownOfUs.Patches
         public static bool Prefix(IGameOptions __instance, ref int __result)
         {
             if (GameOptionsManager.Instance.CurrentGameOptions.GameMode == GameModes.HideNSeek) return true;
-            if (CustomGameOptions.GameMode == GameMode.AllAny && CustomGameOptions.RandomNumberImps)
-            {
-                var players = GameData.Instance.PlayerCount;
 
-                var impostors = 1;
-                var random = Random.RandomRangeInt(0, 100);
-                if (players <= 6) impostors = 1;
-                else if (players <= 7)
-                {
-                    if (random < 20) impostors = 2;
-                    else impostors = 1;
-                }
-                else if (players <= 8)
-                {
-                    if (random < 40) impostors = 2;
-                    else impostors = 1;
-                }
-                else if (players <= 9)
-                {
-                    if (random < 50) impostors = 2;
-                    else impostors = 1;
-                }
-                else if (players <= 10)
-                {
-                    if (random < 60) impostors = 2;
-                    else impostors = 1;
-                }
-                else if (players <= 11)
-                {
-                    if (random < 60) impostors = 2;
-                    else if (random < 70) impostors = 3;
-                    else impostors = 1;
-                }
-                else if (players <= 12)
-                {
-                    if (random < 60) impostors = 2;
-                    else if (random < 80) impostors = 3;
-                    else impostors = 1;
-                }
-                else if (players <= 13)
-                {
-                    if (random < 60) impostors = 2;
-                    else if (random < 90) impostors = 3;
-                    else impostors = 1;
-                }
-                else if (players <= 14)
-                {
-                    if (random < 50) impostors = 3;
-                    else impostors = 2;
-                }
-                else
-                {
-                    if (random < 60) impostors = 3;
-                    else if (random < 90) impostors = 2;
-                    else impostors = 4;
-                }
-                __result = impostors;
-                return false;
+            var players = GameData.Instance.PlayerCount;
+            var impostors = 0;
+            List<RoleOptions> impBuckets = [RoleOptions.ImpConceal, RoleOptions.ImpKilling, RoleOptions.ImpSupport, RoleOptions.ImpCommon, RoleOptions.ImpRandom];
+            List<RoleOptions> buckets = [CustomGameOptions.Slot1, CustomGameOptions.Slot2, CustomGameOptions.Slot3, CustomGameOptions.Slot4];
+            var anySlots = 0;
+
+            if (players > 4) buckets.Add(CustomGameOptions.Slot5);
+            if (players > 5) buckets.Add(CustomGameOptions.Slot6);
+            if (players > 6) buckets.Add(CustomGameOptions.Slot7);
+            if (players > 7) buckets.Add(CustomGameOptions.Slot8);
+            if (players > 8) buckets.Add(CustomGameOptions.Slot9);
+            if (players > 9) buckets.Add(CustomGameOptions.Slot10);
+            if (players > 10) buckets.Add(CustomGameOptions.Slot11);
+            if (players > 11) buckets.Add(CustomGameOptions.Slot12);
+            if (players > 12) buckets.Add(CustomGameOptions.Slot13);
+            if (players > 13) buckets.Add(CustomGameOptions.Slot14);
+            if (players > 14) buckets.Add(CustomGameOptions.Slot15);
+
+            foreach (var roleOption in buckets)
+            {
+                if (impBuckets.Contains(roleOption)) impostors += 1;
+                else if (roleOption == RoleOptions.Any) anySlots += 1;
             }
-            return true;
+
+            int impProbability = (int)Math.Floor((double)players / anySlots * 5 / 3);
+            for (int i = 0; i < anySlots; i++)
+            {
+                var random = Random.RandomRangeInt(0, 100);
+                if (random < impProbability) impostors += 1;
+                impProbability += 3;
+            }
+
+            if (players < 7 || impostors == 0) impostors = 1;
+            else if (players < 10 && impostors > 2) impostors = 2;
+            else if (players < 14 && impostors > 3) impostors = 3;
+            else if (players < 19 && impostors > 4) impostors = 4;
+            else if (impostors > 5) impostors = 5;
+            __result = impostors;
+            return false;
         }
     }
 }

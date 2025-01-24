@@ -21,6 +21,15 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
         public static IEnumerator AltruistRevive(DeadBody target, Altruist role)
         {
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                if (lookout.Watching.ContainsKey(target.ParentId))
+                {
+                    if (!lookout.Watching[target.ParentId].Contains(RoleEnum.Altruist)) lookout.Watching[target.ParentId].Add(RoleEnum.Altruist);
+                }
+            }
+
             var parent = Utils.PlayerById(target.ParentId);
             var position = target.TruePosition;
             var altruist = role.Player;

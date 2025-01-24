@@ -43,6 +43,8 @@ namespace TownOfUs
         private static Sprite Fortify => TownOfUs.FortifySprite;
         private static Sprite Jail => TownOfUs.JailSprite;
         private static Sprite Collect => TownOfUs.CollectSprite;
+        private static Sprite Watch => TownOfUs.WatchSprite;
+        private static Sprite Camp => TownOfUs.CampSprite;
 
         private static Sprite Kill;
 
@@ -172,6 +174,16 @@ namespace TownOfUs
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.SoulCollector))
             {
                 __instance.KillButton.graphic.sprite = Collect;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                __instance.KillButton.graphic.sprite = Watch;
+                flag = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Deputy))
+            {
+                __instance.KillButton.graphic.sprite = Camp;
                 flag = true;
             }
             else

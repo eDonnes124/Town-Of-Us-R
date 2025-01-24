@@ -152,6 +152,12 @@ namespace TownOfUs.NeutralRoles.VampireMod
                     UnityEngine.Object.Destroy(trackerRole.UsesText);
                 }
 
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+                {
+                    var loRole = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                    UnityEngine.Object.Destroy(loRole.UsesText);
+                }
+
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Aurial))
                 {
                     var aurialRole = Role.GetRole<Aurial>(PlayerControl.LocalPlayer);

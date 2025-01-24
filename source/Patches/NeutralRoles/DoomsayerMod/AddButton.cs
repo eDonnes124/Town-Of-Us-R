@@ -146,19 +146,19 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 if (currentGuess == "None") return;
 
                 role.NumberOfGuesses++;
-                var playersAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList().Count;
+                var playersAlive = PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected && !Role.GetRole(x).Criteria() && !x.IsJailed()).ToList().Count;
 
                 ShowHideButtonsDoom.HideSingle(role, targetId, false);
                 var nameText = Object.Instantiate(voteArea.NameText, voteArea.transform);
-                voteArea.NameText.transform.localPosition = new Vector3(0.55f, 0.12f, -0.1f);
-                nameText.transform.localPosition = new Vector3(0.55f, -0.12f, -0.1f);
+                nameText.transform.localPosition -= new Vector3(0.2f, 0.3f, 0f);
+                nameText.transform.localScale *= 0.6f;
                 nameText.text = $"<color=#{role.SortedColorMapping[currentGuess].ToHtmlStringRGBA()}>{currentGuess}</color>";
                 role.RoleGuess[targetId] = nameText;
 
                 var playerRole = Role.GetRole(voteArea);
                 if (currentGuess != playerRole.Name) role.IncorrectGuesses++;
 
-                if ((role.NumberOfGuesses < 2 && playersAlive == 3) || (role.NumberOfGuesses != 3 && playersAlive > 3)) return;
+                if ((role.NumberOfGuesses < 2 && playersAlive < 3) || (role.NumberOfGuesses < 3 && playersAlive > 2)) return;
 
                 ShowHideButtonsDoom.HideButtonsDoom(role);
                 if (role.IncorrectGuesses > 0) Coroutines.Start(Utils.FlashCoroutine(Color.red));

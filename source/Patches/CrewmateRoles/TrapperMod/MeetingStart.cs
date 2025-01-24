@@ -28,7 +28,7 @@ namespace TownOfUs.CrewmateRoles.TrapperMod
                 {
                     message += $" {role},";
                 }
-                message.Remove(message.Length - 1, 1);
+                message = message.Remove(message.Length - 1, 1);
                 if (DestroyableSingleton<HudManager>.Instance)
                     DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, message);
             }

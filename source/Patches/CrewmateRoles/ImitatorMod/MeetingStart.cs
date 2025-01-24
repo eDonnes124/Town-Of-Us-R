@@ -31,7 +31,7 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                     {
                         message += $" {role},";
                     }
-                    message.Remove(message.Length - 1, 1);
+                    message = message.Remove(message.Length - 1, 1);
                     if (DestroyableSingleton<HudManager>.Instance)
                         DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, message);
                 }
@@ -42,6 +42,29 @@ namespace TownOfUs.CrewmateRoles.ImitatorMod
                 var playerResults = MeetingStartOracle.PlayerReportFeedback(imitatorRole.confessingPlayer);
 
                 if (!string.IsNullOrWhiteSpace(playerResults)) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, playerResults);
+            }
+            else if (imitatorRole.watchedPlayers != null)
+            {
+                foreach (var (key, value) in imitatorRole.watchedPlayers)
+                {
+                    var name = Utils.PlayerById(key).Data.PlayerName;
+                    if (value.Count == 0)
+                    {
+                        if (DestroyableSingleton<HudManager>.Instance)
+                            DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"No players interacted with {name}");
+                    }
+                    else
+                    {
+                        string message = $"Roles seen interacting with {name}:\n";
+                        foreach (RoleEnum role in value.OrderBy(x => Guid.NewGuid()))
+                        {
+                            message += $" {role},";
+                        }
+                        message = message.Remove(message.Length - 1, 1);
+                        if (DestroyableSingleton<HudManager>.Instance)
+                            DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, message);
+                    }
+                }
             }
         }
     }

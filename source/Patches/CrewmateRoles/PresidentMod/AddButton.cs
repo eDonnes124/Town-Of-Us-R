@@ -3,11 +3,13 @@ using System.Linq;
 using HarmonyLib;
 using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.AssassinMod;
+using TownOfUs.CrewmateRoles.VigilanteMod;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Modifiers;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using TownOfUs.NeutralRoles.DoomsayerMod;
 
 namespace TownOfUs.CrewmateRoles.PresidentMod
 {
@@ -52,53 +54,30 @@ namespace TownOfUs.CrewmateRoles.PresidentMod
         {
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == mayor.Player.PlayerId);
+
             if (PlayerControl.LocalPlayer.Is(AbilityEnum.Assassin))
             {
                 var assassin = Ability.GetAbility<Assassin>(PlayerControl.LocalPlayer);
                 ShowHideButtons.HideTarget(assassin, voteArea.TargetPlayerId);
-                voteArea.NameText.transform.localPosition += new Vector3(-0.2f, -0.1f, 0f);
+                voteArea.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
             }
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer))
             {
                 var doomsayer = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
-                var roleText = doomsayer.RoleGuess[voteArea.TargetPlayerId];
-                if (roleText != null)
+                ShowHideButtonsDoom.HideTarget(doomsayer, voteArea.TargetPlayerId);
+                voteArea.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
+                foreach (var (targetId, guessText) in doomsayer.RoleGuess)
                 {
-                    roleText.gameObject.SetActive(false);
-                    voteArea.NameText.transform.localPosition += new Vector3(-0.2f, -0.1f, 0f);
+                    if (!guessText.isActiveAndEnabled || voteArea.TargetPlayerId != targetId) continue;
+                    guessText.gameObject.SetActive(false);
                 }
-                var (cycleBack, cycleForward, guess, guessText) = doomsayer.Buttons[voteArea.TargetPlayerId];
-                if (cycleBack == null || cycleForward == null) return;
-                cycleBack.SetActive(false);
-                cycleForward.SetActive(false);
-                guess.SetActive(false);
-                guessText.gameObject.SetActive(false);
-
-                cycleBack.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-                cycleForward.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-                guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-                doomsayer.Buttons[voteArea.TargetPlayerId] = (null, null, null, null);
-                doomsayer.Guesses.Remove(voteArea.TargetPlayerId);
-                voteArea.NameText.transform.localPosition += new Vector3(-0.2f, -0.1f, 0f);
             }
             else if (PlayerControl.LocalPlayer.Is(RoleEnum.Vigilante))
             {
                 var vigilante = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
-                var (cycleBack, cycleForward, guess, guessText) = vigilante.Buttons[voteArea.TargetPlayerId];
-                if (cycleBack == null || cycleForward == null) return;
-                cycleBack.SetActive(false);
-                cycleForward.SetActive(false);
-                guess.SetActive(false);
-                guessText.gameObject.SetActive(false);
-
-                cycleBack.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-                cycleForward.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-                guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
-                vigilante.Buttons[voteArea.TargetPlayerId] = (null, null, null, null);
-                vigilante.Guesses.Remove(voteArea.TargetPlayerId);
-                voteArea.NameText.transform.localPosition += new Vector3(-0.2f, -0.1f, 0f);
+                ShowHideButtonsVigi.HideTarget(vigilante, voteArea.TargetPlayerId);
+                voteArea.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
             }
-            return;
         }
 
         public static void Postfix(MeetingHud __instance)

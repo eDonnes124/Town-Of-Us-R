@@ -28,6 +28,12 @@
     "InternalVersions": {
       "50614900": "2024.10.29"
     },
-    "ModVersion": "5.1.2.2"
+    "ModVersion": "5.1.2"
+  },
+  {
+    "InternalVersions": {
+      "50614900": "2024.10.29"
+    },
+    "ModVersion": "5.2.0.1"
   }
 ]

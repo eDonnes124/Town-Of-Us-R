@@ -9,14 +9,13 @@ namespace TownOfUs.Roles
     {
         public readonly List<GameObject> Buttons = new List<GameObject>();
 
-        public readonly List<bool> ListOfActives = new List<bool>();
+        public readonly List<(byte, bool)> ListOfActives = new List<(byte, bool)>();
         public PlayerControl ImitatePlayer = null;
-        public List<RoleEnum> ImitatableRoles = [RoleEnum.Detective, RoleEnum.Investigator, RoleEnum.Mystic, RoleEnum.Seer, RoleEnum.Spy, RoleEnum.Tracker, RoleEnum.Sheriff,
-                            RoleEnum.Veteran, RoleEnum.Altruist, RoleEnum.Engineer, RoleEnum.Medium, RoleEnum.Transporter, RoleEnum.Trapper, RoleEnum.Medic, RoleEnum.Aurial,
-                            RoleEnum.Oracle, RoleEnum.Hunter, RoleEnum.Warden];
 
         public List<RoleEnum> trappedPlayers = null;
+        public Dictionary<byte, List<RoleEnum>> watchedPlayers = null;
         public PlayerControl confessingPlayer = null;
+        public PlayerControl jailedPlayer = null;
 
 
         public Imitator(PlayerControl player) : base(player)

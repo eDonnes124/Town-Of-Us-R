@@ -41,6 +41,7 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
                 {
                     if (player == null || player.Data.IsDead ||
                         player.PlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
+                    if ((player.Is(RoleEnum.Swooper) && Role.GetRole<Swooper>(player).IsSwooped) || PlayerControl.LocalPlayer.IsHypnotised()) continue;
                     var canPlace = !investigator.AllPrints.Any(print =>
                         Vector3.Distance(print.Position, Position(player)) < 0.5f &&
                         print.Color.a > 0.5 &&

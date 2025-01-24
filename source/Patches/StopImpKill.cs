@@ -48,7 +48,13 @@ namespace TownOfUs
             }
             else if (interact[0] == true)
             {
-                if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Scavenger))
+                {
+                    var scav = Role.GetRole<Scavenger>(PlayerControl.LocalPlayer);
+                    if (scav.Target == target) PlayerControl.LocalPlayer.SetKillTimer(CustomGameOptions.ScavengeCorrectKillCooldown);
+                    else PlayerControl.LocalPlayer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.ScavengeIncorrectKillCooldown);
+                }
+                else if (PlayerControl.LocalPlayer.Is(ModifierEnum.Underdog))
                 {
                     var lowerKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus;
                     var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown;

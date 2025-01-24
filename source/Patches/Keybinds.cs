@@ -84,9 +84,16 @@ namespace TownOfUs
             {
                 dynamic guesser = role is Vigilante ? Role.GetRole<Vigilante>(role.Player) : Ability.GetAbility<Assassin>(role.Player);
                 if (guesser == null) guesser = Role.GetRole<Doomsayer>(role.Player);
+                if (role is Vigilante)
+                {
+                    if (Role.GetRole<Vigilante>(role.Player).RemainingKills == 0) return;
+                }
+                if (role.Player.Is(AbilityEnum.Assassin))
+                {
+                    if (Ability.GetAbility<Assassin>(role.Player).RemainingKills == 0) return;
+                }
                 var players = __instance.playerStates.Where(x => (guesser as IGuesser).Buttons[x.TargetPlayerId] != (null, null, null, null)
-                                                                  && x.TargetPlayerId != role.Player.PlayerId)
-                                                     .ToList();
+                                                                  && x.TargetPlayerId != role.Player.PlayerId).ToList();
 
                 if (ReInput.players.GetPlayer(0).GetButtonDown("ToU cycle players"))
                 {

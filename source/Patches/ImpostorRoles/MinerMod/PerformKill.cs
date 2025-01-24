@@ -29,8 +29,8 @@ namespace TownOfUs.ImpostorRoles.MinerMod
                 if (!abilityUsed) return false;
                 var position = PlayerControl.LocalPlayer.transform.position;
                 var id = GetAvailableId();
-                Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.001f);
-                SpawnVent(id, role, position, position.z + 0.001f);
+                Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.0004f);
+                SpawnVent(id, role, position, position.z + 0.0004f);
                 return false;
             }
 

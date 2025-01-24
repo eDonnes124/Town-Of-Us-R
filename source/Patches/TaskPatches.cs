@@ -1,5 +1,6 @@
 using HarmonyLib;
 using TownOfUs.Extensions;
+using TownOfUs.Roles.Modifiers;
 
 namespace TownOfUs
 {
@@ -25,13 +26,16 @@ namespace TownOfUs
                             playerInfo._object.Is(RoleEnum.Plaguebearer) || playerInfo._object.Is(RoleEnum.Pestilence) ||
                             playerInfo._object.Is(RoleEnum.Werewolf) || playerInfo._object.Is(RoleEnum.Doomsayer) ||
                             playerInfo._object.Is(RoleEnum.Vampire) || playerInfo._object.Is(RoleEnum.SoulCollector) ||
-                            playerInfo._object.Is(RoleEnum.Phantom) || playerInfo._object.Is(RoleEnum.Haunter)
+                            playerInfo._object.Is(RoleEnum.Phantom) || playerInfo._object.Is(RoleEnum.Haunter) ||
+                            (playerInfo._object.Is(ModifierEnum.Lover) && !Modifier.GetModifier<Lover>(playerInfo._object).OtherLover.Player.Is(Faction.Crewmates))
                         ))
+                    {
                         for (var j = 0; j < playerInfo.Tasks.Count; j++)
                         {
                             __instance.TotalTasks++;
                             if (playerInfo.Tasks.ToArray()[j].Complete) __instance.CompletedTasks++;
                         }
+                    }
                 }
 
                 return false;
@@ -41,7 +45,7 @@ namespace TownOfUs
         [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
         private class Console_CanUse
         {
-            private static bool Prefix(Console __instance, [HarmonyArgument(0)] NetworkedPlayerInfo playerInfo, ref float __result)
+            private static bool Prefix(Console __instance, [HarmonyArgument(0)] NetworkedPlayerInfo playerInfo, ref float __result, ref bool canUse, ref bool couldUse)
             {
                 var playerControl = playerInfo.Object;
 
@@ -61,6 +65,8 @@ namespace TownOfUs
                 if (flag && !__instance.AllowImpostor)
                 {
                     __result = float.MaxValue;
+                    canUse = false;
+                    couldUse = false;
                     return false;
                 }
 

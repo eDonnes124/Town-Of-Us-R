@@ -55,6 +55,19 @@ namespace TownOfUs.Roles
 
         public static IEnumerator TransportPlayers(byte player1, byte player2, bool die)
         {
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                if (lookout.Watching.ContainsKey(player1))
+                {
+                    if (!lookout.Watching[player1].Contains(RoleEnum.Transporter)) lookout.Watching[player1].Add(RoleEnum.Transporter);
+                }
+                if (lookout.Watching.ContainsKey(player2))
+                {
+                    if (!lookout.Watching[player2].Contains(RoleEnum.Transporter)) lookout.Watching[player2].Add(RoleEnum.Transporter);
+                }
+            }
+
             var TP1 = Utils.PlayerById(player1);
             var TP2 = Utils.PlayerById(player2);
             var deadBodies = Object.FindObjectsOfType<DeadBody>();

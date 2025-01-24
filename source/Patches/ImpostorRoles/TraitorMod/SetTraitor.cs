@@ -10,6 +10,7 @@ using TownOfUs.Patches;
 using AmongUs.GameOptions;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.Roles.Modifiers;
+using Il2CppSystem.Linq;
 
 namespace TownOfUs.ImpostorRoles.TraitorMod
 {
@@ -98,6 +99,12 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
                     var aurialRole = Role.GetRole<Aurial>(PlayerControl.LocalPlayer);
                     aurialRole.SenseArrows.Values.DestroyAll();
                     aurialRole.SenseArrows.Clear();
+                }
+
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+                {
+                    var loRole = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                    Object.Destroy(loRole.UsesText);
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))

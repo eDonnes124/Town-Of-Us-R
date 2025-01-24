@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using TownOfUs.Roles;
 using UnityEngine.UI;
+using UnityEngine;
+using System.Linq;
 
 namespace TownOfUs.NeutralRoles.DoomsayerMod
 {
@@ -21,7 +23,13 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
                 cycleForward.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
                 guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             }
+
+            foreach (var voteArea in MeetingHud.Instance.playerStates)
+            {
+                voteArea.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
+            }
         }
+
         public static void HideTextDoom(Doomsayer role)
         {
             foreach (var (_, guessText) in role.RoleGuess)
@@ -45,7 +53,6 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             byte targetId
         )
         {
-
             var (cycleBack, cycleForward, guess, guessText) = role.Buttons[targetId];
             if (cycleBack == null || cycleForward == null) return;
             cycleBack.SetActive(false);
@@ -58,18 +65,10 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             role.Buttons[targetId] = (null, null, null, null);
             role.Guesses.Remove(targetId);
-        }
 
-
-        public static void Prefix(MeetingHud __instance)
-        {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Doomsayer)) return;
-            var doomsayer = Role.GetRole<Doomsayer>(PlayerControl.LocalPlayer);
-            if (!CustomGameOptions.DoomsayerAfterVoting)
-            {
-                HideButtonsDoom(doomsayer);
-                HideTextDoom(doomsayer);
-            }
+            PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                x => x.TargetPlayerId == targetId);
+            voteArea.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
         }
     }
 }

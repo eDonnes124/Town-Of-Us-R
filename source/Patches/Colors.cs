@@ -35,6 +35,8 @@ namespace TownOfUs.Patches
         public readonly static Color Politician = new Color(0.4f, 0f, 0.6f, 1f);
         public readonly static Color Warden = new Color(0.6f, 0f, 1f, 1f);
         public readonly static Color Jailor = new Color(0.65f, 0.65f, 0.65f, 1f);
+        public readonly static Color Lookout = new Color(0.2f, 1f, 0.4f, 1f);
+        public readonly static Color Deputy = new Color(1f, 0.8f, 0f, 1f);
 
         // Neutral Colors
         public readonly static Color Jester = new Color(1f, 0.75f, 0.8f, 1f);
@@ -58,7 +60,7 @@ namespace TownOfUs.Patches
         public readonly static Color Impostor = Palette.ImpostorRed;
 
         //Modifiers
-        public readonly static Color Bait = new Color(0f, 0.7f, 0.7f, 1f);
+        public readonly static Color Bait = new Color(0.2f, 0.7f, 0.7f, 1f);
         public readonly static Color Aftermath = new Color(0.65f, 1f, 0.65f, 1f);
         public readonly static Color Diseased = Color.grey;
         public readonly static Color Torch = new Color(1f, 1f, 0.6f, 1f);
@@ -73,6 +75,7 @@ namespace TownOfUs.Patches
         public readonly static Color Frosty = new Color(0.6f, 1f, 1f, 1f);
         public readonly static Color SixthSense = new Color(0.85f, 1f, 0.55f, 1f);
         public readonly static Color Shy = new Color(1f, 0.7f, 0.8f, 1f);
+        public readonly static Color Mini = new Color(0.8f, 1f, 0.9f, 1f);
 
     }
 }

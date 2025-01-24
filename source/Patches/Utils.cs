@@ -27,6 +27,7 @@ using TownOfUs.CrewmateRoles.DetectiveMod;
 using TownOfUs.NeutralRoles.SoulCollectorMod;
 using static TownOfUs.Roles.Glitch;
 using TownOfUs.Patches.NeutralRoles;
+using Il2CppSystem.Linq;
 
 namespace TownOfUs
 {
@@ -89,6 +90,7 @@ namespace TownOfUs
             else
             {
                 player.SetOutfit(CustomPlayerOutfitType.Default);
+                if (!player.Is(ModifierEnum.Shy) || player.Data.IsDead || player.Data.Disconnected) return;
                 player.SetHatAndVisorAlpha(1f);
                 player.cosmetics.skin.layer.color = player.cosmetics.skin.layer.color.SetAlpha(1f);
                 foreach (var rend in player.cosmetics.currentPet.renderers)
@@ -262,6 +264,11 @@ namespace TownOfUs
                 var vigi = Role.GetRole<Vigilante>(player);
                 if (vigi.RemainingKills > 0 && CustomGameOptions.VigilanteGuessNeutralKilling) return true;
             }
+            else if (player.Is(RoleEnum.Deputy))
+            {
+                var dep = Role.GetRole<Deputy>(player);
+                if (dep.Killer != null && !dep.Killer.Data.IsDead && !dep.Killer.Data.Disconnected) return true;
+            }
             return false;
         }
 
@@ -318,6 +325,10 @@ namespace TownOfUs
             {
                 var jailor = (Jailor)role;
                 return jailor.Jailed == player && !player.Data.IsDead && !player.Data.Disconnected;
+            }) || Role.GetRoles(RoleEnum.Imitator).Any(role =>
+            {
+                var imitator = (Imitator)role;
+                return imitator.jailedPlayer == player && !player.Data.IsDead && !player.Data.Disconnected;
             });
         }
 
@@ -566,6 +577,15 @@ namespace TownOfUs
                 var aurial = Role.GetRole<Aurial>(PlayerControl.LocalPlayer);
                 Coroutines.Start(aurial.Sense(player));
             }
+            else if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout) && target != null)
+            {
+                var lookout = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                if (lookout.Watching.ContainsKey(targetId))
+                {
+                    RoleEnum playerRole = Role.GetRole(PlayerById(player.PlayerId)).RoleType;
+                    if (!lookout.Watching[targetId].Contains(playerRole)) lookout.Watching[targetId].Add(playerRole);
+                }
+            }
             return true;
         }
 
@@ -672,7 +692,16 @@ namespace TownOfUs
             {
                 if (ShowRoundOneShield.DiedFirst == "") ShowRoundOneShield.DiedFirst = target.GetDefaultOutfit().PlayerName;
 
-                if (killer.Is(ModifierEnum.Shy))
+                if (target.GetAppearance().SizeFactor == new Vector3(0.4f, 0.4f, 1f))
+                {
+                    target.transform.localPosition += new Vector3(0f, 0.1f, 0f);
+                }
+                else if (killer.GetAppearance().SizeFactor == new Vector3(0.4f, 0.4f, 1f))
+                {
+                    target.transform.localPosition -= new Vector3(0f, 0.1f, 0f);
+                }
+
+                if (killer.Is(ModifierEnum.Shy) && killer.GetCustomOutfitType() == CustomPlayerOutfitType.Default)
                 {
                     var shy = Modifier.GetModifier<Shy>(killer);
                     shy.Opacity = 1f;
@@ -684,6 +713,28 @@ namespace TownOfUs
                 {
                     var jailor = Role.GetRole<Jailor>(target);
                     jailor.Jailed = null;
+                }
+
+                // I do both cause desync sometimes
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Deputy))
+                {
+                    var deputy = Role.GetRole<Deputy>(PlayerControl.LocalPlayer);
+                    if (target == deputy.Camping)
+                    {
+                        deputy.Killer = killer;
+                        Rpc(CustomRPC.Camp, PlayerControl.LocalPlayer.PlayerId, (byte)1, deputy.Killer.PlayerId);
+                        deputy.Camping = null;
+                        Coroutines.Start(FlashCoroutine(Color.red));
+                    }
+                }
+                foreach (var role in Role.GetRoles(RoleEnum.Deputy))
+                {
+                    var dep = (Deputy)role;
+                    if (target == dep.Camping)
+                    {
+                        dep.Killer = killer;
+                        dep.Camping = null;
+                    }
                 }
 
                 if (PlayerControl.LocalPlayer == target)
@@ -871,6 +922,12 @@ namespace TownOfUs
 
                 Murder.KilledPlayers.Add(deadBody);
 
+                if (PlayerControl.LocalPlayer.Is(RoleEnum.Scavenger) && killer != PlayerControl.LocalPlayer)
+                {
+                    var scav = Role.GetRole<Scavenger>(PlayerControl.LocalPlayer);
+                    if (scav.Target == target) scav.Target = scav.GetClosestPlayer();
+                }
+
                 if (MeetingHud.Instance) target.Exiled();
 
                 if (!killer.AmOwner) return;
@@ -935,6 +992,50 @@ namespace TownOfUs
                     var juggernaut = Role.GetRole<Juggernaut>(killer);
                     juggernaut.LastKill = DateTime.UtcNow.AddSeconds((CustomGameOptions.DiseasedMultiplier - 1f) * (CustomGameOptions.JuggKCd - CustomGameOptions.ReducedKCdPerKill * juggernaut.JuggKills));
                     juggernaut.Player.SetKillTimer((CustomGameOptions.JuggKCd - CustomGameOptions.ReducedKCdPerKill * juggernaut.JuggKills) * CustomGameOptions.DiseasedMultiplier);
+                    return;
+                }
+
+                if (killer.Is(RoleEnum.Scavenger))
+                {
+                    var scav = Role.GetRole<Scavenger>(killer);
+                    if (target == scav.Target)
+                    {
+                        if (target.Is(ModifierEnum.Diseased))
+                        {
+                            killer.SetKillTimer(CustomGameOptions.ScavengeCorrectKillCooldown * CustomGameOptions.DiseasedMultiplier);
+                        }
+                        else
+                        {
+                            killer.SetKillTimer(CustomGameOptions.ScavengeCorrectKillCooldown);
+                        }
+                        scav.Target = scav.GetClosestPlayer();
+                        scav.ScavengeEnd = scav.ScavengeEnd.AddSeconds(CustomGameOptions.ScavengeIncreaseDuration);
+                    }
+                    else
+                    {
+                        if (target.Is(ModifierEnum.Diseased) && killer.Is(ModifierEnum.Underdog))
+                        {
+                            var lowerKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier * CustomGameOptions.ScavengeIncorrectKillCooldown;
+                            var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier * CustomGameOptions.ScavengeIncorrectKillCooldown;
+                            var upperKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.DiseasedMultiplier * CustomGameOptions.ScavengeIncorrectKillCooldown;
+                            killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
+                        }
+                        else if (target.Is(ModifierEnum.Diseased))
+                        {
+                            killer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.DiseasedMultiplier * CustomGameOptions.ScavengeIncorrectKillCooldown);
+                        }
+                        else if (killer.Is(ModifierEnum.Underdog))
+                        {
+                            var lowerKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown - CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.ScavengeIncorrectKillCooldown;
+                            var normalKC = GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.ScavengeIncorrectKillCooldown;
+                            var upperKC = (GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown + CustomGameOptions.UnderdogKillBonus) * CustomGameOptions.ScavengeIncorrectKillCooldown;
+                            killer.SetKillTimer(PerformKill.LastImp() ? lowerKC : (PerformKill.IncreasedKC() ? normalKC : upperKC));
+                        }
+                        else killer.SetKillTimer(GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown * CustomGameOptions.ScavengeIncorrectKillCooldown);
+                        scav.StopScavenge();
+                        scav.ScavengeEnd = scav.ScavengeEnd.AddSeconds(-3000f);
+                    }
+                    scav.RegenTask();
                     return;
                 }
 
@@ -1254,6 +1355,29 @@ namespace TownOfUs
                 var tracker = Role.GetRole<Tracker>(PlayerControl.LocalPlayer);
                 tracker.LastTracked = DateTime.UtcNow;
             }
+            if (PlayerControl.LocalPlayer.Is(RoleEnum.Lookout))
+            {
+                var lo = Role.GetRole<Lookout>(PlayerControl.LocalPlayer);
+                lo.LastWatched = DateTime.UtcNow;
+                if (CustomGameOptions.LoResetOnNewRound)
+                {
+                    lo.UsesLeft = CustomGameOptions.MaxWatches;
+                    lo.Watching.Clear();
+                }
+                else
+                {
+                    List<byte> toRemove = new List<byte>();
+                    foreach (var (key, value) in lo.Watching)
+                    {
+                        value.Clear();
+                        if (PlayerById(key).Data.IsDead || PlayerById(key).Data.Disconnected) toRemove.Add(key);
+                    }
+                    foreach (var key in toRemove)
+                    {
+                        lo.Watching.Remove(key);
+                    }
+                }
+            }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Transporter))
             {
                 var transporter = Role.GetRole<Transporter>(PlayerControl.LocalPlayer);
@@ -1287,20 +1411,30 @@ namespace TownOfUs
                     CrimeSceneExtensions.ClearCrimeScenes(detective.CrimeScenes);
                 }
             }
+            foreach (var role in Role.GetRoles(RoleEnum.Imitator))
+            {
+                var imitator = (Imitator)role;
+                imitator.trappedPlayers = null;
+                imitator.watchedPlayers = null;
+                imitator.confessingPlayer = null;
+                imitator.jailedPlayer = null;
+            }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Politician))
             {
                 var politician = Role.GetRole<Politician>(PlayerControl.LocalPlayer);
                 politician.LastCampaigned = DateTime.UtcNow;
             }
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Warden))
-            {
-                var warden = Role.GetRole<Warden>(PlayerControl.LocalPlayer);
-                warden.LastFortified = DateTime.UtcNow;
-            }
             foreach (var role in Role.GetRoles(RoleEnum.Warden))
             {
                 var warden = (Warden)role;
                 warden.Fortified = null;
+            }
+            foreach (var role in Role.GetRoles(RoleEnum.Deputy))
+            {
+                var deputy = (Deputy)role;
+                deputy.Camping = null;
+                deputy.Killer = null;
+                deputy.CampedThisRound = false;
             }
             if (PlayerControl.LocalPlayer.Is(RoleEnum.Jailor))
             {

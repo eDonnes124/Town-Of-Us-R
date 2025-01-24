@@ -17,6 +17,7 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
         public Color Color;
         public Vector3 Position;
         public Investigator Role;
+        public bool IsRainbow = false;
 
         public Footprint(PlayerControl player, Investigator role)
         {
@@ -26,7 +27,33 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
 
             Player = player;
             _time = (int) Time.time;
-            Color = Color.black;
+            Color = Palette.PlayerColors[player.GetDefaultOutfit().ColorId];
+            if (RainbowUtils.IsRainbow(player.GetDefaultOutfit().ColorId)) IsRainbow = true;
+            if (Grey || (player.Is(RoleEnum.Venerer) && Roles.Role.GetRole<Venerer>(player).IsCamouflaged))
+            {
+                Color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                IsRainbow = false;
+            }
+            if (player.Is(RoleEnum.Morphling))
+            {
+                var morphling = Roles.Role.GetRole<Morphling>(player);
+                if (morphling.Morphed)
+                {
+                    Color = Palette.PlayerColors[morphling.MorphedPlayer.GetDefaultOutfit().ColorId];
+                    if (RainbowUtils.IsRainbow(morphling.MorphedPlayer.GetDefaultOutfit().ColorId)) IsRainbow = true;
+                    else IsRainbow = false;
+                }
+            }
+            if (player.Is(RoleEnum.Glitch))
+            {
+                var glitch = Roles.Role.GetRole<Glitch>(player);
+                if (glitch.IsUsingMimic)
+                {
+                    Color = Palette.PlayerColors[glitch.MimicTarget.GetDefaultOutfit().ColorId];
+                    if (RainbowUtils.IsRainbow(glitch.MimicTarget.GetDefaultOutfit().ColorId)) IsRainbow = true;
+                    else IsRainbow = false;
+                }
+            }
 
             Start();
             role.AllPrints.Add(this);
@@ -72,13 +99,8 @@ namespace TownOfUs.CrewmateRoles.InvestigatorMod
 
             if (alpha < 0 || alpha > 1)
                 alpha = 0;
-            
-            if (RainbowUtils.IsRainbow(Player.GetDefaultOutfit().ColorId) & !Grey)
-                Color = RainbowUtils.Rainbow;
-            else if (Grey)
-                Color = new Color(0.2f, 0.2f, 0.2f, 1f);
-            else
-                Color = Palette.PlayerColors[Player.GetDefaultOutfit().ColorId];
+
+            if (IsRainbow) Color = RainbowUtils.Rainbow;
 
             Color = new Color(Color.r, Color.g, Color.b, alpha);
             _spriteRenderer.color = Color;

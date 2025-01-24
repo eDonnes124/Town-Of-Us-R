@@ -36,7 +36,7 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
                         }
                         else if ((PlayerControl.LocalPlayer.Data.IsImpostor() && (!PlayerControl.LocalPlayer.Is(RoleEnum.Traitor) || CustomGameOptions.SnitchSeesTraitor))
-                            || ((PlayerControl.LocalPlayer.Is(Faction.NeutralKilling)) && CustomGameOptions.SnitchSeesNeutrals))
+                            || (PlayerControl.LocalPlayer.Is(Faction.NeutralKilling) && CustomGameOptions.SnitchSeesNeutrals))
                         {
                             Coroutines.Start(Utils.FlashCoroutine(role.Color));
                             var gameObj = new GameObject();
@@ -57,7 +57,6 @@ namespace TownOfUs.CrewmateRoles.SnitchMod
                     {
                         Coroutines.Start(Utils.FlashCoroutine(Color.green));
                         var impostors = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Data.IsImpostor());
-                        var traitor = PlayerControl.AllPlayerControls.ToArray().Where(x => x.Is(RoleEnum.Traitor));
                         foreach (var imp in impostors)
                         {
                             if (!imp.Is(RoleEnum.Traitor) || CustomGameOptions.SnitchSeesTraitor)

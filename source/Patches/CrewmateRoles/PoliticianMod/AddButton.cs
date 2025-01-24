@@ -48,6 +48,7 @@ namespace TownOfUs.CrewmateRoles.PoliticianMod
                     Role.RoleDictionary.Remove(role.Player.PlayerId);
                     var mayorRole = new President(role.Player);
                     mayorRole.Revealed = true;
+                    mayorRole.RegenTask();
                     Utils.Rpc(CustomRPC.Elect, role.Player.PlayerId);
                 }
                 else role.CanCampaign = false;

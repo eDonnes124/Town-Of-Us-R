@@ -15,10 +15,6 @@ namespace TownOfUs.CustomOption
 {
     public static class Patches
     {
-        public static List<(PassiveButton, TextMeshPro)> Main = new List<(PassiveButton, TextMeshPro)>();
-        public static List<(PassiveButton, TextMeshPro)> Import = new List<(PassiveButton, TextMeshPro)>();
-        public static List<(PassiveButton, TextMeshPro)> Export = new List<(PassiveButton, TextMeshPro)>();
-
         [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.CreateSettings))]
         private class MoreTasks
         {
@@ -57,6 +53,25 @@ namespace TownOfUs.CustomOption
                 {
                     tabNum -= 3;
                     SettingsUpdate.Tabs[tabNum].SetActive(true);
+                    if (tabNum >= 5)
+                    {
+                        var tab = SettingsUpdate.Tabs[tabNum].GetComponent<GameOptionsMenu>();
+                        tab.settingsContainer.DestroyChildren();
+                        var files = Directory.GetFiles(Application.persistentDataPath, "*.txt").Select(x => Path.GetFileNameWithoutExtension(x).Split('/')[^1].Split('\\')[^1]).ToList();
+                        float num = 1.5f;
+                        if (tabNum == 6)
+                        {
+                            SettingsUpdate.SpawnExternalButton(__instance, tab, ref num, "Save To New File", () => SettingsUpdate.ExportSlot(__instance));
+                            foreach (var file in files)
+                                SettingsUpdate.SpawnExternalButton(__instance, tab, ref num, file, () => SettingsUpdate.ExportSlot(__instance, file));
+                        }
+                        else
+                        {
+                            foreach (var file in files)
+                                SettingsUpdate.SpawnExternalButton(__instance, tab, ref num, file, () => SettingsUpdate.ImportSlot(__instance, file));
+                        }
+                        SettingsUpdate.SpawnExternalButton(__instance, tab, ref num, "Return", () => Coroutines.Start(TabPatches.ChangeTab(__instance, 3)));
+                    }
                     if (tabNum > 4) return;
                     SettingsUpdate.Buttons[tabNum].SelectButton(true);
 
@@ -90,6 +105,17 @@ namespace TownOfUs.CustomOption
 
                             else if (option.Type == CustomOptionType.String)
                             {
+                                var playerCount = GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers;
+                                if (option.Name.StartsWith("Slot "))
+                                {
+                                    try
+                                    {
+                                        int slotNumber = int.Parse(option.Name[5..]);
+                                        if (slotNumber > GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers) continue;
+                                    }
+                                    catch { }
+                                }
+
                                 var str = option.Setting.Cast<StringOption>();
                                 str.TitleText.text = option.Name;
                                 if (str.TitleText.text.Length > 20)
@@ -125,15 +151,6 @@ namespace TownOfUs.CustomOption
                 Tabs.ForEach(x => x?.Destroy());
                 Buttons = new List<PassiveButton>();
                 Tabs = new List<GameObject>();
-                Main.ForEach(x => x.Item1?.Destroy());
-                Main.ForEach(x => x.Item2?.Destroy());
-                Import.ForEach(x => x.Item1?.Destroy());
-                Import.ForEach(x => x.Item2?.Destroy());
-                Export.ForEach(x => x.Item1?.Destroy());
-                Export.ForEach(x => x.Item2?.Destroy());
-                Main = new List<(PassiveButton, TextMeshPro)>();
-                Import = new List<(PassiveButton, TextMeshPro)>();
-                Export = new List<(PassiveButton, TextMeshPro)>();
 
                 if (GameOptionsManager.Instance.currentGameOptions.GameMode == GameModes.HideNSeek) return;
 
@@ -151,12 +168,11 @@ namespace TownOfUs.CustomOption
                 CreateSettings(__instance, 5, "NeutralSettings", "Neutral Settings", settingsButton, MultiMenu.neutral);
                 CreateSettings(__instance, 6, "ImpSettings", "Impostor Settings", settingsButton, MultiMenu.imposter);
                 CreateSettings(__instance, 7, "ModifierSettings", "Modifier Settings", settingsButton, MultiMenu.modifiers);
-
-                CreateSettingLoader(__instance, 8, "ImportSettings");
-                CreateSettingLoader(__instance, 9, "ExportSettings");
+                CreateSettings(__instance, 8, "ImportSettings", "Import Settings", settingsButton, MultiMenu.external);
+                CreateSettings(__instance, 9, "ExportSettings", "Export Settings", settingsButton, MultiMenu.external);
             }
 
-            internal static void SpawnExternalButton(GameSettingMenu __instance, GameOptionsMenu tabOptions, ref float num, string text, string name, int tab)
+            internal static TextMeshPro SpawnExternalButton(GameSettingMenu __instance, GameOptionsMenu tabOptions, ref float num, string text, Action onClick)
             {
                 const float scaleX = 7f;
                 var baseButton = __instance.GameSettingsTab.checkboxOrigin.transform.GetChild(1);
@@ -166,6 +182,7 @@ namespace TownOfUs.CustomOption
                 exportButtonGO.name = text;
                 exportButtonGO.transform.localPosition = new Vector3(1f, num, -2f);
                 exportButtonGO.GetComponent<BoxCollider2D>().offset = Vector2.zero;
+                exportButtonGO.name = text.Replace(" ", "");
 
                 var prevColliderSize = exportButtonGO.GetComponent<BoxCollider2D>().size;
                 prevColliderSize.x *= scaleX;
@@ -174,29 +191,8 @@ namespace TownOfUs.CustomOption
                 exportButtonGO.transform.GetChild(2).gameObject.DestroyImmediate();
                 var exportButton = exportButtonGO.GetComponent<PassiveButton>();
                 exportButton.ClickMask = tabOptions.ButtonClickMask;
-
                 exportButton.OnClick.RemoveAllListeners();
-                if (text == "Return" || name == "Main")
-                {
-                    exportButton.OnClick.AddListener((System.Action)(() =>
-                    {
-                        Coroutines.Start(TabPatches.ChangeTab(__instance, tab));
-                    }));
-                }
-                else if (name == "ImportSettings")
-                {
-                    exportButton.OnClick.AddListener((System.Action)(() =>
-                    {
-                        ImportSlot(__instance, tab);
-                    }));
-                }
-                else if (name == "ExportSettings")
-                {
-                    exportButton.OnClick.AddListener((System.Action)(() =>
-                    {
-                        ExportSlot(__instance, tab);
-                    }));
-                }
+                exportButton.OnClick.AddListener(onClick);
 
                 var exportButtonTextGO = GameObject.Instantiate(baseText, exportButtonGO);
                 exportButtonTextGO.transform.localPosition = new Vector3(0, 0, -3f);
@@ -221,18 +217,18 @@ namespace TownOfUs.CustomOption
                     obj.fontMaterial.SetFloat("_Stencil", 20);
                 }
 
-                if (name == "ImportSettings") Import.Add((exportButton, exportButtonText));
-                else if (name == "ExportSettings") Export.Add((exportButton, exportButtonText));
-                else Main.Add((exportButton, exportButtonText));
-
                 num -= 0.6f;
+                return exportButtonText;
             }
+
+            public static TextMeshPro ImportText;
+            public static TextMeshPro ExportText;
 
             public static void CreateSettings(GameSettingMenu __instance, int target, string name, string text, GameObject settingsButton, MultiMenu menu)
             {
                 var panel = GameObject.Find("LeftPanel");
                 var button = GameObject.Find(name);
-                if (button == null)
+                if (button == null && menu != MultiMenu.external)
                 {
                     button = GameObject.Instantiate(settingsButton, panel.transform);
                     button.transform.localPosition += new Vector3(0f, -0.55f * target + 1.1f, 0f);
@@ -258,72 +254,86 @@ namespace TownOfUs.CustomOption
                 tabOptions.Children.Clear();
                 var options = CustomOption.AllOptions.Where(x => x.Menu == menu).ToList();
 
-                float num = 1.5f;
-
-                if (target == 3)
+                if (target < 8)
                 {
-                    SpawnExternalButton(__instance, tabOptions, ref num, "Load Custom Settings", "Main", 8);
-                    SpawnExternalButton(__instance, tabOptions, ref num, "Save Custom Settings", "Main", 9);
-                }
+                    float num = 1.5f;
 
-                foreach (CustomOption option in options)
-                {
-                    if (option.Type == CustomOptionType.Header)
+                    if (target == 3)
                     {
-                        CategoryHeaderMasked header = UnityEngine.Object.Instantiate<CategoryHeaderMasked>(tabOptions.categoryHeaderOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
-                        header.SetHeader(StringNames.ImpostorsCategory, 20);
-                        header.Title.text = option.Name;
-                        header.transform.localScale = Vector3.one * 0.65f;
-                        header.transform.localPosition = new Vector3(-0.9f, num, -2f);
-                        num -= 0.625f;
-                        continue;
+                        ImportText = SpawnExternalButton(__instance, tabOptions, ref num, "Load Custom Settings", () => Coroutines.Start(TabPatches.ChangeTab(__instance, 8)));
+                        ExportText = SpawnExternalButton(__instance, tabOptions, ref num, "Save Custom Settings", () => Coroutines.Start(TabPatches.ChangeTab(__instance, 9)));
                     }
 
-                    else if (option.Type == CustomOptionType.Number)
+                    foreach (CustomOption option in options)
                     {
-                        OptionBehaviour optionBehaviour = UnityEngine.Object.Instantiate<NumberOption>(tabOptions.numberOptionOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
-                        optionBehaviour.transform.localPosition = new Vector3(0.95f, num, -2f);
-                        optionBehaviour.SetClickMask(tabOptions.ButtonClickMask);
-                        SpriteRenderer[] components = optionBehaviour.GetComponentsInChildren<SpriteRenderer>(true);
-                        for (int i = 0; i < components.Length; i++) components[i].material.SetInt(PlayerMaterial.MaskLayer, 20);
+                        if (option.Type == CustomOptionType.Header)
+                        {
+                            CategoryHeaderMasked header = UnityEngine.Object.Instantiate<CategoryHeaderMasked>(tabOptions.categoryHeaderOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
+                            header.SetHeader(StringNames.ImpostorsCategory, 20);
+                            header.Title.text = option.Name;
+                            header.transform.localScale = Vector3.one * 0.65f;
+                            header.transform.localPosition = new Vector3(-0.9f, num, -2f);
+                            num -= 0.625f;
+                            continue;
+                        }
 
-                        var numberOption = optionBehaviour as NumberOption;
-                        option.Setting = numberOption;
+                        else if (option.Type == CustomOptionType.Number)
+                        {
+                            OptionBehaviour optionBehaviour = UnityEngine.Object.Instantiate<NumberOption>(tabOptions.numberOptionOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
+                            optionBehaviour.transform.localPosition = new Vector3(0.95f, num, -2f);
+                            optionBehaviour.SetClickMask(tabOptions.ButtonClickMask);
+                            SpriteRenderer[] components = optionBehaviour.GetComponentsInChildren<SpriteRenderer>(true);
+                            for (int i = 0; i < components.Length; i++) components[i].material.SetInt(PlayerMaterial.MaskLayer, 20);
 
-                        tabOptions.Children.Add(optionBehaviour);
+                            var numberOption = optionBehaviour as NumberOption;
+                            option.Setting = numberOption;
+
+                            tabOptions.Children.Add(optionBehaviour);
+                        }
+
+                        else if (option.Type == CustomOptionType.Toggle)
+                        {
+                            OptionBehaviour optionBehaviour = UnityEngine.Object.Instantiate<ToggleOption>(tabOptions.checkboxOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
+                            optionBehaviour.transform.localPosition = new Vector3(0.95f, num, -2f);
+                            optionBehaviour.SetClickMask(tabOptions.ButtonClickMask);
+                            SpriteRenderer[] components = optionBehaviour.GetComponentsInChildren<SpriteRenderer>(true);
+                            for (int i = 0; i < components.Length; i++) components[i].material.SetInt(PlayerMaterial.MaskLayer, 20);
+
+                            var toggleOption = optionBehaviour as ToggleOption;
+                            option.Setting = toggleOption;
+
+                            tabOptions.Children.Add(optionBehaviour);
+                        }
+
+                        else if (option.Type == CustomOptionType.String)
+                        {
+                            var playerCount = GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers;
+                            if (option.Name.StartsWith("Slot "))
+                            {
+                                try
+                                {
+                                    int slotNumber = int.Parse(option.Name[5..]);
+                                    if (slotNumber > GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers) continue;
+                                }
+                                catch { }
+                            }
+
+                            OptionBehaviour optionBehaviour = UnityEngine.Object.Instantiate<StringOption>(tabOptions.stringOptionOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
+                            optionBehaviour.transform.localPosition = new Vector3(0.95f, num, -2f);
+                            optionBehaviour.SetClickMask(tabOptions.ButtonClickMask);
+                            SpriteRenderer[] components = optionBehaviour.GetComponentsInChildren<SpriteRenderer>(true);
+                            for (int i = 0; i < components.Length; i++) components[i].material.SetInt(PlayerMaterial.MaskLayer, 20);
+
+                            var stringOption = optionBehaviour as StringOption;
+                            option.Setting = stringOption;
+
+                            tabOptions.Children.Add(optionBehaviour);
+                        }
+
+                        num -= 0.45f;
+                        tabOptions.scrollBar.SetYBoundsMax(-num - 1.65f);
+                        option.OptionCreated();
                     }
-
-                    else if (option.Type == CustomOptionType.Toggle)
-                    {
-                        OptionBehaviour optionBehaviour = UnityEngine.Object.Instantiate<ToggleOption>(tabOptions.checkboxOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
-                        optionBehaviour.transform.localPosition = new Vector3(0.95f, num, -2f);
-                        optionBehaviour.SetClickMask(tabOptions.ButtonClickMask);
-                        SpriteRenderer[] components = optionBehaviour.GetComponentsInChildren<SpriteRenderer>(true);
-                        for (int i = 0; i < components.Length; i++) components[i].material.SetInt(PlayerMaterial.MaskLayer, 20);
-
-                        var toggleOption = optionBehaviour as ToggleOption;
-                        option.Setting = toggleOption;
-
-                        tabOptions.Children.Add(optionBehaviour);
-                    }
-
-                    else if (option.Type == CustomOptionType.String)
-                    {
-                        OptionBehaviour optionBehaviour = UnityEngine.Object.Instantiate<StringOption>(tabOptions.stringOptionOrigin, Vector3.zero, Quaternion.identity, tabOptions.settingsContainer);
-                        optionBehaviour.transform.localPosition = new Vector3(0.95f, num, -2f);
-                        optionBehaviour.SetClickMask(tabOptions.ButtonClickMask);
-                        SpriteRenderer[] components = optionBehaviour.GetComponentsInChildren<SpriteRenderer>(true);
-                        for (int i = 0; i < components.Length; i++) components[i].material.SetInt(PlayerMaterial.MaskLayer, 20);
-
-                        var stringOption = optionBehaviour as StringOption;
-                        option.Setting = stringOption;
-
-                        tabOptions.Children.Add(optionBehaviour);
-                    }
-
-                    num -= 0.45f;
-                    tabOptions.scrollBar.SetYBoundsMax(-num - 1.65f);
-                    option.OptionCreated();
                 }
 
                 for (int i = 0; i < tabOptions.Children.Count; i++)
@@ -336,46 +346,22 @@ namespace TownOfUs.CustomOption
                 tab.SetActive(false);
             }
 
-            public static void CreateSettingLoader(GameSettingMenu __instance, int target, string name)
+            public static void ImportSlot(GameSettingMenu __instance, string preset)
             {
-                var settingsTab = GameObject.Find("GAME SETTINGS TAB");
-                Tabs.RemoveAll(x => x == null);
-                var tab = GameObject.Instantiate(settingsTab, settingsTab.transform.parent);
-                tab.name = name;
-                var tabOptions = tab.GetComponent<GameOptionsMenu>();
-                foreach (var child in tabOptions.Children) child.Destroy();
-                tabOptions.scrollBar.transform.FindChild("SliderInner").DestroyChildren();
-                tabOptions.Children.Clear();
-
-                float num = 1.5f;
-                SpawnExternalButton(__instance, tabOptions, ref num, "Slot 1", name, 1);
-                SpawnExternalButton(__instance, tabOptions, ref num, "Slot 2", name, 2);
-                SpawnExternalButton(__instance, tabOptions, ref num, "Slot 3", name, 3);
-                SpawnExternalButton(__instance, tabOptions, ref num, "Slot 4", name, 4);
-                SpawnExternalButton(__instance, tabOptions, ref num, "Slot 5", name, 5);
-                SpawnExternalButton(__instance, tabOptions, ref num, "Return", name, 3);
-
-                Tabs.Add(tab);
-                tab.SetActive(false);
-            }
-
-            public static void ImportSlot(GameSettingMenu __instance, int slotId)
-            {
-                System.Console.WriteLine(slotId);
+                System.Console.WriteLine(preset);
 
                 string text;
 
                 try
                 {
-                    var path = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}");
+                    var path = Path.Combine(Application.persistentDataPath, $"{preset}.txt");
                     text = File.ReadAllText(path);
                 }
                 catch
                 {
-                    Coroutines.Start(TabPatches.Flash(__instance, "Load Custom Settings", Color.red));
+                    Coroutines.Start(TabPatches.Flash(__instance, ImportText, Color.red));
                     return;
                 }
-
 
                 var splitText = text.Split("\n").ToList();
 
@@ -393,7 +379,6 @@ namespace TownOfUs.CustomOption
                         catch
                         {
                         }
-
                         continue;
                     }
 
@@ -415,35 +400,62 @@ namespace TownOfUs.CustomOption
 
                 Rpc.SendRpc();
 
-                Coroutines.Start(TabPatches.Flash(__instance, "Load Custom Settings", Color.green));
+                Coroutines.Start(TabPatches.Flash(__instance, ImportText, Color.green));
             }
 
-            public static void ExportSlot(GameSettingMenu __instance, int slotId)
+            public static void ExportSlot(GameSettingMenu __instance)
             {
-                System.Console.WriteLine(slotId);
-
-                var dictie = new Dictionary<string, string>();
+                System.Console.WriteLine("Exporting settings");
 
                 var builder = new StringBuilder();
                 foreach (var option in CustomOption.AllOptions)
                 {
-                    if (option.Type == CustomOptionType.Button || option.Type == CustomOptionType.Header) continue;
+                    if (option.Type is CustomOptionType.Button or CustomOptionType.Header) continue;
                     builder.AppendLine(option.Name);
                     builder.AppendLine(option.Value.ToString());
                 }
 
-                var text = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}-temp");
+                var text = Path.Combine(Application.persistentDataPath, "Saved Settings 1.txt");
+                var i = 1;
+
+                while (File.Exists(text))
+                {
+                    i++;
+                    text = Path.Combine(Application.persistentDataPath, $"Saved Settings {i}.txt");
+                }
+
                 try
                 {
                     File.WriteAllText(text, builder.ToString());
-                    var text2 = Path.Combine(Application.persistentDataPath, $"GameSettings-Slot{slotId}");
-                    File.Delete(text2);
-                    File.Move(text, text2);
-                    Coroutines.Start(TabPatches.Flash(__instance, "Save Custom Settings", Color.green));
+                    Coroutines.Start(TabPatches.Flash(__instance, ExportText, Color.green));
                 }
                 catch
                 {
-                    Coroutines.Start(TabPatches.Flash(__instance, "Save Custom Settings", Color.red));
+                    Coroutines.Start(TabPatches.Flash(__instance, ExportText, Color.red));
+                }
+            }
+
+            public static void ExportSlot(GameSettingMenu __instance, string preset)
+            {
+                System.Console.WriteLine($"Exporting settings to {preset}");
+
+                var builder = new StringBuilder();
+                foreach (var option in CustomOption.AllOptions)
+                {
+                    if (option.Type is CustomOptionType.Button or CustomOptionType.Header) continue;
+                    builder.AppendLine(option.Name);
+                    builder.AppendLine($"{option.Value}");
+                }
+
+                try
+                {
+                    var path = Path.Combine(Application.persistentDataPath, $"{preset}.txt");
+                    File.WriteAllText(path, builder.ToString());
+                    Coroutines.Start(TabPatches.Flash(__instance, ExportText, Color.green));
+                }
+                catch
+                {
+                    Coroutines.Start(TabPatches.Flash(__instance, ExportText, Color.red));
                 }
             }
         }
@@ -452,37 +464,16 @@ namespace TownOfUs.CustomOption
         {
             public static IEnumerator ChangeTab(GameSettingMenu __instance, int tab)
             {
-                ButtonsInactive();
                 yield return new WaitForSeconds(0.1f);
                 __instance.ChangeTab(tab, false);
-                foreach (var button in Main) button.Item1.gameObject.SetActive(true);
-                foreach (var button in Import) button.Item1.gameObject.SetActive(true);
-                foreach (var button in Export) button.Item1.gameObject.SetActive(true);
             }
-            public static IEnumerator Flash(GameSettingMenu __instance, string load, Color colour)
+            public static IEnumerator Flash(GameSettingMenu __instance, TextMeshPro buttonText, Color colour)
             {
-                ButtonsInactive();
                 yield return new WaitForSeconds(0.1f);
                 __instance.ChangeTab(3, false);
-                foreach (var button in Main)
-                {
-                    button.Item1.gameObject.SetActive(true);
-                    if (button.Item1.name == load) button.Item2.color = colour;
-                }
-                foreach (var button in Import) button.Item1.gameObject.SetActive(true);
-                foreach (var button in Export) button.Item1.gameObject.SetActive(true);
+                buttonText.color = colour;
                 yield return new WaitForSeconds(0.5f);
-                foreach (var button in Main)
-                {
-                    if (button.Item1.name == load) button.Item2.color = Color.white;
-                }
-            }
-
-            public static void ButtonsInactive()
-            {
-                foreach (var button in Main) button.Item1.gameObject.SetActive(false);
-                foreach (var button in Import) button.Item1.gameObject.SetActive(false);
-                foreach (var button in Export) button.Item1.gameObject.SetActive(false);
+                buttonText.color = Color.white;
             }
         }
 
@@ -604,6 +595,17 @@ namespace TownOfUs.CustomOption
 
                     else
                     {
+                        var playerCount = GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers;
+                        if (option.Name.StartsWith("Slot "))
+                        {
+                            try
+                            {
+                                int slotNumber = int.Parse(option.Name[5..]);
+                                if (slotNumber > GameOptionsManager.Instance.currentNormalGameOptions.MaxPlayers) continue;
+                            }
+                            catch { }
+                        }
+
                         ViewSettingsInfoPanel panel = UnityEngine.Object.Instantiate<ViewSettingsInfoPanel>(__instance.infoPanelOrigin);
                         panel.transform.SetParent(__instance.settingsContainer);
                         panel.transform.localScale = Vector3.one;

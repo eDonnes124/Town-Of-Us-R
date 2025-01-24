@@ -6,6 +6,9 @@ using TownOfUs.ImpostorRoles.BomberMod;
 using UnityEngine;
 using TownOfUs.Modifiers.UnderdogMod;
 using Object = UnityEngine.Object;
+using Hazel;
+using TownOfUs.Patches;
+using System.Linq;
 
 namespace TownOfUs.Roles.Modifiers
 {
@@ -73,9 +76,17 @@ namespace TownOfUs.Roles.Modifiers
             {
                 if (!grenadier.Enabled)
                 {
-                    Utils.Rpc(CustomRPC.FlashGrenade, PlayerControl.LocalPlayer.PlayerId);
                     grenadier.TimeRemaining = CustomGameOptions.GrenadeDuration;
-                    grenadier.Flash();
+                    grenadier.StartFlash();
+                    var writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId,
+                    (byte)CustomRPC.FlashGrenade, SendOption.Reliable, -1);
+                    writer.Write((byte)grenadier.Player.PlayerId);
+                    writer.Write((byte)grenadier.flashedPlayers.Count);
+                    foreach (var player2 in grenadier.flashedPlayers)
+                    {
+                        writer.Write(player2.PlayerId);
+                    }
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                 }
             }
             else if (role is Hypnotist hypnotist)
@@ -91,11 +102,18 @@ namespace TownOfUs.Roles.Modifiers
             }
             else if (role is Miner miner)
             {
-                var position = PlayerControl.LocalPlayer.transform.position;
-                var id = ImpostorRoles.MinerMod.PlaceVent.GetAvailableId();
-                Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.001f);
-                ImpostorRoles.MinerMod.PlaceVent.SpawnVent(id, miner, position, position.z + 0.001f);
-                miner.LastMined = DateTime.UtcNow;
+                var hits = Physics2D.OverlapBoxAll(PlayerControl.LocalPlayer.transform.position, miner.VentSize, 0);
+                hits = hits.ToArray().Where(c =>
+                        (c.name.Contains("Vent") || !c.isTrigger) && c.gameObject.layer != 8 && c.gameObject.layer != 5)
+                    .ToArray();
+                if (hits.Count == 0 && !SubmergedCompatibility.GetPlayerElevator(PlayerControl.LocalPlayer).Item1)
+                {
+                    var position = PlayerControl.LocalPlayer.transform.position;
+                    var id = ImpostorRoles.MinerMod.PlaceVent.GetAvailableId();
+                    Utils.Rpc(CustomRPC.Mine, id, PlayerControl.LocalPlayer.PlayerId, position, position.z + 0.0004f);
+                    ImpostorRoles.MinerMod.PlaceVent.SpawnVent(id, miner, position, position.z + 0.0004f);
+                    miner.LastMined = DateTime.UtcNow;
+                }
             }
             else if (role is Morphling morphling)
             {

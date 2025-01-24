@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
+using System.Linq;
 using TownOfUs.Roles;
 using UnityEngine.UI;
+using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.VigilanteMod
 {
@@ -22,6 +24,11 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
                 role.GuessedThisMeeting = true;
             }
+
+            foreach (var voteArea in MeetingHud.Instance.playerStates)
+            {
+                voteArea.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
+            }
         }
 
         public static void HideSingle(
@@ -42,7 +49,6 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
             byte targetId
         )
         {
-
             var (cycleBack, cycleForward, guess, guessText) = role.Buttons[targetId];
             if (cycleBack == null || cycleForward == null) return;
             cycleBack.SetActive(false);
@@ -55,14 +61,10 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
             guess.GetComponent<PassiveButton>().OnClick = new Button.ButtonClickedEvent();
             role.Buttons[targetId] = (null, null, null, null);
             role.Guesses.Remove(targetId);
-        }
 
-
-        public static void Prefix(MeetingHud __instance)
-        {
-            if (!PlayerControl.LocalPlayer.Is(RoleEnum.Vigilante)) return;
-            var retributionist = Role.GetRole<Vigilante>(PlayerControl.LocalPlayer);
-            if (!CustomGameOptions.VigilanteAfterVoting) HideButtonsVigi(retributionist);
+            PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                x => x.TargetPlayerId == targetId);
+            voteArea.NameText.transform.localPosition = new Vector3(0.3384f, 0.0311f, -0.1f);
         }
     }
 }

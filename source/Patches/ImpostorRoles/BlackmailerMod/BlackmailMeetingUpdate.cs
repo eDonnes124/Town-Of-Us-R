@@ -80,16 +80,25 @@ namespace TownOfUs.ImpostorRoles.BlackmailerMod
 
                 foreach (var role in blackmailers)
                 {
-                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead && role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
+                    if (role.Blackmailed != null && !role.Blackmailed.Data.IsDead)
                     {
                         var playerState = __instance.playerStates.FirstOrDefault(x => x.TargetPlayerId == role.Blackmailed.PlayerId);
-                        playerState.Overlay.gameObject.SetActive(true);
-                        if (PrevOverlay == null) PrevOverlay = playerState.Overlay.sprite;
-                        playerState.Overlay.sprite = Overlay;
-                        if (__instance.state != MeetingHud.VoteStates.Animating && shookAlready == false)
+                        if (__instance.state == MeetingHud.VoteStates.NotVoted && !playerState.DidVote &&
+                            PlayerControl.AllPlayerControls.ToArray().Where(x => !x.Data.IsDead && !x.Data.Disconnected).ToList().Count > CustomGameOptions.LatestNonVote)
                         {
-                            shookAlready = true;
-                            (__instance as MonoBehaviour).StartCoroutine(Effects.SwayX(playerState.transform));
+                            playerState.SetVote((byte)252);
+                            if (role.Blackmailed == PlayerControl.LocalPlayer) __instance.Confirm((byte)252);
+                        }
+                        if (role.CanSeeBlackmailed(PlayerControl.LocalPlayer.PlayerId))
+                        {
+                            playerState.Overlay.gameObject.SetActive(true);
+                            if (PrevOverlay == null) PrevOverlay = playerState.Overlay.sprite;
+                            playerState.Overlay.sprite = Overlay;
+                            if (__instance.state != MeetingHud.VoteStates.Animating && shookAlready == false)
+                            {
+                                shookAlready = true;
+                                (__instance as MonoBehaviour).StartCoroutine(Effects.SwayX(playerState.transform));
+                            }
                         }
                     }
                 }
