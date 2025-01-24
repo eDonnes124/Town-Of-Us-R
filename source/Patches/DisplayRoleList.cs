@@ -12,7 +12,7 @@ namespace TownOfUs.Patches
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     internal static class DisplayRoleList
     {
-        private static TextMeshPro RoleList;
+        public static TextMeshPro RoleList;
 
         private static readonly List<string> roleListText = new List<string>
         {
@@ -94,7 +94,7 @@ namespace TownOfUs.Patches
                         _ => -1 
                     };
 
-                    rolelist += $"{GetRoleForSlot(slotValue)}\n"; 
+                    rolelist += $"{GetRoleForSlot(slotValue)}\n";  
                 }
 
                 RoleList.alignment = TextAlignmentOptions.TopLeft;
@@ -104,6 +104,36 @@ namespace TownOfUs.Patches
 
                 RoleList.text = $"<color=#FFD700>Role List:</color>\n{rolelist}";
                 RoleList.enabled = true;
+            }
+        }
+    }
+
+    // Patch to hide RoleList in IntroCutscene.OnDestroy
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
+    internal static class HideRoleListInIntroCutscene
+    {
+        // This method will run when IntroCutscene.OnDestroy is called
+        private static void Postfix()
+        {
+            // If the RoleList exists, hide it
+            if (DisplayRoleList.RoleList != null)
+            {
+                DisplayRoleList.RoleList.enabled = false;
+            }
+        }
+    }
+
+    // Patch to reveal RoleList again in LobbyBehaviour.Start
+    [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
+    internal static class RevealRoleListInLobby
+    {
+        // This method will run when LobbyBehaviour.Start is called
+        private static void Postfix()
+        {
+            // If the RoleList exists, show it
+            if (DisplayRoleList.RoleList != null)
+            {
+                DisplayRoleList.RoleList.enabled = true;
             }
         }
     }
