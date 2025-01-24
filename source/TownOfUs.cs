@@ -140,6 +140,7 @@ namespace TownOfUs
             RuntimeLocation = Path.GetDirectoryName(Assembly.GetAssembly(typeof(TownOfUs)).Location);
             ReactorCredits.Register<TownOfUs>(ReactorCredits.AlwaysShow);
             System.Console.WriteLine("000.000.000.000/000000000000000000");
+            System.Console.WriteLine(Constants.GetBroadcastVersion());
 
             _harmony = new Harmony("com.slushiegoose.townofus");
 
