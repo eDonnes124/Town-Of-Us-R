@@ -12,8 +12,6 @@ namespace TownOfUs.Patches
         [HarmonyPrefix]
         public static void PrefixStart(GameStartManager __instance)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
-
             CancelStartButton = Object.Instantiate(__instance.StartButton, __instance.transform);
             CancelStartButton.name = "CancelButton";
             
@@ -41,13 +39,24 @@ namespace TownOfUs.Patches
             }));
             CancelStartButton.gameObject.SetActive(false);
         }
-        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
-        [HarmonyPostfix]
-        public static void PostfixStart(GameStartManager __instance)
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
+        [HarmonyPrefix]
+        public static void PrefixUpdate(GameStartManager __instance)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
+            if (__instance == null || !AmongUsClient.Instance.AmHost) return;
 
-            __instance.GameStartText.transform.localPosition = new Vector3(__instance.GameStartText.transform.localPosition.x, 2f, __instance.GameStartText.transform.localPosition.z);
+            // Can start game when in lobby only 1 player
+            __instance.MinPlayers = 1;
+
+            // Show cancel button
+            CancelStartButton.gameObject.SetActive(__instance.startState is GameStartManager.StartingStates.Countdown);
+
+            var startTexttransform = __instance.GameStartText.transform;
+            if (startTexttransform.localPosition.y != 2f)
+            {
+                // set start text position
+                startTexttransform.localPosition = new Vector3(startTexttransform.localPosition.x, 2f, startTexttransform.localPosition.z);
+            }
         }
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
         [HarmonyPrefix]
@@ -68,18 +77,6 @@ namespace TownOfUs.Patches
             {
                 SoundManager.Instance.StopSound(__instance.gameStartSound);
             }
-        }
-        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
-        [HarmonyPrefix]
-        public static void PrefixUpdate(GameStartManager __instance)
-        {
-            if (__instance == null || !AmongUsClient.Instance.AmHost) return;
-
-            // Can start game when in lobby only 1 player
-            __instance.MinPlayers = 1;
-
-            // Show cancel button
-            CancelStartButton.gameObject.SetActive(__instance.startState is GameStartManager.StartingStates.Countdown);
         }
     }
 }
