@@ -32,5 +32,15 @@ namespace TownOfUs.Roles
 
             return true;
         }
+
+        public override void Prosecute(PlayerControl target)
+        {
+            if (target.Is(RoleEnum.Jester))
+            {
+                var jester = Role.GetRole<Jester>(target);
+                jester.ProsecutedBy = Player;
+            }
+            base.Prosecute(target);
+        }
     }
 }
