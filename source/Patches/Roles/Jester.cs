@@ -7,6 +7,7 @@ namespace TownOfUs.Roles
         public bool VotedOut;
         public bool SpawnedAs = true;
 
+        public PlayerControl ProsecutedBy;
 
         public Jester(PlayerControl player) : base(player)
         {
@@ -38,6 +39,25 @@ namespace TownOfUs.Roles
         {
             //System.Console.WriteLine("Reached Here - Jester edition");
             VotedOut = true;
+        }
+
+        public override void Haunt()
+        {
+            List<PlayerControl> targets = new List<PlayerControl>();
+
+            if (ProsecutedBy != null && !ProsecutedBy.Data.IsDead)
+            {
+                targets.Add(ProsecutedBy);
+            }
+            else
+            {
+                var voters = MeetingHud.Instance.playerStates
+                    .Where(p => p.VotedFor == Player.PlayerId)
+                    .Select(p => GameData.Instance.GetPlayerById(p.TargetPlayerId).Object);
+                targets.AddRange(voters);
+            }
+
+            ShowHauntMenu(targets);
         }
     }
 }

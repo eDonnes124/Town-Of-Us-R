@@ -3,8 +3,10 @@ using Object = UnityEngine.Object;
 using Reactor.Utilities.Extensions;
 using UnityEngine;
 using TownOfUs.Patches;
+using TownOfUs.Roles;
+using TownOfUs.Extensions;
 
-namespace TownOfUs
+namespace TownOfUs.Patches
 {
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
     public class MeetingHud_Start
@@ -14,20 +16,30 @@ namespace TownOfUs
             Utils.ShowDeadBodies = PlayerControl.LocalPlayer.Data.IsDead;
 
             foreach (var player in PlayerControl.AllPlayerControls)
-            {
                 player.MyPhysics.ResetAnimState();
-            }
 
             HudUpdate.Zooming = false;
             Camera.main.orthographicSize = 3f;
 
             foreach (var cam in Camera.allCameras)
-            {
                 if (cam?.gameObject.name == "UI Camera")
                     cam.orthographicSize = 3f;
-            }
 
             ResolutionManager.ResolutionChanged.Invoke((float)Screen.width / Screen.height, Screen.width, Screen.height, Screen.fullScreen);
+
+            // Added: Prosecutor vote color logic
+            foreach (var playerVote in __instance.playerStates)
+            {
+                var player = GameData.Instance.GetPlayerById(playerVote.TargetPlayerId).Object;
+                if (player == null) continue; // Critical null check
+
+                if (player.Is(RoleEnum.Prosecutor))
+                {
+                    var prosecutor = Role.GetRole<ProsecutorRole>(player);
+                    if (prosecutor?.ProsecutedPlayer?.Is(RoleEnum.Jester) == true)
+                        playerVote.NameText.color = Palette.Purple;
+                }
+            }
         }
     }
 
