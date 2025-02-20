@@ -21,7 +21,6 @@ namespace TownOfUs.Modifiers.ButtonBarryMod
             if (PlayerControl.LocalPlayer == null) return;
             if (PlayerControl.LocalPlayer.Data == null) return;
             if (!PlayerControl.LocalPlayer.Is(ModifierEnum.ButtonBarry)) return;
-            if (PlayerControl.LocalPlayer.Is(RoleEnum.Glitch)) return;
 
             var role = Modifier.GetModifier<ButtonBarry>(PlayerControl.LocalPlayer);
 
@@ -46,15 +45,17 @@ namespace TownOfUs.Modifiers.ButtonBarryMod
             {
                 var position1 = __instance.UseButton.transform.position;
                 role.ButtonButton.transform.position = new Vector3(
-                    Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).x + 0.75f, position1.y,
-                    position1.z);
+                __instance.UseButton.transform.position.x,    
+                __instance.UseButton.transform.position.y + 2f, 
+                __instance.ReportButton.transform.position.z);
             }
             else
             {
-                var position1 = __instance.PetButton.transform.position;
+                var position1 = __instance.UseButton.transform.position;
                 role.ButtonButton.transform.position = new Vector3(
-                    Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).x + 0.75f, position1.y,
-                    position1.z);
+                __instance.UseButton.transform.position.x,    
+                __instance.UseButton.transform.position.y + 2f, 
+                __instance.ReportButton.transform.position.z);
             }
 
             if (!role.ButtonUsed && PlayerControl.LocalPlayer.RemainingEmergencies > 0)

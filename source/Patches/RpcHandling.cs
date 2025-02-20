@@ -642,8 +642,6 @@ namespace TownOfUs
                 }
             }
 
-            // The Glitch cannot have Button Modifiers.
-            canHaveModifier.RemoveAll(player => player.Is(RoleEnum.Glitch));
             ButtonModifiers.SortModifiers(canHaveModifier.Count);
 
             foreach (var (type, id) in ButtonModifiers)

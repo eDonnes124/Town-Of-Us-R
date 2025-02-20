@@ -403,8 +403,12 @@ namespace TownOfUs.Roles
                 __gInstance.HackButton.gameObject.SetActive((__instance.UseButton.isActiveAndEnabled || __instance.PetButton.isActiveAndEnabled)
                     && !MeetingHud.Instance && !__gInstance.Player.Data.IsDead
                     && AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started);
-                __gInstance.HackButton.transform.position = new Vector3(__gInstance.MimicButton.transform.position.x,
-                    __gInstance.HackButton.transform.position.y, __instance.ReportButton.transform.position.z);
+                __gInstance.HackButton.transform.position = new Vector3(
+                __instance.UseButton.transform.position.x - 2f,    
+                __instance.UseButton.transform.position.y + 1f, 
+                __instance.ReportButton.transform.position.z);
+
+
                 __gInstance.HackButton.SetCoolDown(
                     CustomGameOptions.HackCooldown - (float)(DateTime.UtcNow - __gInstance.LastHack).TotalSeconds,
                     CustomGameOptions.HackCooldown);
@@ -481,14 +485,18 @@ namespace TownOfUs.Roles
                 if (__instance.UseButton != null)
                 {
                     __gInstance.MimicButton.transform.position = new Vector3(
-                        Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).x + 0.75f,
-                        __instance.UseButton.transform.position.y, __instance.UseButton.transform.position.z);
+                    __instance.UseButton.transform.position.x - 1f,
+                    __instance.UseButton.transform.position.y + 1f, 
+                    __instance.ReportButton.transform.position.z);
+
                 }
                 else
                 {
                     __gInstance.MimicButton.transform.position = new Vector3(
-                        Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).x + 0.75f,
-                        __instance.PetButton.transform.position.y, __instance.PetButton.transform.position.z);
+                    Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x - 1.5f, 
+                    __instance.UseButton.transform.position.y, 
+                    __instance.UseButton.transform.position.z);
+
                 }
 
                 if (__gInstance.IsUsingMimic)
