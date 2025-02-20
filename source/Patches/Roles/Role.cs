@@ -860,7 +860,7 @@ namespace TownOfUs.Roles
                             var info = ExileController.Instance.initData.networkedPlayer;
                             var role = GetRole(info.Object);
                             if (role == null) return;
-                            var roleName = role.RoleType == RoleEnum.Glitch ? role.Name : $"The {role.Name}";
+                            var roleName = $"The {role.Name}";
                             __result = $"{info.PlayerName} was {roleName}.";
                             return;
                         }
