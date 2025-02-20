@@ -61,7 +61,7 @@ namespace TownOfUs.NeutralRoles.DoomsayerMod
             if (player.Is(RoleEnum.Aurial) || player.Is(RoleEnum.Imitator) || StartImitate.ImitatingPlayer == player
                 || player.Is(RoleEnum.Morphling) || player.Is(RoleEnum.Mystic)
                  || player.Is(RoleEnum.Spy) || player.Is(RoleEnum.Glitch))
-                return "(Aurial, Imitator, Morphling, Mystic, Spy or The Glitch)";
+                return "(Aurial, Imitator, Morphling, Mystic, Spy or Glitch)";
             else if (player.Is(RoleEnum.Blackmailer) || player.Is(RoleEnum.Detective) || player.Is(RoleEnum.Doomsayer)
                  || player.Is(RoleEnum.Oracle) || player.Is(RoleEnum.Snitch) || player.Is(RoleEnum.Trapper))
                 return "(Blackmailer, Detective, Doomsayer, Oracle, Snitch or Trapper)";
