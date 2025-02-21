@@ -8,7 +8,7 @@ namespace TownOfUs.CrewmateRoles.OracleMod
     {
         public static void UpdateMeeting(Oracle role, MeetingHud __instance)
         {
-            var accuracy = role.Accuracy;
+            int accuracy = (int)role.Accuracy;
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 foreach (var state in __instance.playerStates)
