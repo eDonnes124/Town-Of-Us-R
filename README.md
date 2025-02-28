@@ -763,7 +763,10 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 - Among Us
 - Steam or Epic Games
 
-## Installation Guide (Steam)
+## Installation Guide (Steam) 
+
+Configuration Guide with Images for easy understanding: https://docs.google.com/document/d/1K9tvKcfwm2DGfoxtbhfniKLg25_HmpuJZvP_4Nb-RYk/edit?usp=sharing
+
 **1. [Download](#releases) the Town of Us version corresponding to the installed Among Us version.**\
 \
 **2. Go to your Steam library.**\
