@@ -15,7 +15,7 @@ namespace TownOfUs.Roles
         public Oracle(PlayerControl player) : base(player)
         {
             Name = "Oracle";
-            ImpostorText = () => "Get Other Player's To Confess Their Sins";
+            ImpostorText = () => "Get Other Players To Confess Their Sins";
             TaskText = () => "Get another player to confess on your passing";
             Color = Patches.Colors.Oracle;
             LastConfessed = DateTime.UtcNow;
