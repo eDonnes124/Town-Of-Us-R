@@ -244,7 +244,7 @@ namespace TownOfUs
 
             // RegisterInIl2CppAttribute.Register();
 
-            DeadSeeGhosts = Config.Bind("Settings", "Dead See Other Ghosts", true, "Whether you see other dead player's ghosts while your dead");
+            DeadSeeGhosts = Config.Bind("Settings", "Dead See Other Ghosts", true, "Whether you see other dead players' ghosts while you're dead");
 
             _harmony.PatchAll();
             SubmergedCompatibility.Initialize();
