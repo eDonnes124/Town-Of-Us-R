@@ -27,7 +27,7 @@ namespace TownOfUs.Roles
         {
             Name = "Doomsayer";
             ImpostorText = () => "Guess People's Roles To Win!";
-            TaskText = () => "Win by guessing player's roles\nFake Tasks:";
+            TaskText = () => "Win by guessing players' roles\nFake Tasks:";
             Color = Patches.Colors.Doomsayer;
             RoleType = RoleEnum.Doomsayer;
             LastObserved = DateTime.UtcNow;
