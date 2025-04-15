@@ -23,7 +23,7 @@ namespace TownOfUs.Roles.Modifiers
         public Assassin(PlayerControl player) : base(player)
         {
             Name = "Assassin";
-            TaskText = () => "Guess the roles of the people and kill them mid-meeting";
+            TaskText = () => "Guess someone's role to kill them mid-meeting";
             Color = Patches.Colors.Impostor;
             AbilityType = AbilityEnum.Assassin;
 
