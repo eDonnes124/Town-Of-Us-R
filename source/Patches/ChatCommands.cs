@@ -699,7 +699,7 @@ namespace TownOfUs.Patches
                 if (modifier == ModifierEnum.Saboteur) HudManager.Instance.Chat.AddChat(
                     PlayerControl.LocalPlayer, "The Saboteur is an impostor modifier that passively reduces non-door sabotage cooldowns.");
                 if (modifier == ModifierEnum.Celebrity) HudManager.Instance.Chat.AddChat(
-                    PlayerControl.LocalPlayer, "The Celebrity is a crewmate modifier that will give a message but where, when and how you died when the next meeting commences.");
+                    PlayerControl.LocalPlayer, "The Celebrity is a crewmate modifier that will send a message showing where, when, and how you died when the next meeting starts.");
                 if (modifier == ModifierEnum.Taskmaster) HudManager.Instance.Chat.AddChat(
                     PlayerControl.LocalPlayer, "The Taskmaster is a crewmate modifier that will automatically complete a random task after each meeting.");
                 if (modifier == ModifierEnum.Immovable) HudManager.Instance.Chat.AddChat(
