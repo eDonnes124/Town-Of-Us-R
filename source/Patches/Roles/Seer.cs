@@ -12,7 +12,7 @@ namespace TownOfUs.Roles
             Name = "Seer";
             ImpostorText = () => "Reveal The Alliance Of Other Players";
             TaskText = () => "Reveal alliances of other players to find the Impostors";
-            Color = Patches.Colors.Seer;
+            Color = Patches.Colors.Crewmate;
             LastInvestigated = DateTime.UtcNow;
             RoleType = RoleEnum.Seer;
             AddToRoleHistory(RoleType);

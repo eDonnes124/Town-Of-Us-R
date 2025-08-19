@@ -18,7 +18,7 @@ namespace TownOfUs.Roles
             Name = "Medium";
             ImpostorText = () => "Watch The Spooky Ghosts";
             TaskText = () => "Follow ghosts to get clues from them";
-            Color = Patches.Colors.Medium;
+            Color = Patches.Colors.Crewmate;
             LastMediated = DateTime.UtcNow;
             RoleType = RoleEnum.Medium;
             AddToRoleHistory(RoleType);

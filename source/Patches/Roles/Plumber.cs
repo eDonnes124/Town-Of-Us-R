@@ -18,7 +18,7 @@ namespace TownOfUs.Roles
             Name = "Plumber";
             ImpostorText = () => "Get The Rats Out Of The Sewers";
             TaskText = () => "Maintain a clean vent system";
-            Color = Patches.Colors.Plumber;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Plumber;
             AddToRoleHistory(RoleType);
             UsesLeft = CustomGameOptions.MaxBarricades;

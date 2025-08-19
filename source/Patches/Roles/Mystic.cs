@@ -12,7 +12,7 @@ namespace TownOfUs.Roles
             Name = "Mystic";
             ImpostorText = () => "Understand When And Where Kills Happen";
             TaskText = () => "Know when and where kills happen";
-            Color = Patches.Colors.Mystic;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Mystic;
             AddToRoleHistory(RoleType);
         }

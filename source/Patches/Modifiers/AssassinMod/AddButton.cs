@@ -176,7 +176,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                 if (PlayerControl.LocalPlayer == toDie && toDie.IsBlessed() &&
                     !(PlayerControl.LocalPlayer.Is(ModifierEnum.DoubleShot) && !Modifier.GetModifier<DoubleShot>(PlayerControl.LocalPlayer).LifeUsed))
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                    Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                     ShowHideButtons.HideButtons(role);
                     foreach (var oracle in toDie.GetOracle())
                     {
@@ -222,7 +222,7 @@ namespace TownOfUs.Modifiers.AssassinMod
                 }
                 else
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                    Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                     ShowHideButtons.HideSingle(role, targetId, toDie == role.Player);
                     if (toDie.IsBlessed())
                     {

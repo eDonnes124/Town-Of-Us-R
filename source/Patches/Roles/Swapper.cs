@@ -17,7 +17,7 @@ namespace TownOfUs.Roles
             Name = "Swapper";
             ImpostorText = () => "Swap The Votes Of Two People";
             TaskText = () => "Swap two people's votes to save the Crewmates!";
-            Color = Patches.Colors.Swapper;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Swapper;
             AddToRoleHistory(RoleType);
         }

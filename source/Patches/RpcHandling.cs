@@ -922,7 +922,7 @@ namespace TownOfUs
                         var doom = Utils.PlayerById(reader.ReadByte());
                         DoomsayerKill.DoomKillCount(toDie3, doom);
                         if (!toDie3.IsBlessed()) DoomsayerKill.MurderPlayer(toDie3);
-                        else if (PlayerControl.LocalPlayer.Is(RoleEnum.Oracle) && toDie3.IsBlessed() && toDie3.GetOracle().Contains(Role.GetRole<Oracle>(PlayerControl.LocalPlayer))) Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                        else if (PlayerControl.LocalPlayer.Is(RoleEnum.Oracle) && toDie3.IsBlessed() && toDie3.GetOracle().Contains(Role.GetRole<Oracle>(PlayerControl.LocalPlayer))) Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                         break;
                     case CustomRPC.SetMimic:
                         var glitchPlayer = Utils.PlayerById(reader.ReadByte());
@@ -1014,7 +1014,7 @@ namespace TownOfUs
                                 break;
                             case 1: //fortify alert
                                 var wardenPlayer = Utils.PlayerById(reader.ReadByte());
-                                if (PlayerControl.LocalPlayer == wardenPlayer) Coroutines.Start(Utils.FlashCoroutine(Colors.Warden));
+                                if (PlayerControl.LocalPlayer == wardenPlayer) Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                                 break;
                         }
                         break;
@@ -1118,7 +1118,7 @@ namespace TownOfUs
                                 oracle2.Blessed = blessed;
                                 break;
                             case 2:
-                                if (PlayerControl.LocalPlayer == oracle2.Player) Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                                if (PlayerControl.LocalPlayer == oracle2.Player) Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                                 break;
                         }
                         break;
@@ -1131,7 +1131,7 @@ namespace TownOfUs
                                 {
                                     PlayerControl.LocalPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                                     PlayerControl.LocalPlayer.MyPhysics.ExitAllVents();
-                                    Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Plumber));
+                                    Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Crewmate));
                                 }
                                 break;
                             case 1:

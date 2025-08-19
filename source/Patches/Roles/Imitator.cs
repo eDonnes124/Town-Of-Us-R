@@ -24,7 +24,7 @@ namespace TownOfUs.Roles
             Name = "Imitator";
             ImpostorText = () => "Use The True-Hearted Dead To Benefit The Crewmates";
             TaskText = () => "Use dead roles to benefit the Crewmates";
-            Color = Patches.Colors.Imitator;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Imitator;
             AddToRoleHistory(RoleType);
         }

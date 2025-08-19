@@ -24,7 +24,7 @@ namespace TownOfUs.Roles
             Name = "Vigilante";
             ImpostorText = () => "Kill <color=#FF0000FF>Impostors</color> If You Can Guess Their Roles";
             TaskText = () => "Guess the roles of Impostors mid-meeting to kill them!";
-            Color = Patches.Colors.Vigilante;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Vigilante;
             AddToRoleHistory(RoleType);
 

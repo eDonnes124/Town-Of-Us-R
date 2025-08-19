@@ -11,7 +11,7 @@ namespace TownOfUs.Roles
             Name = "Mayor";
             ImpostorText = () => "Reveal Yourself To Save The Town";
             TaskText = () => "Lead the town to victory";
-            Color = Patches.Colors.Mayor;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Mayor;
             AddToRoleHistory(RoleType);
             Revealed = false;

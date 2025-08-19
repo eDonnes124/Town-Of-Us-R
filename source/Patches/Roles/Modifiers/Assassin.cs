@@ -30,35 +30,35 @@ namespace TownOfUs.Roles.Modifiers
             RemainingKills = CustomGameOptions.AssassinKills;
 
             // Adds all the roles that have a non-zero chance of being in the game.
-            if (CustomGameOptions.PoliticianOn > 0) ColorMapping.Add("Politician", Colors.Politician);
-            if (CustomGameOptions.SheriffOn > 0) ColorMapping.Add("Sheriff", Colors.Sheriff);
-            if (CustomGameOptions.EngineerOn > 0) ColorMapping.Add("Engineer", Colors.Engineer);
-            if (CustomGameOptions.SwapperOn > 0) ColorMapping.Add("Swapper", Colors.Swapper);
-            if (CustomGameOptions.InvestigatorOn > 0) ColorMapping.Add("Investigator", Colors.Investigator);
-            if (CustomGameOptions.MedicOn > 0) ColorMapping.Add("Medic", Colors.Medic);
-            if (CustomGameOptions.SeerOn > 0) ColorMapping.Add("Seer", Colors.Seer);
-            if (CustomGameOptions.SpyOn > 0) ColorMapping.Add("Spy", Colors.Spy);
-            if (CustomGameOptions.SnitchOn > 0) ColorMapping.Add("Snitch", Colors.Snitch);
-            if (CustomGameOptions.AltruistOn > 0) ColorMapping.Add("Altruist", Colors.Altruist);
-            if (CustomGameOptions.VigilanteOn > 0) ColorMapping.Add("Vigilante", Colors.Vigilante);
-            if (CustomGameOptions.VeteranOn > 0) ColorMapping.Add("Veteran", Colors.Veteran);
-            if (CustomGameOptions.HunterOn > 0) ColorMapping.Add("Hunter", Colors.Hunter);
-            if (CustomGameOptions.TrackerOn > 0) ColorMapping.Add("Tracker", Colors.Tracker);
-            if (CustomGameOptions.TrapperOn > 0) ColorMapping.Add("Trapper", Colors.Trapper);
-            if (CustomGameOptions.TransporterOn > 0) ColorMapping.Add("Transporter", Colors.Transporter);
-            if (CustomGameOptions.MediumOn > 0) ColorMapping.Add("Medium", Colors.Medium);
-            if (CustomGameOptions.MysticOn > 0) ColorMapping.Add("Mystic", Colors.Mystic);
-            if (CustomGameOptions.DetectiveOn > 0) ColorMapping.Add("Detective", Colors.Detective);
-            if (CustomGameOptions.ImitatorOn > 0) ColorMapping.Add("Imitator", Colors.Imitator);
-            if (CustomGameOptions.ProsecutorOn > 0) ColorMapping.Add("Prosecutor", Colors.Prosecutor);
-            if (CustomGameOptions.OracleOn > 0) ColorMapping.Add("Oracle", Colors.Oracle);
-            if (CustomGameOptions.AurialOn > 0) ColorMapping.Add("Aurial", Colors.Aurial);
-            if (CustomGameOptions.WardenOn > 0) ColorMapping.Add("Warden", Colors.Warden);
-            if (CustomGameOptions.JailorOn > 0) ColorMapping.Add("Jailor", Colors.Jailor);
-            if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Lookout);
-            if (CustomGameOptions.DeputyOn > 0) ColorMapping.Add("Deputy", Colors.Deputy);
-            if (CustomGameOptions.PlumberOn > 0) ColorMapping.Add("Plumber", Colors.Plumber);
-            if (CustomGameOptions.ClericOn > 0) ColorMapping.Add("Cleric", Colors.Cleric);
+            if (CustomGameOptions.PoliticianOn > 0) ColorMapping.Add("Politician", Colors.Crewmate);
+            if (CustomGameOptions.SheriffOn > 0) ColorMapping.Add("Sheriff", Colors.Crewmate);
+            if (CustomGameOptions.EngineerOn > 0) ColorMapping.Add("Engineer", Colors.Crewmate);
+            if (CustomGameOptions.SwapperOn > 0) ColorMapping.Add("Swapper", Colors.Crewmate);
+            if (CustomGameOptions.InvestigatorOn > 0) ColorMapping.Add("Investigator", Colors.Crewmate);
+            if (CustomGameOptions.MedicOn > 0) ColorMapping.Add("Medic", Colors.Crewmate);
+            if (CustomGameOptions.SeerOn > 0) ColorMapping.Add("Seer", Colors.Crewmate);
+            if (CustomGameOptions.SpyOn > 0) ColorMapping.Add("Spy", Colors.Crewmate);
+            if (CustomGameOptions.SnitchOn > 0) ColorMapping.Add("Snitch", Colors.Crewmate);
+            if (CustomGameOptions.AltruistOn > 0) ColorMapping.Add("Altruist", Colors.Crewmate);
+            if (CustomGameOptions.VigilanteOn > 0) ColorMapping.Add("Vigilante", Colors.Crewmate);
+            if (CustomGameOptions.VeteranOn > 0) ColorMapping.Add("Veteran", Colors.Crewmate);
+            if (CustomGameOptions.HunterOn > 0) ColorMapping.Add("Hunter", Colors.Crewmate);
+            if (CustomGameOptions.TrackerOn > 0) ColorMapping.Add("Tracker", Colors.Crewmate);
+            if (CustomGameOptions.TrapperOn > 0) ColorMapping.Add("Trapper", Colors.Crewmate);
+            if (CustomGameOptions.TransporterOn > 0) ColorMapping.Add("Transporter", Colors.Crewmate);
+            if (CustomGameOptions.MediumOn > 0) ColorMapping.Add("Medium", Colors.Crewmate);
+            if (CustomGameOptions.MysticOn > 0) ColorMapping.Add("Mystic", Colors.Crewmate);
+            if (CustomGameOptions.DetectiveOn > 0) ColorMapping.Add("Detective", Colors.Crewmate);
+            if (CustomGameOptions.ImitatorOn > 0) ColorMapping.Add("Imitator", Colors.Crewmate);
+            if (CustomGameOptions.ProsecutorOn > 0) ColorMapping.Add("Prosecutor", Colors.Crewmate);
+            if (CustomGameOptions.OracleOn > 0) ColorMapping.Add("Oracle", Colors.Crewmate);
+            if (CustomGameOptions.AurialOn > 0) ColorMapping.Add("Aurial", Colors.Crewmate);
+            if (CustomGameOptions.WardenOn > 0) ColorMapping.Add("Warden", Colors.Crewmate);
+            if (CustomGameOptions.JailorOn > 0) ColorMapping.Add("Jailor", Colors.Crewmate);
+            if (CustomGameOptions.LookoutOn > 0) ColorMapping.Add("Lookout", Colors.Crewmate);
+            if (CustomGameOptions.DeputyOn > 0) ColorMapping.Add("Deputy", Colors.Crewmate);
+            if (CustomGameOptions.PlumberOn > 0) ColorMapping.Add("Plumber", Colors.Crewmate);
+            if (CustomGameOptions.ClericOn > 0) ColorMapping.Add("Cleric", Colors.Crewmate);
 
             // Add Neutral roles if enabled
             if (CustomGameOptions.AssassinGuessNeutralBenign)

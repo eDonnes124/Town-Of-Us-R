@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
             Name = "Deputy";
             ImpostorText = () => "Camp Crewmates To Catch Their Killer";
             TaskText = () => "Camp crewmates then shoot their killer";
-            Color = Patches.Colors.Deputy;
+            Color = Patches.Colors.Crewmate;
             StartingCooldown = DateTime.UtcNow;
             RoleType = RoleEnum.Deputy;
             AddToRoleHistory(RoleType);

@@ -12,7 +12,7 @@ namespace TownOfUs.Roles
             Name = "Cleric";
             ImpostorText = () => "Save The Crewmates";
             TaskText = () => "Barrier and Cleanse crewmates";
-            Color = Patches.Colors.Cleric;
+            Color = Patches.Colors.Crewmate;
             LastBarriered = DateTime.UtcNow;
             RoleType = RoleEnum.Cleric;
             AddToRoleHistory(RoleType);

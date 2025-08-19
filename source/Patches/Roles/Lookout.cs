@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
             Name = "Lookout";
             ImpostorText = () => "Keep Your Eyes Wide Open";
             TaskText = () => "Watch other Crewmates";
-            Color = Patches.Colors.Lookout;
+            Color = Patches.Colors.Crewmate;
             LastWatched = DateTime.UtcNow;
             RoleType = RoleEnum.Lookout;
             AddToRoleHistory(RoleType);

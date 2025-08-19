@@ -84,7 +84,7 @@ namespace TownOfUs.CrewmateRoles.DeputyMod
                 }
                 else if (target == role.Killer && target.IsBlessed())
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                    Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                     foreach (var oracle in target.GetOracle())
                     {
                         Utils.Rpc(CustomRPC.Bless, oracle.Player.PlayerId, (byte)2);

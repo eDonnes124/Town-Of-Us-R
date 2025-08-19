@@ -733,7 +733,7 @@ namespace TownOfUs.Patches
                 {
                     if (JailorMessage)
                     {
-                        __instance.NameText.color = Colors.Jailor;
+                        __instance.NameText.color = Colors.Crewmate;
                         __instance.NameText.text = "Jailor";
                         JailorMessage = false;
                     }

@@ -10,7 +10,7 @@ namespace TownOfUs.Roles
             Name = "Prosecutor";
             ImpostorText = () => "Exile One Person Of Your Choosing";
             TaskText = () => "Choose to exile anyone you want";
-            Color = Patches.Colors.Prosecutor;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Prosecutor;
             AddToRoleHistory(RoleType);
             StartProsecute = false;

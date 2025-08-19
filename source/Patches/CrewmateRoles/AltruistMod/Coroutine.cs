@@ -121,7 +121,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
         public static void AltruistReviveEnd(PlayerControl altruist, Dictionary<byte, Vector2> revives)
         {
             if ((PlayerControl.LocalPlayer.Is(Faction.Impostors) || PlayerControl.LocalPlayer.Is(Faction.NeutralKilling))
-                && !PlayerControl.LocalPlayer.Data.IsDead) Coroutines.Start(Utils.FlashCoroutine(Colors.Altruist));
+                && !PlayerControl.LocalPlayer.Data.IsDead) Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
 
             var revived = new List<PlayerControl>();
 
@@ -134,7 +134,7 @@ namespace TownOfUs.CrewmateRoles.AltruistMod
 
                 var player = Utils.PlayerById(key);
 
-                if (PlayerControl.LocalPlayer == player) Coroutines.Start(Utils.FlashCoroutine(Colors.Altruist));
+                if (PlayerControl.LocalPlayer == player) Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                 player.Revive();
                 if (player.Is(Faction.Impostors)) RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
                 else RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);

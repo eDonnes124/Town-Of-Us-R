@@ -32,7 +32,7 @@ namespace TownOfUs.CrewmateRoles.PlumberMod
             }
             if (someoneInVent)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Plumber));
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Crewmate));
                 Coroutines.Start(SeeVenter());
             }
             role.LastFlushed = DateTime.UtcNow;

@@ -35,7 +35,7 @@ namespace TownOfUs.Roles
             Name = "Transporter";
             ImpostorText = () => "Choose Two Players To Swap Locations";
             TaskText = () => "Choose two players to swap locations";
-            Color = Colors.Transporter;
+            Color = Colors.Crewmate;
             LastTransported = DateTime.UtcNow;
             RoleType = RoleEnum.Transporter;
             AddToRoleHistory(RoleType);
@@ -247,7 +247,7 @@ namespace TownOfUs.Roles
             if (PlayerControl.LocalPlayer.PlayerId == TP1.PlayerId ||
                 PlayerControl.LocalPlayer.PlayerId == TP2.PlayerId)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Transporter));
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Crewmate));
                 if (Minigame.Instance) Minigame.Instance.Close();
             }
 
@@ -273,7 +273,7 @@ namespace TownOfUs.Roles
             if (!abilityUsed) return;
             if (TransportPlayer1.IsFortified())
             {
-                Coroutines.Start(Utils.FlashCoroutine(Colors.Warden));
+                Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                 foreach (var warden in TransportPlayer1.GetWarden())
                 {
                     Utils.Rpc(CustomRPC.Fortify, (byte)1, warden.Player.PlayerId);
@@ -282,7 +282,7 @@ namespace TownOfUs.Roles
             }
             else if (TransportPlayer2.IsFortified())
             {
-                Coroutines.Start(Utils.FlashCoroutine(Colors.Warden));
+                Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                 foreach (var warden in TransportPlayer2.GetWarden())
                 {
                     Utils.Rpc(CustomRPC.Fortify, (byte)1, warden.Player.PlayerId);

@@ -14,7 +14,7 @@ namespace TownOfUs.Roles
             Name = "Medic";
             ImpostorText = () => "Create A Shield To Protect A Crewmate";
             TaskText = () => "Protect a Crewmate with a shield";
-            Color = Patches.Colors.Medic;
+            Color = Patches.Colors.Crewmate;
             StartingCooldown = DateTime.UtcNow;
             RoleType = RoleEnum.Medic;
             AddToRoleHistory(RoleType);

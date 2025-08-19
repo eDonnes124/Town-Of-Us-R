@@ -16,7 +16,7 @@ namespace TownOfUs.Roles
             Name = "Aurial";
             ImpostorText = () => "Sense Disturbances In Your Aura";
             TaskText = () => "Sense any player ability used inside your aura";
-            Color = Patches.Colors.Aurial;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Aurial;
             AddToRoleHistory(RoleType);
         }

@@ -15,7 +15,7 @@ namespace TownOfUs.Roles
             Name = "Altruist";
             ImpostorText = () => "Bring The Crewmates Back From The Dead";
             TaskText = () => "Revive the Crewmates";
-            Color = Patches.Colors.Altruist;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Altruist;
             AddToRoleHistory(RoleType);
             UsesLeft = CustomGameOptions.ReviveUses;

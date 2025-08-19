@@ -20,7 +20,7 @@ namespace TownOfUs.Roles
             Name = "Detective";
             ImpostorText = () => "Inspect Crime Scenes To Catch The Killer";
             TaskText = () => "Inspect crime scenes, then examine players for clues";
-            Color = Patches.Colors.Detective;
+            Color = Patches.Colors.Crewmate;
             LastExamined = DateTime.UtcNow;
             RoleType = RoleEnum.Detective;
             AddToRoleHistory(RoleType);

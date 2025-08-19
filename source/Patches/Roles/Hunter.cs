@@ -15,7 +15,7 @@ namespace TownOfUs.Roles
             Name = "Hunter";
             ImpostorText = () => "Stalk The <color=#FF0000FF>Impostors</color>";
             TaskText = () => "Stalk and kill Impostors, but not Crewmates";
-            Color = Patches.Colors.Hunter;
+            Color = Patches.Colors.Crewmate;
             LastStalked = DateTime.UtcNow;
             LastKilled = DateTime.UtcNow;
             RoleType = RoleEnum.Hunter;
@@ -96,7 +96,7 @@ namespace TownOfUs.Roles
         {
             if (PlayerControl.LocalPlayer.PlayerId == Player.PlayerId && !PlayerControl.LocalPlayer.Data.IsDead)
             {
-                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Hunter));
+                Coroutines.Start(Utils.FlashCoroutine(Patches.Colors.Crewmate));
             }
             CaughtPlayers.Add(stalked);
             StalkDuration = 0;

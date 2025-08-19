@@ -102,7 +102,7 @@ namespace TownOfUs.CrewmateRoles.JailorMod
                 }
                 else if (role.Jailed.IsBlessed())
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                    Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                     foreach (var oracle in role.Jailed.GetOracle())
                     {
                         Utils.Rpc(CustomRPC.Bless, oracle.Player.PlayerId, (byte)2);

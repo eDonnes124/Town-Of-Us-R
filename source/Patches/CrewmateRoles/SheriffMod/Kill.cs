@@ -47,7 +47,7 @@ namespace TownOfUs.CrewmateRoles.SheriffMod
             }
             if (role.ClosestPlayer.IsFortified())
             {
-                Coroutines.Start(Utils.FlashCoroutine(Colors.Warden));
+                Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                 foreach (var warden in role.ClosestPlayer.GetWarden())
                 {
                     Utils.Rpc(CustomRPC.Fortify, (byte)1, warden.Player.PlayerId);

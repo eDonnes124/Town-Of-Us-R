@@ -490,7 +490,7 @@ namespace TownOfUs
             else if (target.IsFortified())
             {
                 zeroSecReset = true;
-                Coroutines.Start(FlashCoroutine(Colors.Warden));
+                Coroutines.Start(FlashCoroutine(Colors.Crewmate));
                 foreach (var warden in target.GetWarden())
                 {
                     Rpc(CustomRPC.Fortify, (byte)1, warden.Player.PlayerId);
@@ -950,7 +950,7 @@ namespace TownOfUs
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Mystic) && !PlayerControl.LocalPlayer.Data.IsDead)
                 {
-                    Coroutines.Start(FlashCoroutine(Patches.Colors.Mystic));
+                    Coroutines.Start(FlashCoroutine(Patches.Colors.Crewmate));
                 }
 
                 if (PlayerControl.LocalPlayer.Is(RoleEnum.Detective))

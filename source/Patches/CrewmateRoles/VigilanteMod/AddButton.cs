@@ -153,7 +153,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
 
                 if (PlayerControl.LocalPlayer == toDie && toDie.IsBlessed())
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                    Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                     ShowHideButtonsVigi.HideButtonsVigi(role);
                     foreach (var oracle in toDie.GetOracle())
                     {
@@ -174,7 +174,7 @@ namespace TownOfUs.CrewmateRoles.VigilanteMod
                 }
                 else
                 {
-                    Coroutines.Start(Utils.FlashCoroutine(Colors.Oracle));
+                    Coroutines.Start(Utils.FlashCoroutine(Colors.Crewmate));
                     ShowHideButtonsVigi.HideSingle(role, targetId, toDie == role.Player);
                     if (toDie.IsBlessed())
                     {

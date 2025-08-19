@@ -13,7 +13,7 @@ namespace TownOfUs.Roles
             Name = "Warden";
             ImpostorText = () => "Fortify Crewmates";
             TaskText = () => "Fortify the Crewmates";
-            Color = Patches.Colors.Warden;
+            Color = Patches.Colors.Crewmate;
             StartingCooldown = DateTime.UtcNow;
             RoleType = RoleEnum.Warden;
             AddToRoleHistory(RoleType);

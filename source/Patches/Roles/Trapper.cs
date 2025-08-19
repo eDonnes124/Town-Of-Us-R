@@ -23,7 +23,7 @@ namespace TownOfUs.Roles
             Name = "Trapper";
             ImpostorText = () => "Catch Killers In The Act";
             TaskText = () => "Place traps around the map";
-            Color = Patches.Colors.Trapper;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Trapper;
             LastTrapped = DateTime.UtcNow;
             trappedPlayers = new List<RoleEnum>();

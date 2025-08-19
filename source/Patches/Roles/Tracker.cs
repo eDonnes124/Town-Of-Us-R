@@ -22,7 +22,7 @@ namespace TownOfUs.Roles
             Name = "Tracker";
             ImpostorText = () => "Track Everyone's Movement";
             TaskText = () => "Track suspicious players";
-            Color = Patches.Colors.Tracker;
+            Color = Patches.Colors.Crewmate;
             LastTracked = DateTime.UtcNow;
             RoleType = RoleEnum.Tracker;
             AddToRoleHistory(RoleType);

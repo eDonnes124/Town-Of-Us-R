@@ -308,7 +308,7 @@ namespace TownOfUs.Roles
                 var exe = (Executioner) role;
                 if (Player == exe.target && PlayerControl.LocalPlayer.Data.IsDead && !exe.Player.Data.IsDead)
                 {
-                    PlayerName += "<color=#8C4005FF> X</color>";
+                    PlayerName += "<color=#949497FF> X</color>";
                 }
             }
 

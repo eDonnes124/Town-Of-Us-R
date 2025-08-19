@@ -13,7 +13,7 @@ namespace TownOfUs.Roles
             Name = "Investigator";
             ImpostorText = () => "Find All <color=#FF0000FF>Impostors</color> By Examining Footprints";
             TaskText = () => "You can see everyone's footprints";
-            Color = Patches.Colors.Investigator;
+            Color = Patches.Colors.Crewmate;
             RoleType = RoleEnum.Investigator;
             AddToRoleHistory(RoleType);
             Scale = 1.4f;
