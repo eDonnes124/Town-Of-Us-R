@@ -28,7 +28,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
         {
             foreach (var player in __instance.playerStates)
                 if (player.TargetPlayerId == role.target.PlayerId)
-                    player.NameText.color = Color.black;
+                    player.NameText.color = new Color(0.32f, 0.21f, 0.14f);
         }
 
         private static void Postfix(HudManager __instance)
@@ -47,7 +47,7 @@ namespace TownOfUs.NeutralRoles.ExecutionerMod
             {
                 if (role.target && role.target.nameText())
                 {
-                    var colour = Color.black;
+                    var colour = new Color(0.32f, 0.21f, 0.14f);
                     if (role.target.Is(ModifierEnum.Shy)) colour.a = Modifier.GetModifier<Shy>(role.target).Opacity;
                     role.target.nameText().color = colour;
                 }

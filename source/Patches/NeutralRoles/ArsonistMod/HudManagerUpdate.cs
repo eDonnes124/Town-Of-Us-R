@@ -31,7 +31,7 @@ namespace TownOfUs.NeutralRoles.ArsonistMod
 
                     player.myRend().material.SetColor("_VisorColor", role.Color);
 
-                    var colour = Color.black;
+                    var colour = new Color(0.32f, 0.13f, 0.13f);
                     if (player.Is(ModifierEnum.Shy)) colour.a = Modifier.GetModifier<Shy>(player).Opacity;
                     player.nameText().color = colour;
                 }

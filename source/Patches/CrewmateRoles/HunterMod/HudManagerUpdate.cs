@@ -29,7 +29,7 @@ namespace TownOfUs.CrewmateRoles.HunterMod
                     if (data == null || data.Disconnected || data.IsDead || PlayerControl.LocalPlayer.Data.IsDead)
                         continue;
 
-                    var colour = Color.black;
+                    var colour = new Color(0.02f, 0.28f, 0.21f);
                     if (player.Is(ModifierEnum.Shy)) colour.a = Modifier.GetModifier<Shy>(player).Opacity;
                     player.nameText().color = colour;
                 }

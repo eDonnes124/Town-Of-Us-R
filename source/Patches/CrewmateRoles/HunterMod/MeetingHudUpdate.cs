@@ -24,7 +24,7 @@ namespace TownOfUs.CrewmateRoles.HunterMod
                     role.CaughtPlayers.Remove(player);
                     continue;
                 }
-                if (role.CaughtPlayers.Any(pc => pc.PlayerId == player.PlayerId)) state.NameText.color = Color.black;
+                if (role.CaughtPlayers.Any(pc => pc.PlayerId == player.PlayerId)) state.NameText.color = new Color(0.02f, 0.28f, 0.21f);
             }
         }
     }

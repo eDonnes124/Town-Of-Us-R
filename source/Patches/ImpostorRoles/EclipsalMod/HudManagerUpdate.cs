@@ -36,8 +36,8 @@ namespace TownOfUs.ImpostorRoles.EclipsalMod
                             continue;
                         if (role.BlindPlayers.Contains(player))
                         {
-                            player.myRend().material.SetColor("_VisorColor", Color.black);
-                            player.nameText().color = Color.black;
+                            player.myRend().material.SetColor("_VisorColor", new Color(0.32f, 0.13f, 0.13f));
+                            player.nameText().color = new Color(0.32f, 0.13f, 0.13f);
                         }
                         else
                         {
