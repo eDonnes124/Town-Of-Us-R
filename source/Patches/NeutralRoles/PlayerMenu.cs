@@ -52,8 +52,8 @@ namespace TownOfUs.Patches.NeutralRoles
 
         private static ShapeshifterMinigame GetShapeshifterMenu()
         {
-            var rolePrefab = RoleManager.Instance.AllRoles.First(r => r.Role == RoleTypes.Shapeshifter);
-            return GameObject.Instantiate(rolePrefab?.Cast<ShapeshifterRole>(), GameData.Instance.transform).ShapeshifterMenu;
+            var rolePrefab = RoleManager.Instance.AllRoles.ToArray().First(r => r.Role == RoleTypes.Shapeshifter).Cast<ShapeshifterRole>();
+            return GameObject.Instantiate(rolePrefab, GameData.Instance.transform).ShapeshifterMenu;
         }
 
         public void Clicked(PlayerControl player)

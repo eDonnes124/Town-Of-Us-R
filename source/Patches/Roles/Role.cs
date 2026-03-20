@@ -691,10 +691,10 @@ namespace TownOfUs.Roles
             }
         }
 
-        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__141), nameof(PlayerControl._CoSetTasks_d__141.MoveNext))]
+        [HarmonyPatch(typeof(PlayerControl._CoSetTasks_d__103), nameof(PlayerControl._CoSetTasks_d__103.MoveNext))]
         public static class PlayerControl_SetTasks
         {
-            public static void Postfix(PlayerControl._CoSetTasks_d__141 __instance)
+            public static void Postfix(PlayerControl._CoSetTasks_d__103 __instance)
             {
                 if (__instance == null) return;
                 var player = __instance.__4__this;
@@ -1004,7 +1004,7 @@ namespace TownOfUs.Roles
         }
         public static AudioClip GetIntroSound(RoleTypes roleType)
         {
-            return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
+            return RoleManager.Instance.AllRoles.ToArray().First(role => role.Role == roleType).IntroSound;
         }
     }
 }

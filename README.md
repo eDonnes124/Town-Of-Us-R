@@ -1,6 +1,4 @@
-## I will be taking a break from modding, for at minimum another 3 months due to both burnout and university. Meanwhile please check out this alternative version of [Town of Us](https://github.com/AU-Avengers/TOU-Mira) (based off this mod) which should be maintained in my absence.
-
-## *Note: This repository is an unofficial continuation of Town of Us due to the original repository being discontinued.*
+## This is not the offical repository for Town-Of-Us-R! It is a fork meant to update it to the newest game version of Among Us.
 
 ![LOGO](./Images/TOU-logo.png)
 ![Roles](./Images/Roles.png)
@@ -45,6 +43,7 @@ Join our [Discord](https://discord.gg/ugyc4EVUYZ) if you have any problems or wa
 # Releases
 | Among Us - Version| Mod Version | Link |
 |----------|-------------|-----------------|
+| 17.2.x (i think??) | Unofficial v5.4.0 | [Download](https://github.com/GoobisMoobis/Town-Of-Us-R/releases/tag/v5.4.0)
 | 16.0.2s & 16.0.2e | v5.3.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.3.1/ToU.v5.3.1.zip) |
 | 16.0.2s & 16.0.2e | v5.3.0 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.3.0/ToU.v5.3.0.zip) |
 | 2024.10.29s & 2024.10.29e | v5.2.1 | [Download](https://github.com/eDonnes124/Town-Of-Us/releases/download/v5.2.1/ToU.v5.2.1.zip) |

@@ -51,7 +51,7 @@ namespace TownOfUs.ImpostorRoles.TraitorMod
 
         private static ShapeshifterMinigame GetShapeshifterMenu()
         {
-            var rolePrefab = RoleManager.Instance.AllRoles.First(r => r.Role == RoleTypes.Shapeshifter);
+            var rolePrefab = RoleManager.Instance.AllRoles.ToArray().First(r => r.Role == RoleTypes.Shapeshifter);
             return GameObject.Instantiate(rolePrefab?.Cast<ShapeshifterRole>(), GameData.Instance.transform).ShapeshifterMenu;
         }
 
