@@ -6,7 +6,7 @@ using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.ImpostorRoles.BlackmailerMod;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;

@@ -9,7 +9,7 @@ using Reactor.Utilities;
 using TownOfUs.Patches;
 using AmongUs.GameOptions;
 using TownOfUs.CrewmateRoles.ImitatorMod;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using Il2CppSystem.Linq;
 using TownOfUs.CrewmateRoles.PlumberMod;
 

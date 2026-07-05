@@ -2,7 +2,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.Patches
 {

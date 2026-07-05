@@ -7,7 +7,7 @@ using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.CrewmateRoles.VigilanteMod;
 using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.NeutralRoles.DoomsayerMod;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine.UI;
 using TownOfUs.ImpostorRoles.BlackmailerMod;
 using Reactor.Utilities.Extensions;

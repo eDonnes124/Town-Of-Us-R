@@ -7,7 +7,7 @@ using TownOfUs.CrewmateRoles.InvestigatorMod;
 using TownOfUs.CrewmateRoles.TrapperMod;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using System.Linq;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using TownOfUs.Patches.NeutralRoles;
 using TownOfUs.Patches;
 using TownOfUs.CrewmateRoles.PlumberMod;

@@ -5,7 +5,7 @@ using UnityEngine;
 using TownOfUs.Modifiers.UnderdogMod;
 using TownOfUs.Patches;
 using TownOfUs.Extensions;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.ImpostorRoles.ScavengerMod
 {

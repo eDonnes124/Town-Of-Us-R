@@ -1,6 +1,7 @@
 using HarmonyLib;
 using UnityEngine;
 using System;
+using System.IO;
 using TMPro;
 using UnityEngine.Events;
 using static UnityEngine.UI.Button;
@@ -37,6 +38,10 @@ namespace TownOfUs.CustomOption
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
         public static void MainMenuManager_StartPostfix(MainMenuManager __instance)
         {
+            if (!Directory.Exists(TownOfUs.DataPath))
+            {
+                Directory.CreateDirectory(TownOfUs.DataPath);
+            }
             // Prefab for the title
             var go = new GameObject("TitleText");
             var tmp = go.AddComponent<TextMeshPro>();

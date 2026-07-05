@@ -19,38 +19,87 @@ namespace TownOfUs
     {
         private static Sprite TOUUpdateSprite => TownOfUs.UpdateTOUButton;
         private static Sprite SubmergedUpdateSprite => TownOfUs.UpdateSubmergedButton;
+        private static bool CheckedBadVersion;
+
         private static void Prefix(MainMenuManager __instance)
         {
             //Check if there's a ToU update
             ModUpdater.LaunchUpdater();
-
-            var data = GetVersioning().FirstOrDefault(x => x.ModVersion.Equals(TownOfUs.VersionString));
-            if (data != null)
+            if (!CheckedBadVersion)
             {
-                var RequiredVersions = data.InternalVersions;
-                var AUversion = Constants.GetBroadcastVersion();
-                if (!RequiredVersions.ContainsKey(AUversion))
-                {
-                    string action = AUversion > RequiredVersions.Keys.Max() ? "downgrade" : "update";
-                    string info =
-                        $"ALERT\nTown of Us {TownOfUs.VersionString} requires {RequiredVersions.Values.Last()}\nyou have {Application.version}\nPlease {action} your among us version"
-                        + "\nvisit Github or Discord for any help";
-                    TwitchManager man = TwitchManager.Instance;
-                    ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
-                    ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.68f;
-                    ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = true;
-                    ModUpdater.InfoPopup.Show(info);
-                    ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => { ModUpdater.setPopupText(info); })));
-                    ModUpdater.InvalidAUVersion = true;
+                CheckedBadVersion = true;
+                var auVersion = Version.Parse(Application.version);
 
-                    return;
+                var data = GetVersioning().FirstOrDefault(x => x.ModVersion.Equals(TownOfUs.VersionString));
+                if (data != null)
+                {
+                    var RequiredVersions = new Dictionary<Version, AuSupport>();
+                    foreach (var pair in data.InternalVersions)
+                    {
+                        RequiredVersions.Add(Version.Parse(pair.Key), (AuSupport)pair.Value);
+                    }
+
+                    if (!RequiredVersions.TryGetValue(auVersion, out var support) || support is AuSupport.Broken)
+                    {
+                        string action = auVersion > RequiredVersions.Keys.Max() ? "downgrade" : "update";
+                        var neededVersions = RequiredVersions.Where(x => x.Value is AuSupport.Preferred)
+                            .Select(y => y.Key.ToString()).ToArray();
+                        var mainInfo = neededVersions.Count() > 1
+                            ? $"Town of Us {TownOfUs.VersionString} requires one of the following Among Us versions: {string.Join(",", neededVersions)}!"
+                            : $"Town of Us {TownOfUs.VersionString} requires Among Us v{neededVersions.First()}!";
+                        string info =
+                            $"ALERT\n{mainInfo}\nyou have {Application.version}\nPlease {action} Among Us!"
+                            + "\nvisit Github or Discord for any help";
+                        TwitchManager man = TwitchManager.Instance;
+                        ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
+                        ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.68f;
+                        ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = true;
+                        ModUpdater.InfoPopup.Show(info);
+                        ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f,
+                            new Action<float>((p) => { ModUpdater.setPopupText(info); })));
+                        ModUpdater.AuVersionSupported = AuSupport.Broken;
+                        PluginSingleton<TownOfUs>.Instance.Log.LogMessage(
+                            $"Current AU Version is {Application.version} | Tou Support: {AuSupport.Broken}");
+
+                        return;
+                    }
+
+                    if (support is AuSupport.Usable)
+                    {
+                        var neededVersions = RequiredVersions.Where(x => x.Value is AuSupport.Preferred)
+                            .Select(y => y.Key.ToString()).ToArray();
+                        var mainInfo = neededVersions.Count() > 1
+                            ? $"Town of Us {TownOfUs.VersionString} works best with the following Among Us versions: {string.Join(",", neededVersions)}."
+                            : $"Town of Us {TownOfUs.VersionString} works best with Among Us v{neededVersions.First()}.";
+                        string info =
+                            $"NOTICE\n{mainInfo}\nAmong us v{Application.version} should still work, but may have issues."
+                            + "\nVisit Github or Discord for additional information";
+                        TwitchManager man = TwitchManager.Instance;
+                        ModUpdater.InfoPopup = UnityEngine.Object.Instantiate(man.TwitchPopup);
+                        ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.68f;
+                        ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = true;
+                        ModUpdater.InfoPopup.Show(info);
+                        ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f,
+                            new Action<float>((p) => { ModUpdater.setPopupText(info); })));
+                        ModUpdater.AuVersionSupported = AuSupport.Usable;
+                    }
+
+                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage(
+                        $"Current AU Version is {Application.version} | Tou Support: {support}");
+                }
+                else
+                {
+                    PluginSingleton<TownOfUs>.Instance.Log.LogMessage(
+                        $"Current AU Version is {Application.version} | Tou Support: ???");
                 }
             }
+
             if (ModUpdater.HasTOUUpdate)
             {
                 //If there's an update, create and show the update button
                 UpdateButton(__instance, () => ModUpdater.ExecuteUpdate("TOU"));
             }
+
             if (ModUpdater.HasSubmergedUpdate)
             {
                 //If there's an update, create and show the update button
@@ -65,7 +114,8 @@ namespace TownOfUs
             {
 
                 var Button = UnityEngine.Object.Instantiate(template, null);
-                Button.transform.localPosition = new Vector3(Button.transform.localPosition.x, Button.transform.localPosition.y + 0.6f, Button.transform.localPosition.z);
+                Button.transform.localPosition = new Vector3(Button.transform.localPosition.x,
+                    Button.transform.localPosition.y + 0.6f, Button.transform.localPosition.z);
 
                 Button.transform.localScale = new Vector3(0.44f, 0.84f, 1f);
 
@@ -74,12 +124,13 @@ namespace TownOfUs
                 passiveButton.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
 
                 ButtonSprite.sprite = _pos == 0 ? TOUUpdateSprite : SubmergedUpdateSprite;
-                Button.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = _pos == 0 ? TOUUpdateSprite : SubmergedUpdateSprite;
+                Button.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite =
+                    _pos == 0 ? TOUUpdateSprite : SubmergedUpdateSprite;
 
                 Button.transform.SetParent(GameObject.Find("RightPanel").transform);
                 var pos = Button.GetComponent<AspectPosition>();
                 pos.Alignment = AspectPosition.EdgeAlignments.LeftBottom;
-                pos.DistanceFromEdge = new Vector3(1.5f, 1f + 0.5f*_pos, 0f);
+                pos.DistanceFromEdge = new Vector3(1.5f, 1f + 0.5f * _pos, 0f);
 
                 //Add onClick event to run the update on button click
                 passiveButton.OnClick.AddListener((Action)(() =>
@@ -106,9 +157,11 @@ namespace TownOfUs
 
         private static List<ModUpdater.UpdateData> GetVersioning()
         {
-            var text = ModUpdater.Httpclient.GetAsync("https://github.com/eDonnes124/Town-Of-Us-R/raw/master/source/Versioning.json")
-                                 .GetAwaiter().GetResult().Content.ReadAsStringAsync().Result;
-            var data = JsonSerializer.Deserialize<List<ModUpdater.UpdateData>>(text, options: new() { ReadCommentHandling = JsonCommentHandling.Skip });
+            var text = ModUpdater.Httpclient
+                .GetAsync("https://github.com/eDonnes124/Town-Of-Us-R/raw/master/source/VersioningV2.json")
+                .GetAwaiter().GetResult().Content.ReadAsStringAsync().Result;
+            var data = JsonSerializer.Deserialize<List<ModUpdater.UpdateData>>(text,
+                options: new() { ReadCommentHandling = JsonCommentHandling.Skip });
             return data;
         }
     }
@@ -118,7 +171,7 @@ namespace TownOfUs
         public static bool Running = false;
         public static bool HasTOUUpdate = false;
         public static bool HasSubmergedUpdate = false;
-        public static bool InvalidAUVersion = false;
+        public static AuSupport AuVersionSupported = AuSupport.Preferred;
         public static string UpdateTOUURI = null;
         public static string UpdateSubmergedURI = null;
         private static Task UpdateTOUTask = null;
@@ -371,7 +424,7 @@ namespace TownOfUs
 
         public class UpdateData
         {
-            public Dictionary<int, string> InternalVersions { get; set; }
+            public Dictionary<string, int> InternalVersions { get; set; }
 
             public string ModVersion { get; set; }
         }
@@ -385,10 +438,17 @@ namespace TownOfUs
         {
             if (__instance != ModUpdater.InfoPopup) return;
 
-            if (ModUpdater.InvalidAUVersion)
+            if (ModUpdater.AuVersionSupported is AuSupport.Broken)
             {
                 Application.Quit();
             }
         }
+    }
+
+    public enum AuSupport
+    {
+        Preferred,
+        Usable,
+        Broken
     }
 }

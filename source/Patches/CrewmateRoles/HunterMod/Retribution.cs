@@ -7,7 +7,7 @@ using TownOfUs.CrewmateRoles.MedicMod;
 using TownOfUs.Extensions;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.CrewmateRoles.HunterMod
 {

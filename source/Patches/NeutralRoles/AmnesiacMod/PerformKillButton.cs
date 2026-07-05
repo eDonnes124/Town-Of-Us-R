@@ -8,7 +8,7 @@ using System;
 using TownOfUs.Extensions;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using AmongUs.GameOptions;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using TownOfUs.ImpostorRoles.BomberMod;
 using TownOfUs.Patches;
 

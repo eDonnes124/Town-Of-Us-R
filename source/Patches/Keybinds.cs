@@ -3,8 +3,8 @@ using Rewired;
 using Rewired.Data;
 using System.Linq;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
-using Ability = TownOfUs.Roles.Modifiers.Ability;
+using TownOfUs.Modifiers;
+using Ability = TownOfUs.Modifiers.Ability;
 
 namespace TownOfUs
 {

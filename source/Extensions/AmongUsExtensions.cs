@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine;
 using System;
 using Il2CppInterop.Runtime.InteropTypes;
@@ -104,7 +104,7 @@ namespace TownOfUs.Extensions
         }
         public static Texture2D CreateEmptyTexture(int width = 0, int height = 0)
         {
-            return new Texture2D(width, height, TextureFormat.RGBA32, Texture.GenerateAllMips, false, IntPtr.Zero);
+            return new Texture2D(width, height, TextureFormat.RGBA32, Texture.GenerateAllMips, false, false);
         }
 
         private static class CastExtension<T> where T : Il2CppObjectBase

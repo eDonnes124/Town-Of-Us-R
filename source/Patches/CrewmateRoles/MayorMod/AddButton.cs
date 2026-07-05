@@ -4,7 +4,7 @@ using Reactor.Utilities.Extensions;
 using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.CrewmateRoles.VigilanteMod;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;

@@ -8,7 +8,7 @@ using TownOfUs.CrewmateRoles.SwapperMod;
 using TownOfUs.CrewmateRoles.VigilanteMod;
 using TownOfUs.NeutralRoles.DoomsayerMod;
 using TownOfUs.ImpostorRoles.BlackmailerMod;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using TownOfUs.Extensions;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.Patches;

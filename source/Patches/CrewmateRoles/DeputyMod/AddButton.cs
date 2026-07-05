@@ -14,7 +14,7 @@ using TownOfUs.Modifiers.AssassinMod;
 using TownOfUs.NeutralRoles.DoomsayerMod;
 using TownOfUs.Patches;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;

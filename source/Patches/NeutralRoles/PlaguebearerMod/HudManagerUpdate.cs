@@ -3,7 +3,7 @@ using HarmonyLib;
 using TownOfUs.Roles;
 using UnityEngine;
 using TownOfUs.Extensions;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.NeutralRoles.PlaguebearerMod
 {

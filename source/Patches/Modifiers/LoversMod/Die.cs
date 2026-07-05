@@ -1,5 +1,5 @@
 using HarmonyLib;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using TownOfUs.Roles;
 
 namespace TownOfUs.Modifiers.LoversMod

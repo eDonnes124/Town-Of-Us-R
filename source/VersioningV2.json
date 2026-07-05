@@ -1,0 +1,18 @@
+[ // The versions are checked by using Semantic Versioning. The int determines if the version is recommended (0), if it's functional but not ideal (1) or completely incompatible (2).
+  {
+    "InternalVersions": {
+      "2026.3.31": 0,
+      "2026.4.7": 0,
+      "2026.6.5": 1
+    },
+    "ModVersion": "6.0.0"
+  },
+  {
+    "InternalVersions": {
+      "2026.3.31": 0,
+      "2026.4.7": 0,
+      "2026.6.5": 1
+    },
+    "ModVersion": "6.0.1"
+  }
+]

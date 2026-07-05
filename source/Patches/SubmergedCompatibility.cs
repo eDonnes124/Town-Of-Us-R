@@ -8,16 +8,22 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
+using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 using Reactor.Utilities;
 using TownOfUs.Roles;
+using TownOfUs.Utilities;
 
 namespace TownOfUs.Patches
 {
-    [HarmonyPatch(typeof(IntroCutscene._ShowRole_d__41), nameof(IntroCutscene._ShowRole_d__41.MoveNext))]
+    [HarmonyPatch]
     public static class SubmergedStartPatch
     {
-        public static void Postfix(IntroCutscene._ShowRole_d__41 __instance)
+        public static MethodBase TargetMethod()
+        {
+            return StateMachineWrapper<IntroCutscene>.GetStateMachineMoveNext(nameof(IntroCutscene.ShowRole))!;
+        }
+        public static void Postfix(Il2CppObjectBase __instance)
         {
             if (SubmergedCompatibility.isSubmerged())
             {

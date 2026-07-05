@@ -22,7 +22,7 @@ using TownOfUs.NeutralRoles.PhantomMod;
 using TownOfUs.ImpostorRoles.TraitorMod;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine;
 using Coroutine = TownOfUs.ImpostorRoles.JanitorMod.Coroutine;
 using Object = UnityEngine.Object;
@@ -110,10 +110,13 @@ namespace TownOfUs
             List<RoleOptions> crewNKBuckets = [RoleOptions.CrewInvest, RoleOptions.CrewKilling, RoleOptions.CrewPower, RoleOptions.CrewProtective,
                 RoleOptions.CrewSupport, RoleOptions.CrewCommon, RoleOptions.CrewSpecial, RoleOptions.CrewRandom, RoleOptions.NeutKilling];
             List<RoleOptions> impBuckets = [RoleOptions.ImpConceal, RoleOptions.ImpKilling, RoleOptions.ImpSupport, RoleOptions.ImpCommon, RoleOptions.ImpRandom];
-            List<RoleOptions> buckets = [CustomGameOptions.Slot1, CustomGameOptions.Slot2, CustomGameOptions.Slot3, CustomGameOptions.Slot4];
+            List<RoleOptions> buckets = [CustomGameOptions.Slot1];
             var impCount = 0;
             var anySlots = 0;
 
+            if (players > 1) buckets.Add(CustomGameOptions.Slot2);
+            if (players > 2) buckets.Add(CustomGameOptions.Slot3);
+            if (players > 3) buckets.Add(CustomGameOptions.Slot4);
             if (players > 4) buckets.Add(CustomGameOptions.Slot5);
             if (players > 5) buckets.Add(CustomGameOptions.Slot6);
             if (players > 6) buckets.Add(CustomGameOptions.Slot7);

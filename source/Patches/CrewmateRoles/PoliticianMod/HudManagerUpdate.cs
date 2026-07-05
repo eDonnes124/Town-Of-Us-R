@@ -2,7 +2,7 @@ using System.Linq;
 using HarmonyLib;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine;
 
 namespace TownOfUs.CrewmateRoles.PoliticianMod

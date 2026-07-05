@@ -2,7 +2,7 @@ using HarmonyLib;
 using Il2CppSystem.Collections.Generic;
 using System.Linq;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using TownOfUs.Extensions;
 
 namespace TownOfUs

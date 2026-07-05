@@ -40,6 +40,7 @@ namespace TownOfUs.Patches
                 if (__instance.countDownTimer < 4f) __instance.ResetStartState();
             }));
             CancelStartButton.gameObject.SetActive(false);
+            __instance.MinPlayers = 2;
         }
 
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]

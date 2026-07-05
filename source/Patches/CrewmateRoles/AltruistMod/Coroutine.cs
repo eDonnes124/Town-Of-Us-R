@@ -14,7 +14,7 @@ using Hazel;
 using Reactor.Networking.Extensions;
 using TownOfUs.CrewmateRoles.HaunterMod;
 using TownOfUs.NeutralRoles.PhantomMod;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.CrewmateRoles.AltruistMod
 {

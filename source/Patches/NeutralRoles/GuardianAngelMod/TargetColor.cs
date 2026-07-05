@@ -2,7 +2,7 @@ using HarmonyLib;
 using TownOfUs.Extensions;
 using TownOfUs.NeutralRoles.ExecutionerMod;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine;
 
 namespace TownOfUs.NeutralRoles.GuardianAngelMod

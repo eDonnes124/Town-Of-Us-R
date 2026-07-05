@@ -1,6 +1,6 @@
 using HarmonyLib;
 using Reactor.Utilities;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.Modifiers.SatelliteMod
 {

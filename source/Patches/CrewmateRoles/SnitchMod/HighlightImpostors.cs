@@ -2,7 +2,7 @@ using HarmonyLib;
 using TownOfUs.CrewmateRoles.ImitatorMod;
 using TownOfUs.Extensions;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 
 namespace TownOfUs.CrewmateRoles.SnitchMod
 {

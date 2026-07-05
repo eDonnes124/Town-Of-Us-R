@@ -1,5 +1,5 @@
 using TownOfUs.Roles;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using HarmonyLib;
 using AmongUs.GameOptions;
 

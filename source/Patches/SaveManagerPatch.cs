@@ -1,30 +1,17 @@
-﻿using HarmonyLib;
+﻿using AmongUs.Data.Player;
+using AmongUs.Data.Settings;
+using HarmonyLib;
 
-namespace TownOfUs.RainbowMod
+namespace TownOfUs.Patches
 {
-    [HarmonyPatch(typeof(AmongUs.Data.Player.PlayerData), nameof(AmongUs.Data.Player.PlayerData.FileName), MethodType.Getter)]
-    public class SaveManagerPatch
+    public static class SaveManagerPatch
     {
+        [HarmonyPatch(typeof(PlayerData), nameof(PlayerData.FileName), MethodType.Getter)]
+        [HarmonyPatch(typeof(SettingsData), nameof(SettingsData.FileName), MethodType.Getter)]
         public static void Postfix(ref string __result)
         {
-            __result += "_TOU";
-        }
-    }
-    [HarmonyPatch(typeof(AmongUs.Data.Legacy.LegacySaveManager), nameof(AmongUs.Data.Legacy.LegacySaveManager.GetPrefsName))]
-    public class LegacySaveManagerPatch
-    {
-        public static void Postfix(ref string __result)
-        {
-            __result += "_TOU";
-        }
-    }
-
-    [HarmonyPatch(typeof(AmongUs.Data.Settings.SettingsData), nameof(AmongUs.Data.Settings.SettingsData.FileName), MethodType.Getter)]
-    public class SettingsFilePatch
-    {
-        public static void Postfix(ref string __result)
-        {
-            __result += "_TOU";
+            __result += "_TouReactivated";
         }
     }
 }
+

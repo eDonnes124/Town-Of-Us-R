@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 using System.Linq;
-using TownOfUs.Roles.Modifiers;
+using TownOfUs.Modifiers;
 using UnityEngine.UI;
 using UnityEngine;
 

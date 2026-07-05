@@ -17,8 +17,8 @@ namespace TownOfUs
 
 
             var position = touLogo.AddComponent<AspectPosition>();
-            position.DistanceFromEdge = new Vector3(-0.2f, 1.5f, 8f);
-            position.Alignment = AspectPosition.EdgeAlignments.Top;
+            position.DistanceFromEdge = new Vector3(-0.2f, 0.75f, 8f);
+            position.Alignment = AspectPosition.EdgeAlignments.Center;
 
             position.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
             {

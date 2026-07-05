@@ -9,6 +9,8 @@ using Reactor.Utilities;
 using Reactor.Utilities.Extensions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace TownOfUs.Patches.CustomHats
@@ -22,7 +24,7 @@ namespace TownOfUs.Patches.CustomHats
 
         public static string LastHeader = string.Empty;
 
-        private static IEnumerator? loadRoutine;
+        private static IEnumerator loadRoutine;
 
         private static int hatIndex;
 
@@ -51,8 +53,55 @@ namespace TownOfUs.Patches.CustomHats
             }
 
             GenHats(__instance, CurrentPage);
+            var leftButtonElement = Object.Instantiate(PlayerCustomizationMenu.Instance.BackButton.gameObject, __instance.scroller.Inner);
+            var leftSpriteRenderer = leftButtonElement.GetComponent<SpriteRenderer>();
+            var leftButton = leftButtonElement.GetComponent<PassiveButton>();
+
+            leftButtonElement.transform.localPosition = new Vector3(-1f, -1f, -1);
+            leftSpriteRenderer.sprite = TownOfUs.NextSprite;
+            leftSpriteRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            leftSpriteRenderer.flipX = true;
+
+            leftButton.OnMouseOver = new UnityEvent();
+            leftButton.OnMouseOver.AddListener((Action)(() => leftSpriteRenderer.sprite = TownOfUs.NextActiveSprite));
+            leftButton.OnMouseOut = new UnityEvent();
+            leftButton.OnMouseOut.AddListener((Action)(() => leftSpriteRenderer.sprite = TownOfUs.NextSprite));
+
+            leftButton.OnClick = new Button.ButtonClickedEvent();
+            leftButton.OnClick.AddListener((Action)(() => PreviousPage(__instance)));
+
+            var rightButtonElement = Object.Instantiate(leftButtonElement, __instance.scroller.Inner);
+            var rightSpriteRenderer = rightButtonElement.GetComponent<SpriteRenderer>();
+            var rightButton = rightButtonElement.GetComponent<PassiveButton>();
+
+            rightButtonElement.transform.localPosition = new Vector3(2.7f, -1f, -1);
+            rightSpriteRenderer.sprite = TownOfUs.NextSprite;
+            rightSpriteRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            rightSpriteRenderer.flipX = false;
+
+            rightButton.OnMouseOver = new UnityEvent();
+            rightButton.OnMouseOver.AddListener((Action)(() => rightSpriteRenderer.sprite = TownOfUs.NextActiveSprite));
+            rightButton.OnMouseOut = new UnityEvent();
+            rightButton.OnMouseOut.AddListener((Action)(() => rightSpriteRenderer.sprite = TownOfUs.NextSprite));
+
+            rightButton.OnClick = new Button.ButtonClickedEvent();
+            rightButton.OnClick.AddListener((Action)(() => NextPage(__instance)));
 
             return false;
+        }
+
+        private static void PreviousPage(HatsTab hatsTab)
+        {
+            CurrentPage--;
+            CurrentPage = CurrentPage < 0 ? HatCache.StoreNames.Count - 1 : CurrentPage;
+            GenHats(hatsTab, CurrentPage);
+        }
+
+        private static void NextPage(HatsTab hatsTab)
+        {
+            CurrentPage++;
+            CurrentPage = CurrentPage > HatCache.StoreNames.Count - 1 ? 0 : CurrentPage;
+            GenHats(hatsTab, CurrentPage);
         }
 
         [HarmonyPatch(typeof(HatsTab), nameof(HatsTab.Update))]
@@ -64,15 +113,11 @@ namespace TownOfUs.Patches.CustomHats
 
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                CurrentPage--;
-                CurrentPage = CurrentPage < 0 ? HatCache.StoreNames.Count - 1 : CurrentPage;
-                GenHats(__instance, CurrentPage);
+                PreviousPage(__instance);
             }
             else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                CurrentPage++;
-                CurrentPage = CurrentPage > HatCache.StoreNames.Count - 1 ? 0 : CurrentPage;
-                GenHats(__instance, CurrentPage);
+                NextPage(__instance);
             }
         }
 
@@ -99,7 +144,7 @@ namespace TownOfUs.Patches.CustomHats
                 var text = Object.Instantiate(groupNameText, __instance.scroller.Inner);
                 text.gameObject.transform.localScale = Vector3.one;
                 text.GetComponent<TextTranslatorTMP>().Destroy();
-                text.text = $"{groupName}\nPress Ctrl & Tab to cycle pages";
+                text.text = $"{groupName} ({page + 1} / {HatCache.StoreNames.Count})\nPress Ctrl & Tab to cycle pages";
                 text.alignment = TextAlignmentOptions.Center;
                 text.fontSize = 3f;
                 text.fontSizeMax = 3f;
